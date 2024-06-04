@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klasifikasi Jenis Rambut</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: url('hair-bg.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+        }
+        h1 {
+            color: #fff;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 20px 0;
+            cursor: pointer;
+            border: none;
+            background-color: #ff6b6b;
+            color: white;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #ff4757;
+        }
+        #webcam-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        #label-container {
+            position: absolute;
+            top: 0;
+            right: -260px; /* Adjusted to add more space from webcam */
+            width: 260px; /* Adjusted to match the new right position */
+        }
+        .label {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #2c3e50; /* Changed font color to navy blue */
+        }
+        .bar-container {
+            flex-grow: 1;
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-left: 10px;
+            position: relative;
+            overflow: hidden;
+            width: 100px;
+        }
+        .bar {
+            height: 100%;
+            background-color: #007bff;
+            border-radius: 5px;
+            transition: width 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <h1>Klasifikasi Jenis Rambut</h1>
+    <button type="button" id="start-button" onclick="init()">Start</button>
+    <div id="webcam-container">
+        <div id="label-container"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <script type="text/javascript">
+        const URL = "https://teachablemachine.withgoogle.com/models/P7GB3XqlG/";
+
+        let model, webcam, labelContainer, maxPredictions;
+
+        async function init() {
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";
+
+            model = await tmImage.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+
+            const flip = true;
+            webcam = new tmImage.Webcam(400, 400, flip);
+            await webcam.setup();
+            await webcam.play();
+            window.requestAnimationFrame(loop);
+
+            document.getElementById("webcam-container").appendChild(webcam.canvas);
+            labelContainer = document.getElementById("label-container");
+
+            for (let i = 0; i < maxPredictions; i++) {
+                const labelDiv = document.createElement("div");
+                labelDiv.className = "label";
+                labelDiv.innerHTML = `
+                    <span id="class-name-${i}"></span>
+                    <div class="bar-container">
+                        <div class="bar" id="bar-${i}"></div>
+                    </div>
+                `;
+                labelContainer.appendChild(labelDiv);
+            }
+
+            // Hide the start button after initialization
+            document.getElementById("start-button").style.display = "none";
+        }
+
+        async function loop() {
+            webcam.update();
+            await predict();
+            window.requestAnimationFrame(loop);
+        }
+
+        async function predict() {
+            const prediction = await model.predict(webcam.canvas);
+            for (let i = 0; i < maxPredictions; i++) {
+                const className = prediction[i].className;
+                const probability = (prediction[i].probability * 100).toFixed(2);
+                document.getElementById(`class-name-${i}`).innerText = `${className}: ${probability}%`;
+                document.getElementById(`bar-${i}`).style.width = `${probability}%`;
+            }
+        }
+    </script>
+</body>
+</html>
