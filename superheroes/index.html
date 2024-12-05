@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superhero Pose Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+        #canvas {
+            border: 2px solid #ddd;
+            margin: 20px;
+            background-color: #fff;
+        }
+        .label-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .label-section img {
+            width: 150px;
+            margin-bottom: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+        .progress-bar-container {
+            width: 150px; /* Ensure all progress bars are the same width */
+            margin-bottom: 10px; /* Add margin to separate from the next image */
+        }
+        .progress-label {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .progress-bar {
+            height: 10px;
+            border-radius: 5px;
+            background-color: #ddd;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            transition: width 0.3s;
+        }
+        button {
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #3700b3;
+        }
+        .footer {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e0e0e0;
+            position: relative;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Superhero Pose Detection</h1>
+    <button type="button" onclick="init()">Start</button>
+    <div id="container">
+        <div class="label-section">
+            <img src="https://64.media.tumblr.com/edeadf19376326fd9d20fdf095dbfbe6/tumblr_mj79lmerD01rp0vkjo1_500.gif" alt="Iron Man Pose">
+            <div class="progress-bar-container">
+                <div class="progress-label">Iron Man</div>
+                <div class="progress-bar">
+                    <div class="progress" id="doctor-strange-progress" style="width: 0%; background-color: gray;"></div>
+                </div>
+            </div>
+            <img src="https://imgix.bustle.com/uploads/image/2022/3/3/0896e89b-c78c-4eb0-b0d8-219f069a04df-wolverine.jpeg?w=394&h=270&fit=crop&crop=faces&q=50&dpr=2" alt="Wolverine Pose">
+            <div class="progress-bar-container">
+                <div class="progress-label">Wolverine</div>
+                <div class="progress-bar">
+                    <div class="progress" id="goku-progress" style="width: 0%; background-color: gray;"></div>
+                </div>
+            </div>
+        </div>
+        <canvas id="canvas"></canvas>
+        <div class="label-section">
+            <img src="https://gifdb.com/images/high/6lkah5rwnj0axwme.gif" alt="Doctor Strange Pose">
+            <div class="progress-bar-container">
+                <div class="progress-label">Doctor Strange</div>
+                <div class="progress-bar">
+                    <div class="progress" id="iron-man-progress" style="width: 0%; background-color: gray;"></div>
+                </div>
+            </div>
+            <img src="https://i.makeagif.com/media/9-20-2016/IxIb_l.gif" alt="Goku Pose">
+            <div class="progress-bar-container">
+                <div class="progress-label">Goku</div>
+                <div class="progress-bar">
+                    <div class="progress" id="wolverine-progress" style="width: 0%; background-color: gray;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
+    <script type="text/javascript">
+        const URL = "https://teachablemachine.withgoogle.com/models/EvD6BUf57/";
+        let model, webcam, ctx, maxPredictions;
+
+        async function init() {
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";
+
+            model = await tmPose.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+
+            const size = 400; // Increase size for better display
+            const flip = true; 
+            webcam = new tmPose.Webcam(size, size, flip); 
+            await webcam.setup(); 
+            await webcam.play();
+            window.requestAnimationFrame(loop);
+
+            const canvas = document.getElementById("canvas");
+            canvas.width = size; canvas.height = size;
+            ctx = canvas.getContext("2d");
+        }
+
+        async function loop(timestamp) {
+            webcam.update();
+            await predict();
+            window.requestAnimationFrame(loop);
+        }
+
+        async function predict() {
+            const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
+            const prediction = await model.predict(posenetOutput);
+
+            const progressElements = [
+                document.getElementById("doctor-strange-progress"),
+                document.getElementById("goku-progress"),
+                document.getElementById("iron-man-progress"),
+                document.getElementById("wolverine-progress")
+            ];
+
+            for (let i = 0; i < maxPredictions; i++) {
+                const progressElement = progressElements[i];
+                progressElement.style.width = (prediction[i].probability * 100) + "%";
+                progressElement.style.backgroundColor = prediction[i].probability > 0.7 ? 'purple' : 'gray';
+            }
+
+            drawPose(pose);
+        }
+
+        function drawPose(pose) {
+            if (webcam.canvas) {
+                ctx.drawImage(webcam.canvas, 0, 0);
+                if (pose) {
+                    const minPartConfidence = 0.5;
+                    tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
+                    tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
+                }
+            }
+        }
+    </script>
+    <div class="footer">
+        <p>Developed by Feliks Samosir with Teachable Machine and TensorFlow.js</p>
+    </div>
+</body>
+</html>
