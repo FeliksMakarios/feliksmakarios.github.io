@@ -4,11 +4,13 @@
   {% assign nav_research = 'Riset' %}
   {% assign nav_teaching = 'Pengajaran' %}
   {% assign nav_demos = 'Demo & Outreach' %}
+  {% assign toggle_label = 'Ganti tema' %}
 {% else %}
   {% assign nav_home = 'About' %}
   {% assign nav_research = 'Research' %}
   {% assign nav_teaching = 'Teaching' %}
   {% assign nav_demos = 'Demos & Outreach' %}
+  {% assign toggle_label = 'Toggle theme' %}
 {% endif %}
 
 <header class="site-header">
@@ -25,10 +27,22 @@
       <a href="/{{ lang }}/demos/" {% if page.url contains '/demos' %}aria-current="page"{% endif %}>{{ nav_demos }}</a>
     </nav>
 
-    <div class="lang-switch" aria-label="Language">
-      <a href="/en/{{ page.slug }}{% if page.slug %}/{% endif %}" {% if lang == 'en' %}aria-current="true"{% endif %}>EN</a>
-      <span aria-hidden="true">·</span>
-      <a href="/id/{{ page.slug }}{% if page.slug %}/{% endif %}" {% if lang == 'id' %}aria-current="true"{% endif %}>ID</a>
+    <div class="site-controls">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="{{ toggle_label }}" title="{{ toggle_label }}">
+        <svg class="icon icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg class="icon icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+
+      <div class="lang-switch" aria-label="Language">
+        <a href="/en/{{ page.slug }}{% if page.slug %}/{% endif %}" {% if lang == 'en' %}aria-current="true"{% endif %}>EN</a>
+        <span aria-hidden="true">·</span>
+        <a href="/id/{{ page.slug }}{% if page.slug %}/{% endif %}" {% if lang == 'id' %}aria-current="true"{% endif %}>ID</a>
+      </div>
     </div>
   </div>
 </header>

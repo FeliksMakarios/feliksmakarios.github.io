@@ -19,4 +19,17 @@
   <link rel="alternate" hreflang="id" href="{{ site.url }}/id/">
 
   <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- Theme init: run synchronously before body paints to prevent flash -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('theme');
+        if (!t) {
+          t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+      } catch(e) {}
+    })();
+  </script>
 </head>
