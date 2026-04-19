@@ -1,0 +1,45 @@
+title: Feliks Samosir
+tagline: Lecturer & Researcher in NLP
+description: >-
+  Personal site of Feliks Victor Parningotan Samosir — Department Chair of
+  Informatics, Faculty of AI and Data Science, Universitas Pelita Harapan.
+  Research in Natural Language Processing for Indonesian and low-resource
+  languages.
+url: "https://feliksmakarios.github.io"
+baseurl: ""
+
+# Author / contact
+author:
+  name: Feliks Victor Parningotan Samosir
+  short_name: Feliks Samosir
+  title: Department Chair of Informatics
+  affiliation: Faculty of AI and Data Science, Universitas Pelita Harapan
+  email: feliksmakarios19@gmail.com
+  location: Tangerang, Banten, Indonesia
+  github: FeliksMakarios
+  linkedin: feliksmakarios
+  scholar: https://scholar.google.com/citations?user=JGC7RIoAAAAJ&hl
+  orcid: # fill in when available
+  medium: https://medium.com/@feliksmakarios
+
+# Languages
+languages: ["en", "id"]
+default_lang: "en"
+
+# Build
+markdown: kramdown
+permalink: /:path/
+sass:
+  style: compressed
+
+# Jekyll ignore
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - node_modules
+
+# Keep demos folder as-is (not processed by Jekyll)
+keep_files:
+  - demos

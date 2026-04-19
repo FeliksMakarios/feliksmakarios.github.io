@@ -1,0 +1,34 @@
+{% assign lang = page.lang | default: 'en' %}
+{% if lang == 'id' %}
+  {% assign nav_home = 'Beranda' %}
+  {% assign nav_research = 'Riset' %}
+  {% assign nav_teaching = 'Pengajaran' %}
+  {% assign nav_demos = 'Demo & Outreach' %}
+{% else %}
+  {% assign nav_home = 'About' %}
+  {% assign nav_research = 'Research' %}
+  {% assign nav_teaching = 'Teaching' %}
+  {% assign nav_demos = 'Demos & Outreach' %}
+{% endif %}
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="site-brand" href="/{{ lang }}/">
+      <span class="brand-name">{{ site.author.short_name }}</span>
+      <span class="brand-role">{{ site.tagline }}</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/{{ lang }}/" {% if page.url == '/' or page.url contains '/index' %}aria-current="page"{% endif %}>{{ nav_home }}</a>
+      <a href="/{{ lang }}/research/" {% if page.url contains '/research' %}aria-current="page"{% endif %}>{{ nav_research }}</a>
+      <a href="/{{ lang }}/teaching/" {% if page.url contains '/teaching' %}aria-current="page"{% endif %}>{{ nav_teaching }}</a>
+      <a href="/{{ lang }}/demos/" {% if page.url contains '/demos' %}aria-current="page"{% endif %}>{{ nav_demos }}</a>
+    </nav>
+
+    <div class="lang-switch" aria-label="Language">
+      <a href="/en/{{ page.slug }}{% if page.slug %}/{% endif %}" {% if lang == 'en' %}aria-current="true"{% endif %}>EN</a>
+      <span aria-hidden="true">·</span>
+      <a href="/id/{{ page.slug }}{% if page.slug %}/{% endif %}" {% if lang == 'id' %}aria-current="true"{% endif %}>ID</a>
+    </div>
+  </div>
+</header>

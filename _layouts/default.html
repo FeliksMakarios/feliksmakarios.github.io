@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: 'en' }}">
+{% include head.html %}
+<body>
+  {% include nav.html %}
+  <main class="content">
+    {% if page.title and page.show_title != false %}
+      <header class="page-header">
+        <h1>{{ page.title }}</h1>
+        {% if page.subtitle %}<p class="subtitle">{{ page.subtitle }}</p>{% endif %}
+      </header>
+    {% endif %}
+    <article class="prose">
+      {{ content }}
+    </article>
+  </main>
+  {% include footer.html %}
+</body>
+</html>

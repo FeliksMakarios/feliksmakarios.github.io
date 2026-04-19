@@ -1,0 +1,22 @@
+{% assign lang = page.lang | default: 'en' %}
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <p class="footer-name">{{ site.author.name }}</p>
+      <p class="footer-role">{{ site.author.title }}<br>{{ site.author.affiliation }}</p>
+    </div>
+    <div class="footer-col">
+      <p class="footer-heading">{% if lang == 'id' %}Kontak{% else %}Contact{% endif %}</p>
+      <ul class="footer-links">
+        <li><a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></li>
+        <li><a href="https://github.com/{{ site.author.github }}" rel="me">GitHub</a></li>
+        <li><a href="https://linkedin.com/in/{{ site.author.linkedin }}" rel="me">LinkedIn</a></li>
+        <li><a href="{{ site.author.scholar }}" rel="me">Google Scholar</a></li>
+        {% if site.author.medium %}<li><a href="{{ site.author.medium }}" rel="me">Medium</a></li>{% endif %}
+      </ul>
+    </div>
+  </div>
+  <div class="footer-meta">
+    <p>© {{ 'now' | date: '%Y' }} {{ site.author.short_name }}. {% if lang == 'id' %}Dibuat dengan Jekyll. Sumber di{% else %}Built with Jekyll. Source on{% endif %} <a href="https://github.com/{{ site.author.github }}/{{ site.author.github | downcase }}.github.io">GitHub</a>.</p>
+  </div>
+</footer>
