@@ -45,13 +45,28 @@ dataset curation. Saya telah memimpin dua hibah riset internal UPH sebagai ketua
 dan aktif membimbing riset mahasiswa yang menjembatani NLP berbasis Transformer dengan
 aplikasi nyata — khususnya untuk bahasa-bahasa yang kurang terwakili.
 
+## Kabar terbaru
+
+<ul class="news-list">
+  {% assign news = site.data.news | sort: "date" | reverse %}
+  {% for item in news limit:5 %}
+    <li class="news-item">
+      <span class="news-date">{{ item.date }}</span>
+      <div class="news-body">
+        <strong>{{ item.title.id }}</strong>
+        <p>{{ item.body.id }}</p>
+      </div>
+    </li>
+  {% endfor %}
+</ul>
+
 ## Mencari dosen pembimbing TA?
 
-Kalau kamu mahasiswa Informatika UPH yang tertarik di NLP, silakan lihat <a href="/id/research/">bidang riset saya</a>.
-Topik TA yang sedang terbuka dicantumkan di sana; silakan email saya untuk diskusi ide.
+Kalau kamu mahasiswa Informatika UPH yang tertarik di NLP atau applied ML, silakan lihat <a href="/id/research/">bidang riset saya</a>.
+Tiap halaman detail bidang mencantumkan topik TA yang terbuka; silakan email saya untuk diskusi ide.
 
 <div class="callout">
   <p><strong>Sedang terbuka untuk:</strong> bimbingan skripsi di bidang NLP low-resource
-  (Batak Toba), sentiment analysis Indonesia, dan analisis bias dataset. Dasar Python dan
-  Hugging Face Transformers akan sangat membantu.</p>
+  (Batak Toba), sentiment analysis Indonesia, audit fairness, dan applied computer vision.
+  Dasar Python dan Hugging Face Transformers akan sangat membantu.</p>
 </div>

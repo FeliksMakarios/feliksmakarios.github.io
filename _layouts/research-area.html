@@ -1,0 +1,80 @@
+---
+layout: default
+---
+{% assign lang = page.lang | default: 'en' %}
+{% assign area = site.data.research.areas | where: "id", page.area_id | first %}
+
+<p class="lead">{{ area.definition[lang] }}</p>
+
+<p><a href="/{{ lang }}/research/">← {% if lang == 'id' %}Kembali ke semua bidang riset{% else %}Back to all research areas{% endif %}</a></p>
+
+{% if area.ongoing_projects %}
+<h2>{% if lang == 'id' %}Proyek{% else %}Projects{% endif %}</h2>
+{% for project in area.ongoing_projects %}
+  <div class="project-block">
+    <h3>{{ project.title[lang] }}</h3>
+    <p class="project-meta">{{ project.funding }} · {{ project.period }} · <em>{{ project.role[lang] }}</em></p>
+    <p>{{ project.description[lang] }}</p>
+  </div>
+{% endfor %}
+{% endif %}
+
+<h2>{% if lang == 'id' %}Sub-bidang{% else %}Sub-areas{% endif %}</h2>
+
+{% for sub in area.sub_areas %}
+  <section class="subarea-section">
+    <h3>{{ sub.name[lang] }}</h3>
+    <p class="subarea-def">{{ sub.definition[lang] }}</p>
+
+    {% assign sub_pubs = site.data.publications | where: "area", page.area_id | where: "sub_area", sub.id | sort: "year" | reverse %}
+    {% if sub_pubs.size > 0 %}
+      <p class="subarea-label">{% if lang == 'id' %}Publikasi{% else %}Publications{% endif %}</p>
+      <ul class="pub-list-compact">
+        {% for pub in sub_pubs %}
+          <li class="pub-item-compact">
+            <div class="pub-title">
+              {% if pub.url and pub.url != "" %}<a href="{{ pub.url }}" target="_blank" rel="noopener external">{{ pub.title }}</a>{% else %}{{ pub.title }}{% endif %}
+            </div>
+            <div class="pub-authors">{{ pub.authors | join: ", " }}</div>
+            <div class="pub-meta">
+              <span class="venue-badge venue-{{ pub.venue_type }}">{{ pub.venue_type | capitalize }}</span><span class="pub-venue">{{ pub.venue }}</span>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted-note">{% if lang == 'id' %}Belum ada publikasi di sub-bidang ini — aktif sebagai riset yang sedang berjalan.{% else %}No publications in this sub-area yet — active as ongoing research.{% endif %}</p>
+    {% endif %}
+  </section>
+{% endfor %}
+
+{% if area.open_topics %}
+<h2>{% if lang == 'id' %}Topik TA yang terbuka{% else %}Open thesis topics{% endif %}</h2>
+
+<ul class="topic-list">
+  {% for topic in area.open_topics %}
+    <li class="topic-item">
+      <details>
+        <summary>
+          <span class="tag tag-{{ topic.status }}">
+            {% if topic.status == 'open' %}{% if lang == 'id' %}Terbuka{% else %}Open{% endif %}
+            {% elsif topic.status == 'in-discussion' %}{% if lang == 'id' %}Dalam diskusi{% else %}In discussion{% endif %}
+            {% elsif topic.status == 'taken' %}{% if lang == 'id' %}Diambil{% else %}Taken{% endif %}
+            {% endif %}
+          </span>
+          <span class="topic-title">{{ topic.title[lang] }}</span>
+        </summary>
+        <div class="topic-body">
+          <p><em>{% if lang == 'id' %}Prasyarat{% else %}Prereq{% endif %}:</em> {{ topic.prereq[lang] }}</p>
+        </div>
+      </details>
+    </li>
+  {% endfor %}
+</ul>
+
+<div class="callout">
+  <p>{% if lang == 'id' %}Tertarik? Kirim email dengan CV, transkrip, dan satu paragraf singkat tentang alasan topik itu menarik buat kamu.{% else %}Interested? Send an email with your CV, transcript, and a short paragraph on why the topic appeals to you.{% endif %}</p>
+</div>
+{% endif %}
+
+{{ content }}
