@@ -1,0 +1,42 @@
+# News / highlights shown on home page. Newest first.
+# Keep body concise (1-2 sentences).
+
+- date: 2026-03
+  title:
+    en: "Journal paper published in JoSCEx"
+    id: "Paper jurnal terbit di JoSCEx"
+  body:
+    en: "Paper on integrated aspect extraction and sentiment classification with fine-tuned IndoBERT for Indonesian e-commerce reviews published in Journal of Soft Computing Exploration."
+    id: "Paper tentang integrated aspect extraction dan sentiment classification dengan fine-tuned IndoBERT untuk review e-commerce Indonesia terbit di Journal of Soft Computing Exploration."
+
+- date: 2025-10
+  title:
+    en: "Presented at ICIC 2025 Lampung"
+    id: "Presentasi di ICIC 2025 Lampung"
+  body:
+    en: "Comparative study of CNN, MobileNetV2, and Vision Transformers for personal document classification presented at the Tenth International Conference on Informatics and Computing."
+    id: "Studi komparatif CNN, MobileNetV2, dan Vision Transformers untuk klasifikasi dokumen personal dipresentasikan di Tenth International Conference on Informatics and Computing."
+
+- date: 2025-05
+  title:
+    en: "Batak Toba corpus grant awarded"
+    id: "Hibah korpus Batak Toba diterima"
+  body:
+    en: "UPH Internal Grant awarded to lead a multi-domain Batak Toba–Indonesian parallel corpus project, running through December 2025."
+    id: "Hibah Internal UPH diberikan untuk memimpin proyek korpus paralel multi-domain Batak Toba–Indonesia, berjalan sampai Desember 2025."
+
+- date: 2024-12
+  title:
+    en: "FACQA bias analysis project completed"
+    id: "Proyek analisis bias FACQA selesai"
+  body:
+    en: "Year-long investigation of bias and fairness in the FACQA Indonesian question-answering dataset concluded, producing recommendations for dataset documentation and mitigation."
+    id: "Investigasi setahun tentang bias dan fairness pada dataset question-answering FACQA Indonesia selesai, menghasilkan rekomendasi untuk dokumentasi dataset dan mitigasi."
+
+- date: 2024-10
+  title:
+    en: "Presented at ICIC 2024 Medan"
+    id: "Presentasi di ICIC 2024 Medan"
+  body:
+    en: "Aspect-based sentiment analysis on Amazon book reviews using DistilBERT presented at the Ninth International Conference on Informatics and Computing."
+    id: "Analisis sentimen berbasis aspek pada review buku Amazon menggunakan DistilBERT dipresentasikan di Ninth International Conference on Informatics and Computing."

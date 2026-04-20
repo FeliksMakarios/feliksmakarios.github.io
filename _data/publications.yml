@@ -1,0 +1,139 @@
+- id: absa-ecom-2026
+  title: "Integrated aspect extraction and sentiment classification for aspect-based sentiment analysis using fine-tuned indoBERT on Indonesian e-commerce reviews"
+  authors: ["F.V.P. Samosir", "G.L. Tumanggor"]
+  venue: "Journal of Soft Computing Exploration, Vol. 7 No. 1, pp. 147-156"
+  venue_type: journal
+  year: 2026
+  url: "https://doi.org/10.52465/joscex.v7i1.26"
+  area: sentiment-mining
+  sub_area: aspect-based
+
+- id: doc-class-2025
+  title: "Personal Document Classification using Deep Learning Approach: a Comparative Study of CNN, MobileNetV2, and Vision Transformers"
+  authors: ["F.V.P. Samosir", "J. Christian", "J.M. Winarko", "J. Tiong", "V. Arianto", "M.K. Grady"]
+  venue: "2025 Tenth International Conference on Informatics and Computing (ICIC), pp. 1-6"
+  venue_type: conference
+  year: 2025
+  url: "https://doi.org/10.1109/ICIC68054.2025.11309527"
+  area: applied-ml
+  sub_area: computer-vision
+
+- id: pneumonia-ckan-2025
+  title: "Convolutional Kolmogorov-Arnold Network for Pneumonia Detection in Medical Image Analysis"
+  authors: ["R. Riechie", "V. Jessica", "M. Kurniawan", "F.V.P. Samosir"]
+  venue: "Indonesian Journal of Electronics, Electromedical Engineering, and Medical Informatics, Vol. 7 No. 3, pp. 475-487"
+  venue_type: journal
+  year: 2025
+  url: "https://doi.org/10.35882/ijeeemi.v7i3.106"
+  area: applied-ml
+  sub_area: computer-vision
+
+- id: air-quality-xai-2025
+  title: "Exploring Socioeconomic Drivers of Air Quality in Singapore with Machine Learning and Explainable AI Techniques"
+  authors: ["F.V. Ferdinand", "F.V.P. Samosir"]
+  venue: "2025 22nd International Conference on Electrical Engineering/Electronics, Computer, Telecommunications and Information Technology (ECTI-CON)"
+  venue_type: conference
+  year: 2025
+  url: ""  # TODO: add IEEE Xplore URL once indexed
+  area: applied-ml
+  sub_area: predictive-analytics
+
+- id: air-quality-ensemble-2025
+  title: "Comparative Analysis of Tree-Based Ensemble Methods for Air Quality Predictions in Singapore Using Socioeconomic Attributes"
+  authors: ["F.V. Ferdinand", "F.V.P. Samosir"]
+  venue: "2025 22nd International Conference on Electrical Engineering/Electronics, Computer, Telecommunications and Information Technology (ECTI-CON)"
+  venue_type: conference
+  year: 2025
+  url: ""  # TODO: add IEEE Xplore URL once indexed
+  area: applied-ml
+  sub_area: predictive-analytics
+
+- id: univ-sentiment-2025
+  title: "Sentiment Analysis of University X Students: Comparing Naive Bayes and BERT Approaches"
+  authors: ["J. David", "K.V.I. Saputra", "A.M. Panjaitan", "F.V.P. Samosir"]
+  venue: "Ultimatics: Jurnal Teknik Informatika, Vol. 17 No. 2, pp. 150-158"
+  venue_type: journal
+  year: 2025
+  url: "https://doi.org/10.31937/ti.v17i2.4034"
+  area: sentiment-mining
+  sub_area: document-sentiment
+
+- id: absa-book-2024
+  title: "Aspect Based Sentiment Analysis on Amazon Book Review Using DistilBERT"
+  authors: ["F.V.P. Samosir", "F. Ferdynand"]
+  venue: "2024 Ninth International Conference on Informatics and Computing (ICIC), pp. 1-5"
+  venue_type: conference
+  year: 2024
+  url: "https://doi.org/10.1109/ICIC62051.2024.10956330"
+  area: sentiment-mining
+  sub_area: aspect-based
+
+- id: laptop-logreg-2024
+  title: "Analysis of Laptop Purchase History to Determine Key Factors Using Logistic Regression"
+  authors: ["F.V.P. Samosir", "H. Hery"]
+  venue: "Jurnal Teknik Informatika dan Sistem Informasi, Vol. 10 No. 2, pp. 334-343"
+  venue_type: journal
+  year: 2024
+  url: "https://journal.maranatha.edu/index.php/jutisi/article/view/8897"
+  area: applied-ml
+  sub_area: predictive-analytics
+
+- id: tiktok-2024
+  title: "Sentiment Analysis of TikTok Comments on Indonesian Presidential Elections Using IndoBERT"
+  authors: ["F.V.P. Samosir", "S. Riyaldi"]
+  venue: "2024 3rd International Conference on Creative Communication and Innovative Technology (ICCIT), pp. 1-7"
+  venue_type: conference
+  year: 2024
+  url: "https://doi.org/10.1109/ICCIT62134.2024.10701256"
+  area: sentiment-mining
+  sub_area: social-media
+
+- id: beauty-2024
+  title: "Sentiment Analysis in E-Commerce: Beauty Product Reviews"
+  authors: ["G.L. Tumanggor", "F.V.P. Samosir"]
+  venue: "Ultimatics: Jurnal Teknik Informatika, Vol. 16 No. 2, pp. 108-116"
+  venue_type: journal
+  year: 2024
+  url: "https://doi.org/10.31937/ti.v16i2.3708"
+  area: sentiment-mining
+  sub_area: document-sentiment
+
+- id: mindmap-2023
+  title: "From Tradition to Innovation: Mind Map Generation in Higher Education"
+  authors: ["A.R. Mitra", "F.V.P. Samosir", "R. Hudi", "R.E. Tarigan"]
+  venue: "Ultima InfoSys: Jurnal Ilmu Sistem Informasi, Vol. 14 No. 2, pp. 71-78"
+  venue_type: journal
+  year: 2023
+  url: "https://doi.org/10.31937/si.v14i2.3432"
+  area: semantic-retrieval
+  sub_area: knowledge-visualization
+
+- id: indoberea-2023
+  title: "IndoBerea: Evolving Semantic Search in Theological Context"
+  authors: ["F.V.P. Samosir", "S. Mendrofa"]
+  venue: "2023 Eighth International Conference on Informatics and Computing (ICIC), pp. 1-6"
+  venue_type: conference
+  year: 2023
+  url: "https://doi.org/10.1109/ICIC60109.2023.10382053"
+  area: semantic-retrieval
+  sub_area: semantic-search
+
+- id: besklus-2022
+  title: "BESKlus: BERT Extractive Summarization with K-Means Clustering in Scientific Paper"
+  authors: ["F.V.P. Samosir", "H. Toba", "M. Ayub"]
+  venue: "Jurnal Teknik Informatika dan Sistem Informasi, Vol. 8 No. 1, pp. 202-217"
+  venue_type: journal
+  year: 2022
+  url: "https://doi.org/10.28932/jutisi.v8i1.4474"
+  area: semantic-retrieval
+  sub_area: summarization
+
+- id: krl-eda-2021
+  title: "Exploratory Data Analysis terhadap Kepadatan Penumpang Kereta Rel Listrik"
+  authors: ["F.V.P. Samosir", "L.P. Mustamu", "E.D. Anggara", "A.I. Wiyogo", "A. Widjaja"]
+  venue: "Jurnal Teknik Informatika dan Sistem Informasi, Vol. 7 No. 2, pp. 449-467"
+  venue_type: journal
+  year: 2021
+  url: "https://journal.maranatha.edu/index.php/jutisi/article/view/3700"
+  area: applied-ml
+  sub_area: predictive-analytics

@@ -45,13 +45,28 @@ curation. I've led two UPH internal research grants as principal investigator, a
 mentor undergraduate research projects that bridge Transformer-based NLP with real-world
 applications — particularly for underrepresented languages.
 
+## Recent news
+
+<ul class="news-list">
+  {% assign news = site.data.news | sort: "date" | reverse %}
+  {% for item in news limit:5 %}
+    <li class="news-item">
+      <span class="news-date">{{ item.date }}</span>
+      <div class="news-body">
+        <strong>{{ item.title.en }}</strong>
+        <p>{{ item.body.en }}</p>
+      </div>
+    </li>
+  {% endfor %}
+</ul>
+
 ## Looking for a thesis supervisor?
 
-If you are a UPH Informatics student interested in NLP, take a look at my <a href="/en/research/">research areas</a>.
-Open thesis topics will be listed there; feel free to email me to discuss ideas.
+If you are a UPH Informatics student interested in NLP or applied ML, take a look at my <a href="/en/research/">research areas</a>.
+Each area's detail page lists open thesis topics; feel free to email me to discuss ideas.
 
 <div class="callout">
   <p><strong>Currently open for:</strong> undergraduate thesis mentees in low-resource NLP (Batak Toba),
-  Indonesian sentiment analysis, and dataset bias analysis. Basic familiarity with Python and
-  Hugging Face Transformers is helpful.</p>
+  Indonesian sentiment analysis, fairness audits, and applied computer vision. Basic familiarity with
+  Python and Hugging Face Transformers is helpful.</p>
 </div>

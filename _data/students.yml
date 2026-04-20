@@ -1,0 +1,76 @@
+# Dummy data. Replace with actual mentees/alumni.
+# Fields:
+#   name, cohort (angkatan year), title (bilingual), area (matches research.yml ID),
+#   status (proposal | progress | defense | graduated),
+#   year_graduated (optional, for alumni), current_role (optional)
+
+current:
+  - name: "[Mahasiswa A]"
+    cohort: 2021
+    title:
+      en: "Aspect-based sentiment analysis on Tokopedia marketplace reviews"
+      id: "Analisis sentimen berbasis aspek pada review marketplace Tokopedia"
+    area: sentiment-mining
+    status: proposal
+
+  - name: "[Mahasiswa B]"
+    cohort: 2022
+    title:
+      en: "Named Entity Recognition for Batak Toba using cross-lingual transfer"
+      id: "Named Entity Recognition untuk Batak Toba menggunakan cross-lingual transfer"
+    area: low-resource-nlp
+    status: progress
+
+  - name: "[Mahasiswa C]"
+    cohort: 2022
+    title:
+      en: "Fairness audit on Indonesian question answering benchmarks"
+      id: "Audit fairness pada benchmark question answering Indonesia"
+    area: applied-ml
+    status: progress
+
+alumni:
+  - name: "G.L. Tumanggor"
+    year_graduated: 2024
+    title:
+      en: "Sentiment analysis of beauty product reviews on Indonesian e-commerce"
+      id: "Analisis sentimen review produk kecantikan pada e-commerce Indonesia"
+    area: sentiment-mining
+    publication: beauty-2024
+    current_role: "[current role placeholder]"
+
+  - name: "F. Ferdynand"
+    year_graduated: 2024
+    title:
+      en: "Aspect-based sentiment analysis on Amazon book reviews with DistilBERT"
+      id: "Analisis sentimen berbasis aspek pada review buku Amazon dengan DistilBERT"
+    area: sentiment-mining
+    publication: absa-book-2024
+    current_role: "[current role placeholder]"
+
+  - name: "S. Riyaldi"
+    year_graduated: 2024
+    title:
+      en: "Sentiment analysis of TikTok comments on Indonesian presidential elections"
+      id: "Analisis sentimen komentar TikTok pada pemilihan presiden Indonesia"
+    area: sentiment-mining
+    publication: tiktok-2024
+    current_role: "[current role placeholder]"
+
+  - name: "A.R. Mitra"
+    year_graduated: 2023
+    title:
+      en: "Mind map generation from scientific articles for higher education"
+      id: "Generasi mind map dari artikel ilmiah untuk pendidikan tinggi"
+    area: semantic-retrieval
+    publication: mindmap-2023
+    current_role: "[current role placeholder]"
+
+  - name: "S. Mendrofa"
+    year_graduated: 2023
+    title:
+      en: "IndoBerea: semantic search for theological texts"
+      id: "IndoBerea: pencarian semantik untuk teks teologi"
+    area: semantic-retrieval
+    publication: indoberea-2023
+    current_role: "[current role placeholder]"

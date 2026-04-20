@@ -1,15 +1,21 @@
 {% assign lang = page.lang | default: 'en' %}
 {% if lang == 'id' %}
   {% assign nav_home = 'Beranda' %}
-  {% assign nav_research = 'Riset' %}
   {% assign nav_teaching = 'Pengajaran' %}
-  {% assign nav_demos = 'Demo & Outreach' %}
+  {% assign nav_research = 'Riset' %}
+  {% assign nav_community = 'Pengabdian' %}
+  {% assign nav_publications = 'Publikasi' %}
+  {% assign nav_students = 'Mahasiswa' %}
+  {% assign nav_demos = 'Demo' %}
   {% assign toggle_label = 'Ganti tema' %}
 {% else %}
   {% assign nav_home = 'About' %}
-  {% assign nav_research = 'Research' %}
   {% assign nav_teaching = 'Teaching' %}
-  {% assign nav_demos = 'Demos & Outreach' %}
+  {% assign nav_research = 'Research' %}
+  {% assign nav_community = 'Community' %}
+  {% assign nav_publications = 'Publications' %}
+  {% assign nav_students = 'Students' %}
+  {% assign nav_demos = 'Demos' %}
   {% assign toggle_label = 'Toggle theme' %}
 {% endif %}
 
@@ -21,9 +27,12 @@
     </a>
 
     <nav class="site-nav" aria-label="Primary">
-      <a href="/{{ lang }}/" {% if page.url == '/' or page.url contains '/index' %}aria-current="page"{% endif %}>{{ nav_home }}</a>
-      <a href="/{{ lang }}/research/" {% if page.url contains '/research' %}aria-current="page"{% endif %}>{{ nav_research }}</a>
+      <a href="/{{ lang }}/" {% if page.url == '/en/' or page.url == '/id/' %}aria-current="page"{% endif %}>{{ nav_home }}</a>
       <a href="/{{ lang }}/teaching/" {% if page.url contains '/teaching' %}aria-current="page"{% endif %}>{{ nav_teaching }}</a>
+      <a href="/{{ lang }}/research/" {% if page.url contains '/research' %}aria-current="page"{% endif %}>{{ nav_research }}</a>
+      <a href="/{{ lang }}/community-service/" {% if page.url contains '/community-service' %}aria-current="page"{% endif %}>{{ nav_community }}</a>
+      <a href="/{{ lang }}/publications/" {% if page.url contains '/publications' %}aria-current="page"{% endif %}>{{ nav_publications }}</a>
+      <a href="/{{ lang }}/students/" {% if page.url contains '/students' %}aria-current="page"{% endif %}>{{ nav_students }}</a>
       <a href="/{{ lang }}/demos/" {% if page.url contains '/demos' %}aria-current="page"{% endif %}>{{ nav_demos }}</a>
     </nav>
 

@@ -1,0 +1,21 @@
+- id: paud-game-2025
+  title: "Pengenalan Game Edukatif Berbasis Web untuk Siswa PAUD Taman Baca dan Sekolah TK Yamakindo Tangerang"
+  authors: ["F.V.P. Samosir", "A.E. Widjaja", "A. Aribowo", "C.A. Haryani"]
+  venue: "Seminar Nasional Pengabdian kepada Masyarakat Universitas Terbuka, Vol. 4, pp. 475-483"
+  venue_type: seminar
+  year: 2025
+  target_en: "PAUD and kindergarten students"
+  target_id: "Siswa PAUD dan TK"
+  description_en: "Introducing web-based educational games to early-childhood students at Yamakindo Kindergarten in Tangerang, combining play-based learning with basic digital literacy."
+  description_id: "Mengenalkan game edukatif berbasis web kepada siswa PAUD dan TK Yamakindo Tangerang, memadukan pembelajaran berbasis bermain dengan literasi digital dasar."
+
+- id: pinus-workshop-2025
+  title: "Workshop Pengenalan Dasar Komputer Dan Praktek Penggunaan Aplikasi Spreadsheet Bagi Pemula Di Sekolah Pendidikan Integral Untuk Semua (PINUS)"
+  authors: ["C.A. Haryani", "A.E. Widjaja", "R.E. Tarigan", "F.V.P. Samosir"]
+  venue: "Jurnal Ilmiah Teknik Informatika (TEKINFO), Vol. 26 No. 1, pp. 222-226"
+  venue_type: journal
+  year: 2025
+  target_en: "Beginner learners at PINUS school"
+  target_id: "Pemula di sekolah PINUS"
+  description_en: "Hands-on workshop covering computer fundamentals and practical spreadsheet skills for beginner learners at the PINUS integral education school."
+  description_id: "Workshop praktis yang mencakup dasar-dasar komputer dan keterampilan spreadsheet praktis untuk pemula di sekolah pendidikan integral PINUS."

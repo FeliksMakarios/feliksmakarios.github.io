@@ -1,0 +1,237 @@
+areas:
+  - id: low-resource-nlp
+    name:
+      en: "Low-Resource NLP"
+      id: "NLP Low-Resource"
+    definition:
+      en: "Building computational resources for Indonesian local languages that lack digital infrastructure."
+      id: "Membangun sumber daya komputasi untuk bahasa-bahasa lokal Indonesia yang kurang terwakili di dunia digital."
+    sub_areas:
+      - id: corpus-construction
+        name:
+          en: "Corpus construction"
+          id: "Konstruksi korpus"
+        definition:
+          en: "Designing and digitizing multi-domain text corpora, including OCR, cleaning, and native-speaker correction."
+          id: "Perancangan dan digitisasi korpus teks multi-domain, termasuk OCR, pembersihan, dan koreksi penutur asli."
+      - id: benchmark-evaluation
+        name:
+          en: "Benchmarks & evaluation"
+          id: "Benchmark & evaluasi"
+        definition:
+          en: "Designing evaluation protocols and benchmarks for low-resource language models."
+          id: "Merancang protokol evaluasi dan benchmark untuk model bahasa low-resource."
+    ongoing_projects:
+      - title:
+          en: "Batak Toba Language Corpus"
+          id: "Korpus Bahasa Batak Toba"
+        funding: "UPH Internal Grant"
+        period: "May 2025 – Dec 2025"
+        role:
+          en: "Principal Investigator"
+          id: "Ketua Peneliti"
+        description:
+          en: "Multi-domain Batak Toba–Indonesian parallel corpus covering religious, cultural, educational, and contemporary text. End-to-end pipeline: collection, OCR, native-speaker correction, preprocessing."
+          id: "Korpus paralel multi-domain Batak Toba–Indonesia mencakup teks religius, budaya, pendidikan, dan kontemporer. Pipeline end-to-end: pengumpulan, OCR, koreksi native speaker, preprocessing."
+    open_topics:
+      - title:
+          en: "Named Entity Recognition for Batak Toba"
+          id: "Named Entity Recognition untuk Batak Toba"
+        prereq:
+          en: "PyTorch + Hugging Face"
+          id: "PyTorch + Hugging Face"
+        status: open
+      - title:
+          en: "Cross-lingual transfer from Indonesian to Batak Toba"
+          id: "Cross-lingual transfer dari model Indonesia ke Batak Toba"
+        prereq:
+          en: "Transformers, basic DL"
+          id: "Transformers, DL dasar"
+        status: open
+      - title:
+          en: "Parallel corpus alignment evaluation"
+          id: "Evaluasi alignment korpus paralel"
+        prereq:
+          en: "Python, corpus linguistics familiarity"
+          id: "Python, familiar dengan corpus linguistics"
+        status: open
+
+  - id: sentiment-mining
+    name:
+      en: "Sentiment & Opinion Mining"
+      id: "Analisis Sentimen & Opini"
+    definition:
+      en: "Extracting sentiment, opinions, and attitudes from Indonesian text across domains."
+      id: "Ekstraksi sentimen, opini, dan sikap dari teks bahasa Indonesia di berbagai domain."
+    sub_areas:
+      - id: document-sentiment
+        name:
+          en: "Document-level sentiment"
+          id: "Sentimen tingkat dokumen"
+        definition:
+          en: "Classifying overall polarity of reviews, comments, and short texts."
+          id: "Klasifikasi polaritas keseluruhan review, komentar, dan teks pendek."
+      - id: aspect-based
+        name:
+          en: "Aspect-based sentiment"
+          id: "Sentimen berbasis aspek"
+        definition:
+          en: "Identifying specific aspects mentioned in text and classifying sentiment toward each."
+          id: "Mengidentifikasi aspek spesifik yang disebutkan dalam teks dan mengklasifikasi sentimen terhadap masing-masing."
+      - id: social-media
+        name:
+          en: "Social media discourse"
+          id: "Diskursus media sosial"
+        definition:
+          en: "Analyzing sentiment patterns in user-generated content from platforms like TikTok and Twitter."
+          id: "Menganalisis pola sentimen dalam konten user-generated dari platform seperti TikTok dan Twitter."
+    open_topics:
+      - title:
+          en: "ABSA on Indonesian marketplaces (Tokopedia, Shopee)"
+          id: "ABSA pada marketplace Indonesia (Tokopedia, Shopee)"
+        prereq:
+          en: "Python, DL basics, scraping comfort"
+          id: "Python, dasar DL, nyaman scraping"
+        status: open
+      - title:
+          en: "Multimodal sentiment analysis (text + image)"
+          id: "Analisis sentimen multimodal (teks + gambar)"
+        prereq:
+          en: "Transformers, basic CV"
+          id: "Transformers, CV dasar"
+        status: open
+      - title:
+          en: "Code-switching sentiment (Indonesian + English)"
+          id: "Sentimen code-switching (Indonesia + Inggris)"
+        prereq:
+          en: "NLP course, tokenization familiarity"
+          id: "MK NLP, familiar tokenisasi"
+        status: open
+
+  - id: semantic-retrieval
+    name:
+      en: "Semantic Retrieval & Summarization"
+      id: "Pencarian Semantik & Summarization"
+    definition:
+      en: "Systems that find, condense, and organize information from text using neural representations."
+      id: "Sistem yang mencari, merangkum, dan memvisualisasi informasi dari teks menggunakan representasi neural."
+    sub_areas:
+      - id: summarization
+        name:
+          en: "Text summarization"
+          id: "Summarization teks"
+        definition:
+          en: "Extractive and abstractive methods to condense long documents into concise summaries."
+          id: "Metode extractive dan abstractive untuk merangkum dokumen panjang menjadi ringkasan padat."
+      - id: semantic-search
+        name:
+          en: "Semantic search"
+          id: "Pencarian semantik"
+        definition:
+          en: "Retrieval systems based on meaning rather than keyword matching, using embeddings and vector search."
+          id: "Sistem pencarian berbasis makna, bukan pencocokan kata kunci, menggunakan embeddings dan vector search."
+      - id: knowledge-visualization
+        name:
+          en: "Knowledge visualization"
+          id: "Visualisasi pengetahuan"
+        definition:
+          en: "Transforming textual knowledge into structured representations like mind maps and concept graphs."
+          id: "Mengubah pengetahuan tekstual menjadi representasi terstruktur seperti mind map dan concept graph."
+    ongoing_projects:
+      - title:
+          en: "Extractive Summarization for Mind Map Generation"
+          id: "Extractive Summarization untuk Mind Map Generation"
+        funding: "UPH Internal Grant"
+        period: "May 2023 – May 2024"
+        role:
+          en: "Principal Investigator (completed)"
+          id: "Ketua Peneliti (selesai)"
+        description:
+          en: "Prototype system combining Transformer-based extractive summarization and clustering to generate mind maps from scientific articles. Evaluated with human judges."
+          id: "Prototipe sistem yang menggabungkan extractive summarization berbasis Transformer dan clustering untuk menghasilkan mind map dari artikel ilmiah. Dievaluasi oleh human judges."
+    open_topics:
+      - title:
+          en: "Retrieval-Augmented Generation (RAG) for Indonesian theological corpora"
+          id: "Retrieval-Augmented Generation (RAG) untuk korpus teologi Indonesia"
+        prereq:
+          en: "Transformers, RAG familiarity"
+          id: "Transformers, familiar RAG"
+        status: in-discussion
+      - title:
+          en: "Abstractive summarization for Indonesian scientific articles"
+          id: "Abstractive summarization untuk artikel ilmiah Indonesia"
+        prereq:
+          en: "seq2seq models, Hugging Face"
+          id: "Model seq2seq, Hugging Face"
+        status: open
+      - title:
+          en: "Cross-lingual summarization (Indonesian ↔ English)"
+          id: "Cross-lingual summarization (Indonesia ↔ Inggris)"
+        prereq:
+          en: "mBART/mT5, evaluation metrics"
+          id: "mBART/mT5, metrik evaluasi"
+        status: open
+
+  - id: applied-ml
+    name:
+      en: "Applied ML & Data-Centric AI"
+      id: "Applied ML & Data-Centric AI"
+    definition:
+      en: "Practical machine learning applications across vision and tabular domains, plus research on how dataset design shapes model behavior."
+      id: "Aplikasi machine learning praktis di domain vision dan tabular, ditambah riset tentang bagaimana desain dataset membentuk perilaku model."
+    sub_areas:
+      - id: computer-vision
+        name:
+          en: "Computer vision"
+          id: "Computer vision"
+        definition:
+          en: "Image classification and medical imaging using CNN, Vision Transformers, and hybrid architectures."
+          id: "Klasifikasi citra dan medical imaging menggunakan CNN, Vision Transformers, dan arsitektur hybrid."
+      - id: predictive-analytics
+        name:
+          en: "Predictive analytics"
+          id: "Predictive analytics"
+        definition:
+          en: "Regression and classification models on tabular data, often with explainable AI methods."
+          id: "Model regresi dan klasifikasi pada data tabular, seringkali dengan metode explainable AI."
+      - id: bias-fairness-curation
+        name:
+          en: "Bias, fairness & dataset curation"
+          id: "Bias, fairness & kurasi dataset"
+        definition:
+          en: "Investigating fairness issues in Indonesian NLP datasets and advancing dataset documentation practices."
+          id: "Investigasi isu fairness pada dataset NLP Indonesia dan memajukan praktik dokumentasi dataset."
+    ongoing_projects:
+      - title:
+          en: "Bias Analysis in Indonesian QA Datasets (FACQA)"
+          id: "Analisis Bias pada Dataset QA Indonesia (FACQA)"
+        funding: "UPH Internal Grant"
+        period: "May 2024 – Dec 2024"
+        role:
+          en: "Principal Investigator (completed)"
+          id: "Ketua Peneliti (selesai)"
+        description:
+          en: "Investigated bias and fairness issues in FACQA using Transformer-based baselines and quantitative fairness metrics. Contributed recommendations for dataset documentation."
+          id: "Investigasi isu bias dan fairness pada FACQA menggunakan baseline berbasis Transformer dan metrik fairness kuantitatif. Menghasilkan rekomendasi untuk dokumentasi dataset."
+    open_topics:
+      - title:
+          en: "Fairness audits on Indonesian classification benchmarks"
+          id: "Audit fairness pada benchmark klasifikasi Indonesia"
+        prereq:
+          en: "Comfort reading ML papers"
+          id: "Nyaman membaca paper ML"
+        status: open
+      - title:
+          en: "Applied CV for local Indonesian use cases"
+          id: "Applied CV untuk use case Indonesia"
+        prereq:
+          en: "PyTorch, torchvision"
+          id: "PyTorch, torchvision"
+        status: open
+      - title:
+          en: "Data documentation standards for low-resource NLP"
+          id: "Standar dokumentasi data untuk NLP low-resource"
+        prereq:
+          en: "Familiarity with dataset cards, datasheets"
+          id: "Familiar dengan dataset cards, datasheets"
+        status: open
