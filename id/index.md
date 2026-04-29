@@ -27,23 +27,18 @@ description: "Feliks Samosir — Dosen dan peneliti Natural Language Processing 
 </section>
 
 <p class="lead">
-Saya dosen Informatika di Universitas Pelita Harapan, Tangerang. Riset saya berfokus pada
-<strong>Natural Language Processing untuk bahasa Indonesia dan bahasa lokal
-low-resource</strong>, dengan penekanan saat ini pada Batak Toba, analisis bias pada
-dataset QA Indonesia, serta penerapan NLP di bidang pendidikan dan teologi.
+Saya dosen Informatika di Universitas Pelita Harapan, Tangerang. Riset saya berfokus pada NLP dan machine learning untuk konteks Indonesia yang kurang terwakili — bahasa lokal, domain khusus, dan isu fairness yang sering terabaikan oleh sistem mainstream.
+</p>
+
+<p class="lead">
+Proyek terkini mencakup pembangunan korpus bahasa Batak Toba, analisis bias pada dataset QA Indonesia, dan pengembangan bersama CoRaL — framework kurasi data multi-dimensi untuk bahasa low-resource — bersama kolaborator di VinUniversity, MBZUAI, dan Universitas Indonesia.
 </p>
 
 ## Tentang saya
 
-Sebelum di UPH, saya pernah bekerja sebagai IT support di Sekolah Tinggi Alkitab Tiranus
-(Bandung), product development di Kapanlagi Youniverse (Malang), dan guru komputer SD.
-Saya meraih gelar M.Kom. dari Universitas Kristen Maranatha (Bandung) dan S.Pd. Teknik
-Informatika dari Universitas Negeri Malang.
+Sebelum di UPH, saya pernah bekerja sebagai IT support di Sekolah Tinggi Alkitab Tiranus (Bandung), product development di Kapanlagi Youniverse (Malang), dan guru komputer SD. Saya meraih gelar M.Kom. dari Universitas Kristen Maranatha (Bandung) dan S.Pd. Teknik Informatika dari Universitas Negeri Malang.
 
-Kerja saya mencakup sentiment analysis, semantic search, extractive summarization, dan
-dataset curation. Saya telah memimpin dua hibah riset internal UPH sebagai ketua peneliti,
-dan aktif membimbing riset mahasiswa yang menjembatani NLP berbasis Transformer dengan
-aplikasi nyata — khususnya untuk bahasa-bahasa yang kurang terwakili.
+Kerja saya mencakup sumber daya bahasa low-resource, bias dan fairness pada NLP Indonesia, teknologi bahasa spesifik domain (teologi, pendidikan, e-commerce), dan applied machine learning untuk data Indonesia. Saya telah memimpin tiga hibah riset internal UPH sebagai ketua peneliti, dan aktif membimbing riset mahasiswa S1 yang menjembatani metode NLP dan ML modern dengan aplikasi nyata — khususnya untuk bahasa, domain, dan komunitas yang kurang terwakili.
 
 ## Kabar terbaru
 

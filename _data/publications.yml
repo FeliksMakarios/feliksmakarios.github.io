@@ -5,8 +5,8 @@
   venue_type: journal
   year: 2026
   url: "https://doi.org/10.52465/joscex.v7i1.26"
-  area: sentiment-mining
-  sub_area: aspect-based
+  area: domain-specific-nlp
+  sub_area: ecommerce-reviews
 
 - id: doc-class-2025
   title: "Personal Document Classification using Deep Learning Approach: a Comparative Study of CNN, MobileNetV2, and Vision Transformers"
@@ -34,7 +34,7 @@
   venue: "2025 22nd International Conference on Electrical Engineering/Electronics, Computer, Telecommunications and Information Technology (ECTI-CON)"
   venue_type: conference
   year: 2025
-  url: ""  # TODO: add IEEE Xplore URL once indexed
+  url: ""
   area: applied-ml
   sub_area: predictive-analytics
 
@@ -44,9 +44,9 @@
   venue: "2025 22nd International Conference on Electrical Engineering/Electronics, Computer, Telecommunications and Information Technology (ECTI-CON)"
   venue_type: conference
   year: 2025
-  url: ""  # TODO: add IEEE Xplore URL once indexed
+  url: ""
   area: applied-ml
-  sub_area: predictive-analytics
+  sub_area: ensemble-methods
 
 - id: univ-sentiment-2025
   title: "Sentiment Analysis of University X Students: Comparing Naive Bayes and BERT Approaches"
@@ -55,8 +55,8 @@
   venue_type: journal
   year: 2025
   url: "https://doi.org/10.31937/ti.v17i2.4034"
-  area: sentiment-mining
-  sub_area: document-sentiment
+  area: domain-specific-nlp
+  sub_area: educational-content
 
 - id: absa-book-2024
   title: "Aspect Based Sentiment Analysis on Amazon Book Review Using DistilBERT"
@@ -65,8 +65,8 @@
   venue_type: conference
   year: 2024
   url: "https://doi.org/10.1109/ICIC62051.2024.10956330"
-  area: sentiment-mining
-  sub_area: aspect-based
+  area: domain-specific-nlp
+  sub_area: ecommerce-reviews
 
 - id: laptop-logreg-2024
   title: "Analysis of Laptop Purchase History to Determine Key Factors Using Logistic Regression"
@@ -85,8 +85,8 @@
   venue_type: conference
   year: 2024
   url: "https://doi.org/10.1109/ICCIT62134.2024.10701256"
-  area: sentiment-mining
-  sub_area: social-media
+  area: domain-specific-nlp
+  sub_area: political-discourse
 
 - id: beauty-2024
   title: "Sentiment Analysis in E-Commerce: Beauty Product Reviews"
@@ -95,8 +95,8 @@
   venue_type: journal
   year: 2024
   url: "https://doi.org/10.31937/ti.v16i2.3708"
-  area: sentiment-mining
-  sub_area: document-sentiment
+  area: domain-specific-nlp
+  sub_area: ecommerce-reviews
 
 - id: mindmap-2023
   title: "From Tradition to Innovation: Mind Map Generation in Higher Education"
@@ -105,8 +105,8 @@
   venue_type: journal
   year: 2023
   url: "https://doi.org/10.31937/si.v14i2.3432"
-  area: semantic-retrieval
-  sub_area: knowledge-visualization
+  area: domain-specific-nlp
+  sub_area: educational-content
 
 - id: indoberea-2023
   title: "IndoBerea: Evolving Semantic Search in Theological Context"
@@ -115,8 +115,8 @@
   venue_type: conference
   year: 2023
   url: "https://doi.org/10.1109/ICIC60109.2023.10382053"
-  area: semantic-retrieval
-  sub_area: semantic-search
+  area: domain-specific-nlp
+  sub_area: theological-text
 
 - id: besklus-2022
   title: "BESKlus: BERT Extractive Summarization with K-Means Clustering in Scientific Paper"
@@ -125,8 +125,8 @@
   venue_type: journal
   year: 2022
   url: "https://doi.org/10.28932/jutisi.v8i1.4474"
-  area: semantic-retrieval
-  sub_area: summarization
+  area: domain-specific-nlp
+  sub_area: educational-content
 
 - id: krl-eda-2021
   title: "Exploratory Data Analysis terhadap Kepadatan Penumpang Kereta Rel Listrik"
@@ -136,4 +136,4 @@
   year: 2021
   url: "https://journal.maranatha.edu/index.php/jutisi/article/view/3700"
   area: applied-ml
-  sub_area: predictive-analytics
+  sub_area: exploratory-data-analysis
