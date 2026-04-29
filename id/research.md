@@ -4,14 +4,11 @@ permalink: /id/research/
 lang: id
 slug: research
 title: Riset
-subtitle: "Natural Language Processing dan Applied ML"
+subtitle: "NLP dan ML untuk konteks Indonesia yang kurang terwakili"
 ---
 
 <p class="lead">
-Kelompok saya bekerja di irisan NLP berbasis Transformer dan sumber daya bahasa
-Indonesia, dengan beberapa kolaborasi applied ML di domain vision dan tabular. Setiap
-bidang di bawah punya halaman detail dengan sub-bidang, publikasi, proyek berjalan, dan
-topik TA yang terbuka.
+Riset saya mempelajari apa yang patah ketika sistem NLP dan machine learning mainstream bertemu dengan konteks Indonesia yang kurang terwakili — secara linguistik, demografis, spesifik domain, dan modalitas. Tujuannya dua: memahami mengapa sistem mainstream gagal di situasi ini, dan membangun pendekatan yang robust terhadapnya.
 </p>
 
 <h2>Bidang riset</h2>

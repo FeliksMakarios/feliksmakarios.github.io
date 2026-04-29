@@ -4,14 +4,11 @@ permalink: /en/research/
 lang: en
 slug: research
 title: Research
-subtitle: "Natural Language Processing and Applied ML"
+subtitle: "NLP and ML for underrepresented Indonesian contexts"
 ---
 
 <p class="lead">
-My group works at the intersection of Transformer-based NLP and Indonesian language
-resources, with selected applied ML collaborations in vision and tabular domains. Each
-area below has its own detail page with sub-areas, publications, ongoing projects, and
-open thesis topics.
+My research studies what breaks when mainstream NLP and machine learning systems meet underrepresented Indonesian contexts — linguistically, demographically, domain-specifically, and modally. The goal is twofold: to understand why mainstream systems fail in these settings, and to build approaches that are robust to them.
 </p>
 
 <h2>Research areas</h2>

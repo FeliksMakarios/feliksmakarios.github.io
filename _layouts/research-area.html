@@ -19,34 +19,14 @@ layout: default
 {% endfor %}
 {% endif %}
 
-<h2>{% if lang == 'id' %}Sub-bidang{% else %}Sub-areas{% endif %}</h2>
+<h2>{% if lang == 'id' %}Sub-bidang & Publikasi{% else %}Sub-areas & Publications{% endif %}</h2>
 
+<ul class="subarea-list">
 {% for sub in area.sub_areas %}
-  <section class="subarea-section">
-    <h3>{{ sub.name[lang] }}</h3>
-    <p class="subarea-def">{{ sub.definition[lang] }}</p>
-
-    {% assign sub_pubs = site.data.publications | where: "area", page.area_id | where: "sub_area", sub.id | sort: "year" | reverse %}
-    {% if sub_pubs.size > 0 %}
-      <p class="subarea-label">{% if lang == 'id' %}Publikasi{% else %}Publications{% endif %}</p>
-      <ul class="pub-list-compact">
-        {% for pub in sub_pubs %}
-          <li class="pub-item-compact">
-            <div class="pub-title">
-              {% if pub.url and pub.url != "" %}<a href="{{ pub.url }}" target="_blank" rel="noopener external">{{ pub.title }}</a>{% else %}{{ pub.title }}{% endif %}
-            </div>
-            <div class="pub-authors">{{ pub.authors | join: ", " }}</div>
-            <div class="pub-meta">
-              <span class="venue-badge venue-{{ pub.venue_type }}">{{ pub.venue_type | capitalize }}</span><span class="pub-venue">{{ pub.venue }}</span>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p class="muted-note">{% if lang == 'id' %}Belum ada publikasi di sub-bidang ini — aktif sebagai riset yang sedang berjalan.{% else %}No publications in this sub-area yet — active as ongoing research.{% endif %}</p>
-    {% endif %}
-  </section>
+  {% assign sub_pubs = site.data.publications | where: "area", page.area_id | where: "sub_area", sub.id | sort: "year" | reverse %}
+  <li class="subarea-item"><details><summary><span class="subarea-name">{{ sub.name[lang] }}</span><span class="subarea-count">{% if sub_pubs.size > 0 %}{{ sub_pubs.size }} {% if lang == 'id' %}publikasi{% else %}publication{% if sub_pubs.size != 1 %}s{% endif %}{% endif %}{% else %}{% if lang == 'id' %}belum ada publikasi{% else %}no publications yet{% endif %}{% endif %}</span></summary><div class="subarea-body"><p class="subarea-def">{{ sub.definition[lang] }}</p>{% if sub_pubs.size > 0 %}<ul class="pub-list-compact">{% for pub in sub_pubs %}<li class="pub-item-compact"><div class="pub-title">{% if pub.url and pub.url != "" %}<a href="{{ pub.url }}" target="_blank" rel="noopener external">{{ pub.title }}</a>{% else %}{{ pub.title }}{% endif %}</div><div class="pub-authors">{{ pub.authors | join: ", " }}</div><div class="pub-meta"><span class="venue-badge venue-{{ pub.venue_type }}">{{ pub.venue_type | capitalize }}</span><span class="pub-venue">{{ pub.venue }}</span></div></li>{% endfor %}</ul>{% else %}<p class="muted-note">{% if lang == 'id' %}Belum ada publikasi — aktif sebagai riset yang sedang berjalan.{% else %}No publications yet — active as ongoing research.{% endif %}</p>{% endif %}</div></details></li>
 {% endfor %}
+</ul>
 
 {% if area.open_topics %}
 <h2>{% if lang == 'id' %}Topik TA yang terbuka{% else %}Open thesis topics{% endif %}</h2>

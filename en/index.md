@@ -27,23 +27,18 @@ description: "Feliks Samosir — Lecturer and researcher in Natural Language Pro
 </section>
 
 <p class="lead">
-I'm a lecturer in Informatics at Universitas Pelita Harapan, Tangerang. My research focuses on
-<strong>Natural Language Processing for Indonesian and low-resource local languages</strong>,
-with current emphasis on Batak Toba, bias analysis in Indonesian QA datasets, and practical NLP
-deployment in educational and theological domains.
+I'm a lecturer in Informatics at Universitas Pelita Harapan, Tangerang. My research focuses on NLP and machine learning for underrepresented Indonesian contexts — local languages, specialized domains, and fairness concerns that mainstream systems often overlook.
+</p>
+
+<p class="lead">
+Current projects include building a Batak Toba language corpus, analyzing bias in Indonesian QA datasets, and co-developing CoRaL — a multi-dimensional data curation framework for low-resource languages — with collaborators at VinUniversity, MBZUAI, and Universitas Indonesia.
 </p>
 
 ## About
 
-Before UPH, I worked as an IT support specialist at Sekolah Tinggi Alkitab Tiranus (Bandung),
-as a product development staff at Kapanlagi Youniverse (Malang), and as an elementary-school
-computer teacher. I hold an M.Kom. from Universitas Kristen Maranatha (Bandung) and an S.Pd.
-in Informatics Engineering from Universitas Negeri Malang.
+Before UPH, I worked as an IT support specialist at Sekolah Tinggi Alkitab Tiranus (Bandung), as a product development staff at Kapanlagi Youniverse (Malang), and as an elementary-school computer teacher. I hold an M.Kom. from Universitas Kristen Maranatha (Bandung) and an S.Pd. in Informatics Engineering from Universitas Negeri Malang.
 
-My work spans sentiment analysis, semantic search, extractive summarization, and dataset
-curation. I've led two UPH internal research grants as principal investigator, and I actively
-mentor undergraduate research projects that bridge Transformer-based NLP with real-world
-applications — particularly for underrepresented languages.
+My work spans low-resource language resources, bias and fairness in Indonesian NLP, domain-specific language technology (theological, educational, e-commerce), and applied machine learning for Indonesian data. I have led three UPH internal research grants as principal investigator, and I actively mentor undergraduate research projects that bridge modern NLP and ML methods with real-world applications — particularly for underrepresented languages, domains, and communities.
 
 ## Recent news
 
