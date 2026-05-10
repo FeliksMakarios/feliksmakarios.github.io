@@ -14,8 +14,8 @@ description: "Feliks Samosir — Dosen dan peneliti Natural Language Processing 
   <div class="hero-text">
     <h1>Feliks Victor Parningotan Samosir</h1>
     <p class="hero-role">
-      Ketua Program Studi Informatika<br>
-      Fakultas AI dan Data Science, Universitas Pelita Harapan
+      Dosen di Program Studi Informatika<br>
+      Fakultas AI and Data Science, Universitas Pelita Harapan
     </p>
     <div class="hero-links">
       <a href="mailto:feliksmakarios19@gmail.com">Email</a>
@@ -27,23 +27,18 @@ description: "Feliks Samosir — Dosen dan peneliti Natural Language Processing 
 </section>
 
 <p class="lead">
-Saya dosen Informatika di Universitas Pelita Harapan, Tangerang. Riset saya berfokus pada
-<strong>Natural Language Processing untuk bahasa Indonesia dan bahasa lokal
-low-resource</strong>, dengan penekanan saat ini pada Batak Toba, analisis bias pada
-dataset QA Indonesia, serta penerapan NLP di bidang pendidikan dan teologi.
+Saya seorang dosen di Program Studi Informatika di Universitas Pelita Harapan, Tangerang. Penelitian saya berfokus pada NLP dan pembelajaran mesin untuk konteks Indonesia yang kurang terwakili, seperti bahasa lokal, domain khusus, dan masalah keadilan yang sering diabaikan oleh sistem arus utama.
+</p>
+
+<p class="lead">
+Proyek yang sedang berjalan antara lain membangun korpus bahasa Batak Toba, menganalisis bias dalam kumpulan data QA bahasa Indonesia, dan mengembangkan bersama CoRaL (kerangka kerja kurasi data multidimensi untuk bahasa dengan sumber daya rendah) dengan kolaborator dari <a href="https://seacrowd.org/about">SEACrowd</a>
 </p>
 
 ## Tentang saya
 
-Sebelum di UPH, saya pernah bekerja sebagai IT support di Sekolah Tinggi Alkitab Tiranus
-(Bandung), product development di Kapanlagi Youniverse (Malang), dan guru komputer SD.
-Saya meraih gelar M.Kom. dari Universitas Kristen Maranatha (Bandung) dan S.Pd. Teknik
-Informatika dari Universitas Negeri Malang.
+Sebelum di UPH, saya pernah bekerja sebagai IT support di Sekolah Tinggi Alkitab Tiranus (Bandung), product development di Kapanlagi Youniverse (Malang), dan guru komputer di SD Charis National Academy. Saya meraih gelar M.Kom. dari Universitas Kristen Maranatha (Bandung) dan S.Pd. Teknik Informatika dari Universitas Negeri Malang.
 
-Kerja saya mencakup sentiment analysis, semantic search, extractive summarization, dan
-dataset curation. Saya telah memimpin dua hibah riset internal UPH sebagai ketua peneliti,
-dan aktif membimbing riset mahasiswa yang menjembatani NLP berbasis Transformer dengan
-aplikasi nyata — khususnya untuk bahasa-bahasa yang kurang terwakili.
+Kerja saya mencakup sumber daya bahasa low-resource, bias dan fairness pada NLP Indonesia, teknologi bahasa spesifik domain (teologi, pendidikan, e-commerce), dan applied machine learning untuk data Indonesia. Saya telah memimpin tiga hibah riset internal UPH sebagai ketua peneliti, dan aktif membimbing riset mahasiswa S1 yang menjembatani metode NLP dan ML modern dengan aplikasi nyata, khususnya untuk bahasa, domain, dan komunitas yang kurang terwakili.
 
 ## Kabar terbaru
 

@@ -258,7 +258,7 @@ a:hover { text-decoration-thickness: 2px; }
 .hero-role { color: var(--color-muted); margin: 0 0 1rem; }
 .hero-links { display: flex; flex-wrap: wrap; gap: 0.8rem; font-size: 0.9rem; }
 
-/* ---------- Generic cards (used in Demos page etc.) ---------- */
+/* ---------- Generic cards ---------- */
 .cards {
   display: grid;
   grid-template-columns: 1fr;
@@ -298,7 +298,7 @@ a:hover { text-decoration-thickness: 2px; }
 .tag-area { background: var(--color-accent-soft); color: var(--color-accent); text-transform: capitalize; }
 .tag-pub { background: var(--color-status-open-soft); color: var(--color-status-open); }
 
-/* ---------- Area grid (research overview) ---------- */
+/* ---------- Area grid ---------- */
 .area-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -358,7 +358,7 @@ a:hover { text-decoration-thickness: 2px; }
   text-decoration: none;
 }
 
-/* ---------- Research area detail page ---------- */
+/* ---------- Project block ---------- */
 .project-block {
   border-left: 3px solid var(--color-accent);
   padding: 0.8rem 1rem;
@@ -370,29 +370,68 @@ a:hover { text-decoration-thickness: 2px; }
 .project-meta { font-size: 0.82rem; color: var(--color-muted); margin: 0 0 0.4rem; }
 .project-block p:last-child { margin-bottom: 0; font-size: 0.93rem; }
 
-.subarea-section {
-  padding: 1.25rem 0 1rem;
-  border-bottom: 1px solid var(--color-border);
+/* ---------- Subarea list (expandable) ---------- */
+.subarea-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 1.5rem;
 }
-.subarea-section:last-child { border-bottom: none; }
-.subarea-section h3 {
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
+.subarea-item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  margin-bottom: 0.5rem;
+  background: var(--color-surface);
+  overflow: hidden;
+}
+.subarea-item details { padding: 0; }
+.subarea-item summary {
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: relative;
+  padding-right: 2.5rem;
+}
+.subarea-item summary::-webkit-details-marker { display: none; }
+.subarea-item summary::after {
+  content: "+";
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: var(--color-muted);
+  font-weight: 400;
+  line-height: 1;
+}
+.subarea-item details[open] summary::after { content: "−"; }
+.subarea-item summary:hover { background: var(--color-accent-soft); }
+.subarea-name {
   font-weight: 600;
-  margin: 0 0 0.4rem;
+  font-size: 1rem;
+  color: var(--color-text);
 }
-.subarea-def { color: var(--color-muted); margin: 0 0 0.8rem; font-size: 0.95rem; }
-.subarea-label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.subarea-count {
+  font-size: 0.82rem;
   color: var(--color-subtle);
-  margin: 1rem 0 0.5rem;
-  font-weight: 600;
+  white-space: nowrap;
 }
+.subarea-body {
+  padding: 0.5rem 1rem 1rem;
+  border-top: 1px solid var(--color-border);
+}
+.subarea-body .subarea-def {
+  color: var(--color-muted);
+  margin: 0.8rem 0 0.5rem;
+  font-size: 0.93rem;
+}
+
 .muted-note { color: var(--color-muted); font-style: italic; font-size: 0.9rem; }
 
-/* ---------- Open topics: expandable list ---------- */
+/* ---------- Open topics ---------- */
 .topic-list {
   list-style: none;
   padding: 0;
@@ -405,9 +444,7 @@ a:hover { text-decoration-thickness: 2px; }
   background: var(--color-surface);
   overflow: hidden;
 }
-.topic-item details {
-  padding: 0;
-}
+.topic-item details { padding: 0; }
 .topic-item summary {
   padding: 0.7rem 1rem;
   cursor: pointer;
@@ -429,13 +466,10 @@ a:hover { text-decoration-thickness: 2px; }
   transform: translateY(-50%);
   font-size: 1.2rem;
   color: var(--color-muted);
-  transition: transform 0.15s;
   font-weight: 400;
   line-height: 1;
 }
-.topic-item details[open] summary::after {
-  content: "−";
-}
+.topic-item details[open] summary::after { content: "−"; }
 .topic-item summary:hover { background: var(--color-accent-soft); }
 .topic-title { flex: 1; font-size: 0.95rem; }
 .topic-body {
@@ -446,6 +480,58 @@ a:hover { text-decoration-thickness: 2px; }
   font-size: 0.9rem;
 }
 .topic-body p { margin: 0; }
+
+/* ---------- Year groups (publications, community, alumni) ---------- */
+.year-group {
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  overflow: hidden;
+}
+.year-summary {
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  position: relative;
+  padding-right: 2.5rem;
+}
+.year-summary::-webkit-details-marker { display: none; }
+.year-summary::after {
+  content: "+";
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: var(--color-muted);
+  font-weight: 400;
+  line-height: 1;
+}
+.year-group[open] .year-summary::after { content: "−"; }
+.year-summary:hover { background: var(--color-accent-soft); }
+.year-label {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+.year-count {
+  font-size: 0.82rem;
+  color: var(--color-subtle);
+  white-space: nowrap;
+}
+.year-group > ul {
+  padding: 0 1rem 0.5rem;
+  border-top: 1px solid var(--color-border);
+  margin: 0;
+  list-style: none;
+}
 
 /* ---------- Publications list ---------- */
 .pub-filter {
@@ -474,17 +560,6 @@ a:hover { text-decoration-thickness: 2px; }
 [data-theme="dark"] .pub-filter button.active { color: var(--color-bg); }
 
 .pub-timeline { margin: 1.5rem 0; }
-.pub-year-header {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-muted);
-  margin: 2rem 0 0.8rem;
-  padding-bottom: 0.4rem;
-  border-bottom: 1px solid var(--color-border);
-  letter-spacing: -0.01em;
-}
-.pub-timeline .pub-year-header:first-of-type { margin-top: 0; }
 
 .pub-list { list-style: none; padding: 0; margin: 0; }
 .pub-item, .pub-item-compact {
@@ -517,7 +592,6 @@ a:hover { text-decoration-thickness: 2px; }
   color: var(--color-muted);
   margin-bottom: 0.4rem;
 }
-/* IMPORTANT: inline flow so venue always appears right after badge */
 .pub-meta {
   font-size: 0.85rem;
   color: var(--color-muted);
@@ -554,11 +628,14 @@ a:hover { text-decoration-thickness: 2px; }
 .venue-conference { background: var(--color-conference-soft); color: var(--color-conference); }
 .venue-seminar { background: var(--color-seminar-soft); color: var(--color-seminar); }
 
-/* ---------- Students: vertical list ---------- */
+/* ---------- Students list ---------- */
 .student-list {
   list-style: none;
   padding: 0;
   margin: 1.2rem 0 2rem;
+}
+.year-group .student-list {
+  margin: 0;
 }
 .student-item {
   padding: 1rem 0;
@@ -587,16 +664,7 @@ a:hover { text-decoration-thickness: 2px; }
   color: var(--color-subtle);
   margin: 0.4rem 0 0;
 }
-.student-year-header {
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--color-muted);
-  margin: 1.8rem 0 0.5rem;
-  padding-bottom: 0.3rem;
-  border-bottom: 1px solid var(--color-border);
-  letter-spacing: -0.01em;
-}
+.alumni-timeline { margin: 1.2rem 0 2rem; }
 
 /* ---------- News list ---------- */
 .news-list {
