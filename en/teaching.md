@@ -41,9 +41,3 @@ I mentor undergraduate research projects in Transformer-based question answering
 classification, text summarization, aspect-based sentiment analysis, and bias / fairness studies in Indonesian
 NLP. If you're looking for a thesis advisor, see <a href="/en/research/">research areas</a>
 for open topics.
-
-Before UPH I taught at Raffless Institute of Higher Education (Jakarta, 2022), covering
-introductory computational thinking, Python, databases, algorithms, discrete mathematics,
-neural network basics, data analysis, statistics for AI, and operating systems /
-networking. Earlier, I taught computer fundamentals at Charis National Academy (2015–2017)
-and designed the elementary-level ICT syllabi.
