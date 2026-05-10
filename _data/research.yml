@@ -4,8 +4,8 @@ areas:
       en: "Domain-Specific NLP for Indonesian Contexts"
       id: "NLP Spesifik Domain untuk Konteks Indonesia"
     definition:
-      en: "Adapting NLP systems — sentiment analysis, semantic retrieval, and summarization — to specialized Indonesian domains where vocabulary, discourse, and relevance structure diverge from general-purpose corpora."
-      id: "Mengadaptasi sistem NLP — sentiment analysis, semantic retrieval, dan summarization — ke domain Indonesia khusus di mana kosakata, wacana, dan struktur relevansi berbeda dari korpus umum."
+      en: "Adapting NLP systems (sentiment analysis, semantic retrieval, and summarization) to specialized Indonesian domains where vocabulary, discourse, and relevance structure diverge from general-purpose corpora."
+      id: "Mengadaptasi sistem NLP (sentiment analysis, semantic retrieval, dan summarization) ke domain Indonesia khusus di mana kosakata, wacana, dan struktur relevansi berbeda dari korpus umum."
     sub_areas:
       - id: theological-text
         name:
@@ -40,7 +40,7 @@ areas:
           en: "Extractive Summarization for Mind Map Generation"
           id: "Extractive Summarization untuk Mind Map Generation"
         funding: "UPH Internal Grant"
-        period: "May 2023 – May 2024"
+        period: "May 2023 to May 2024"
         role:
           en: "Principal Investigator (completed)"
           id: "Ketua Peneliti (selesai)"
@@ -51,23 +51,113 @@ areas:
       - title:
           en: "Retrieval-Augmented Generation (RAG) for Indonesian theological corpora"
           id: "Retrieval-Augmented Generation (RAG) untuk korpus teologi Indonesia"
+        description:
+          en: "Theological texts (sermons, biblical commentaries, doctrinal works) often need precise retrieval before generation to avoid hallucination on doctrinal content. This project builds a RAG pipeline that retrieves relevant Indonesian theological passages first, then generates answers grounded in those passages. The challenge is balancing retrieval quality with generation fluency for a domain where small wording errors matter a lot."
+          id: "Teks teologi (khotbah, tafsir, karya doktrinal) sering butuh retrieval yang presisi sebelum generation supaya tidak halusinasi soal konten doktrinal. Proyek ini membangun pipeline RAG yang me-retrieve passage teologi Indonesia yang relevan dulu, lalu menghasilkan jawaban yang grounded ke passage tersebut. Tantangannya adalah menyeimbangkan kualitas retrieval dengan kelancaran generation untuk domain di mana kesalahan kecil dalam kata-kata sangat berpengaruh."
+        outcome:
+          en: "A working RAG prototype for Indonesian theological QA, plus an evaluation comparing it against vanilla generation."
+          id: "Prototipe RAG yang berjalan untuk QA teologi Indonesia, ditambah evaluasi yang membandingkannya dengan vanilla generation."
         prereq:
           en: "Transformers, RAG familiarity"
           id: "Transformers, familiar RAG"
         status: in-discussion
+
+      - title:
+          en: "Cross-translation alignment for Indonesian Bible versions (TB, BIS, AYT)"
+          id: "Alignment cross-translation untuk versi Alkitab Indonesia (TB, BIS, AYT)"
+        description:
+          en: "Indonesia has multiple Bible translations (TB, BIS, AYT) with different styles, ranging from formal to everyday language, so the same verse often reads quite differently. This project pairs verses across versions and measures where and how they diverge in word choice and structure. The result becomes a foundation that other downstream tools (semantic search, RAG, comparison interfaces) can build on."
+          id: "Indonesia punya beberapa terjemahan Alkitab (TB, BIS, AYT) dengan gaya berbeda, dari formal sampai bahasa sehari-hari, sehingga ayat yang sama sering terbaca cukup berbeda. Proyek ini memasangkan ayat lintas versi dan mengukur di mana dan seberapa beda pilihan kata serta strukturnya. Hasilnya jadi fondasi untuk tools lanjutan (semantic search, RAG, antarmuka perbandingan)."
+        outcome:
+          en: "A validated parallel verse dataset (TB to BIS to AYT) plus a divergence analysis report."
+          id: "Dataset ayat paralel ter-validasi (TB ke BIS ke AYT) ditambah laporan analisis divergensi."
+        prereq:
+          en: "Sentence embeddings, alignment algorithms"
+          id: "Sentence embeddings, algoritma alignment"
+        status: open
+
       - title:
           en: "Aspect-based sentiment on Indonesian marketplaces"
           id: "Aspect-based sentiment pada marketplace Indonesia"
+        description:
+          en: "E-commerce reviews on Tokopedia or Shopee often discuss several aspects of one product (delivery, packaging, quality) with different sentiments per aspect. This project trains an aspect-based sentiment model on a freshly scraped Indonesian marketplace dataset. The interesting part is dealing with informal language, slang, and code-switching that mainstream ABSA datasets do not cover."
+          id: "Review e-commerce di Tokopedia atau Shopee sering membahas beberapa aspek dari satu produk (pengiriman, packaging, kualitas) dengan sentimen berbeda per aspek. Proyek ini melatih model aspect-based sentiment pada dataset marketplace Indonesia yang baru di-scrape. Bagian menariknya adalah menangani bahasa informal, slang, dan code-switching yang tidak ada di dataset ABSA mainstream."
+        outcome:
+          en: "An ABSA dataset and fine-tuned model for at least one Indonesian marketplace, plus error analysis comparing it against existing ABSA baselines."
+          id: "Dataset ABSA dan model fine-tuned untuk minimal satu marketplace Indonesia, ditambah analisis error yang membandingkannya dengan baseline ABSA yang ada."
         prereq:
           en: "Python, DL basics, scraping comfort"
           id: "Python, dasar DL, nyaman scraping"
         status: open
+
+      - title:
+          en: "Fake review detection on Indonesian e-commerce platforms"
+          id: "Deteksi review palsu pada platform e-commerce Indonesia"
+        description:
+          en: "Indonesian e-commerce sees a lot of paid or generated reviews that hurt buyer trust. This project trains a classifier to detect suspicious review patterns based on linguistic, behavioral, and account-level features. The result helps both researchers and platforms understand fake review patterns specific to Indonesian e-commerce."
+          id: "E-commerce Indonesia banyak menerima review berbayar atau yang di-generate, yang merusak kepercayaan pembeli. Proyek ini melatih classifier untuk mendeteksi pola review mencurigakan berdasarkan fitur linguistik, perilaku, dan tingkat akun. Hasilnya membantu peneliti dan platform memahami pola review palsu khas e-commerce Indonesia."
+        outcome:
+          en: "A labeled dataset and trained detector for Indonesian fake reviews, plus a feature importance analysis."
+          id: "Dataset berlabel dan detektor yang dilatih untuk review palsu Indonesia, ditambah analisis feature importance."
+        prereq:
+          en: "Classification models, feature engineering"
+          id: "Model klasifikasi, feature engineering"
+        status: open
+
       - title:
           en: "Abstractive summarization for Indonesian scientific articles"
           id: "Abstractive summarization untuk artikel ilmiah Indonesia"
+        description:
+          en: "Indonesian scientific articles need automatic summarization for digesting research output, but most existing seq2seq models are trained on English data. This project fine-tunes a multilingual seq2seq model (mBART or mT5) on Indonesian scientific text. Evaluation looks at both ROUGE scores and human-judged readability."
+          id: "Artikel ilmiah Indonesia butuh summarization otomatis untuk mencerna output riset, tapi kebanyakan model seq2seq yang ada dilatih pada data Inggris. Proyek ini melakukan fine-tuning model seq2seq multilingual (mBART atau mT5) pada teks ilmiah Indonesia. Evaluasi melihat skor ROUGE dan readability yang dinilai manusia."
+        outcome:
+          en: "A fine-tuned summarization model for Indonesian scientific articles, with a benchmark comparison to existing baselines."
+          id: "Model summarization yang di-fine-tune untuk artikel ilmiah Indonesia, dengan perbandingan benchmark terhadap baseline yang ada."
         prereq:
           en: "seq2seq models, Hugging Face"
           id: "Model seq2seq, Hugging Face"
+        status: open
+
+      - title:
+          en: "Automatic question generation from Indonesian textbook chapters"
+          id: "Generasi pertanyaan otomatis dari bab buku ajar Indonesia"
+        description:
+          en: "High school and university teachers in Indonesia spend hours writing comprehension questions from textbook chapters. This project trains a model that takes Indonesian textbook text as input and generates relevant comprehension questions automatically. Output quality is evaluated against teacher-written reference questions."
+          id: "Guru SMA dan dosen di Indonesia menghabiskan banyak jam menulis pertanyaan pemahaman dari bab buku ajar. Proyek ini melatih model yang menerima teks buku ajar Indonesia sebagai input dan menghasilkan pertanyaan pemahaman yang relevan secara otomatis. Kualitas output dievaluasi terhadap pertanyaan referensi yang ditulis guru."
+        outcome:
+          en: "A working question generation model for Indonesian textbooks, plus a small evaluation study with actual teachers."
+          id: "Model generasi pertanyaan yang berjalan untuk buku ajar Indonesia, ditambah studi evaluasi kecil dengan guru asli."
+        prereq:
+          en: "seq2seq models, T5/BART familiarity"
+          id: "Model seq2seq, familiar T5/BART"
+        status: open
+
+      - title:
+          en: "Hate speech and toxicity detection in Indonesian political comments"
+          id: "Deteksi hate speech dan toxicity pada komentar politik Indonesia"
+        description:
+          en: "Indonesian political comments on social media frequently contain hate speech, slurs, or coordinated harassment that mainstream English-trained moderation tools miss. This project builds a classifier for Indonesian political hate speech using IndoBERT or similar models. The work needs care because labeling hate speech itself is value-laden and context-dependent."
+          id: "Komentar politik Indonesia di media sosial sering memuat hate speech, slur, atau harassment terkoordinasi yang luput dari tools moderasi mainstream berbasis Inggris. Proyek ini membangun classifier untuk hate speech politik Indonesia menggunakan IndoBERT atau model sejenis. Pekerjaan ini butuh kehati-hatian karena pelabelan hate speech sendiri sarat nilai dan tergantung konteks."
+        outcome:
+          en: "A trained classifier with documented performance per category (racial, religious, regional), plus a discussion of labeling challenges."
+          id: "Classifier yang dilatih dengan performa terdokumentasi per kategori (rasial, agama, daerah), ditambah pembahasan tantangan pelabelan."
+        prereq:
+          en: "Text classification, comfort with sensitive content"
+          id: "Klasifikasi teks, nyaman dengan konten sensitif"
+        status: open
+
+      - title:
+          en: "Stance detection on Indonesian Twitter/X political discourse"
+          id: "Stance detection pada wacana politik Twitter/X Indonesia"
+        description:
+          en: "Stance detection identifies whether a comment supports, opposes, or is neutral toward a political topic, going beyond simple sentiment. This project fine-tunes BERT models on Indonesian Twitter or X data around political events. The result is useful for understanding public discourse without conflating stance with mere positivity or negativity."
+          id: "Stance detection mengidentifikasi apakah sebuah komentar mendukung, menentang, atau netral terhadap topik politik, melampaui sekadar sentimen. Proyek ini melakukan fine-tuning model BERT pada data Twitter atau X Indonesia seputar event politik. Hasilnya berguna untuk memahami wacana publik tanpa mencampur stance dengan sekadar positif atau negatif."
+        outcome:
+          en: "A stance detection model for Indonesian political discourse, plus a case study on one major political event."
+          id: "Model stance detection untuk wacana politik Indonesia, ditambah studi kasus pada satu event politik besar."
+        prereq:
+          en: "BERT fine-tuning, Twitter API"
+          id: "BERT fine-tuning, Twitter API"
         status: open
 
   - id: low-resource-languages
@@ -104,18 +194,18 @@ areas:
           en: "Batak Toba Language Corpus"
           id: "Korpus Bahasa Batak Toba"
         funding: "UPH Internal Grant"
-        period: "May 2025 – Dec 2025"
+        period: "May 2025 to Dec 2025"
         role:
           en: "Principal Investigator"
           id: "Ketua Peneliti"
         description:
-          en: "Multi-domain Batak Toba–Indonesian parallel corpus covering religious, cultural, educational, and contemporary text. End-to-end pipeline: collection, OCR, native-speaker correction, preprocessing."
-          id: "Korpus paralel multi-domain Batak Toba–Indonesia mencakup teks religius, budaya, pendidikan, dan kontemporer. Pipeline end-to-end: pengumpulan, OCR, koreksi native speaker, preprocessing."
+          en: "Multi-domain Batak Toba and Indonesian parallel corpus covering religious, cultural, educational, and contemporary text. End-to-end pipeline: collection, OCR, native-speaker correction, preprocessing."
+          id: "Korpus paralel multi-domain Batak Toba dan Indonesia mencakup teks religius, budaya, pendidikan, dan kontemporer. Pipeline end-to-end: pengumpulan, OCR, koreksi native speaker, preprocessing."
       - title:
-          en: "CoRaL — Contextual Relevance and Linguistic Enrichment"
-          id: "CoRaL — Contextual Relevance and Linguistic Enrichment"
+          en: "CoRaL: Contextual Relevance and Linguistic Enrichment"
+          id: "CoRaL: Contextual Relevance and Linguistic Enrichment"
         funding: "SEACrowd Apprentice 2026"
-        period: "Feb 2026 – June 2026"
+        period: "Feb 2026 to June 2026"
         role:
           en: "Apprentice"
           id: "Apprentice"
@@ -126,23 +216,85 @@ areas:
       - title:
           en: "Named Entity Recognition for Batak Toba"
           id: "Named Entity Recognition untuk Batak Toba"
+        description:
+          en: "Named Entity Recognition is a foundational NLP task, but no annotated NER dataset exists for Batak Toba. This project builds a small annotated NER dataset on top of the ongoing Batak Toba corpus and trains baseline models. The work also tests how well NER models trained on Indonesian transfer to Batak Toba via cross-lingual methods."
+          id: "Named Entity Recognition adalah tugas NLP fundamental, tapi belum ada dataset NER beranotasi untuk Batak Toba. Proyek ini membangun dataset NER beranotasi kecil di atas korpus Batak Toba yang sedang berjalan dan melatih model baseline. Pekerjaan ini juga menguji seberapa baik model NER yang dilatih pada bahasa Indonesia bisa di-transfer ke Batak Toba lewat metode cross-lingual."
+        outcome:
+          en: "A small annotated NER dataset for Batak Toba and benchmark results from at least two baseline approaches."
+          id: "Dataset NER beranotasi kecil untuk Batak Toba dan hasil benchmark dari minimal dua pendekatan baseline."
         prereq:
           en: "PyTorch + Hugging Face"
           id: "PyTorch + Hugging Face"
         status: open
+
+      - title:
+          en: "Domain-specific text collection for Batak Toba (liturgical music, folk literature, modern news)"
+          id: "Pengumpulan teks spesifik domain untuk Batak Toba (musik liturgis, sastra rakyat, berita modern)"
+        description:
+          en: "The current Batak Toba corpus emphasizes religious and educational text, but other genres (liturgical music, folk literature, modern news) remain underrepresented. This project expands the corpus by collecting and digitizing text from one of these underrepresented genres. The work strengthens corpus diversity for downstream model training and benchmarking."
+          id: "Korpus Batak Toba saat ini menekankan teks religius dan pendidikan, tapi genre lain (musik liturgis, sastra rakyat, berita modern) masih kurang terwakili. Proyek ini memperluas korpus dengan mengumpulkan dan mendigitisasi teks dari salah satu genre yang underrepresented. Pekerjaan ini memperkuat diversitas korpus untuk pelatihan dan benchmarking model downstream."
+        outcome:
+          en: "A documented expansion of the Batak Toba corpus covering one new genre, with at least a few thousand new sentences after cleaning."
+          id: "Perluasan korpus Batak Toba terdokumentasi yang mencakup satu genre baru, dengan minimal beberapa ribu kalimat baru setelah cleaning."
+        prereq:
+          en: "Python scraping or OCR, basic linguistics, native speaker access helpful"
+          id: "Python scraping atau OCR, dasar linguistik, akses penutur asli membantu"
+        status: open
+
       - title:
           en: "Cross-lingual transfer from Indonesian to Batak Toba"
           id: "Cross-lingual transfer dari model Indonesia ke Batak Toba"
+        description:
+          en: "Pretrained Indonesian language models contain useful linguistic knowledge that may transfer to closely related languages like Batak Toba. This project tests whether and how much an IndoBERT-based model helps when fine-tuned on small Batak Toba downstream tasks. The interesting question is which task types transfer well and which break."
+          id: "Model bahasa Indonesia pretrained mengandung pengetahuan linguistik berguna yang mungkin bisa di-transfer ke bahasa serumpun seperti Batak Toba. Proyek ini menguji apakah dan seberapa banyak model berbasis IndoBERT membantu ketika di-fine-tune pada tugas downstream Batak Toba kecil. Pertanyaan menariknya adalah jenis tugas mana yang transfer-nya bagus dan mana yang gagal."
+        outcome:
+          en: "An empirical study comparing zero-shot, few-shot, and fully fine-tuned Indonesian-to-Batak-Toba transfer across at least two tasks."
+          id: "Studi empiris yang membandingkan zero-shot, few-shot, dan fully fine-tuned transfer dari Indonesia ke Batak Toba pada minimal dua tugas."
         prereq:
           en: "Transformers, basic DL"
           id: "Transformers, DL dasar"
         status: open
+
+      - title:
+          en: "Tokenizer adaptation for Indonesian local languages"
+          id: "Adaptasi tokenizer untuk bahasa lokal Indonesia"
+        description:
+          en: "Indonesian tokenizers (BPE or WordPiece trained on Indonesian text) often fragment words from local languages like Batak Toba into too many subword tokens, hurting model efficiency and accuracy. This project tests whether re-training the tokenizer from scratch on local language text or extending the existing vocabulary works better. The trade-off between vocabulary size, fragmentation, and downstream task performance is the central question."
+          id: "Tokenizer Indonesia (BPE atau WordPiece yang dilatih pada teks Indonesia) sering memfragmentasi kata-kata bahasa lokal seperti Batak Toba menjadi terlalu banyak subword token, merugikan efisiensi dan akurasi model. Proyek ini menguji apakah melatih ulang tokenizer dari nol pada teks bahasa lokal atau memperluas vocabulary yang ada lebih baik. Trade-off antara ukuran vocabulary, fragmentasi, dan performa tugas downstream adalah pertanyaan sentral."
+        outcome:
+          en: "A comparative evaluation of tokenizer strategies on at least one downstream task, plus a recommended approach for Batak Toba."
+          id: "Evaluasi komparatif strategi tokenizer pada minimal satu tugas downstream, ditambah pendekatan yang direkomendasikan untuk Batak Toba."
+        prereq:
+          en: "Hugging Face tokenizers, basic NLP"
+          id: "Hugging Face tokenizers, NLP dasar"
+        status: open
+
       - title:
           en: "Parallel corpus alignment evaluation"
           id: "Evaluasi alignment korpus paralel"
+        description:
+          en: "The Batak Toba corpus project produces parallel text aligned with Indonesian sources, but alignment quality varies depending on source type. This project designs a systematic evaluation of alignment quality across different document types (religious, educational, contemporary). The output informs which parts of the corpus are reliable for downstream training."
+          id: "Proyek korpus Batak Toba menghasilkan teks paralel yang di-align dengan sumber Indonesia, tapi kualitas alignment bervariasi tergantung jenis sumber. Proyek ini merancang evaluasi sistematis terhadap kualitas alignment pada jenis dokumen berbeda (religius, pendidikan, kontemporer). Output-nya memberi tahu bagian mana dari korpus yang bisa diandalkan untuk pelatihan downstream."
+        outcome:
+          en: "An alignment quality report covering multiple document categories, plus recommendations for which subsets are usable for which tasks."
+          id: "Laporan kualitas alignment yang mencakup beberapa kategori dokumen, ditambah rekomendasi subset mana yang bisa dipakai untuk tugas apa."
         prereq:
           en: "Python, corpus linguistics familiarity"
           id: "Python, familiar dengan corpus linguistics"
+        status: open
+
+      - title:
+          en: "Quality scoring framework for low-resource language web data"
+          id: "Framework quality scoring untuk data web bahasa low-resource"
+        description:
+          en: "Standard quality filters for web-scraped corpora (deduplication, perplexity filtering, language ID) often discard too much data when applied to low-resource languages where every sentence is precious. This project adapts existing quality scoring frameworks (like CCNet or DSIR) to balance scarcity and cleanliness for low-resource Indonesian language data. The work informs how aggressive filtering should be when training data is limited."
+          id: "Filter kualitas standar untuk korpus web (deduplikasi, perplexity filtering, language ID) sering membuang terlalu banyak data ketika diterapkan pada bahasa low-resource di mana setiap kalimat berharga. Proyek ini mengadaptasi framework quality scoring yang ada (seperti CCNet atau DSIR) untuk menyeimbangkan kelangkaan dan kebersihan untuk data bahasa lokal Indonesia low-resource. Pekerjaan ini memberi tahu seberapa agresif filtering seharusnya ketika data pelatihan terbatas."
+        outcome:
+          en: "An adapted quality scoring framework with empirical thresholds, tested on at least one local language web crawl."
+          id: "Framework quality scoring yang teradaptasi dengan threshold empiris, diuji pada minimal satu web crawl bahasa lokal."
+        prereq:
+          en: "Python, data engineering basics, NLP exposure"
+          id: "Python, dasar data engineering, eksposur NLP"
         status: open
 
   - id: bias-fairness
@@ -150,8 +302,8 @@ areas:
       en: "Bias & Fairness in Indonesian NLP"
       id: "Bias & Fairness pada NLP Indonesia"
     definition:
-      en: "Investigating how bias manifests in Indonesian NLP datasets and models across axes salient to Indonesian society — ethnicity, region, dialect, and political discourse — where mainstream fairness frameworks developed for English contexts often do not transfer cleanly."
-      id: "Investigasi bagaimana bias muncul pada dataset dan model NLP Indonesia di sumbu yang relevan dengan masyarakat Indonesia — etnis, daerah, dialek, dan wacana politik — di mana framework fairness mainstream yang dikembangkan untuk konteks Inggris seringkali tidak ditransfer dengan bersih."
+      en: "Investigating how bias manifests in Indonesian NLP datasets and models across axes salient to Indonesian society (ethnicity, region, dialect, and political discourse) where mainstream fairness frameworks developed for English contexts often do not transfer cleanly."
+      id: "Investigasi bagaimana bias muncul pada dataset dan model NLP Indonesia di sumbu yang relevan dengan masyarakat Indonesia (etnis, daerah, dialek, dan wacana politik) di mana framework fairness mainstream yang dikembangkan untuk konteks Inggris seringkali tidak ditransfer dengan bersih."
     sub_areas:
       - id: dataset-bias-auditing
         name:
@@ -179,7 +331,7 @@ areas:
           en: "Bias Analysis in Indonesian QA Datasets (FACQA)"
           id: "Analisis Bias pada Dataset QA Indonesia (FACQA)"
         funding: "UPH Internal Grant"
-        period: "May 2024 – Dec 2024"
+        period: "May 2024 to Dec 2024"
         role:
           en: "Principal Investigator (completed)"
           id: "Ketua Peneliti (selesai)"
@@ -190,23 +342,85 @@ areas:
       - title:
           en: "Fairness audits on Indonesian classification benchmarks"
           id: "Audit fairness pada benchmark klasifikasi Indonesia"
+        description:
+          en: "Most fairness research targets English benchmarks, but Indonesian NLP datasets carry their own bias patterns around ethnicity, region, and dialect. This project replicates and extends the FACQA bias methodology on a different Indonesian benchmark of the student's choice. The goal is to understand whether bias patterns generalize across Indonesian datasets."
+          id: "Riset fairness kebanyakan menargetkan benchmark Inggris, padahal dataset NLP Indonesia membawa pola bias sendiri seputar etnis, daerah, dan dialek. Proyek ini mereplikasi dan memperluas metodologi bias FACQA pada benchmark Indonesia lain pilihan mahasiswa. Tujuannya adalah memahami apakah pola bias ber-generalisasi lintas dataset Indonesia."
+        outcome:
+          en: "A bias audit report on a chosen Indonesian benchmark, plus a comparative discussion against the FACQA findings."
+          id: "Laporan audit bias pada benchmark Indonesia pilihan, ditambah diskusi komparatif terhadap temuan FACQA."
         prereq:
           en: "Comfort reading ML papers"
           id: "Nyaman membaca paper ML"
         status: open
+
+      - title:
+          en: "Data documentation standards for low-resource NLP"
+          id: "Standar dokumentasi data untuk NLP low-resource"
+        description:
+          en: "Indonesian NLP datasets are often released without proper documentation about collection methods, annotator demographics, or known limitations. This project surveys existing Indonesian datasets and proposes a documentation template adapted from datasheets and dataset cards. The work helps the field hold itself to better documentation standards."
+          id: "Dataset NLP Indonesia sering dirilis tanpa dokumentasi memadai tentang metode pengumpulan, demografi annotator, atau limitasi yang diketahui. Proyek ini mensurvei dataset Indonesia yang ada dan mengusulkan template dokumentasi yang diadaptasi dari datasheets dan dataset cards. Pekerjaan ini membantu bidang ini memegang standar dokumentasi yang lebih baik."
+        outcome:
+          en: "A survey of documentation gaps in Indonesian NLP datasets, plus a proposed documentation template tested on at least two datasets."
+          id: "Survei gap dokumentasi pada dataset NLP Indonesia, ditambah template dokumentasi yang diusulkan dan diuji pada minimal dua dataset."
+        prereq:
+          en: "Familiarity with dataset cards, datasheets"
+          id: "Familiar dengan dataset cards, datasheets"
+        status: open
+
       - title:
           en: "Dialect and regional bias in Indonesian language models"
           id: "Bias dialek dan daerah pada model bahasa Indonesia"
+        description:
+          en: "Indonesian language models often perform worse on regional dialects (Javanese-influenced Indonesian, Sundanese-influenced Indonesian, etc.) than on standard formal Indonesian. This project measures this performance gap quantitatively and proposes mitigation. Useful for making NLP tools fairer to non-Jakarta speakers."
+          id: "Model bahasa Indonesia sering berperforma lebih buruk pada dialek daerah (Indonesia-Jawa, Indonesia-Sunda, dll) dibanding pada bahasa Indonesia formal standar. Proyek ini mengukur performance gap ini secara kuantitatif dan mengusulkan mitigasi. Berguna untuk membuat tools NLP lebih adil bagi penutur non-Jakarta."
+        outcome:
+          en: "A measurement of dialect performance gap on at least one task, plus an evaluation of one mitigation approach."
+          id: "Pengukuran performance gap dialek pada minimal satu tugas, ditambah evaluasi satu pendekatan mitigasi."
         prereq:
           en: "NLP course, basic statistics"
           id: "MK NLP, statistika dasar"
         status: open
+
       - title:
-          en: "Data documentation standards for low-resource NLP"
-          id: "Standar dokumentasi data untuk NLP low-resource"
+          en: "Religious bias measurement in Indonesian language models"
+          id: "Pengukuran bias agama pada model bahasa Indonesia"
+        description:
+          en: "Indonesian language models trained on web data may carry biases related to religion (majority Islam vs minorities like Christianity, Hinduism, Buddhism). Standard fairness metrics rarely cover this axis. This project develops probes to measure how Indonesian models associate religions with sentiment, occupation, or trustworthiness."
+          id: "Model bahasa Indonesia yang dilatih pada data web mungkin membawa bias terkait agama (mayoritas Islam vs minoritas seperti Kristen, Hindu, Buddha). Metrik fairness standar jarang mencakup sumbu ini. Proyek ini mengembangkan probe untuk mengukur bagaimana model Indonesia mengasosiasikan agama dengan sentimen, pekerjaan, atau kepercayaan."
+        outcome:
+          en: "A probing dataset and measurement results for religious bias in at least two Indonesian pretrained models."
+          id: "Dataset probing dan hasil pengukuran bias agama pada minimal dua model pretrained Indonesia."
         prereq:
-          en: "Familiarity with dataset cards, datasheets"
-          id: "Familiar dengan dataset cards, datasheets"
+          en: "NLP basics, sensitivity to religious topics"
+          id: "NLP dasar, sensitivitas terhadap topik agama"
+        status: open
+
+      - title:
+          en: "Counterfactual data augmentation for Indonesian gender bias"
+          id: "Counterfactual data augmentation untuk bias gender Indonesia"
+        description:
+          en: "Counterfactual Data Augmentation (CDA) is a popular technique for reducing gender bias in English models by swapping gendered terms in training data. This project tests whether CDA transfers cleanly to Indonesian, where gender marking is morphologically and lexically different from English. The interesting question is which CDA variants work and which break on Indonesian data."
+          id: "Counterfactual Data Augmentation (CDA) adalah teknik populer untuk mengurangi bias gender pada model Inggris dengan menukar istilah gender pada data pelatihan. Proyek ini menguji apakah CDA bisa di-transfer dengan bersih ke bahasa Indonesia, di mana penandaan gender berbeda secara morfologis dan leksikal dari Inggris. Pertanyaan menariknya adalah varian CDA mana yang berhasil dan mana yang gagal pada data Indonesia."
+        outcome:
+          en: "An evaluation of CDA on Indonesian gender bias for one downstream task, with comparison against the no-augmentation baseline."
+          id: "Evaluasi CDA pada bias gender Indonesia untuk satu tugas downstream, dengan perbandingan terhadap baseline tanpa augmentasi."
+        prereq:
+          en: "Transformers, basic data augmentation"
+          id: "Transformers, dasar data augmentation"
+        status: open
+
+      - title:
+          en: "Debiasing strategies for Indonesian sentiment classifiers"
+          id: "Strategi debiasing untuk classifier sentimen Indonesia"
+        description:
+          en: "Indonesian sentiment classifiers can over-predict negative sentiment for text mentioning certain groups (ethnic, religious, regional), even when the content is neutral. This project compares several debiasing strategies (counterfactual evaluation, adversarial training, post-hoc calibration) on an Indonesian sentiment task. The result tells which approach actually helps without sacrificing overall accuracy."
+          id: "Classifier sentiment Indonesia bisa over-prediksi sentimen negatif untuk teks yang menyebut kelompok tertentu (etnis, agama, daerah), bahkan ketika kontennya netral. Proyek ini membandingkan beberapa strategi debiasing (evaluasi counterfactual, adversarial training, kalibrasi post-hoc) pada tugas sentiment Indonesia. Hasilnya memberi tahu pendekatan mana yang benar-benar membantu tanpa mengorbankan akurasi keseluruhan."
+        outcome:
+          en: "A comparative report of at least three debiasing strategies on one Indonesian sentiment dataset, including accuracy-fairness trade-offs."
+          id: "Laporan komparatif minimal tiga strategi debiasing pada satu dataset sentiment Indonesia, termasuk trade-off akurasi-fairness."
+        prereq:
+          en: "Transformers, fairness literature familiarity"
+          id: "Transformers, familiar literatur fairness"
         status: open
 
   - id: applied-ml
@@ -214,8 +428,8 @@ areas:
       en: "Applied ML for Indonesian Data"
       id: "Applied ML untuk Data Indonesia"
     definition:
-      en: "Practical machine learning across vision and tabular domains, with attention to settings where standard assumptions — abundant data, clean labels, representative distributions — do not hold in Indonesian or Southeast Asian contexts."
-      id: "Machine learning praktis di domain vision dan tabular, dengan perhatian pada situasi di mana asumsi standar — data berlimpah, label bersih, distribusi representatif — tidak berlaku di konteks Indonesia atau Asia Tenggara."
+      en: "Practical machine learning across vision and tabular domains, with attention to settings where standard assumptions (abundant data, clean labels, representative distributions) do not hold in Indonesian or Southeast Asian contexts."
+      id: "Machine learning praktis di domain vision dan tabular, dengan perhatian pada situasi di mana asumsi standar (data berlimpah, label bersih, distribusi representatif) tidak berlaku di konteks Indonesia atau Asia Tenggara."
     sub_areas:
       - id: computer-vision
         name:
@@ -249,14 +463,111 @@ areas:
       - title:
           en: "Applied CV for local Indonesian use cases"
           id: "Applied CV untuk use case Indonesia"
+        description:
+          en: "Computer vision research often targets benchmark datasets that do not reflect Indonesian visual contexts (food, signage, street scenes, traditional artifacts). This project applies modern CV models to a local Indonesian use case chosen by the student, testing whether off-the-shelf models work or need adaptation. The case study contributes both a practical tool and insights about visual domain shift."
+          id: "Riset computer vision sering menargetkan dataset benchmark yang tidak merefleksikan konteks visual Indonesia (makanan, signage, suasana jalan, artefak tradisional). Proyek ini menerapkan model CV modern ke use case Indonesia lokal pilihan mahasiswa, menguji apakah model off-the-shelf berjalan atau perlu adaptasi. Studi kasus ini memberi kontribusi berupa tool praktis dan insight tentang visual domain shift."
+        outcome:
+          en: "A working CV model for the chosen Indonesian use case, plus an analysis of what worked and what needed adaptation."
+          id: "Model CV yang berjalan untuk use case Indonesia pilihan, ditambah analisis apa yang berhasil dan apa yang butuh adaptasi."
         prereq:
           en: "PyTorch, torchvision"
           id: "PyTorch, torchvision"
         status: open
+
+      - title:
+          en: "Skin lesion classification on Indonesian patient data"
+          id: "Klasifikasi skin lesion pada data pasien Indonesia"
+        description:
+          en: "Most skin lesion classification models are trained on datasets dominated by Caucasian skin (like ISIC), and may underperform on darker skin tones. This project evaluates how off-the-shelf skin lesion models generalize to Indonesian patient data and tests fine-tuning strategies. The work has direct relevance to medical AI fairness in Indonesia."
+          id: "Sebagian besar model klasifikasi skin lesion dilatih pada dataset yang didominasi kulit Caucasian (seperti ISIC), dan mungkin kurang berperforma pada warna kulit lebih gelap. Proyek ini mengevaluasi bagaimana model skin lesion off-the-shelf bergeneralisasi ke data pasien Indonesia dan menguji strategi fine-tuning. Pekerjaan ini punya relevansi langsung dengan fairness AI medis di Indonesia."
+        outcome:
+          en: "A generalization study comparing baseline performance and fine-tuned performance on Indonesian skin lesion data, plus a discussion of clinical implications."
+          id: "Studi generalisasi yang membandingkan performa baseline dan performa fine-tuned pada data skin lesion Indonesia, ditambah diskusi implikasi klinis."
+        prereq:
+          en: "PyTorch, transfer learning, medical imaging dataset access"
+          id: "PyTorch, transfer learning, akses dataset medical imaging"
+        status: open
+
       - title:
           en: "Explainable AI for Indonesian socioeconomic data"
           id: "Explainable AI untuk data sosioekonomi Indonesia"
+        description:
+          en: "Predictive models on Indonesian socioeconomic data (poverty, education, health) often need explanation to be trusted by policymakers. This project trains predictive models on a public Indonesian dataset and applies SHAP, LIME, or similar XAI methods. The interesting part is communicating model decisions to non-technical stakeholders."
+          id: "Model prediktif pada data sosioekonomi Indonesia (kemiskinan, pendidikan, kesehatan) sering butuh penjelasan supaya bisa dipercaya pembuat kebijakan. Proyek ini melatih model prediktif pada dataset publik Indonesia dan menerapkan metode SHAP, LIME, atau XAI sejenis. Bagian menariknya adalah mengkomunikasikan keputusan model ke stakeholder non-teknis."
+        outcome:
+          en: "A predictive model with XAI explanations for an Indonesian socioeconomic question, plus a brief on how decisions can be communicated to stakeholders."
+          id: "Model prediktif dengan penjelasan XAI untuk pertanyaan sosioekonomi Indonesia, ditambah brief tentang bagaimana keputusan bisa dikomunikasikan ke stakeholder."
         prereq:
           en: "Tabular ML, SHAP/LIME"
           id: "Tabular ML, SHAP/LIME"
+        status: open
+
+      - title:
+          en: "Time series forecasting for Indonesian commodity prices"
+          id: "Time series forecasting untuk harga komoditas Indonesia"
+        description:
+          en: "Indonesian commodity prices (rice, palm oil, coffee, garlic) are volatile and important for food security policy. This project benchmarks classical time series methods (ARIMA, Prophet), tree-based methods (XGBoost), and neural methods (LSTM, Transformer) on Indonesian commodity price data. The result helps practitioners choose the right complexity for the task."
+          id: "Harga komoditas Indonesia (beras, sawit, kopi, bawang putih) volatile dan penting untuk kebijakan ketahanan pangan. Proyek ini melakukan benchmarking metode time series klasik (ARIMA, Prophet), berbasis tree (XGBoost), dan neural (LSTM, Transformer) pada data harga komoditas Indonesia. Hasilnya membantu praktisi memilih kompleksitas yang tepat untuk tugas tersebut."
+        outcome:
+          en: "A benchmark report comparing at least three methods on at least two Indonesian commodities, with recommendations on when to use each."
+          id: "Laporan benchmark yang membandingkan minimal tiga metode pada minimal dua komoditas Indonesia, dengan rekomendasi kapan memakai masing-masing."
+        prereq:
+          en: "pandas, statsmodels, basic DL"
+          id: "pandas, statsmodels, DL dasar"
+        status: open
+
+      - title:
+          en: "EDA on Indonesian internal migration patterns from BPS data"
+          id: "EDA pada pola migrasi internal Indonesia dari data BPS"
+        description:
+          en: "BPS publishes detailed inter-provincial migration data in Indonesia, but it is rarely analyzed beyond simple aggregates. This project performs deep exploratory analysis using clustering, geospatial visualization, and time series decomposition to surface migration patterns. The output can inform regional development discussion."
+          id: "BPS mempublikasikan data migrasi antar-provinsi Indonesia yang detail, tapi jarang dianalisis lebih dalam dari sekadar agregat sederhana. Proyek ini melakukan analisis eksploratori mendalam menggunakan clustering, visualisasi geospatial, dan dekomposisi time series untuk memunculkan pola migrasi. Output-nya bisa menginformasikan diskusi pembangunan daerah."
+        outcome:
+          en: "An EDA report with at least five well-documented insights about Indonesian migration patterns, supported by interactive or static visualizations."
+          id: "Laporan EDA dengan minimal lima insight terdokumentasi tentang pola migrasi Indonesia, didukung visualisasi interaktif atau statis."
+        prereq:
+          en: "pandas, geopandas or folium, visualization fundamentals"
+          id: "pandas, geopandas atau folium, dasar visualisasi"
+        status: open
+
+      - title:
+          en: "Behavioral pattern mining from Indonesian e-wallet transaction data"
+          id: "Pattern mining perilaku dari data transaksi e-wallet Indonesia"
+        description:
+          en: "Indonesian e-wallet adoption (GoPay, OVO, DANA, ShopeePay) generates rich behavioral data about consumer spending, timing, and merchant preferences. This project mines patterns from a public or anonymized e-wallet transaction dataset using clustering and association rule mining. Findings could inform fintech product design or consumer studies."
+          id: "Adopsi e-wallet Indonesia (GoPay, OVO, DANA, ShopeePay) menghasilkan data perilaku kaya tentang pengeluaran konsumen, waktu, dan preferensi merchant. Proyek ini menggali pola dari dataset transaksi e-wallet publik atau anonim menggunakan clustering dan association rule mining. Temuan bisa menginformasikan desain produk fintech atau studi konsumen."
+        outcome:
+          en: "A pattern mining report with at least three substantively interesting consumer behavior findings, supported by appropriate statistical evidence."
+          id: "Laporan pattern mining dengan minimal tiga temuan perilaku konsumen yang substantif, didukung bukti statistik yang sesuai."
+        prereq:
+          en: "pandas, clustering, public dataset access"
+          id: "pandas, clustering, akses dataset publik"
+        status: open
+
+      - title:
+          en: "Stacking ensembles for Indonesian medical diagnosis prediction"
+          id: "Stacking ensemble untuk prediksi diagnosis medis Indonesia"
+        description:
+          en: "Stacking ensembles combine multiple base learners with a meta-learner that learns when to trust each. This project applies stacking to an Indonesian medical diagnosis dataset (e.g. diabetes, hypertension, stroke risk) and compares against single best model approaches. The interesting question is whether stacking helps when training data is limited, as it often is in Indonesian medical contexts."
+          id: "Stacking ensemble menggabungkan beberapa base learner dengan meta-learner yang belajar kapan harus percaya masing-masing. Proyek ini menerapkan stacking ke dataset diagnosis medis Indonesia (misal diabetes, hipertensi, risiko stroke) dan membandingkan dengan pendekatan single best model. Pertanyaan menariknya adalah apakah stacking membantu ketika data pelatihan terbatas, sebagaimana sering terjadi di konteks medis Indonesia."
+        outcome:
+          en: "A comparative study of stacking ensembles vs single models on at least one Indonesian medical dataset, with discussion of when stacking is worth the complexity."
+          id: "Studi komparatif stacking ensemble vs single model pada minimal satu dataset medis Indonesia, dengan diskusi kapan stacking sepadan dengan kompleksitasnya."
+        prereq:
+          en: "scikit-learn, pandas, basic ML"
+          id: "scikit-learn, pandas, ML dasar"
+        status: open
+
+      - title:
+          en: "Tree-based ensembles for Indonesian credit risk scoring"
+          id: "Tree-based ensemble untuk credit risk scoring Indonesia"
+        description:
+          en: "Indonesian fintech and traditional banks need credit risk scoring models that perform well and remain interpretable for OJK regulators. This project benchmarks LightGBM, XGBoost, and CatBoost on an Indonesian credit dataset and analyzes feature importance for compliance reporting. The work bridges performance and interpretability requirements specific to Indonesian financial regulation."
+          id: "Fintech dan bank tradisional Indonesia butuh model credit risk scoring yang berperforma baik dan tetap interpretable untuk regulator OJK. Proyek ini melakukan benchmarking LightGBM, XGBoost, dan CatBoost pada dataset kredit Indonesia dan menganalisis feature importance untuk pelaporan compliance. Pekerjaan ini menjembatani persyaratan performa dan interpretability yang spesifik untuk regulasi keuangan Indonesia."
+        outcome:
+          en: "A benchmark of three tree-based methods on Indonesian credit data, plus an interpretability report suitable for regulatory presentation."
+          id: "Benchmark tiga metode berbasis tree pada data kredit Indonesia, ditambah laporan interpretability yang cocok untuk presentasi regulator."
+        prereq:
+          en: "LightGBM/XGBoost, basic finance familiarity"
+          id: "LightGBM/XGBoost, familiar dasar keuangan"
         status: open
