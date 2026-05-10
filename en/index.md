@@ -14,7 +14,7 @@ description: "Feliks Samosir — Lecturer and researcher in Natural Language Pro
   <div class="hero-text">
     <h1>Feliks Victor Parningotan Samosir</h1>
     <p class="hero-role">
-      Department Chair of Informatics<br>
+      Lecturer in Informatics Department<br>
       Faculty of AI and Data Science, Universitas Pelita Harapan
     </p>
     <div class="hero-links">
@@ -27,18 +27,18 @@ description: "Feliks Samosir — Lecturer and researcher in Natural Language Pro
 </section>
 
 <p class="lead">
-I'm a lecturer in Informatics at Universitas Pelita Harapan, Tangerang. My research focuses on NLP and machine learning for underrepresented Indonesian contexts — local languages, specialized domains, and fairness concerns that mainstream systems often overlook.
+I am a lecturer in the Informatics Study Program at Pelita Harapan University, Tangerang. My research focuses on NLP and machine learning for underrepresented Indonesian contexts, such as local languages, specialized domains, and justice issues that are often overlooked by mainstream systems.
 </p>
 
 <p class="lead">
-Current projects include building a Batak Toba language corpus, analyzing bias in Indonesian QA datasets, and co-developing CoRaL — a multi-dimensional data curation framework for low-resource languages — with collaborators at VinUniversity, MBZUAI, and Universitas Indonesia.
+Current projects include building a Toba Batak language corpus, analyzing bias in Indonesian language QA datasets, and co-developing CoRaL (a multidimensional data curation framework for low-resource languages) with collaborators from <a href="https://seacrowd.org/about">SEACrowd</a>.
 </p>
 
 ## About
 
-Before UPH, I worked as an IT support specialist at Sekolah Tinggi Alkitab Tiranus (Bandung), as a product development staff at Kapanlagi Youniverse (Malang), and as an elementary-school computer teacher. I hold an M.Kom. from Universitas Kristen Maranatha (Bandung) and an S.Pd. in Informatics Engineering from Universitas Negeri Malang.
+Before UPH, I worked as an IT support specialist at Sekolah Tinggi Alkitab Tiranus (Bandung), as a product development staff at Kapanlagi Youniverse (Malang), and as an elementary-school computer teacher in Charis National Academy (Malang). I hold an M.Kom. from Universitas Kristen Maranatha (Bandung) and an S.Pd. in Informatics Engineering from Universitas Negeri Malang.
 
-My work spans low-resource language resources, bias and fairness in Indonesian NLP, domain-specific language technology (theological, educational, e-commerce), and applied machine learning for Indonesian data. I have led three UPH internal research grants as principal investigator, and I actively mentor undergraduate research projects that bridge modern NLP and ML methods with real-world applications — particularly for underrepresented languages, domains, and communities.
+My work spans low-resource language resources, bias and fairness in Indonesian NLP, domain-specific language technology (theological, educational, e-commerce), and applied machine learning for Indonesian data. I have led three UPH internal research grants as principal investigator, and I actively mentor undergraduate research projects that bridge modern NLP and ML methods with real-world applications, particularly for underrepresented languages, domains, and communities.
 
 ## Recent news
 
