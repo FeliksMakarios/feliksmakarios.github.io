@@ -8,7 +8,6 @@ subtitle: "NLP and ML for underrepresented Indonesian contexts"
 ---
 
 <p class="lead">
-My research studies what breaks when mainstream NLP and machine learning systems meet underrepresented Indonesian contexts — linguistically, demographically, domain-specifically, and modally. The goal is twofold: to understand why mainstream systems fail in these settings, and to build approaches that are robust to them.
 My research examines what breaks when mainstream NLP and machine learning systems encounter underrepresented Indonesian contexts — linguistically, demographically, domain-specific, and modally. The goal is twofold: to understand why mainstream systems fail in these situations, and to build a robust approach to them.
 </p>
 
