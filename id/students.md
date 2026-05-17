@@ -15,7 +15,7 @@ alumni dan ingin dimasukkan (atau dikoreksi), silakan email saya.
 
 <h2>Bimbingan saat ini</h2>
 
-{% assign current = site.data.students.current %}
+{% assign current = site.data.students.current | sort: "name" %}
 {% if current and current.size > 0 %}
 <ul class="student-list">
   {% for s in current %}
@@ -26,7 +26,7 @@ alumni dan ingin dimasukkan (atau dikoreksi), silakan email saya.
       </div>
       <p class="student-title">{{ s.title.id }}</p>
       <div class="student-meta">
-        <span class="tag tag-area">{{ s.area | replace: '-', ' ' | capitalize }}</span>
+        <span class="tag tag-area">{% case s.area %}{% when 'domain-specific-nlp' %}Domain-Specific NLP{% when 'low-resource-languages' %}Low-Resource Languages{% when 'bias-fairness' %}Bias &amp; Fairness{% when 'applied-ml' %}Applied ML{% else %}{{ s.area | replace: '-', ' ' | capitalize }}{% endcase %}</span>
         <span class="tag tag-{{ s.status }}">{{ s.status | capitalize }}</span>
       </div>
     </li>
@@ -42,7 +42,7 @@ alumni dan ingin dimasukkan (atau dikoreksi), silakan email saya.
 {% if alumni and alumni.size > 0 %}
 {% assign alumni_years = alumni | map: "year_graduated" | uniq %}
 <div class="alumni-timeline">
-{% for year in alumni_years %}{% assign year_alumni = alumni | where: "year_graduated", year %}<details class="year-group" open><summary class="year-summary"><span class="year-label">Lulus {{ year }}</span><span class="year-count">{{ year_alumni.size }} alumni</span></summary><ul class="student-list">{% for s in year_alumni %}<li class="student-item"><div class="student-header"><span class="student-name">{{ s.name }}</span></div><p class="student-title">{{ s.title.id }}</p><div class="student-meta"><span class="tag tag-area">{{ s.area | replace: '-', ' ' | capitalize }}</span>{% if s.publication %}{% assign pub = site.data.publications | where: "id", s.publication | first %}{% if pub %}{% if pub.url and pub.url != "" %}<a href="{{ pub.url }}" target="_blank" rel="noopener external" class="tag tag-pub">Terpublikasi · {{ pub.year }} ↗</a>{% else %}<span class="tag tag-pub">Terpublikasi · {{ pub.year }}</span>{% endif %}{% endif %}{% endif %}{% if s.thesis_url and s.thesis_url != "" %}<a href="{{ s.thesis_url }}" target="_blank" rel="noopener external" class="tag tag-thesis">Skripsi · {{ s.year_graduated }} ↗</a>{% endif %}</div>{% if s.current_role %}<p class="student-role"><em>Saat ini:</em> {{ s.current_role }}</p>{% endif %}</li>{% endfor %}</ul></details>{% endfor %}
+{% for year in alumni_years %}{% assign year_alumni = alumni | where: "year_graduated", year | sort: "name" %}<details class="year-group" open><summary class="year-summary"><span class="year-label">Lulus {{ year }}</span><span class="year-count">{{ year_alumni.size }} alumni</span></summary><ul class="student-list">{% for s in year_alumni %}<li class="student-item"><div class="student-header"><span class="student-name">{{ s.name }}</span></div><p class="student-title">{{ s.title.id }}</p><div class="student-meta"><span class="tag tag-area">{% case s.area %}{% when 'domain-specific-nlp' %}Domain-Specific NLP{% when 'low-resource-languages' %}Low-Resource Languages{% when 'bias-fairness' %}Bias &amp; Fairness{% when 'applied-ml' %}Applied ML{% else %}{{ s.area | replace: '-', ' ' | capitalize }}{% endcase %}</span>{% if s.publication %}{% assign pub = site.data.publications | where: "id", s.publication | first %}{% if pub %}{% if pub.url and pub.url != "" %}<a href="{{ pub.url }}" target="_blank" rel="noopener external" class="tag tag-pub">Terpublikasi · {{ pub.year }} ↗</a>{% else %}<span class="tag tag-pub">Terpublikasi · {{ pub.year }}</span>{% endif %}{% endif %}{% endif %}{% if s.thesis_url and s.thesis_url != "" %}<a href="{{ s.thesis_url }}" target="_blank" rel="noopener external" class="tag tag-thesis">Skripsi · {{ s.year_graduated }} ↗</a>{% endif %}</div>{% if s.current_role %}<p class="student-role"><em>Saat ini:</em> {{ s.current_role }}</p>{% endif %}</li>{% endfor %}</ul></details>{% endfor %}
 </div>
 {% else %}
 <p class="muted-note">Belum ada alumni terdaftar.</p>
