@@ -61,7 +61,6 @@ If you are a UPH Informatics student interested in NLP or applied ML, take a loo
 Each area's detail page lists open thesis topics; feel free to email me to discuss ideas.
 
 <div class="callout">
-  <p><strong>Currently open for:</strong> undergraduate thesis mentees in low-resource NLP (Batak Toba),
-  Indonesian sentiment analysis, fairness audits, and applied computer vision. Basic familiarity with
+  <p><strong>Currently open for:</strong> undergraduate thesis mentees. Good familiarity with
   Python and Hugging Face Transformers is helpful.</p>
 </div>
