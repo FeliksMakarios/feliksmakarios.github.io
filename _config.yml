@@ -1,7 +1,7 @@
 title: Feliks Samosir
 tagline: Lecturer & Researcher in NLP
 description: >-
-  Personal site of Feliks Victor Parningotan Samosir — Department Chair of
+  Personal site of Feliks Victor Parningotan Samosir — Fulltime Lecturer of
   Informatics, Faculty of AI and Data Science, Universitas Pelita Harapan.
   Research in Natural Language Processing for Indonesian and low-resource
   languages.
@@ -12,14 +12,14 @@ baseurl: ""
 author:
   name: Feliks Victor Parningotan Samosir
   short_name: Feliks Samosir
-  title: Department Chair of Informatics
+  title: Fulltime Lecturer of Informatics
   affiliation: Faculty of AI and Data Science, Universitas Pelita Harapan
   email: feliksmakarios19@gmail.com
   location: Tangerang, Banten, Indonesia
   github: FeliksMakarios
   linkedin: feliksmakarios
   scholar: https://scholar.google.com/citations?user=JGC7RIoAAAAJ&hl
-  orcid: # fill in when available
+  orcid: https://orcid.org/0009-0006-0364-0275
   medium: https://medium.com/@feliksmakarios
 
 # Languages
