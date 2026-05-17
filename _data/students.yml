@@ -1,76 +1,151 @@
-# Dummy data. Replace with actual mentees/alumni.
 # Fields:
-#   name, cohort (angkatan year), title (bilingual), area (matches research.yml ID),
-#   status (proposal | progress | defense | graduated),
-#   year_graduated (optional, for alumni), current_role (optional)
+#   name, cohort/year_graduated, title (bilingual), area,
+#   publication (optional, ID from publications.yml),
+#   thesis_url (optional, link to UPH repo or other thesis archive),
+#   current_role (optional),
+#   status (current only: proposal | progress | defense | graduated)
 
 current:
-  - name: "[Mahasiswa A]"
-    cohort: 2021
-    title:
-      en: "Aspect-based sentiment analysis on Tokopedia marketplace reviews"
-      id: "Analisis sentimen berbasis aspek pada review marketplace Tokopedia"
-    area: sentiment-mining
-    status: proposal
-
-  - name: "[Mahasiswa B]"
+  - name: "Vincent Arianto"
     cohort: 2022
     title:
-      en: "Named Entity Recognition for Batak Toba using cross-lingual transfer"
-      id: "Named Entity Recognition untuk Batak Toba menggunakan cross-lingual transfer"
-    area: low-resource-nlp
+      en: "Dataset Development and AI Text Detection Based on Linguistic Features and Transformers for MKU Courses"
+      id: "Pengembangan Dataset dan Deteksi Teks AI Berbasis Fitur Linguistik dan Transformer pada MKU"
+    area: domain-specific-nlp
     status: progress
 
-  - name: "[Mahasiswa C]"
+  - name: "Christian Folma Dio"
     cohort: 2022
     title:
-      en: "Fairness audit on Indonesian question answering benchmarks"
-      id: "Audit fairness pada benchmark question answering Indonesia"
+      en: "Fine-tuning Transformer-Based Semantic Search Models: A Case Study on Indonesian Retail Products"
+      id: "Fine-tuning Model Pencarian Semantik berbasis Transformers: Studi Kasus Produk Ritel Berbahasa Indonesia"
+    area: domain-specific-nlp
+    status: progress
+
+  - name: "Jovan Marian Winarko"
+    cohort: 2022
+    title:
+      en: "Comparative Analysis of CNN and Transformer-Based Models for Classifying Real and Synthetic Tourist Site Images"
+      id: "Analisis Perbandingan CNN dan Model Berbasis Transformer Untuk Klasifikasi Citra Tempat Wisata Asli dan Sintetis"
     area: applied-ml
     status: progress
 
 alumni:
-  - name: "G.L. Tumanggor"
-    year_graduated: 2024
+  # ---- Class of 2026 ----
+  - name: "Erwiyono Yusuf"
+    year_graduated: 2026
     title:
-      en: "Sentiment analysis of beauty product reviews on Indonesian e-commerce"
-      id: "Analisis sentimen review produk kecantikan pada e-commerce Indonesia"
-    area: sentiment-mining
-    publication: beauty-2024
-    current_role: "[current role placeholder]"
+      en: "Fine-tuning Transformer Models to Improve Semantic Search of Indonesian Qur'an Translations"
+      id: "Fine-tuning Model Transformer untuk Peningkatan Pencarian Semantik Al-Qur'an Terjemahan Bahasa Indonesia"
+    area: domain-specific-nlp
+    thesis_url: "https://repository.uph.edu/id/eprint/74064/"
 
-  - name: "F. Ferdynand"
+  - name: "Jovan Christian"
+    year_graduated: 2026
+    title:
+      en: "Bias and Fairness Analysis of Indonesian-Language Datasets for Generative AI Model Training"
+      id: "Analisis Bias dan Keadilan pada Dataset Berbahasa Indonesia untuk Pelatihan Generative Artificial Intelligence Model"
+    area: bias-fairness
+    thesis_url: "https://repository.uph.edu/id/eprint/73904/"
+
+  - name: "Liora Carlita"
+    year_graduated: 2026
+    title:
+      en: "Fine-tuning and Performance Analysis of IndoBERT for Interview Response Classification. Case Study: UPH Mentoring"
+      id: "Fine-tuning dan Analisis Performa Model IndoBERT untuk Klasifikasi Jawaban Wawancara. Studi Kasus: Mentoring UPH"
+    area: domain-specific-nlp
+    thesis_url: "https://repository.uph.edu/id/eprint/74031/"
+
+  - name: "Raden Jiwa Bumi Prajasantana"
+    year_graduated: 2026
+    title:
+      en: "Fine-tuning Whisper for Indonesian and Javanese Automatic Speech Recognition"
+      id: "Fine-tuning Whisper untuk Pengenalan Ucapan Otomatis Bahasa Indonesia dan Bahasa Jawa"
+    area: low-resource-languages
+    thesis_url: "https://repository.uph.edu/id/eprint/74065/"
+
+  # ---- Class of 2025 ----
+  - name: "Edward Engelbert Wiguna"
+    year_graduated: 2025
+    title:
+      en: "Mind Map Generation using Hierarchical Clustering and Transformer Methods for Scientific Articles"
+      id: "Pembangkitan Peta Pikiran Menggunakan Metode Hierarchical Clustering dan Transformer untuk Artikel Ilmiah"
+    area: domain-specific-nlp
+    thesis_url: "http://repository.uph.edu/id/eprint/69104/"
+
+  - name: "Marjuenz Henry Suparto"
+    year_graduated: 2025
+    title:
+      en: "Projection Analysis of Carbon Emissions in Indonesia for Net Zero Emission using Time Series Models"
+      id: "Analisis Proyeksi Emisi Karbon di Indonesia untuk Net Zero Emission Menggunakan Model Time Series"
+    area: applied-ml
+    thesis_url: "http://repository.uph.edu/id/eprint/69031/"
+
+  # ---- Class of 2024 ----
+  - name: "Angga Gamma Putra"
     year_graduated: 2024
     title:
-      en: "Aspect-based sentiment analysis on Amazon book reviews with DistilBERT"
-      id: "Analisis sentimen berbasis aspek pada review buku Amazon dengan DistilBERT"
-    area: sentiment-mining
+      en: "Development of a Sentiment Analysis Model on Twitter for the #israelpalestinewar Hashtag"
+      id: "Pengembangan Model Analisis Sentimen pada Media Sosial Twitter untuk Tagar #israelpalestinewar"
+    area: domain-specific-nlp
+    thesis_url: "https://repository.uph.edu/id/eprint/64029/"
+
+  - name: "Audrey Roselian"
+    year_graduated: 2024
+    title:
+      en: "Comparative Analysis of Abstractive and Extractive Summarization Methods with Flan-T5 on News Text"
+      id: "Analisis Komparatif Metode Peringkasan Abstraktif dan Ekstraktif dengan Model Flan-T5 pada Teks Berita"
+    area: domain-specific-nlp
+    thesis_url: "http://repository.uph.edu/id/eprint/68412/"
+
+  - name: "Ferdynand"
+    year_graduated: 2024
+    title:
+      en: "Aspect-Based Sentiment Analysis on Amazon Book Reviews using DistilBERT base"
+      id: "Aspect based Sentiment Analysis on Amazon Book Review using DistilBERT base"
+    area: domain-specific-nlp
     publication: absa-book-2024
-    current_role: "[current role placeholder]"
+    thesis_url: "https://repository.uph.edu/id/eprint/64222/"
 
-  - name: "S. Riyaldi"
+  - name: "Gavrila Louise Tumanggor"
     year_graduated: 2024
     title:
-      en: "Sentiment analysis of TikTok comments on Indonesian presidential elections"
-      id: "Analisis sentimen komentar TikTok pada pemilihan presiden Indonesia"
-    area: sentiment-mining
+      en: "Aspect-Based Sentiment Analysis: Classifying Beauty Product Reviews with IndoBERT"
+      id: "Analisis Sentimen Berbasis Aspek: Klasifikasi Ulasan Produk Kecantikan dengan IndoBERT"
+    area: domain-specific-nlp
+    publication: absa-ecom-2026
+    thesis_url: "https://repository.uph.edu/id/eprint/68409/"
+
+  - name: "Kevin"
+    year_graduated: 2024
+    title:
+      en: "Sentiment Analysis of Traveloka App Reviews on App Marketplaces using DistilBERT"
+      id: "Analisis Sentimen Ulasan Aplikasi Traveloka pada App Marketplace Menggunakan DistilBERT"
+    area: domain-specific-nlp
+    thesis_url: "https://repository.uph.edu/id/eprint/64810/"
+
+  - name: "Riechie"
+    year_graduated: 2024
+    title:
+      en: "Comparative Analysis of Tree-Based Ensemble Learning Methods: An Empirical Study on Singapore Air Quality Based on Socioeconomic Aspects"
+      id: "Analisis Perbandingan Metode Tree-based Ensemble Learning: Studi Empiris pada Kualitas Udara di Singapura Berdasarkan Aspek Sosioekonomi"
+    area: applied-ml
+    publication: air-quality-ensemble-2025
+    thesis_url: "https://repository.uph.edu/id/eprint/71127/"
+
+  - name: "Sidney Cempaka Polii"
+    year_graduated: 2024
+    title:
+      en: "Multi-faceted Analysis of Missile Attacks in Ukraine with Machine Learning: Trends, Impacts, and Future Risks"
+      id: "Analisis Multi-faset Serangan Rudal di Ukraina dengan Machine Learning: Tren, Dampak, dan Risiko di Masa Depan"
+    area: applied-ml
+    thesis_url: "https://repository.uph.edu/id/eprint/70417/"
+
+  - name: "Steven Riyaldi"
+    year_graduated: 2024
+    title:
+      en: "Sentiment Analysis of TikTok Comments on the 2024 Indonesian Presidential Election using BERT"
+      id: "Analisis Sentimen Komentar Terhadap Pilpres 2024 pada Sosial Media Tiktok Menggunakan BERT"
+    area: domain-specific-nlp
     publication: tiktok-2024
-    current_role: "[current role placeholder]"
-
-  - name: "A.R. Mitra"
-    year_graduated: 2023
-    title:
-      en: "Mind map generation from scientific articles for higher education"
-      id: "Generasi mind map dari artikel ilmiah untuk pendidikan tinggi"
-    area: semantic-retrieval
-    publication: mindmap-2023
-    current_role: "[current role placeholder]"
-
-  - name: "S. Mendrofa"
-    year_graduated: 2023
-    title:
-      en: "IndoBerea: semantic search for theological texts"
-      id: "IndoBerea: pencarian semantik untuk teks teologi"
-    area: semantic-retrieval
-    publication: indoberea-2023
-    current_role: "[current role placeholder]"
+    thesis_url: "https://repository.uph.edu/id/eprint/64734/"
