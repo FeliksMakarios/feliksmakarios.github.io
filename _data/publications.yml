@@ -34,7 +34,7 @@
   venue: "2025 22nd International Conference on Electrical Engineering/Electronics, Computer, Telecommunications and Information Technology (ECTI-CON)"
   venue_type: conference
   year: 2025
-  url: ""
+  url: "https://ieeexplore.ieee.org/document/11100895"
   area: applied-ml
   sub_area: predictive-analytics
 
@@ -44,7 +44,7 @@
   venue: "2025 22nd International Conference on Electrical Engineering/Electronics, Computer, Telecommunications and Information Technology (ECTI-CON)"
   venue_type: conference
   year: 2025
-  url: "https://ieeexplore.ieee.org/document/11100717/"
+  url: "https://ieeexplore.ieee.org/document/11100717"
   area: applied-ml
   sub_area: ensemble-methods
 
@@ -116,7 +116,7 @@
   year: 2023
   url: "https://doi.org/10.1109/ICIC60109.2023.10382053"
   area: domain-specific-nlp
-  sub_area: theological-text
+  sub_area: semantic-search
 
 - id: besklus-2022
   title: "BESKlus: BERT Extractive Summarization with K-Means Clustering in Scientific Paper"
