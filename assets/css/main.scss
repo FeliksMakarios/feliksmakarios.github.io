@@ -306,6 +306,10 @@ a.tag:hover {
   text-decoration: none;
   opacity: 0.75;
 }
+.tag-thesis {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
 
 /* ---------- Area grid ---------- */
 .area-grid {
