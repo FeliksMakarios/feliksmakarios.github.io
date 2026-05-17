@@ -61,7 +61,6 @@ Kalau kamu mahasiswa Informatika UPH yang tertarik di NLP atau applied ML, silak
 Tiap halaman detail bidang mencantumkan topik TA yang terbuka; silakan email saya untuk diskusi ide.
 
 <div class="callout">
-  <p><strong>Sedang terbuka untuk:</strong> bimbingan skripsi di bidang NLP low-resource
-  (Batak Toba), sentiment analysis Indonesia, audit fairness, dan applied computer vision.
-  Dasar Python dan Hugging Face Transformers akan sangat membantu.</p>
+  <p><strong>Sedang terbuka untuk:</strong> bimbingan skripsi.
+  Pemahaman yang baik menggunakan Python dan Hugging Face Transformers akan sangat membantu.</p>
 </div>
