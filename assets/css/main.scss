@@ -298,6 +298,15 @@ a:hover { text-decoration-thickness: 2px; }
 .tag-area { background: var(--color-accent-soft); color: var(--color-accent); text-transform: capitalize; }
 .tag-pub { background: var(--color-status-open-soft); color: var(--color-status-open); }
 
+a.tag {
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+a.tag:hover {
+  text-decoration: none;
+  opacity: 0.75;
+}
+
 /* ---------- Area grid ---------- */
 .area-grid {
   display: grid;
