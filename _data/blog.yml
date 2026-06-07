@@ -1,0 +1,17 @@
+# Blog posts: translated content with attribution to original author.
+# Fields:
+#   slug, title, original_title, original_author, original_url,
+#   original_date (YYYY-MM-DD), translated_date (YYYY-MM-DD),
+#   summary_en, summary_id, tags, language
+posts:
+  - slug: memahami-jaringan-lstm
+    title: "Memahami Jaringan LSTM"
+    original_title: "Understanding LSTM Networks"
+    original_author: "Christopher Olah"
+    original_url: "https://colah.github.io/posts/2015-08-Understanding-LSTMs/"
+    original_date: "2015-08-27"
+    translated_date: "2026-06-06"
+    summary_en: "Indonesian translation of Christopher Olah's classic introduction to LSTM networks, explaining recurrent neural networks, the vanishing gradient problem, and the LSTM architecture step by step."
+    summary_id: "Terjemahan Bahasa Indonesia dari artikel klasik Christopher Olah yang menjelaskan jaringan LSTM, recurrent neural networks, masalah vanishing gradient, dan arsitektur LSTM langkah demi langkah."
+    tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan"]
+    language: id
