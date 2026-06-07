@@ -7,6 +7,7 @@
   {% assign nav_publications = 'Publikasi' %}
   {% assign nav_students = 'Mahasiswa' %}
   {% assign nav_demos = 'Demo' %}
+  {% assign nav_blog = 'Blog' %}
   {% assign toggle_label = 'Ganti tema' %}
 {% else %}
   {% assign nav_home = 'About' %}
@@ -16,6 +17,7 @@
   {% assign nav_publications = 'Publications' %}
   {% assign nav_students = 'Students' %}
   {% assign nav_demos = 'Demos' %}
+  {% assign nav_blog = 'Blog' %}
   {% assign toggle_label = 'Toggle theme' %}
 {% endif %}
 
@@ -34,6 +36,7 @@
       <a href="/{{ lang }}/publications/" {% if page.url contains '/publications' %}aria-current="page"{% endif %}>{{ nav_publications }}</a>
       <a href="/{{ lang }}/students/" {% if page.url contains '/students' %}aria-current="page"{% endif %}>{{ nav_students }}</a>
       <a href="/{{ lang }}/demos/" {% if page.url contains '/demos' %}aria-current="page"{% endif %}>{{ nav_demos }}</a>
+      <a href="/{{ lang }}/blog/" {% if page.url contains '/blog' %}aria-current="page"{% endif %}>{{ nav_blog }}</a>
     </nav>
 
     <div class="site-controls">

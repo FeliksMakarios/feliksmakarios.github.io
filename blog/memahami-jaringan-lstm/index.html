@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memahami Jaringan LSTM</title>
+
+<!-- MathJax untuk merender notasi LaTeX di browser -->
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+      displayMath: [['\\[', '\\]'], ['$$', '$$']]
+    },
+    options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+  };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- Tipografi -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #1c1a17;
+    --ink-soft: #4a463f;
+    --paper: #faf8f3;
+    --paper-warm: #f3eee3;
+    --rule: #ddd5c6;
+    --accent: #b2542f;
+    --accent-soft: #c97a55;
+    --link: #9a4824;
+    --maxw: 720px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #fff 0%, var(--paper) 55%),
+      var(--paper);
+    color: var(--ink);
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 19px;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 24px 120px;
+  }
+
+  /* ---- Header ---- */
+  header.masthead {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 72px 24px 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .kicker {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 18px;
+  }
+  h1 {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: clamp(2.3rem, 6vw, 3.4rem);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    margin: 0 0 22px;
+    color: var(--ink);
+  }
+  .byline {
+    font-size: 16px;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin: 0;
+  }
+  .byline a { color: var(--link); }
+
+  .translator-note {
+    max-width: var(--maxw);
+    margin: 28px auto 0;
+    padding: 18px 22px;
+    background: var(--paper-warm);
+    border-left: 3px solid var(--accent-soft);
+    border-radius: 0 6px 6px 0;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .translator-note strong { color: var(--ink); }
+
+  /* ---- Tipografi isi ---- */
+  h2 {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: clamp(1.6rem, 3.6vw, 2.1rem);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 3.2rem 0 1.1rem;
+    padding-top: 0.6rem;
+    color: var(--ink);
+  }
+  h2::before {
+    content: "";
+    display: block;
+    width: 46px;
+    height: 3px;
+    background: var(--accent);
+    margin-bottom: 1.1rem;
+    border-radius: 2px;
+  }
+
+  p { margin: 0 0 1.25rem; }
+
+  a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  a:hover { color: var(--accent); }
+
+  em { font-style: italic; }
+  strong { font-weight: 600; }
+
+  .term {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* ---- Gambar ---- */
+  figure {
+    margin: 2.4rem 0;
+    text-align: center;
+  }
+  figure img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+  figure.framed img {
+    background: #fff;
+    padding: 12px;
+    border: 1px solid var(--rule);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03), 0 14px 30px -18px rgba(60,40,20,0.4);
+  }
+  figcaption {
+    margin-top: 0.9rem;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  figcaption.bold {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* ---- MathJax sizing ---- */
+  mjx-container { font-size: 1.02em !important; }
+  mjx-container[display="true"] { margin: 1.6rem 0 !important; }
+
+  /* ---- Footnote / referensi ---- */
+  hr.div {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 3.5rem 0 1.6rem;
+  }
+  .footnotes {
+    font-size: 15.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .footnotes h3 {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 1rem;
+  }
+  sup a { text-decoration: none; font-size: 0.8em; }
+
+  .endmark {
+    text-align: center;
+    margin: 3rem 0 0;
+    color: var(--accent);
+    font-size: 22px;
+    letter-spacing: 0.4em;
+  }
+
+  @media (max-width: 600px) {
+    body { font-size: 17.5px; }
+    header.masthead { padding: 48px 22px 32px; }
+    figure.framed img { padding: 6px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Site bar (added for integration with main site) -->
+<style>
+  .site-bar {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 18px 24px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  .site-bar a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .site-bar a:hover { color: var(--accent); }
+  .site-bar-brand { font-weight: 500; }
+</style>
+<div class="site-bar">
+  <a href="/id/" class="site-bar-brand">Feliks Samosir</a>
+  <a href="/id/blog/" class="site-bar-back">← Kembali ke Blog</a>
+</div>
+
+
+<header class="masthead">
+  <p class="kicker">Jaringan Saraf Tiruan &middot; Pembelajaran Mendalam</p>
+  <h1>Memahami Jaringan LSTM</h1>
+  <p class="byline">
+    Tulisan asli oleh Christopher Olah, dipublikasikan 27 Agustus 2015 di
+    <a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="noopener">colah's blog</a>.
+  </p>
+</header>
+
+<div class="translator-note">
+  <strong>Catatan terjemahan.</strong> Ini adalah terjemahan Bahasa Indonesia dari artikel
+  <em>Understanding LSTM Networks</em>. Beberapa istilah teknis yang sudah baku di bidang ini
+  (seperti <span class="term">gate</span>, <span class="term">cell state</span>, dan <span class="term">sigmoid</span>)
+  sengaja dipertahankan dalam Bahasa Inggris dan diberi penjelasan singkat saat pertama kali muncul,
+  agar tetap selaras dengan literatur dan kode yang umum Anda temui.
+</div>
+
+<div class="wrap">
+
+  <!-- ============ RNN ============ -->
+  <h2>Jaringan Saraf Berulang (Recurrent Neural Networks)</h2>
+
+  <p>Manusia tidak memulai pemikirannya dari nol setiap detik. Saat Anda membaca esai ini, Anda memahami setiap kata berdasarkan pemahaman Anda atas kata-kata sebelumnya. Anda tidak membuang semuanya lalu mulai berpikir dari awal lagi. Pikiran Anda memiliki kesinambungan.</p>
+
+  <p>Jaringan saraf tradisional tidak bisa melakukan ini, dan itu terasa seperti kekurangan yang besar. Sebagai contoh, bayangkan Anda ingin mengklasifikasikan jenis peristiwa apa yang sedang terjadi di setiap titik dalam sebuah film. Tidak jelas bagaimana jaringan saraf tradisional dapat menggunakan penalarannya tentang peristiwa sebelumnya dalam film itu untuk memahami peristiwa selanjutnya.</p>
+
+  <p>Jaringan saraf berulang (<em>recurrent neural networks</em>, RNN) menjawab persoalan ini. Jaringan ini memiliki gelung (<em>loop</em>) di dalamnya, yang memungkinkan informasi untuk bertahan.</p>
+
+  <figure class="framed">
+    <img src="img/RNN-rolled.png" alt="Sebuah RNN dengan gelung">
+    <figcaption class="bold">Jaringan saraf berulang memiliki gelung.</figcaption>
+  </figure>
+
+  <p>Pada diagram di atas, sebongkah jaringan saraf, \(A\), melihat suatu masukan \(x_t\) dan menghasilkan suatu nilai \(h_t\). Sebuah gelung memungkinkan informasi diteruskan dari satu langkah jaringan ke langkah berikutnya.</p>
+
+  <p>Gelung-gelung ini membuat jaringan saraf berulang terasa agak misterius. Namun, jika Anda berpikir sedikit lebih jauh, ternyata jaringan ini tidak terlalu berbeda dengan jaringan saraf biasa. Sebuah RNN dapat dibayangkan sebagai banyak salinan dari jaringan yang sama, masing-masing meneruskan sebuah pesan kepada penerusnya. Mari kita amati apa yang terjadi jika kita membentangkan gelung tersebut:</p>
+
+  <figure class="framed">
+    <img src="img/RNN-unrolled.png" alt="Sebuah RNN yang dibentangkan">
+    <figcaption class="bold">Sebuah jaringan saraf berulang yang dibentangkan.</figcaption>
+  </figure>
+
+  <p>Sifat menyerupai rantai ini menyingkapkan bahwa jaringan saraf berulang sangat erat kaitannya dengan barisan dan daftar. Jaringan inilah arsitektur jaringan saraf yang paling alami untuk dipakai pada data semacam itu.</p>
+
+  <p>Dan jaringan ini memang benar-benar dipakai! Dalam beberapa tahun terakhir, terdapat keberhasilan luar biasa dalam penerapan RNN pada berbagai persoalan: pengenalan ucapan, pemodelan bahasa, penerjemahan, pemberian keterangan gambar (<em>image captioning</em>), dan daftarnya terus berlanjut. Saya akan menyerahkan pembahasan tentang prestasi menakjubkan yang dapat dicapai dengan RNN kepada tulisan blog Andrej Karpathy yang sangat baik, <a href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/" target="_blank" rel="noopener">The Unreasonable Effectiveness of Recurrent Neural Networks</a>. Tetapi RNN ini sungguh cukup menakjubkan.</p>
+
+  <p>Yang menjadi inti dari keberhasilan-keberhasilan ini adalah penggunaan &ldquo;LSTM,&rdquo; sebuah jenis jaringan saraf berulang yang sangat istimewa dan, untuk banyak tugas, bekerja jauh lebih baik daripada versi standarnya. Hampir semua hasil mengagumkan yang berbasis jaringan saraf berulang dicapai dengan LSTM. LSTM inilah yang akan dijelajahi oleh esai ini.</p>
+
+  <!-- ============ Long-Term Dependencies ============ -->
+  <h2>Persoalan Ketergantungan Jangka Panjang</h2>
+
+  <p>Salah satu daya tarik RNN adalah gagasan bahwa jaringan ini mungkin mampu menghubungkan informasi sebelumnya dengan tugas saat ini, seperti misalnya bingkai-bingkai video sebelumnya dapat membantu pemahaman atas bingkai saat ini. Jika RNN dapat melakukan ini, jaringan ini akan sangat berguna. Tetapi, apakah bisa? Itu bergantung pada keadaannya.</p>
+
+  <p>Terkadang, kita hanya perlu melihat informasi terkini untuk mengerjakan tugas saat ini. Sebagai contoh, perhatikan sebuah model bahasa yang berusaha menebak kata berikutnya berdasarkan kata-kata sebelumnya. Jika kita berusaha menebak kata terakhir dalam &ldquo;awan-awan ada di <em>langit</em>,&rdquo; kita tidak memerlukan konteks tambahan apa pun. Sudah cukup jelas bahwa kata berikutnya adalah langit. Dalam kasus seperti ini, ketika jarak antara informasi yang relevan dan tempat informasi itu dibutuhkan masih kecil, RNN dapat belajar untuk menggunakan informasi masa lalu.</p>
+
+  <figure class="framed">
+    <img src="img/RNN-shorttermdepdencies.png" alt="Ketergantungan jangka pendek">
+  </figure>
+
+  <p>Tetapi ada juga kasus-kasus yang menuntut konteks lebih banyak. Perhatikan upaya menebak kata terakhir dalam teks &ldquo;Saya tumbuh besar di Prancis... saya berbicara <em>bahasa Prancis</em> dengan lancar.&rdquo; Informasi terkini menunjukkan bahwa kata berikutnya kemungkinan adalah nama sebuah bahasa, tetapi jika kita ingin mempersempit bahasa mana, kita memerlukan konteks tentang Prancis, dari bagian yang jauh lebih ke belakang. Sangat mungkin jarak antara informasi yang relevan dan titik tempat informasi itu dibutuhkan menjadi sangat besar.</p>
+
+  <p>Sayangnya, seiring jarak itu membesar, RNN menjadi tidak mampu belajar untuk menghubungkan informasi tersebut.</p>
+
+  <figure class="framed">
+    <img src="img/RNN-longtermdependencies.png" alt="Kesulitan dengan ketergantungan jangka panjang">
+    <figcaption>Jaringan saraf kesulitan menghadapi ketergantungan jangka panjang.</figcaption>
+  </figure>
+
+  <p>Secara teori, RNN sepenuhnya mampu menangani &ldquo;ketergantungan jangka panjang&rdquo; (<em>long-term dependencies</em>) semacam itu. Seorang manusia bisa dengan cermat memilih parameter-parameternya untuk menyelesaikan persoalan-persoalan sederhana berbentuk demikian. Sayangnya, dalam praktiknya, RNN tampak tidak mampu mempelajarinya. Persoalan ini ditelaah secara mendalam oleh <a href="http://people.idsia.ch/~juergen/SeppHochreiter1991ThesisAdvisorSchmidhuber.pdf" target="_blank" rel="noopener">Hochreiter (1991) [Jerman]</a> dan <a href="http://www-dsi.ing.unifi.it/~paolo/ps/tnn-94-gradient.pdf" target="_blank" rel="noopener">Bengio, dkk. (1994)</a>, yang menemukan sejumlah alasan yang cukup mendasar mengapa hal itu mungkin sulit.</p>
+
+  <p>Untungnya, LSTM tidak memiliki persoalan ini!</p>
+
+  <!-- ============ LSTM Networks ============ -->
+  <h2>Jaringan LSTM</h2>
+
+  <p>Jaringan Long Short Term Memory, yang biasanya hanya disebut &ldquo;LSTM,&rdquo; adalah jenis khusus RNN yang mampu mempelajari ketergantungan jangka panjang. Jaringan ini diperkenalkan oleh <a href="http://www.bioinf.jku.at/publications/older/2604.pdf" target="_blank" rel="noopener">Hochreiter &amp; Schmidhuber (1997)</a>, lalu disempurnakan dan dipopulerkan oleh banyak orang dalam karya-karya berikutnya.<sup id="fnref1"><a href="#fn1">1</a></sup> LSTM bekerja sangat baik pada beragam persoalan, dan kini digunakan secara luas.</p>
+
+  <p>LSTM secara eksplisit dirancang untuk menghindari persoalan ketergantungan jangka panjang. Mengingat informasi untuk jangka waktu yang lama praktis merupakan perilaku bawaannya, bukan sesuatu yang sulit dipelajarinya!</p>
+
+  <p>Semua jaringan saraf berulang memiliki bentuk berupa rantai dari modul-modul jaringan saraf yang berulang. Pada RNN standar, modul yang berulang ini memiliki struktur yang sangat sederhana, misalnya hanya satu lapisan tanh.</p>
+
+  <figure class="framed">
+    <img src="img/LSTM3-SimpleRNN.png" alt="Modul berulang pada RNN standar">
+    <figcaption class="bold">Modul yang berulang pada RNN standar berisi satu lapisan.</figcaption>
+  </figure>
+
+  <p>LSTM juga memiliki struktur menyerupai rantai ini, tetapi modul yang berulangnya memiliki struktur yang berbeda. Alih-alih satu lapisan jaringan saraf, terdapat empat lapisan yang saling berinteraksi dengan cara yang sangat istimewa.</p>
+
+  <figure class="framed">
+    <img src="img/LSTM3-chain.png" alt="Jaringan saraf LSTM">
+    <figcaption class="bold">Modul yang berulang pada LSTM berisi empat lapisan yang saling berinteraksi.</figcaption>
+  </figure>
+
+  <p>Jangan khawatir tentang rincian apa yang sedang terjadi. Kita akan menelusuri diagram LSTM ini langkah demi langkah nanti. Untuk sekarang, mari kita coba membiasakan diri dengan notasi yang akan kita gunakan.</p>
+
+  <figure class="framed">
+    <img src="img/LSTM2-notation.png" alt="Notasi pada diagram LSTM">
+  </figure>
+
+  <p>Pada diagram di atas, setiap garis membawa satu vektor utuh, dari keluaran satu simpul menuju masukan simpul-simpul lain. Lingkaran merah muda melambangkan operasi titik demi titik (<em>pointwise</em>), seperti penjumlahan vektor, sedangkan kotak kuning adalah lapisan jaringan saraf yang dipelajari. Garis yang bergabung menandakan penggabungan (<em>concatenation</em>), sedangkan garis yang bercabang menandakan isinya disalin dan salinan-salinannya menuju ke lokasi yang berbeda.</p>
+
+  <!-- ============ Core Idea ============ -->
+  <h2>Gagasan Inti di Balik LSTM</h2>
+
+  <p>Kunci dari LSTM adalah <span class="term">cell state</span> (status sel), yaitu garis mendatar yang membentang di sepanjang bagian atas diagram.</p>
+
+  <p>Cell state itu mirip seperti ban berjalan. Ia berjalan lurus menyusuri seluruh rantai, hanya dengan sedikit interaksi linear. Sangat mudah bagi informasi untuk mengalir begitu saja di atasnya tanpa berubah.</p>
+
+  <figure class="framed">
+    <img src="img/LSTM3-C-line.png" alt="Garis cell state">
+  </figure>
+
+  <p>LSTM memang memiliki kemampuan untuk membuang atau menambahkan informasi ke cell state, yang diatur dengan saksama oleh struktur bernama <span class="term">gate</span> (gerbang).</p>
+
+  <p>Gate adalah cara untuk secara opsional meloloskan informasi. Gate tersusun dari satu lapisan jaringan saraf sigmoid dan satu operasi perkalian titik demi titik.</p>
+
+  <figure class="framed">
+    <img src="img/LSTM3-gate.png" alt="Sebuah gate">
+  </figure>
+
+  <p>Lapisan sigmoid menghasilkan angka antara nol dan satu, yang menggambarkan seberapa banyak dari setiap komponen yang boleh diloloskan. Nilai nol berarti &ldquo;jangan loloskan apa pun,&rdquo; sedangkan nilai satu berarti &ldquo;loloskan semuanya!&rdquo;</p>
+
+  <p>Sebuah LSTM memiliki tiga gate semacam ini, untuk melindungi dan mengendalikan cell state.</p>
+
+  <!-- ============ Step by step ============ -->
+  <h2>Penelusuran LSTM Langkah demi Langkah</h2>
+
+  <p>Langkah pertama dalam LSTM kita adalah memutuskan informasi apa yang akan kita buang dari cell state. Keputusan ini dibuat oleh sebuah lapisan sigmoid yang disebut &ldquo;<span class="term">forget gate layer</span>&rdquo; (lapisan gerbang lupa). Lapisan ini melihat \(h_{t-1}\) dan \(x_t\), lalu menghasilkan sebuah angka antara \(0\) dan \(1\) untuk setiap angka dalam cell state \(C_{t-1}\). Angka \(1\) melambangkan &ldquo;pertahankan ini sepenuhnya,&rdquo; sedangkan \(0\) melambangkan &ldquo;buang ini sepenuhnya.&rdquo;</p>
+
+  <p>Mari kita kembali ke contoh model bahasa yang berusaha menebak kata berikutnya berdasarkan semua kata sebelumnya. Dalam persoalan semacam itu, cell state mungkin menyimpan jenis kelamin subjek yang sedang dibahas, agar kata ganti yang benar dapat digunakan. Ketika kita melihat subjek baru, kita ingin melupakan jenis kelamin subjek yang lama.</p>
+
+  <figure class="framed">
+    <img src="img/LSTM3-focus-f.png" alt="Forget gate">
+  </figure>
+
+  <p>Langkah berikutnya adalah memutuskan informasi baru apa yang akan kita simpan dalam cell state. Ini terdiri dari dua bagian. Pertama, sebuah lapisan sigmoid yang disebut &ldquo;<span class="term">input gate layer</span>&rdquo; (lapisan gerbang masukan) memutuskan nilai-nilai mana yang akan kita perbarui. Kemudian, sebuah lapisan tanh membuat sebuah vektor berisi nilai-nilai kandidat baru, \(\tilde{C}_t\), yang dapat ditambahkan ke status. Pada langkah selanjutnya, kita akan menggabungkan keduanya untuk membuat pembaruan terhadap status.</p>
+
+  <p>Dalam contoh model bahasa kita, di sinilah kita ingin menambahkan jenis kelamin subjek yang baru ke dalam cell state, untuk menggantikan jenis kelamin lama yang sedang kita lupakan.</p>
+
+  <figure class="framed">
+    <img src="img/LSTM3-focus-i.png" alt="Input gate">
+  </figure>
+
+  <p>Sekarang tiba waktunya untuk memperbarui cell state lama, \(C_{t-1}\), menjadi cell state baru \(C_t\). Langkah-langkah sebelumnya sudah memutuskan apa yang harus dilakukan, kita tinggal benar-benar melakukannya.</p>
+
+  <p>Kita mengalikan status lama dengan \(f_t\), melupakan hal-hal yang sudah kita putuskan untuk dilupakan sebelumnya. Lalu kita menambahkan \(i_t * \tilde{C}_t\). Inilah nilai-nilai kandidat baru, yang diskalakan menurut seberapa besar kita memutuskan untuk memperbarui setiap nilai status.</p>
+
+  <p>Pada kasus model bahasa, di sinilah kita benar-benar membuang informasi tentang jenis kelamin subjek lama dan menambahkan informasi baru, sebagaimana kita putuskan pada langkah-langkah sebelumnya.</p>
+
+  <figure class="framed">
+    <img src="img/LSTM3-focus-C.png" alt="Pembaruan cell state">
+  </figure>
+
+  <p>Akhirnya, kita perlu memutuskan apa yang akan kita keluarkan. Keluaran ini akan didasarkan pada cell state kita, tetapi merupakan versi yang telah disaring. Pertama, kita menjalankan sebuah lapisan sigmoid yang memutuskan bagian mana dari cell state yang akan kita keluarkan. Kemudian, kita melewatkan cell state melalui \(\tanh\) (untuk mendorong nilai-nilainya agar berada di antara \(-1\) dan \(1\)) lalu mengalikannya dengan keluaran dari gate sigmoid, sehingga kita hanya mengeluarkan bagian-bagian yang kita putuskan untuk dikeluarkan.</p>
+
+  <p>Untuk contoh model bahasa, karena ia baru saja melihat sebuah subjek, ia mungkin ingin mengeluarkan informasi yang relevan dengan sebuah kata kerja, untuk berjaga-jaga seandainya itulah yang akan muncul berikutnya. Sebagai contoh, ia mungkin mengeluarkan informasi apakah subjeknya tunggal atau jamak, sehingga kita tahu bentuk kata kerja seperti apa yang harus dikonjugasikan seandainya itulah yang menyusul.</p>
+
+  <figure class="framed">
+    <img src="img/LSTM3-focus-o.png" alt="Output gate">
+  </figure>
+
+  <!-- ============ Variants ============ -->
+  <h2>Variasi dari Long Short Term Memory</h2>
+
+  <p>Apa yang telah saya jelaskan sejauh ini adalah LSTM yang cukup umum. Tetapi tidak semua LSTM sama dengan yang di atas. Sebenarnya, tampaknya hampir setiap makalah yang melibatkan LSTM menggunakan versi yang sedikit berbeda. Perbedaannya kecil, tetapi sebagian patut disebutkan.</p>
+
+  <p>Satu variasi LSTM yang populer, diperkenalkan oleh <a href="ftp://ftp.idsia.ch/pub/juergen/TimeCount-IJCNN2000.pdf" target="_blank" rel="noopener">Gers &amp; Schmidhuber (2000)</a>, adalah penambahan &ldquo;<em>peephole connections</em>&rdquo; (sambungan lubang intip). Ini berarti kita membiarkan lapisan-lapisan gate ikut melihat cell state.</p>
+
+  <figure class="framed">
+    <img src="img/LSTM3-var-peepholes.png" alt="Peephole connections">
+  </figure>
+
+  <p>Diagram di atas menambahkan peephole ke semua gate, tetapi banyak makalah hanya memberikan peephole pada sebagian gate dan tidak pada yang lain.</p>
+
+  <p>Variasi lain adalah menggunakan gate lupa dan gate masukan yang dipasangkan (<em>coupled</em>). Alih-alih memutuskan secara terpisah apa yang harus dilupakan dan informasi baru apa yang harus ditambahkan, kita membuat kedua keputusan itu secara bersamaan. Kita hanya melupakan ketika kita akan memasukkan sesuatu sebagai penggantinya. Kita hanya memasukkan nilai-nilai baru ke status ketika kita melupakan sesuatu yang lebih lama.</p>
+
+  <figure class="framed">
+    <img src="img/LSTM3-var-tied.png" alt="Coupled forget dan input gate">
+  </figure>
+
+  <p>Variasi yang sedikit lebih dramatis pada LSTM adalah Gated Recurrent Unit, atau GRU, yang diperkenalkan oleh <a href="http://arxiv.org/pdf/1406.1078v3.pdf" target="_blank" rel="noopener">Cho, dkk. (2014)</a>. GRU menggabungkan gate lupa dan gate masukan menjadi satu &ldquo;<em>update gate</em>&rdquo; (gerbang pembaruan) tunggal. GRU juga menyatukan cell state dan hidden state, serta membuat beberapa perubahan lain. Model yang dihasilkan lebih sederhana daripada model LSTM standar, dan kepopulerannya terus meningkat.</p>
+
+  <figure class="framed">
+    <img src="img/LSTM3-var-GRU.png" alt="Gated Recurrent Unit">
+  </figure>
+
+  <p>Ini hanyalah beberapa dari variasi LSTM yang paling menonjol. Masih banyak yang lain, seperti Depth Gated RNN oleh <a href="http://arxiv.org/pdf/1508.03790v2.pdf" target="_blank" rel="noopener">Yao, dkk. (2015)</a>. Ada juga pendekatan yang sepenuhnya berbeda untuk menangani ketergantungan jangka panjang, seperti Clockwork RNN oleh <a href="http://arxiv.org/pdf/1402.3511v1.pdf" target="_blank" rel="noopener">Koutnik, dkk. (2014)</a>.</p>
+
+  <p>Manakah di antara variasi-variasi ini yang terbaik? Apakah perbedaannya penting? <a href="http://arxiv.org/pdf/1503.04069.pdf" target="_blank" rel="noopener">Greff, dkk. (2015)</a> melakukan perbandingan yang baik atas variasi-variasi populer, dan menemukan bahwa semuanya kurang lebih sama. <a href="http://jmlr.org/proceedings/papers/v37/jozefowicz15.pdf" target="_blank" rel="noopener">Jozefowicz, dkk. (2015)</a> menguji lebih dari sepuluh ribu arsitektur RNN, dan menemukan beberapa di antaranya yang bekerja lebih baik daripada LSTM pada tugas-tugas tertentu.</p>
+
+  <!-- ============ Conclusion ============ -->
+  <h2>Penutup</h2>
+
+  <p>Di awal, saya menyebutkan hasil-hasil luar biasa yang dicapai orang dengan RNN. Pada dasarnya semua hasil ini dicapai menggunakan LSTM. LSTM sungguh bekerja jauh lebih baik untuk sebagian besar tugas!</p>
+
+  <p>Bila dituliskan sebagai sehimpunan persamaan, LSTM terlihat cukup menakutkan. Semoga, dengan menelusurinya langkah demi langkah dalam esai ini, LSTM menjadi sedikit lebih mudah didekati.</p>
+
+  <p>LSTM merupakan langkah besar dalam apa yang dapat kita capai dengan RNN. Wajar jika kita bertanya-tanya: adakah langkah besar berikutnya? Pendapat yang umum di kalangan peneliti adalah: &ldquo;Ya! Ada langkah berikutnya dan itu adalah <em>attention</em>!&rdquo; Gagasannya adalah membiarkan setiap langkah RNN memilih informasi yang akan dilihatnya dari suatu kumpulan informasi yang lebih besar. Sebagai contoh, jika Anda menggunakan RNN untuk membuat keterangan yang menggambarkan sebuah gambar, RNN itu mungkin memilih sebagian dari gambar untuk dilihat pada setiap kata yang dihasilkannya. Sebenarnya, <a href="http://arxiv.org/pdf/1502.03044v2.pdf" target="_blank" rel="noopener">Xu, dkk. (2015)</a> melakukan persis hal ini. Ini mungkin titik awal yang menyenangkan jika Anda ingin menjelajahi attention! Sudah ada sejumlah hasil yang sangat menarik menggunakan attention, dan tampaknya masih banyak lagi yang akan segera hadir...</p>
+
+  <p>Attention bukan satu-satunya benang yang menarik dalam riset RNN. Sebagai contoh, Grid LSTM oleh <a href="http://arxiv.org/pdf/1507.01526v1.pdf" target="_blank" rel="noopener">Kalchbrenner, dkk. (2015)</a> tampak sangat menjanjikan. Karya-karya yang menggunakan RNN dalam model generatif, seperti <a href="http://arxiv.org/pdf/1502.04623.pdf" target="_blank" rel="noopener">Gregor, dkk. (2015)</a>, <a href="http://arxiv.org/pdf/1506.02216v3.pdf" target="_blank" rel="noopener">Chung, dkk. (2015)</a>, atau <a href="http://arxiv.org/pdf/1411.7610v3.pdf" target="_blank" rel="noopener">Bayer &amp; Osendorfer (2015)</a>, juga tampak sangat menarik. Beberapa tahun terakhir merupakan masa yang menggairahkan bagi jaringan saraf berulang, dan tahun-tahun mendatang menjanjikan hal yang lebih menggairahkan lagi!</p>
+
+  <!-- ============ Acknowledgments ============ -->
+  <h2>Ucapan Terima Kasih</h2>
+
+  <p>Saya berterima kasih kepada sejumlah orang yang telah membantu saya memahami LSTM dengan lebih baik, memberikan komentar atas visualisasi, dan memberikan masukan untuk tulisan ini.</p>
+
+  <p>Saya sangat berterima kasih kepada rekan-rekan saya di Google atas masukan mereka yang membantu, terutama <a href="http://research.google.com/pubs/OriolVinyals.html" target="_blank" rel="noopener">Oriol Vinyals</a>, <a href="http://research.google.com/pubs/GregCorrado.html" target="_blank" rel="noopener">Greg Corrado</a>, <a href="http://research.google.com/pubs/JonathonShlens.html" target="_blank" rel="noopener">Jon Shlens</a>, <a href="http://people.cs.umass.edu/~luke/" target="_blank" rel="noopener">Luke Vilnis</a>, dan <a href="http://www.cs.toronto.edu/~ilya/" target="_blank" rel="noopener">Ilya Sutskever</a>. Saya juga berterima kasih kepada banyak teman dan rekan lain yang telah meluangkan waktu untuk membantu saya, termasuk <a href="https://www.linkedin.com/pub/dario-amodei/4/493/393" target="_blank" rel="noopener">Dario Amodei</a> dan <a href="http://cs.stanford.edu/~jsteinhardt/" target="_blank" rel="noopener">Jacob Steinhardt</a>. Saya secara khusus berterima kasih kepada <a href="http://www.kyunghyuncho.me/" target="_blank" rel="noopener">Kyunghyun Cho</a> atas korespondensi yang sangat penuh perhatian tentang diagram-diagram saya.</p>
+
+  <p>Sebelum tulisan ini, saya berlatih menjelaskan LSTM dalam dua rangkaian seminar yang saya ajarkan tentang jaringan saraf. Terima kasih kepada semua orang yang ikut serta dalam seminar itu atas kesabaran mereka terhadap saya, dan atas masukan mereka.</p>
+
+  <hr class="div">
+
+  <div class="footnotes">
+    <h3>Catatan Kaki</h3>
+    <p id="fn1">
+      1. Selain para penulis aslinya, banyak orang ikut menyumbang pada LSTM modern. Daftar yang tidak menyeluruh meliputi: Felix Gers, Fred Cummins, Santiago Fernandez, Justin Bayer, Daan Wierstra, Julian Togelius, Faustino Gomez, Matteo Gagliolo, dan <a href="https://scholar.google.com/citations?user=DaFHynwAAAAJ&amp;hl=en" target="_blank" rel="noopener">Alex Graves</a>.
+      <a href="#fnref1" title="Kembali ke teks">&#8617;</a>
+    </p>
+  </div>
+
+  <div class="endmark">&sect; &sect; &sect;</div>
+
+</div>
+
+</body>
+</html>
