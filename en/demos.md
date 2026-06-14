@@ -3,22 +3,48 @@ layout: default
 permalink: /en/demos/
 lang: en
 slug: demos
-title: Demos &amp; Outreach
-subtitle: "Interactive demos from student projects and outreach activities"
+title: Demos
+subtitle: "Interactive prototypes from research, teaching, and outreach"
 ---
 
 <p class="lead">
-Working prototypes split into two categories: <strong>Final Project</strong> demos
-from student thesis or course capstones, and <strong>Outreach</strong> demos used at
-open-house events for high-school students.
+Working prototypes split into three categories: <strong>My Project</strong> for demos
+I built around my own research and side projects, <strong>Student Project</strong> for
+demos from thesis or course capstones I supervised, and <strong>Outreach</strong> for
+demos used at open-house events with high-school students.
 </p>
 
 <div class="demo-tabs" role="group" aria-label="Demo categories">
-  <button data-tab="final-project" class="active" type="button">Final Project</button>
+  <button data-tab="my-project" class="active" type="button">My Project</button>
+  <button data-tab="student-project" type="button">Student Project</button>
   <button data-tab="outreach" type="button">Outreach</button>
 </div>
 
-<section id="final-project" class="demo-section">
+<section id="my-project" class="demo-section">
+
+<div class="card-demo">
+  <div class="thumb" aria-hidden="true">📄</div>
+  <div>
+    <h3>BESKlus: BERT Extractive Summarization with K-Means Clustering</h3>
+    <p class="meta">My M.Kom. thesis project · 2022 · Hugging Face Space</p>
+    <p>Extractive summarization model for scientific papers, combining BERT embeddings with K-Means clustering to pick representative sentences. Paste an abstract or paragraph and see the extracted summary.</p>
+    <p><a href="https://huggingface.co/spaces/makarios19/BESKlus" target="_blank" rel="noopener external">Launch demo →</a></p>
+  </div>
+</div>
+
+<div class="card-demo">
+  <div class="thumb" aria-hidden="true">🧾</div>
+  <div>
+    <h3>Paper Extractor</h3>
+    <p class="meta">Side project · Hugging Face Space</p>
+    <p>A small utility that pulls structured fields (title, authors, abstract, keywords) from PDF papers. Built as a personal tool that turned into a fun demo.</p>
+    <p><a href="https://huggingface.co/spaces/makarios19/paperExtractor?logs=container" target="_blank" rel="noopener external">Launch demo →</a></p>
+  </div>
+</div>
+
+</section>
+
+<section id="student-project" class="demo-section" hidden>
 
 <div class="card-demo">
   <div class="thumb" aria-hidden="true">📖</div>
@@ -44,7 +70,7 @@ open-house events for high-school students.
   <div class="thumb" aria-hidden="true">🛍️</div>
   <div>
     <h3>IndoBERT Retail Semantic Search</h3>
-    <p class="meta">By Christian Folma Dio · Thesis in progress · Hugging Face Space</p>
+    <p class="meta">By Christian Folma Dio · Thesis 2026 · Hugging Face Space</p>
     <p>IndoBERT-based semantic search prototype for Indonesian retail products. Type a product description in natural language and retrieve relevant matches.</p>
     <p><a href="https://huggingface.co/spaces/Folma/IndoBERT-Retail-Search" target="_blank" rel="noopener external">Launch demo →</a></p>
   </div>

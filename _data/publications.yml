@@ -1,10 +1,40 @@
+- id: biomind-bert-2026
+  title: "Structured Visual Summarization of Biomedical Articles with BiomindBERT: A SciBERT-Based and Hierarchical Clustering Approach"
+  authors: ["E.E. Wiguna", "F.V.P. Samosir"]
+  venue: "2026 International Conference on Current Research in Artificial Intelligence and Data Science (ICCRAIDS), Purwokerto, April 2026"
+  venue_type: conference
+  year: 2026
+  url: "https://doi.org/10.1109/ICCRAIDS67816.2026.11519649"
+  area: domain-specific-nlp
+  sub_area: educational-content
+
+- id: ciliwung-flood-2026
+  title: "Real-Time Flood Prediction System for Ciliwung River Using XGBoost Machine Learning"
+  authors: ["C.M.M. Gijoh", "Jennifer", "Y. Soengkono", "I.A. Lazarusli", "F.V.P. Samosir", "A.R. Mitra"]
+  venue: "2026 International Conference on Current Research in Artificial Intelligence and Data Science (ICCRAIDS), Purwokerto, April 2026"
+  venue_type: conference
+  year: 2026
+  url: "https://doi.org/10.1109/ICCRAIDS67816.2026.11519675"
+  area: applied-ml
+  sub_area: predictive-analytics
+
+- id: facqa-bias-2026
+  title: "A Multi-Dimensional Framework for Bias Assessment in Indonesia Question-Answering Datasets"
+  authors: ["F.V.P. Samosir", "M. Diana", "K. Wiriyatama"]
+  venue: "JOIV: International Journal on Informatics Visualization, Vol. 10 No. 3, pp. 1376-1387"
+  venue_type: journal
+  year: 2026
+  url: "https://doi.org/10.62527/joiv.10.3.4122"
+  area: bias-fairness
+  sub_area: dataset-bias-auditing
+
 - id: absa-ecom-2026
   title: "Integrated aspect extraction and sentiment classification for aspect-based sentiment analysis using fine-tuned indoBERT on Indonesian e-commerce reviews"
   authors: ["F.V.P. Samosir", "G.L. Tumanggor"]
   venue: "Journal of Soft Computing Exploration, Vol. 7 No. 1, pp. 147-156"
   venue_type: journal
   year: 2026
-  url: "https://joscex.shmpublisher.com/index.php/journal/article/view/26"
+  url: "https://doi.org/10.52465/joscex.v7i1.26"
   area: domain-specific-nlp
   sub_area: ecommerce-reviews
 
@@ -64,7 +94,7 @@
   venue: "2024 Ninth International Conference on Informatics and Computing (ICIC), pp. 1-5"
   venue_type: conference
   year: 2024
-  url: "https://ieeexplore.ieee.org/document/10956330"
+  url: "https://doi.org/10.1109/ICIC62051.2024.10956330"
   area: domain-specific-nlp
   sub_area: ecommerce-reviews
 
@@ -104,7 +134,7 @@
   venue: "Ultima InfoSys: Jurnal Ilmu Sistem Informasi, Vol. 14 No. 2, pp. 71-78"
   venue_type: journal
   year: 2023
-  url: "https://ejournals.umn.ac.id/index.php/SI/article/view/3432"
+  url: "https://doi.org/10.31937/si.v14i2.3432"
   area: domain-specific-nlp
   sub_area: educational-content
 
@@ -116,7 +146,7 @@
   year: 2023
   url: "https://doi.org/10.1109/ICIC60109.2023.10382053"
   area: domain-specific-nlp
-  sub_area: semantic-search
+  sub_area: theological-text
 
 - id: besklus-2022
   title: "BESKlus: BERT Extractive Summarization with K-Means Clustering in Scientific Paper"

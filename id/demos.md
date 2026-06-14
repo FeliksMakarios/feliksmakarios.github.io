@@ -3,22 +3,48 @@ layout: default
 permalink: /id/demos/
 lang: id
 slug: demos
-title: Demo &amp; Outreach
-subtitle: "Demo interaktif dari proyek mahasiswa dan kegiatan outreach"
+title: Demo
+subtitle: "Prototipe interaktif dari riset, pengajaran, dan outreach"
 ---
 
 <p class="lead">
-Prototipe yang bisa dijalankan, dibagi dua kategori: <strong>Tugas Akhir</strong> dari
-skripsi atau capstone matkul, dan <strong>Outreach</strong> dari kegiatan open house
-untuk siswa SMA.
+Prototipe yang bisa dijalankan, dibagi tiga kategori: <strong>My Project</strong>
+untuk demo yang saya bangun dari riset saya sendiri dan side project,
+<strong>Student Project</strong> dari skripsi atau capstone matkul yang saya bimbing, dan
+<strong>Outreach</strong> dari kegiatan open house untuk siswa SMA.
 </p>
 
 <div class="demo-tabs" role="group" aria-label="Kategori demo">
-  <button data-tab="final-project" class="active" type="button">Tugas Akhir</button>
+  <button data-tab="my-project" class="active" type="button">My Project</button>
+  <button data-tab="student-project" type="button">Student Project</button>
   <button data-tab="outreach" type="button">Outreach</button>
 </div>
 
-<section id="final-project" class="demo-section">
+<section id="my-project" class="demo-section">
+
+<div class="card-demo">
+  <div class="thumb" aria-hidden="true">📄</div>
+  <div>
+    <h3>BESKlus: BERT Extractive Summarization with K-Means Clustering</h3>
+    <p class="meta">Proyek tesis M.Kom. saya · 2022 · Hugging Face Space</p>
+    <p>Model extractive summarization untuk artikel ilmiah, menggabungkan embedding BERT dan K-Means clustering untuk memilih kalimat representatif. Tempelkan abstrak atau paragraf dan lihat hasil ringkasannya.</p>
+    <p><a href="https://huggingface.co/spaces/makarios19/BESKlus" target="_blank" rel="noopener external">Jalankan demo →</a></p>
+  </div>
+</div>
+
+<div class="card-demo">
+  <div class="thumb" aria-hidden="true">🧾</div>
+  <div>
+    <h3>Paper Extractor</h3>
+    <p class="meta">Side project · Hugging Face Space</p>
+    <p>Utilitas kecil untuk menarik field terstruktur (judul, penulis, abstrak, kata kunci) dari makalah PDF. Dibangun sebagai tool pribadi yang berkembang jadi demo iseng.</p>
+    <p><a href="https://huggingface.co/spaces/makarios19/paperExtractor?logs=container" target="_blank" rel="noopener external">Jalankan demo →</a></p>
+  </div>
+</div>
+
+</section>
+
+<section id="student-project" class="demo-section" hidden>
 
 <div class="card-demo">
   <div class="thumb" aria-hidden="true">📖</div>
@@ -44,7 +70,7 @@ untuk siswa SMA.
   <div class="thumb" aria-hidden="true">🛍️</div>
   <div>
     <h3>Pencarian Semantik Ritel dengan IndoBERT</h3>
-    <p class="meta">Oleh Christian Folma Dio · Skripsi sedang berjalan · Hugging Face Space</p>
+    <p class="meta">Oleh Christian Folma Dio · Skripsi 2026 · Hugging Face Space</p>
     <p>Prototipe pencarian semantik berbasis IndoBERT untuk produk ritel Indonesia. Ketik deskripsi produk dengan bahasa natural dan temukan match yang relevan.</p>
     <p><a href="https://huggingface.co/spaces/Folma/IndoBERT-Retail-Search" target="_blank" rel="noopener external">Jalankan demo →</a></p>
   </div>
