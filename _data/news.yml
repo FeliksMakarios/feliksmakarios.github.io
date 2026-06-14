@@ -1,6 +1,30 @@
 # News / highlights shown on home page. Newest first.
 # Keep body concise (1-2 sentences).
 
+- title:
+    en: "Three current mentees defended their undergraduate theses"
+    id: "Tiga mahasiswa bimbingan menyelesaikan sidang skripsi"
+  date: "2026-06-15"
+  body:
+    en: "Vincent Arianto (AI text detection for MKU courses), Christian Folma Dio (Indonesian retail semantic search), and Jovan Marian Winarko (CNN vs Transformer for tourist site images) successfully defended their undergraduate theses at UPH."
+    id: "Vincent Arianto (deteksi teks AI untuk MKU), Christian Folma Dio (pencarian semantik ritel Indonesia), dan Jovan Marian Winarko (CNN vs Transformer untuk citra tempat wisata) berhasil menyelesaikan sidang skripsi mereka di UPH."
+
+- title:
+    en: "Paper accepted at JOIV on bias assessment in Indonesian QA datasets"
+    id: "Paper diterima di JOIV tentang asesmen bias pada dataset QA Indonesia"
+  date: "2026-05-31"
+  body:
+    en: "A multi-dimensional framework for bias assessment in Indonesian QA datasets was published in the Journal of Informatics Visualization (JOIV), Vol 10 No 3, with co-authors Marta Diana and Kelvin Wiriyatama."
+    id: "Framework multi-dimensi untuk asesmen bias pada dataset QA Indonesia terbit di Journal of Informatics Visualization (JOIV), Vol 10 No 3, bersama Marta Diana dan Kelvin Wiriyatama."
+
+- title:
+    en: "Two papers presented at ICCRAIDS 2026 in Purwokerto"
+    id: "Dua paper dipresentasikan di ICCRAIDS 2026 Purwokerto"
+  date: "2026-04-10"
+  body:
+    en: "Two papers were presented at ICCRAIDS 2026, Universitas Amikom Purwokerto: a biomedical article summarization study with Edward Engelbert Wiguna (BiomindBERT) and a real-time XGBoost flood prediction system for the Ciliwung River."
+    id: "Dua paper dipresentasikan di ICCRAIDS 2026, Universitas Amikom Purwokerto: studi summarization artikel biomedis bersama Edward Engelbert Wiguna (BiomindBERT) dan sistem prediksi banjir real-time untuk Sungai Ciliwung dengan XGBoost."
+
 - date: 2026-03
   title:
     en: "Journal paper published in JoSCEx"
