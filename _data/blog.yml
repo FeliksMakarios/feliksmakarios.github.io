@@ -1,17 +1,53 @@
-# Blog posts: translated content with attribution to original author.
+# Blog posts: technical writing with mathematical notation.
 # Fields:
-#   slug, title, original_title, original_author, original_url,
-#   original_date (YYYY-MM-DD), translated_date (YYYY-MM-DD),
-#   summary_en, summary_id, tags, language
+#   slug, type ('translation' | 'original'), title,
+#   original_title, original_author, original_url (only for translations),
+#   inspirations (only for originals): list of {title, author, url, year}
+#   original_date, translated_date | written_date,
+#   summary_id, tags, language
 posts:
+  - slug: seq2seq-dan-attention
+    type: original
+    title: "Seq2seq dan Attention"
+    written_date: "2026-08-20"
+    inspirations:
+      - title: "NLP Course | For You"
+        author: "Elena Voita"
+        url: "https://lena-voita.github.io/nlp_course.html"
+        year: 2020
+      - title: "Attention Is All You Need"
+        author: "Vaswani dkk."
+        url: "https://arxiv.org/abs/1706.03762"
+        year: 2017
+    summary_id: "Artikel asli berbahasa Indonesia tentang model sequence-to-sequence, mekanisme attention, dan Transformer. Membahas alur dari encoder-decoder berbasis RNN, kebutuhan attention untuk mengatasi bottleneck, sampai self-attention pada Transformer."
+    tags: ["NLP", "Deep Learning", "Tutorial", "Transformer"]
+    language: id
+
+  - slug: positional-encoding
+    type: original
+    title: "Positional Encoding pada Transformer"
+    written_date: "2026-07-15"
+    inspirations:
+      - title: "Transformer Architecture: The Positional Encoding"
+        author: "Amirhossein Kazemnejad"
+        url: "https://kazemnejad.com/blog/transformer_architecture_positional_encoding/"
+        year: 2019
+      - title: "Attention Is All You Need"
+        author: "Vaswani dkk."
+        url: "https://arxiv.org/abs/1706.03762"
+        year: 2017
+    summary_id: "Artikel asli berbahasa Indonesia yang menjelaskan positional encoding sinusoidal pada Transformer. Membahas intuisi, notasi matematis, sifat mirip rotasi, sampai cara membaca rumus sinus-kosinus pada makalah asli."
+    tags: ["NLP", "Transformer", "Tutorial", "Matematika"]
+    language: id
+
   - slug: memahami-jaringan-lstm
+    type: translation
     title: "Memahami Jaringan LSTM"
     original_title: "Understanding LSTM Networks"
     original_author: "Christopher Olah"
     original_url: "https://colah.github.io/posts/2015-08-Understanding-LSTMs/"
     original_date: "2015-08-27"
     translated_date: "2026-06-06"
-    summary_en: "Indonesian translation of Christopher Olah's classic introduction to LSTM networks, explaining recurrent neural networks, the vanishing gradient problem, and the LSTM architecture step by step."
     summary_id: "Terjemahan Bahasa Indonesia dari artikel klasik Christopher Olah yang menjelaskan jaringan LSTM, recurrent neural networks, masalah vanishing gradient, dan arsitektur LSTM langkah demi langkah."
     tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan"]
     language: id

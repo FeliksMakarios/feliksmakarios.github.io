@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Positional Encoding pada Transformer</title>
+<meta name="description" content="Penjelasan berbahasa Indonesia tentang positional encoding sinusoidal pada Transformer, lengkap dengan cara membaca notasi matematisnya.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+
+<style>
+  :root{
+    --bg:#fbfaf6;
+    --surface:#ffffff;
+    --ink:#1f2328;
+    --muted:#6b7280;
+    --hair:#e6e1d6;
+    --accent:#2d54a8;
+    --warm:#b01277;
+    --code-bg:#f3f1ea;
+    --maxw:720px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size:19px;line-height:1.72;font-feature-settings:"liga" 1, "onum" 1;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+  header.page{padding:64px 0 30px}
+  .eyebrow{font-family:"Inter",system-ui,sans-serif;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 14px}
+  h1{font-family:"Inter",system-ui,sans-serif;font-weight:700;font-size:2.5rem;line-height:1.12;letter-spacing:-.02em;margin:0 0 18px}
+  .lede{font-size:1.12rem;color:#3b4046;margin:0 0 28px}
+
+  .meta{border:1px solid var(--hair);background:var(--surface);border-radius:12px;padding:18px 20px;font-family:"Inter",system-ui,sans-serif;font-size:.92rem;line-height:1.6;color:#3b4046}
+  .meta strong{color:var(--ink)}
+  .meta a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,84,168,.3)}
+  .meta a:hover{border-bottom-color:var(--accent)}
+  .meta .row + .row{margin-top:8px}
+  details.cite{margin-top:14px}
+  details.cite summary{cursor:pointer;color:var(--accent);font-weight:500;font-size:.9rem}
+  pre{background:var(--code-bg);border:1px solid var(--hair);border-radius:8px;padding:14px 16px;overflow:auto;font-family:"JetBrains Mono", ui-monospace, monospace;font-size:.82rem;line-height:1.55;color:#33373d;margin:12px 0 0}
+
+  nav.toc{margin:34px 0 10px;padding:20px 22px;border:1px solid var(--hair);border-radius:12px;background:var(--surface);font-family:"Inter",system-ui,sans-serif;font-size:.95rem}
+  nav.toc p{margin:0 0 10px;font-weight:600;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  nav.toc ol{margin:0;padding-left:1.3em;line-height:1.95}
+  nav.toc a{color:var(--ink);text-decoration:none}
+  nav.toc a:hover{color:var(--accent)}
+
+  main{padding:18px 0 40px}
+  h2{font-family:"Inter",system-ui,sans-serif;font-weight:700;font-size:1.62rem;line-height:1.2;letter-spacing:-.015em;margin:62px 0 6px;padding-top:14px;border-top:2px solid var(--ink)}
+  h2 .num{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:.5em}
+  h3{font-family:"Inter",system-ui,sans-serif;font-weight:600;font-size:1.18rem;margin:38px 0 4px;letter-spacing:-.01em}
+  p{margin:18px 0}
+  a{color:var(--accent)}
+  ul,ol{margin:18px 0;padding-left:1.4em}
+  li{margin:8px 0}
+  strong{font-weight:600}
+
+  /* kotak "cara membaca notasi" */
+  .read{margin:22px 0;border:1px solid #d9e0f2;background:#f1f4fb;border-radius:10px;padding:16px 20px}
+  .read .lbl{font-family:"Inter",sans-serif;font-weight:600;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:8px}
+  .read dl{margin:0}
+  .read dt{font-family:"JetBrains Mono",monospace;font-size:.9rem;color:var(--ink);margin-top:12px}
+  .read dt:first-child{margin-top:0}
+  .read dd{margin:3px 0 0;font-size:.97rem;color:#33405e}
+
+  .note{margin:26px 0;padding:16px 20px;border-radius:10px;background:#fbf1f6;border:1px solid #efd3e3;font-size:.98rem;color:#5c2547}
+  .note .lbl{font-family:"Inter",sans-serif;font-weight:600;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--warm);display:block;margin-bottom:6px}
+
+  blockquote{margin:26px 0;padding:4px 20px;border-left:3px solid var(--accent);color:#43484e;font-style:italic}
+  blockquote p{margin:8px 0}
+
+  figure{margin:34px 0;text-align:center}
+  figure img{max-width:100%;height:auto;border-radius:10px;border:1px solid var(--hair);background:#fff}
+  figcaption{font-family:"Inter",system-ui,sans-serif;font-size:.84rem;color:var(--muted);line-height:1.55;margin-top:12px;max-width:600px;margin-left:auto;margin-right:auto}
+
+  table.bin{border-collapse:collapse;margin:24px auto;font-family:"JetBrains Mono",monospace;font-size:.9rem}
+  table.bin td{padding:3px 10px;text-align:center;border:1px solid var(--hair)}
+  table.bin .lblcol{color:var(--muted);border:none;padding-right:16px}
+  .b0{color:#c0392b}.b1{color:#2d54a8}.b2{color:#1f8a70}.b3{color:#d4561b}
+
+  .mathblock{overflow-x:auto;margin:22px 0}
+
+  footer.page{border-top:1px solid var(--hair);margin-top:60px;padding:30px 0 70px;font-family:"Inter",system-ui,sans-serif;font-size:.9rem;color:var(--muted)}
+  footer.page a{color:var(--accent);text-decoration:none}
+  ol.refs{font-family:"Inter",system-ui,sans-serif;font-size:.92rem;line-height:1.6;color:#3b4046}
+  ol.refs li{margin:12px 0}
+  ol.refs a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,84,168,.28)}
+
+  @media (max-width:560px){
+    body{font-size:17.5px}
+    h1{font-size:2rem}
+    h2{font-size:1.4rem}
+    header.page{padding:44px 0 22px}
+  }
+</style>
+</head>
+<body>
+
+<style>
+  .site-bar {
+    max-width: var(--maxw, 760px);
+    margin: 0 auto;
+    padding: 18px 24px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  .site-bar a {
+    color: var(--muted, #6b7280);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .site-bar a:hover { color: var(--accent, #2d54a8); }
+  .site-bar-brand { font-weight: 500; }
+</style>
+<div class="site-bar">
+  <a href="/id/" class="site-bar-brand">Feliks Samosir</a>
+  <a href="/id/blog/" class="site-bar-back">← Kembali ke Blog</a>
+</div>
+<div class="wrap">
+
+<header class="page">
+  <p class="eyebrow">Catatan NLP &middot; Bahasa Indonesia</p>
+  <h1>Positional Encoding pada Transformer</h1>
+  <p class="lede">Transformer membaca semua token sekaligus, jadi ia tidak punya rasa urutan. Tulisan ini menjelaskan cara klasik menyuntikkan informasi urutan kata, yaitu positional encoding sinusoidal, sekaligus cara membaca notasi matematisnya langkah demi langkah.</p>
+
+  <div class="meta">
+    <div class="row">Ini <strong>artikel asli berbahasa Indonesia</strong>, bukan terjemahan. Penjelasan, analogi, dan seluruh diagram di sini saya susun dan buat sendiri dari rumus standar.</div>
+    <div class="row">Topik dan metode bersumber dari makalah Transformer (Vaswani dkk., 2017). Pembahasan intuitif tentang positional encoding banyak terinspirasi tulisan Amirhossein Kazemnejad (2019) dan beberapa sumber lain yang tercantum di bagian <a href="#referensi">Referensi</a>.</div>
+    <details class="cite">
+      <summary>Sebagian sitasi (BibTeX)</summary>
+<pre>@inproceedings{vaswani2017attention,
+  title   = {Attention is All You Need},
+  author  = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and
+             Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N. and
+             Kaiser, Lukasz and Polosukhin, Illia},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year    = {2017}
+}
+
+@article{kazemnejad2019:pencoding,
+  title   = {Transformer Architecture: The Positional Encoding},
+  author  = {Kazemnejad, Amirhossein},
+  journal = {kazemnejad.com},
+  year    = {2019},
+  url     = {https://kazemnejad.com/blog/transformer_architecture_positional_encoding/}
+}</pre>
+    </details>
+  </div>
+
+  <nav class="toc">
+    <p>Daftar Isi</p>
+    <ol>
+      <li><a href="#kenapa">Mengapa Transformer Butuh Informasi Posisi</a></li>
+      <li><a href="#naif">Dua Ide Naif yang Gagal</a></li>
+      <li><a href="#kriteria">Kriteria Encoding yang Baik</a></li>
+      <li><a href="#metode">Metode Sinusoidal</a></li>
+      <li><a href="#baca">Cara Membaca Notasinya</a></li>
+      <li><a href="#biner">Intuisi: Analogi Bilangan Biner</a></li>
+      <li><a href="#visual">Melihat Encoding-nya</a></li>
+      <li><a href="#suntik">Menyuntikkan ke Model</a></li>
+      <li><a href="#relatif">Posisi Relatif dan Rotasi</a></li>
+      <li><a href="#faq">Pertanyaan yang Sering Muncul</a></li>
+      <li><a href="#ringkasan">Ringkasan</a></li>
+      <li><a href="#referensi">Referensi</a></li>
+    </ol>
+  </nav>
+</header>
+
+<main>
+
+<h2 id="kenapa"><span class="num">01</span>Mengapa Transformer Butuh Informasi Posisi</h2>
+
+<p>Urutan dan posisi kata adalah bagian mendasar dari bahasa apa pun. Urutan menentukan tata bahasa, dan karena itu menentukan makna sebuah kalimat. "Anjing menggigit anak" jelas berbeda dari "Anak menggigit anjing", meski kata-katanya identik.</p>
+
+<p>Recurrent Neural Network (RNN), yaitu jaringan saraf yang memproses barisan secara berurutan satu langkah demi satu langkah, memperhitungkan urutan kata secara bawaan. RNN membaca kalimat kata demi kata, sehingga urutan itu otomatis terjalin ke dalam cara kerjanya.</p>
+
+<p>Transformer justru membuang mekanisme rekurensi tersebut dan menggantinya dengan <em>self-attention</em>, yaitu mekanisme yang membuat setiap token saling memandang token lain secara langsung. Pilihan ini mempercepat pelatihan secara drastis dan, secara teori, memudahkan model menangkap keterkaitan antarkata yang berjauhan. Konsekuensinya: karena semua token mengalir melalui jaringan secara bersamaan, model kehilangan rasa urutan. Tanpa tambahan apa pun, bagi Transformer kalimat hanyalah sekumpulan kata tanpa susunan.</p>
+
+<p>Karena itu kita perlu cara untuk menyisipkan informasi urutan ke dalam model. Caranya: tambahkan sepotong informasi ke setiap kata tentang posisinya di dalam kalimat. Potongan informasi inilah yang disebut <em>positional encoding</em> (penyandian posisi).</p>
+
+<h2 id="naif"><span class="num">02</span>Dua Ide Naif yang Gagal</h2>
+
+<p>Sebelum melihat solusi sinusoidal, ada baiknya memahami mengapa solusi sederhana tidak memadai. Ini membantu kita menghargai mengapa rumusnya dirancang seperti itu.</p>
+
+<p><strong>Ide pertama: beri nilai dalam rentang [0, 1].</strong> Token pertama diberi 0, token terakhir diberi 1, sisanya dibagi rata di antaranya. Masalahnya, selisih antar langkah menjadi tidak konsisten. Pada kalimat sepuluh kata, jarak antarkata adalah sekitar 0,11; pada kalimat seratus kata, jaraknya jauh lebih kecil. Akibatnya, "jarak satu kata" tidak punya makna yang sama di seluruh kalimat.</p>
+
+<p><strong>Ide kedua: beri nomor urut linear.</strong> Kata pertama diberi 1, kata kedua diberi 2, dan seterusnya. Di sini selisih antarkata memang konsisten, tetapi muncul masalah lain. Nilainya bisa membesar tanpa batas, dan model bisa bertemu kalimat yang lebih panjang daripada yang pernah dilihat saat pelatihan. Nilai yang tak terbatas menyulitkan jaringan saraf, dan kemampuan menggeneralisasi ke kalimat panjang pun terganggu.</p>
+
+<h2 id="kriteria"><span class="num">03</span>Kriteria Encoding yang Baik</h2>
+
+<p>Dari dua kegagalan di atas, kita bisa menurunkan daftar sifat yang ideal dimiliki sebuah positional encoding:</p>
+<ul>
+  <li>Menghasilkan kode <strong>unik</strong> untuk setiap posisi.</li>
+  <li>Jarak antara dua posisi <strong>konsisten</strong> di seluruh kalimat, berapa pun panjangnya.</li>
+  <li><strong>Nilainya terbatas (bounded)</strong>, sehingga model bisa menggeneralisasi ke kalimat yang lebih panjang tanpa upaya tambahan.</li>
+  <li><strong>Deterministik</strong>, artinya posisi yang sama selalu menghasilkan kode yang sama.</li>
+</ul>
+
+<p>Metode sinusoidal yang diusulkan penulis Transformer memenuhi semua kriteria ini sekaligus dengan cara yang sederhana namun cerdik.</p>
+
+<h2 id="metode"><span class="num">04</span>Metode Sinusoidal</h2>
+
+<p>Ada dua gagasan kunci. Pertama, positional encoding bukan satu angka, melainkan sebuah <strong>vektor berdimensi \(d\)</strong> yang sama dengan dimensi embedding kata. Kedua, encoding ini tidak ditanam di dalam model, melainkan ditambahkan ke masukan untuk membekali tiap kata dengan informasi posisinya.</p>
+
+<p>Misalkan \(t\) adalah posisi yang diinginkan di dalam kalimat, dan \(\vec{p_t}\) adalah vektor encoding untuk posisi itu. Komponen ke-\(i\) dari vektor tersebut didefinisikan sebagai:</p>
+
+<div class="mathblock">\[
+\vec{p_t}^{\,(i)} =
+\begin{cases}
+\sin(\omega_k \cdot t), & \text{jika } i = 2k \quad (\text{indeks genap}) \\[4pt]
+\cos(\omega_k \cdot t), & \text{jika } i = 2k + 1 \quad (\text{indeks ganjil})
+\end{cases}
+\]</div>
+
+<p>dengan frekuensi:</p>
+
+<div class="mathblock">\[ \omega_k = \frac{1}{10000^{\,2k/d}}. \]</div>
+
+<p>Jadi setiap pasangan dimensi yang berdampingan, yaitu dimensi \(2k\) dan \(2k+1\), memakai satu frekuensi \(\omega_k\) yang sama: yang genap diisi sinus, yang ganjil diisi kosinus. Vektor lengkapnya bisa dibayangkan sebagai tumpukan pasangan sinus dan kosinus untuk frekuensi yang makin lama makin kecil:</p>
+
+<div class="mathblock">\[
+\vec{p_t} =
+\begin{bmatrix}
+\sin(\omega_1 \cdot t) \\ \cos(\omega_1 \cdot t) \\
+\sin(\omega_2 \cdot t) \\ \cos(\omega_2 \cdot t) \\
+\vdots \\
+\sin(\omega_{d/2} \cdot t) \\ \cos(\omega_{d/2} \cdot t)
+\end{bmatrix}
+\]</div>
+
+<p>Karena \(k\) bertambah seiring indeks dimensi, frekuensinya menurun di sepanjang vektor. Panjang gelombangnya membentuk deret ukur (geometric progression) dari \(2\pi\) sampai \(10000 \cdot 2\pi\).</p>
+
+<h2 id="baca"><span class="num">05</span>Cara Membaca Notasinya</h2>
+
+<p>Bagian ini sengaja saya buat untuk Anda yang belum terbiasa dengan notasi seperti di atas. Mari kita bedah satu per satu simbolnya.</p>
+
+<div class="read">
+  <span class="lbl">Kamus simbol</span>
+  <dl>
+    <dt>\(t\)</dt>
+    <dd>Posisi sebuah token di dalam kalimat, dibaca "te". Token pertama \(t=0\), token kedua \(t=1\), dan seterusnya. Ini bilangan bulat.</dd>
+
+    <dt>\(d\)</dt>
+    <dd>Dimensi vektor encoding, dibaca "de". Sama dengan dimensi embedding kata, misalnya 512 pada Transformer asli. Syaratnya \(d\) genap, karena dimensi selalu berpasangan sinus-kosinus.</dd>
+
+    <dt>\(\vec{p_t} \in \mathbb{R}^d\)</dt>
+    <dd>Dibaca "vektor pe-te adalah anggota er-de". Artinya \(\vec{p_t}\) adalah vektor berisi \(d\) bilangan real. Tanda panah di atas \(p\) menandakan ini vektor, bukan satu angka. Simbol \(\mathbb{R}^d\) berarti "ruang vektor real berdimensi \(d\)".</dd>
+
+    <dt>\(\vec{p_t}^{\,(i)}\)</dt>
+    <dd>Komponen (elemen) ke-\(i\) dari vektor \(\vec{p_t}\). Jadi \(i\) berjalan dari 0 sampai \(d-1\), menunjuk satu angka tertentu di dalam vektor.</dd>
+
+    <dt>\(i = 2k\) dan \(i = 2k+1\)</dt>
+    <dd>Cara memilah indeks genap dan ganjil. Untuk \(k = 0, 1, 2, \dots\), nilai \(2k\) menghasilkan 0, 2, 4, ... (genap) dan \(2k+1\) menghasilkan 1, 3, 5, ... (ganjil). Indeks genap diisi sinus, indeks ganjil diisi kosinus.</dd>
+
+    <dt>\(\omega_k\)</dt>
+    <dd>Dibaca "omega ke-ka". Ini frekuensi sudut untuk pasangan dimensi ke-\(k\). Makin besar \(k\), makin kecil \(\omega_k\), sehingga gelombangnya makin lambat.</dd>
+
+    <dt>\(10000^{\,2k/d}\)</dt>
+    <dd>Bilangan 10000 dipangkatkan \(2k/d\). Saat \(k=0\), pangkatnya 0 sehingga nilainya 1 dan \(\omega_0 = 1\) (gelombang tercepat). Saat \(k\) mendekati \(d/2\), pangkatnya mendekati 1 sehingga penyebutnya mendekati 10000 dan frekuensinya menjadi sangat kecil (gelombang terlambat).</dd>
+
+    <dt>\(\begin{cases} \dots \end{cases}\)</dt>
+    <dd>Notasi "kasus". Dibaca seperti pernyataan "jika ... maka ...". Baris atas berlaku saat syaratnya terpenuhi, baris bawah berlaku untuk syarat lainnya.</dd>
+  </dl>
+</div>
+
+<p>Dengan kamus ini, rumus tadi bisa dibaca dalam bahasa sehari-hari seperti berikut. Untuk membuat vektor posisi token ke-\(t\), isi setiap dimensi genap dengan nilai sinus dan setiap dimensi ganjil dengan nilai kosinus, di mana kecepatan gelombangnya ditentukan oleh nomor pasangan dimensi: pasangan awal berosilasi cepat, pasangan akhir berosilasi lambat.</p>
+
+<h2 id="biner"><span class="num">06</span>Intuisi: Analogi Bilangan Biner</h2>
+
+<p>Bagaimana mungkin gabungan sinus dan kosinus bisa mewakili posisi? Analogi paling enak adalah representasi biner. Perhatikan cara angka 0 sampai 15 ditulis dalam empat bit:</p>
+
+<table class="bin">
+  <tr><td class="lblcol">0</td><td class="b0">0</td><td class="b1">0</td><td class="b2">0</td><td class="b3">0</td><td class="lblcol">8</td><td class="b0">1</td><td class="b1">0</td><td class="b2">0</td><td class="b3">0</td></tr>
+  <tr><td class="lblcol">1</td><td class="b0">0</td><td class="b1">0</td><td class="b2">0</td><td class="b3">1</td><td class="lblcol">9</td><td class="b0">1</td><td class="b1">0</td><td class="b2">0</td><td class="b3">1</td></tr>
+  <tr><td class="lblcol">2</td><td class="b0">0</td><td class="b1">0</td><td class="b2">1</td><td class="b3">0</td><td class="lblcol">10</td><td class="b0">1</td><td class="b1">0</td><td class="b2">1</td><td class="b3">0</td></tr>
+  <tr><td class="lblcol">3</td><td class="b0">0</td><td class="b1">0</td><td class="b2">1</td><td class="b3">1</td><td class="lblcol">11</td><td class="b0">1</td><td class="b1">0</td><td class="b2">1</td><td class="b3">1</td></tr>
+  <tr><td class="lblcol">4</td><td class="b0">0</td><td class="b1">1</td><td class="b2">0</td><td class="b3">0</td><td class="lblcol">12</td><td class="b0">1</td><td class="b1">1</td><td class="b2">0</td><td class="b3">0</td></tr>
+  <tr><td class="lblcol">5</td><td class="b0">0</td><td class="b1">1</td><td class="b2">0</td><td class="b3">1</td><td class="lblcol">13</td><td class="b0">1</td><td class="b1">1</td><td class="b2">0</td><td class="b3">1</td></tr>
+  <tr><td class="lblcol">6</td><td class="b0">0</td><td class="b1">1</td><td class="b2">1</td><td class="b3">0</td><td class="lblcol">14</td><td class="b0">1</td><td class="b1">1</td><td class="b2">1</td><td class="b3">0</td></tr>
+  <tr><td class="lblcol">7</td><td class="b0">0</td><td class="b1">1</td><td class="b2">1</td><td class="b3">1</td><td class="lblcol">15</td><td class="b0">1</td><td class="b1">1</td><td class="b2">1</td><td class="b3">1</td></tr>
+</table>
+
+<p>Amati laju perubahan tiap bit. Bit paling kanan (bit terkecil) berganti pada setiap angka. Bit di sebelahnya berganti setiap dua angka. Bit berikutnya setiap empat angka, dan seterusnya. Jadi setiap posisi punya pola unik, dan pola itu tersusun dari beberapa "jam" yang berdetak pada kecepatan berbeda.</p>
+
+<p>Memakai bit 0 dan 1 boros di dunia bilangan pecahan (float). Maka kita ganti bit yang berganti-ganti itu dengan padanan kontinunya, yaitu fungsi sinusoidal. Sinus dan kosinus pada dasarnya adalah versi mulus dari bit yang berosilasi. Dengan menurunkan frekuensinya, kita berpindah dari "bit cepat" ke "bit lambat", persis seperti berpindah dari kolom kanan ke kolom kiri pada tabel biner di atas.</p>
+
+<h2 id="visual"><span class="num">07</span>Melihat Encoding-nya</h2>
+
+<p>Cara terbaik memahami positional encoding adalah melihatnya langsung. Diagram berikut menampilkan vektor encoding untuk 50 posisi pertama, masing-masing berdimensi 128. Setiap baris adalah satu vektor \(\vec{p_t}\) untuk satu posisi.</p>
+
+<figure>
+  <img src="img/pe_heatmap.png" alt="Heatmap positional encoding 128 dimensi untuk 50 posisi">
+  <figcaption>Positional encoding sinusoidal. Dimensi rendah (kiri) berganti warna dengan cepat seiring posisi, dimensi tinggi (kanan) berubah sangat lambat. Diagram dibuat sendiri dari rumus standar.</figcaption>
+</figure>
+
+<p>Perhatikan sisi kiri yang bergaris-garis rapat: itu dimensi berfrekuensi tinggi yang nilainya cepat berubah dari posisi ke posisi. Makin ke kanan, perubahannya makin lambat sampai hampir konstan. Inilah wujud "jam dengan kecepatan berbeda" tadi. Hubungan dengan frekuensi terlihat lebih jelas bila kita gambar beberapa gelombangnya saja:</p>
+
+<figure>
+  <img src="img/pe_frequencies.png" alt="Beberapa gelombang sinus pada frekuensi menurun">
+  <figcaption>Beberapa dimensi positional encoding sebagai gelombang sinus. Dimensi awal berosilasi cepat, dimensi belakang berosilasi sangat lambat. Diagram dibuat sendiri.</figcaption>
+</figure>
+
+<h2 id="suntik"><span class="num">08</span>Menyuntikkan ke Model</h2>
+
+<p>Bagaimana positional encoding dipakai? Pada makalah aslinya, vektor posisi cukup <strong>dijumlahkan</strong> dengan embedding kata. Untuk setiap kata \(w_t\) pada posisi \(t\), masukan yang diberikan ke model adalah:</p>
+
+<div class="mathblock">\[ \psi'(w_t) = \psi(w_t) + \vec{p_t}, \]</div>
+
+<p>dengan \(\psi(w_t)\) adalah embedding kata (dibaca "psi dari we-te"), yaitu representasi vektor dari maknanya, dan \(\vec{p_t}\) adalah positional encoding untuk posisinya. Agar penjumlahan ini sah, dimensi keduanya harus sama, yaitu \(d_{\text{embedding kata}} = d_{\text{embedding posisi}}\). Hasil penjumlahan \(\psi'(w_t)\) inilah yang akhirnya masuk ke lapisan-lapisan Transformer, kini membawa makna kata sekaligus posisinya.</p>
+
+<h2 id="relatif"><span class="num">09</span>Posisi Relatif dan Rotasi</h2>
+
+<p>Salah satu sifat elegan dari encoding sinusoidal adalah kemudahannya merepresentasikan <strong>posisi relatif</strong>, yaitu seberapa jauh satu kata dari kata lain. Penulis Transformer berhipotesis bahwa bentuk fungsi ini dipilih karena, untuk setiap pergeseran tetap \(\phi\), encoding pada posisi \(t+\phi\) dapat dinyatakan sebagai fungsi linear dari encoding pada posisi \(t\).</p>
+
+<p>Mengapa demikian? Tinjau satu pasangan sinus-kosinus untuk frekuensi \(\omega_k\). Ternyata ada sebuah matriks transformasi \(M\) berukuran \(2 \times 2\), yang tidak bergantung pada \(t\), sehingga:</p>
+
+<div class="mathblock">\[
+M \cdot
+\begin{bmatrix} \sin(\omega_k \cdot t) \\ \cos(\omega_k \cdot t) \end{bmatrix}
+=
+\begin{bmatrix} \sin(\omega_k (t+\phi)) \\ \cos(\omega_k (t+\phi)) \end{bmatrix}.
+\]</div>
+
+<p>Untuk menemukan \(M\), kita pakai rumus penjumlahan sudut pada sinus dan kosinus, yaitu identitas \(\sin(a+b)\) dan \(\cos(a+b)\) yang sudah dikenal di trigonometri. Setelah disusun ulang dan diselesaikan, matriksnya berbentuk:</p>
+
+<div class="mathblock">\[
+M_{\phi,k} =
+\begin{bmatrix}
+\cos(\omega_k \phi) & \sin(\omega_k \phi) \\
+-\sin(\omega_k \phi) & \cos(\omega_k \phi)
+\end{bmatrix}.
+\]</div>
+
+<p>Bentuk ini sangat mirip dengan <strong>matriks rotasi</strong>, yaitu matriks yang memutar sebuah vektor sebesar sudut tertentu. Maknanya, menggeser posisi sejauh \(\phi\) setara dengan memutar pasangan sinus-kosinus sebesar sudut \(\omega_k \phi\). Yang penting, \(M\) hanya bergantung pada pergeseran \(\phi\), bukan pada posisi awal \(t\). Karena hal serupa berlaku untuk semua pasangan frekuensi, vektor \(\vec{p}_{t+\phi}\) secara keseluruhan adalah fungsi linear dari \(\vec{p_t}\). Inilah yang memudahkan model belajar memperhatikan kata berdasarkan jarak relatifnya.</p>
+
+<div class="note">
+  <span class="lbl">Cara membaca</span>
+  Vektor \(\begin{bmatrix} \sin \\ \cos \end{bmatrix}\) menyatakan satu titik pada lingkaran satuan. Mengalikannya dengan matriks rotasi memindahkan titik itu di sepanjang lingkaran. Jadi "menambah posisi" diterjemahkan menjadi "memutar sudut", dan rotasi sebesar sudut yang sama selalu bisa diwakili matriks yang sama, tidak peduli dari mana kita mulai.
+</div>
+
+<p>Sifat tambahan lainnya, hasil kali titik (dot product) antara dua vektor posisi memuncak ketika kedua posisi sama, lalu meluruh dengan mulus dan simetris seiring jarak bertambah. Ini membuat ukuran kemiripan posisi berperilaku wajar.</p>
+
+<figure>
+  <img src="img/pe_dotproduct.png" alt="Hasil kali titik antar posisi yang meluruh simetris">
+  <figcaption>Hasil kali titik antara vektor posisi acuan (\(t=50\)) dan posisi lain. Nilainya memuncak di posisi yang sama lalu meluruh simetris. Diagram dibuat sendiri.</figcaption>
+</figure>
+
+<h2 id="faq"><span class="num">10</span>Pertanyaan yang Sering Muncul</h2>
+
+<h3>Mengapa dijumlahkan, bukan digabung (concatenate)?</h3>
+<p>Tidak ada alasan teoretis yang benar-benar memaksa. Namun penjumlahan menghemat parameter dibanding penggabungan, jadi pertanyaannya lebih tepat dibalik menjadi: apakah menjumlahkan posisi ke kata punya kerugian? Tampaknya tidak harus. Karena embedding pada Transformer dilatih dari nol, parameter cenderung tertata sedemikian rupa sehingga makna kata dan informasi posisi tidak saling mengganggu. Dengan kata lain, model bisa belajar memisahkan keduanya bila memang perlu.</p>
+
+<h3>Apakah informasi posisi hilang di lapisan-lapisan atas?</h3>
+<p>Untungnya tidak. Transformer dilengkapi <em>residual connection</em>, yaitu sambungan yang menambahkan masukan sebuah blok ke keluarannya. Lewat sambungan ini, informasi dari masukan model, termasuk positional encoding, dapat merambat dengan efisien ke lapisan-lapisan berikutnya tempat interaksi yang lebih rumit ditangani.</p>
+
+<h3>Mengapa memakai sinus sekaligus kosinus?</h3>
+<p>Justru kombinasi keduanyalah yang memungkinkan \(\sin(\omega t + \text{geser})\) dan \(\cos(\omega t + \text{geser})\) dinyatakan sebagai transformasi linear dari \(\sin(\omega t)\) dan \(\cos(\omega t)\), seperti pada pembahasan matriks rotasi tadi. Dengan satu fungsi saja, sinus saja atau kosinus saja, properti rapi itu tidak diperoleh.</p>
+
+<h2 id="ringkasan"><span class="num">11</span>Ringkasan</h2>
+
+<p>Karena Transformer memproses semua token serentak, ia tidak mengenal urutan, sehingga informasi posisi harus disuntikkan secara eksplisit. Solusi sinusoidal mengubah tiap posisi menjadi vektor berisi pasangan sinus dan kosinus pada frekuensi yang menurun, mirip jam-jam biner yang berdetak pada kecepatan berbeda. Encoding ini unik untuk tiap posisi, nilainya terbatas, deterministik, dan jaraknya konsisten antar kalimat. Ia dijumlahkan ke embedding kata, dan berkat sifat mirip rotasi, model mudah belajar memperhatikan posisi relatif. Untuk pendalaman, bukti lengkap hubungan linear posisi relatif serta perbandingan dengan positional encoding yang dipelajari (learned) layak ditelusuri pada sumber-sumber di bawah.</p>
+
+<h2 id="referensi"><span class="num">12</span>Referensi</h2>
+<ol class="refs">
+  <li>A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, L. Kaiser, dan I. Polosukhin, "Attention is All You Need," <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, 2017. <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">arxiv.org/abs/1706.03762</a></li>
+  <li>A. Kazemnejad, "Transformer Architecture: The Positional Encoding," <em>kazemnejad.com</em>, 2019. <a href="https://kazemnejad.com/blog/transformer_architecture_positional_encoding/" target="_blank" rel="noopener">tautan</a></li>
+  <li>J. Alammar, "The Illustrated Transformer," 2018. <a href="https://jalammar.github.io/illustrated-transformer/" target="_blank" rel="noopener">jalammar.github.io/illustrated-transformer</a></li>
+  <li>T. Denk, "Linear Relationships in the Transformer's Positional Encoding," 2019. <a href="https://timodenk.com/blog/linear-relationships-in-the-transformers-positional-encoding/" target="_blank" rel="noopener">tautan</a></li>
+  <li>L. Voita, "NLP Course | For You," bagian Seq2seq and Attention, 2020. <a href="https://lena-voita.github.io/nlp_course/seq2seq_and_attention.html" target="_blank" rel="noopener">lena-voita.github.io</a></li>
+</ol>
+
+</main>
+
+<footer class="page">
+  <p>Artikel asli berbahasa Indonesia tentang positional encoding sinusoidal. Topik bersumber dari makalah Transformer (Vaswani dkk., 2017) dengan pembahasan intuitif yang terinspirasi sumber-sumber pada bagian Referensi. Seluruh diagram dibuat sendiri dari rumus standar. Rumus dirender dengan MathJax.</p>
+</footer>
+
+</div>
+</body>
+</html>

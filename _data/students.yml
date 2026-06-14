@@ -5,33 +5,17 @@
 #   current_role (optional),
 #   status (current only: proposal | progress | defense | graduated)
 
-current:
-  - name: "Vincent Arianto"
-    cohort: 2022
-    title:
-      en: "Dataset Development and AI Text Detection Based on Linguistic Features and Transformers for MKU Courses"
-      id: "Pengembangan Dataset dan Deteksi Teks AI Berbasis Fitur Linguistik dan Transformer pada MKU"
-    area: domain-specific-nlp
-    status: progress
+current: []
 
+alumni:
+  # ---- Class of 2026 ----
   - name: "Christian Folma Dio"
-    cohort: 2022
+    year_graduated: 2026
     title:
       en: "Fine-tuning Transformer-Based Semantic Search Models: A Case Study on Indonesian Retail Products"
       id: "Fine-tuning Model Pencarian Semantik berbasis Transformers: Studi Kasus Produk Ritel Berbahasa Indonesia"
     area: domain-specific-nlp
-    status: progress
 
-  - name: "Jovan Marian Winarko"
-    cohort: 2022
-    title:
-      en: "Comparative Analysis of CNN and Transformer-Based Models for Classifying Real and Synthetic Tourist Site Images"
-      id: "Analisis Perbandingan CNN dan Model Berbasis Transformer Untuk Klasifikasi Citra Tempat Wisata Asli dan Sintetis"
-    area: applied-ml
-    status: progress
-
-alumni:
-  # ---- Class of 2026 ----
   - name: "Erwiyono Yusuf"
     year_graduated: 2026
     title:
@@ -47,6 +31,13 @@ alumni:
       id: "Analisis Bias dan Keadilan pada Dataset Berbahasa Indonesia untuk Pelatihan Generative Artificial Intelligence Model"
     area: bias-fairness
     thesis_url: "https://repository.uph.edu/id/eprint/73904/"
+
+  - name: "Jovan Marian Winarko"
+    year_graduated: 2026
+    title:
+      en: "Comparative Analysis of CNN and Transformer-Based Models for Classifying Real and Synthetic Tourist Site Images"
+      id: "Analisis Perbandingan CNN dan Model Berbasis Transformer Untuk Klasifikasi Citra Tempat Wisata Asli dan Sintetis"
+    area: applied-ml
 
   - name: "Liora Carlita"
     year_graduated: 2026
@@ -64,6 +55,13 @@ alumni:
     area: low-resource-languages
     thesis_url: "https://repository.uph.edu/id/eprint/74065/"
 
+  - name: "Vincent Arianto"
+    year_graduated: 2026
+    title:
+      en: "Dataset Development and AI Text Detection Based on Linguistic Features and Transformers for MKU Courses"
+      id: "Pengembangan Dataset dan Deteksi Teks AI Berbasis Fitur Linguistik dan Transformer pada MKU"
+    area: domain-specific-nlp
+
   # ---- Class of 2025 ----
   - name: "Edward Engelbert Wiguna"
     year_graduated: 2025
@@ -71,6 +69,7 @@ alumni:
       en: "Mind Map Generation using Hierarchical Clustering and Transformer Methods for Scientific Articles"
       id: "Pembangkitan Peta Pikiran Menggunakan Metode Hierarchical Clustering dan Transformer untuk Artikel Ilmiah"
     area: domain-specific-nlp
+    publication: biomind-bert-2026
     thesis_url: "http://repository.uph.edu/id/eprint/69104/"
 
   - name: "Marjuenz Henry Suparto"

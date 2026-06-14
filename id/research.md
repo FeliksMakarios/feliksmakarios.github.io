@@ -3,12 +3,12 @@ layout: default
 permalink: /id/research/
 lang: id
 slug: research
-title: Riset
+title: Riset dan Pengabdian Masyarakat
 subtitle: "NLP dan ML untuk konteks Indonesia yang kurang terwakili"
 ---
 
 <p class="lead">
-Penelitian saya mempelajari apa yang terjadi ketika NLP arus utama dan sistem pembelajaran mesin bertemu dengan konteks Indonesia yang kurang terwakili, baik secara linguistik, demografis, domain spesifik, dan modal. Tujuannya ada dua yaitu untuk memahami mengapa sistem arus utama gagal dalam situasi ini, dan untuk membangun pendekatan yang kuat terhadap sistem tersebut.
+Riset saya mempelajari apa yang patah ketika sistem NLP dan machine learning mainstream bertemu dengan konteks Indonesia yang kurang terwakili: secara linguistik, demografis, spesifik domain, dan modalitas. Tujuannya dua: memahami mengapa sistem mainstream gagal di situasi ini, dan membangun pendekatan yang robust terhadapnya.
 </p>
 
 <h2>Bidang riset</h2>
@@ -37,5 +37,20 @@ Penelitian saya mempelajari apa yang terjadi ketika NLP arus utama dan sistem pe
 <p>Untuk daftar lengkap publikasi, lihat <a href="/id/publications/">Publikasi</a>. Untuk mahasiswa yang pernah dan sedang saya bimbing, lihat <a href="/id/students/">Mahasiswa</a>.</p>
 
 <div class="callout">
-  <p><strong>Mencari dosen pembimbing TA?</strong> Tiap halaman detail bidang riset mencantumkan topik yang terbuka. Kirim email dengan paragraf singkat tentang alasan suatu topik menarik buat kamu.</p>
+  <p><strong>Mencari dosen pembimbing TA?</strong> Tiap halaman detail bidang riset mencantumkan topik yang terbuka. Kirim email dengan CV, transkrip, dan paragraf singkat tentang alasan suatu topik menarik buat kamu.</p>
+</div>
+
+<h2>Pengabdian Masyarakat</h2>
+
+<p>
+Kegiatan pengabdian dan outreach, pilar ketiga Tridharma Perguruan Tinggi bersama
+pengajaran dan riset. Ini proyek kolaboratif dengan sekolah dan organisasi komunitas,
+berfokus pada literasi digital dasar dan teknologi pendidikan.
+</p>
+
+{% assign items = site.data.community_service | sort: "year" | reverse %}
+{% assign years = items | map: "year" | uniq %}
+
+<div class="pub-timeline">
+{% for year in years %}{% assign year_items = items | where: "year", year %}<details class="year-group"><summary class="year-summary"><span class="year-label">{{ year }}</span><span class="year-count">{{ year_items.size }} entri</span></summary><ul class="pub-list">{% for item in year_items %}<li class="pub-item"><div class="pub-title">{{ item.title }}</div><div class="pub-authors">{{ item.authors | join: ", " }}</div><div class="pub-meta"><span class="venue-badge venue-{{ item.venue_type }}">{{ item.venue_type | capitalize }}</span><span class="pub-venue">{{ item.venue }}</span></div>{% if item.description_id %}<p class="pub-description">{{ item.description_id }}</p>{% endif %}{% if item.target_id %}<p class="pub-target"><em>Target audience:</em> {{ item.target_id }}</p>{% endif %}</li>{% endfor %}</ul></details>{% endfor %}
 </div>

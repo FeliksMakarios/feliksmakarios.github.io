@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seq2seq dan Attention</title>
+<meta name="description" content="Artikel pengantar berbahasa Indonesia tentang model sequence-to-sequence, mekanisme attention, dan Transformer.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+
+<style>
+  :root{
+    --bg:#fbfaf6;
+    --surface:#ffffff;
+    --ink:#1f2328;
+    --muted:#6b7280;
+    --hair:#e6e1d6;
+    --accent:#2d54a8;        /* tautan dan garis */
+    --enc:#4f7d12;           /* encoder, selaras diagram (hijau) */
+    --dec:#b01277;           /* decoder, selaras diagram (merah muda) */
+    --code-bg:#f3f1ea;
+    --maxw:720px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size:19px;
+    line-height:1.72;
+    font-feature-settings:"liga" 1, "onum" 1;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+  /* ---- Header ---- */
+  header.page{padding:64px 0 30px}
+  .eyebrow{
+    font-family:"Inter",system-ui,sans-serif;
+    font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;margin:0 0 14px
+  }
+  h1{
+    font-family:"Inter",system-ui,sans-serif;
+    font-weight:700;font-size:2.5rem;line-height:1.12;
+    letter-spacing:-.02em;margin:0 0 18px
+  }
+  .lede{font-size:1.12rem;color:#3b4046;margin:0 0 28px}
+
+  .meta{
+    border:1px solid var(--hair);
+    background:var(--surface);
+    border-radius:12px;
+    padding:18px 20px;
+    font-family:"Inter",system-ui,sans-serif;
+    font-size:.92rem;line-height:1.6;color:#3b4046;
+  }
+  .meta strong{color:var(--ink)}
+  .meta a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,84,168,.3)}
+  .meta a:hover{border-bottom-color:var(--accent)}
+  .meta .row + .row{margin-top:8px}
+  details.cite{margin-top:14px}
+  details.cite summary{cursor:pointer;color:var(--accent);font-weight:500;font-size:.9rem}
+  pre{
+    background:var(--code-bg);
+    border:1px solid var(--hair);
+    border-radius:8px;
+    padding:14px 16px;
+    overflow:auto;
+    font-family:"JetBrains Mono", ui-monospace, monospace;
+    font-size:.82rem;line-height:1.55;color:#33373d;
+    margin:12px 0 0
+  }
+
+  /* ---- Daftar isi ---- */
+  nav.toc{
+    margin:34px 0 10px;padding:20px 22px;
+    border:1px solid var(--hair);border-radius:12px;background:var(--surface);
+    font-family:"Inter",system-ui,sans-serif;font-size:.95rem
+  }
+  nav.toc p{margin:0 0 10px;font-weight:600;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  nav.toc ol{margin:0;padding-left:1.3em;line-height:1.95}
+  nav.toc a{color:var(--ink);text-decoration:none}
+  nav.toc a:hover{color:var(--accent)}
+
+  /* ---- Teks ---- */
+  main{padding:18px 0 40px}
+  h2{
+    font-family:"Inter",system-ui,sans-serif;
+    font-weight:700;font-size:1.62rem;line-height:1.2;letter-spacing:-.015em;
+    margin:62px 0 6px;padding-top:14px;border-top:2px solid var(--ink)
+  }
+  h2 .num{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:.5em}
+  h3{
+    font-family:"Inter",system-ui,sans-serif;
+    font-weight:600;font-size:1.18rem;margin:38px 0 4px;letter-spacing:-.01em
+  }
+  p{margin:18px 0}
+  a{color:var(--accent)}
+  ul,ol{margin:18px 0;padding-left:1.4em}
+  li{margin:8px 0}
+  strong{font-weight:600}
+  em{font-style:italic}
+
+  /* istilah selaras diagram */
+  .enc{color:var(--enc);font-weight:600}
+  .dec{color:var(--dec);font-weight:600}
+  .term{font-style:italic}
+
+  blockquote{
+    margin:26px 0;padding:4px 20px;border-left:3px solid var(--accent);
+    color:#43484e;font-style:italic
+  }
+  blockquote p:first-child{margin-top:0}
+  blockquote p:last-child{margin-bottom:0}
+
+  /* ---- Gambar ---- */
+  figure{margin:34px 0;text-align:center}
+  figure img{
+    max-width:100%;height:auto;border-radius:10px;
+    border:1px solid var(--hair);background:#fff
+  }
+  figure img.bare{border:none;background:transparent}
+  figcaption{
+    font-family:"Inter",system-ui,sans-serif;
+    font-size:.84rem;color:var(--muted);line-height:1.55;
+    margin-top:12px;max-width:600px;margin-left:auto;margin-right:auto
+  }
+  figcaption a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,84,168,.28)}
+
+  .note{
+    margin:26px 0;padding:16px 20px;border-radius:10px;
+    background:#f1f4fb;border:1px solid #d9e0f2;
+    font-size:.98rem;color:#33405e
+  }
+  .note .lbl{font-family:"Inter",sans-serif;font-weight:600;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:6px}
+
+  .mathblock{overflow-x:auto;margin:22px 0}
+
+  footer.page{
+    border-top:1px solid var(--hair);
+    margin-top:60px;padding:30px 0 70px;
+    font-family:"Inter",system-ui,sans-serif;font-size:.9rem;color:var(--muted)
+  }
+  footer.page a{color:var(--accent);text-decoration:none}
+
+  @media (max-width:560px){
+    body{font-size:17.5px}
+    h1{font-size:2rem}
+    h2{font-size:1.4rem}
+    header.page{padding:44px 0 22px}
+  }
+</style>
+</head>
+<body>
+
+<style>
+  .site-bar {
+    max-width: var(--maxw, 760px);
+    margin: 0 auto;
+    padding: 18px 24px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  .site-bar a {
+    color: var(--muted, #6b7280);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .site-bar a:hover { color: var(--accent, #2d54a8); }
+  .site-bar-brand { font-weight: 500; }
+</style>
+<div class="site-bar">
+  <a href="/id/" class="site-bar-brand">Feliks Samosir</a>
+  <a href="/id/blog/" class="site-bar-back">← Kembali ke Blog</a>
+</div>
+
+<div class="wrap">
+
+<header class="page">
+  <p class="eyebrow">Catatan NLP &middot; Bahasa Indonesia</p>
+  <h1>Seq2seq dan Attention</h1>
+  <p class="lede">Bagaimana sebuah model menerjemahkan satu barisan token menjadi barisan token lain: mulai dari kerangka encoder-decoder berbasis RNN, lahirnya mekanisme attention, sampai arsitektur Transformer yang sepenuhnya bersandar pada attention.</p>
+
+  <div class="meta">
+    <div class="row">Tulisan ini merupakan <strong>artikel asli berbahasa Indonesia</strong>, bukan terjemahan resmi. Penjelasan disusun ulang dengan kata-kata sendiri.</div>
+    <div class="row">Materi dan seluruh diagram diadaptasi dari <strong>NLP Course | For You</strong> karya <strong>Elena (Lena) Voita</strong>, bagian <a href="https://lena-voita.github.io/nlp_course/seq2seq_and_attention.html" target="_blank" rel="noopener">Seq2seq and Attention</a>. Gambar digunakan dengan menyertakan sitasi sesuai izin penggunaan materi pada situs tersebut.</div>
+    <details class="cite">
+      <summary>Sitasi (BibTeX)</summary>
+<pre>@misc{voita2020nlpCourse,
+  title  = {{NLP} {C}ourse {F}or {Y}ou},
+  url    = {https://lena-voita.github.io/nlp_course.html},
+  author = {Elena Voita},
+  year   = {2020},
+  month  = {Sep}
+}</pre>
+    </details>
+  </div>
+
+  <nav class="toc">
+    <p>Daftar Isi</p>
+    <ol>
+      <li><a href="#dasar">Dasar Sequence-to-Sequence</a></li>
+      <li><a href="#enc-dec">Kerangka Encoder-Decoder</a></li>
+      <li><a href="#clm">Conditional Language Model</a></li>
+      <li><a href="#rnn">Model Paling Sederhana: Dua RNN</a></li>
+      <li><a href="#training">Pelatihan: Cross-Entropy Loss</a></li>
+      <li><a href="#inference">Inferensi: Greedy dan Beam Search</a></li>
+      <li><a href="#bottleneck">Masalah Representasi Tetap</a></li>
+      <li><a href="#attention">Attention: Gambaran Umum</a></li>
+      <li><a href="#score">Fungsi Attention Score</a></li>
+      <li><a href="#bahdanau-luong">Model Bahdanau dan Luong</a></li>
+      <li><a href="#alignment">Attention dan Alignment</a></li>
+      <li><a href="#transformer">Transformer</a></li>
+      <li><a href="#self-attention">Self-Attention</a></li>
+      <li><a href="#masked">Masked Self-Attention</a></li>
+      <li><a href="#multihead">Multi-Head Attention</a></li>
+      <li><a href="#arsitektur">Arsitektur Transformer</a></li>
+    </ol>
+  </nav>
+</header>
+
+<main>
+
+<h2 id="dasar"><span class="num">01</span>Dasar Sequence-to-Sequence</h2>
+
+<p>Tugas <em>sequence-to-sequence</em> (seq2seq) adalah tugas yang mengubah satu barisan token menjadi barisan token lain. Contoh paling umum adalah penerjemahan mesin (machine translation) dari satu bahasa alami ke bahasa alami lain. Namun gagasannya jauh lebih luas: kita bisa "menerjemahkan" antarbahasa pemrograman, mengubah pertanyaan menjadi jawaban, atau memetakan barisan token apa pun ke barisan token lain. Sepanjang tulisan ini, istilah penerjemahan dipakai dalam arti umum tersebut, yaitu pemetaan dari satu barisan ke barisan lain.</p>
+
+<p>Secara formal, kita punya barisan masukan \(x_1, x_2, \dots, x_m\) dan barisan keluaran \(y_1, y_2, \dots, y_n\). Perhatikan bahwa panjang keduanya boleh berbeda. Penerjemahan dapat dipahami sebagai pencarian barisan sasaran yang paling mungkin diberikan masukannya, yaitu barisan yang memaksimalkan probabilitas bersyarat \(p(y|x)\):</p>
+
+<div class="mathblock">\[ y^{\ast} = \arg\max_{y} p(y \mid x). \]</div>
+
+<p>Masalahnya, kita tidak tahu \(p(y|x)\) yang sebenarnya. Karena itu kita mempelajari sebuah fungsi \(p(y|x, \theta)\) dengan sekumpulan parameter \(\theta\), lalu mencari keluaran terbaik menurut model yang sudah dilatih:</p>
+
+<div class="mathblock">\[ y' = \arg\max_{y} p(y \mid x, \theta). \]</div>
+
+<p>Untuk mendefinisikan sebuah sistem penerjemahan, ada tiga pertanyaan yang harus dijawab:</p>
+<ul>
+  <li><strong>Pemodelan (modeling):</strong> seperti apa bentuk model untuk \(p(y|x, \theta)\)?</li>
+  <li><strong>Pembelajaran (learning):</strong> bagaimana menemukan parameter \(\theta\)?</li>
+  <li><strong>Inferensi (inference):</strong> bagaimana menemukan \(y\) yang terbaik?</li>
+</ul>
+
+<h2 id="enc-dec"><span class="num">02</span>Kerangka Encoder-Decoder</h2>
+
+<figure>
+  <img src="img/enc_dec.png" alt="Skema kerangka encoder-decoder">
+  <figcaption>Kerangka encoder-decoder. Diagram diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<p>Kerangka <em>encoder-decoder</em> adalah paradigma pemodelan standar untuk tugas seq2seq. Kerangka ini terdiri atas dua komponen. <strong>Encoder</strong> (penyandi) membaca barisan sumber dan menghasilkan representasinya dalam bentuk vektor. <strong>Decoder</strong> (penyahsandi) memakai representasi sumber dari encoder untuk membangkitkan barisan sasaran token demi token. Hampir semua model yang dibahas di sini, sesederhana atau serumit apa pun, mengikuti struktur dua bagian ini.</p>
+
+<h2 id="clm"><span class="num">03</span>Conditional Language Model</h2>
+
+<p>Sebuah <em>language model</em> biasa menaksir probabilitas tak bersyarat \(p(y)\) dari sebuah barisan token \(y = (y_1, \dots, y_n)\). Model seq2seq harus menaksir sesuatu yang sedikit berbeda, yaitu probabilitas bersyarat \(p(y|x)\), yakni peluang barisan \(y\) diberikan sumber \(x\). Karena itu tugas seq2seq dapat dipandang sebagai <em>conditional language model</em> (CLM), yaitu model bahasa yang bekerja seperti biasa tetapi tambahan menerima informasi sumber \(x\).</p>
+
+<figure>
+  <img src="img/lm_clm.png" alt="Perbandingan language model dan conditional language model">
+  <figcaption>Language model menaksir \(p(y)\); conditional language model menaksir \(p(y\mid x)\). Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<div class="note">
+  <span class="lbl">Catatan</span>
+  Conditional language modeling lebih luas daripada sekadar cara menyelesaikan tugas seq2seq. Secara umum, \(x\) tidak harus berupa barisan token. Pada tugas <em>image captioning</em> misalnya, \(x\) adalah sebuah gambar dan \(y\) adalah kalimat deskripsinya.
+</div>
+
+<p>Karena satu-satunya perbedaan dengan language model biasa adalah kehadiran sumber \(x\), proses pemodelan dan pelatihannya pun mirip. Alur tingkat tingginya seperti berikut. Pertama, sumber dan token sasaran yang sudah dibangkitkan sebelumnya dimasukkan ke jaringan. Kedua, dari decoder kita memperoleh representasi vektor dari konteks, yang mencakup baik sumber maupun token sasaran sebelumnya. Ketiga, dari representasi vektor itu kita memprediksi distribusi probabilitas untuk token berikutnya.</p>
+
+<figure>
+  <img src="img/enc_dec_linear_out.png" alt="Lapisan linear dan softmax untuk menghasilkan probabilitas token">
+  <figcaption>Dari representasi vektor menuju distribusi probabilitas token. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<p>Bagian akhir ini sama seperti pada pengklasifikasi saraf dan language model. Representasi vektor sebuah teks punya dimensi \(d\), sedangkan pada akhirnya kita butuh vektor berukuran \(|V|\), yaitu probabilitas untuk \(|V|\) token (kelas) dalam kosakata. Untuk memperoleh vektor berukuran \(|V|\) dari vektor berukuran \(d\), kita memakai sebuah lapisan linear. Setelah itu, operasi <em>softmax</em> mengubah angka-angka mentah tersebut menjadi probabilitas token.</p>
+
+<h2 id="rnn"><span class="num">04</span>Model Paling Sederhana: Dua RNN</h2>
+
+<figure>
+  <img src="img/enc_dec_simple_rnn.png" alt="Encoder-decoder dengan dua RNN">
+  <figcaption>Model seq2seq paling sederhana: satu RNN untuk encoder, satu RNN untuk decoder. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<p>Model encoder-decoder paling sederhana terdiri atas dua RNN, biasanya berupa LSTM, satu untuk encoder dan satu untuk decoder. RNN encoder membaca kalimat sumber, lalu <em>state</em> akhirnya dipakai sebagai state awal RNN decoder. Di sini, <span class="term">hidden state</span> adalah vektor keadaan internal yang dibawa RNN dari satu langkah waktu ke langkah berikutnya, semacam ringkasan dari semua yang sudah dibaca sejauh ini. Harapannya, state akhir encoder benar-benar "menyandikan" seluruh informasi tentang sumber, sehingga decoder dapat membangkitkan kalimat sasaran hanya berbekal vektor tunggal itu.</p>
+
+<p>Model ini punya banyak variasi, misalnya encoder dan decoder yang masing-masing terdiri atas beberapa lapis. Model bertumpuk seperti ini, antara lain, dipakai pada makalah <a href="https://arxiv.org/abs/1409.3215" target="_blank" rel="noopener">Sequence to Sequence Learning with Neural Networks</a>, salah satu upaya awal menyelesaikan tugas seq2seq dengan jaringan saraf. Pada makalah yang sama, penulisnya memvisualisasikan state encoder terakhir dan menemukan sesuatu yang menarik: kalimat-kalimat dengan makna serupa tetapi struktur berbeda ternyata terletak berdekatan di ruang representasi.</p>
+
+<h2 id="training"><span class="num">05</span>Pelatihan: Cross-Entropy Loss</h2>
+
+<p>Seperti pada language model saraf, model seq2seq dilatih untuk memprediksi distribusi probabilitas token berikutnya diberikan konteks sebelumnya, yaitu sumber dan token sasaran yang telah dibangkitkan. Secara intuitif, di setiap langkah kita memaksimalkan probabilitas yang diberikan model kepada token yang benar.</p>
+
+<p>Misalkan ada satu contoh pelatihan dengan sumber \(x = (x_1, \dots, x_m)\) dan sasaran \(y = (y_1, \dots, y_n)\). Pada langkah waktu \(t\), model memprediksi distribusi probabilitas \(p^{(t)} = p(\ast \mid y_1, \dots, y_{t-1}, x_1, \dots, x_m)\). Sasaran ideal pada langkah ini adalah \(p^{\ast} = \text{one-hot}(y_t)\), artinya kita ingin model memberikan probabilitas 1 kepada token yang benar, \(y_t\), dan 0 kepada token lain.</p>
+
+<p>Fungsi kerugian (loss) standarnya adalah <em>cross-entropy loss</em>. Untuk distribusi sasaran \(p^{\ast}\) dan distribusi prediksi \(p\), bentuknya adalah:</p>
+
+<div class="mathblock">\[ Loss(p^{\ast}, p) = - \sum_{i=1}^{|V|} p_i^{\ast} \log(p_i). \]</div>
+
+<p>Karena hanya satu komponen \(p_i^{\ast}\) yang bernilai tak nol (yaitu untuk token benar \(y_t\)), penjumlahan itu mengerut menjadi:</p>
+
+<div class="mathblock">\[ Loss(p^{\ast}, p) = -\log(p_{y_t}) = -\log\, p(y_t \mid y_{<t}, x). \]</div>
+
+<figure>
+  <img src="img/one_step_loss.png" alt="Intuisi loss pada satu langkah waktu">
+  <figcaption>Intuisi cross-entropy loss untuk satu langkah waktu: maksimalkan probabilitas token yang benar. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<p>Untuk keseluruhan contoh, loss-nya adalah jumlah atas seluruh langkah waktu:</p>
+
+<div class="mathblock">\[ -\sum_{t=1}^{n} \log\, p(y_t \mid y_{<t}, x). \]</div>
+
+<h2 id="inference"><span class="num">06</span>Inferensi: Greedy dan Beam Search</h2>
+
+<p>Setelah memahami bentuk model dan cara melatihnya, muncul pertanyaan: bagaimana membangkitkan terjemahan dengan model itu? Kita memodelkan probabilitas sebuah kalimat sebagai hasil kali probabilitas tiap token diberikan token sebelumnya. Pertanyaan utamanya adalah bagaimana menemukan argmax-nya.</p>
+
+<p>Mencari solusi pastinya tidak memungkinkan. Jumlah seluruh hipotesis yang harus diperiksa adalah \(|V|^n\), yang tidak praktis untuk kosakata dan panjang kalimat yang wajar. Karena itu kita mencari solusi hampiran (perkiraan). Menariknya, solusi pasti dalam praktik justru sering lebih buruk daripada solusi hampiran yang kita pakai.</p>
+
+<h3>Greedy decoding</h3>
+<p>Strategi penyahsandian paling lugas adalah <em>greedy</em>: di setiap langkah, bangkitkan token dengan probabilitas tertinggi. Ini bisa menjadi acuan dasar yang lumayan, tetapi punya cacat bawaan. Token terbaik pada langkah saat ini belum tentu menuntun ke barisan keseluruhan yang terbaik. Sebuah pilihan yang tampak optimal sekarang bisa menjebak model ke kelanjutan yang buruk.</p>
+
+<h3>Beam search</h3>
+<p>Alih-alih hanya menyimpan satu kandidat, kita simpan beberapa hipotesis sekaligus. Di setiap langkah, kita meneruskan setiap hipotesis yang ada lalu memilih \(N\) terbaik di antara semua kelanjutan. Strategi ini disebut <em>beam search</em>, dan jumlah hipotesis yang dipertahankan disebut <em>beam size</em>. Biasanya beam size berkisar 4 sampai 10. Memperbesarnya secara berlebihan tidak hanya boros komputasi, tetapi sering kali malah menurunkan kualitas terjemahan.</p>
+
+<h2 id="bottleneck"><span class="num">07</span>Masalah Representasi Tetap</h2>
+
+<figure>
+  <img src="img/bottleneck.png" alt="Masalah bottleneck representasi sumber yang tetap">
+  <figcaption>Memampatkan seluruh kalimat sumber menjadi satu vektor tetap menciptakan bottleneck. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<p>Pada model-model sebelumnya, encoder memampatkan seluruh kalimat sumber menjadi satu vektor tunggal. Ini bisa sangat berat. Banyaknya kalimat sumber yang mungkin (dan karenanya maknanya) praktis tak terhingga, sehingga memaksa semua informasi masuk ke satu vektor membuat encoder cenderung melupakan sesuatu.</p>
+
+<p>Kesulitannya tidak berhenti di encoder. Decoder pun kesulitan, karena ia hanya melihat satu representasi sumber. Padahal pada tiap langkah pembangkitan, bagian sumber yang relevan bisa berbeda-beda. Dengan susunan yang lama, decoder harus menggali informasi yang berbeda-beda dari representasi tetap yang sama persis, dan itu jelas bukan pekerjaan mudah.</p>
+
+<h2 id="attention"><span class="num">08</span>Attention: Gambaran Umum</h2>
+
+<p>Mekanisme <em>attention</em> diperkenalkan pada makalah <a href="https://arxiv.org/abs/1409.0473" target="_blank" rel="noopener">Neural Machine Translation by Jointly Learning to Align and Translate</a> untuk mengatasi masalah representasi tetap di atas. Ide intinya sederhana: pada langkah yang berbeda, biarkan model "memusatkan perhatian" pada bagian masukan yang berbeda. Istilah <em>attention</em> dipertahankan dalam bahasa Inggris karena sudah baku; secara bebas ia berarti perhatian terarah, yaitu kemampuan model menimbang bagian mana dari sumber yang paling penting saat ini.</p>
+
+<p>Attention adalah bagian dari jaringan saraf. Pada setiap langkah decoder, ia memutuskan bagian sumber mana yang lebih penting. Dengan begitu, encoder tidak perlu lagi memampatkan seluruh sumber menjadi satu vektor; ia cukup memberikan representasi untuk semua token sumber, misalnya seluruh state RNN dan bukan hanya yang terakhir.</p>
+
+<figure>
+  <img src="img/attn_general_scheme.png" alt="Skema umum mekanisme attention">
+  <figcaption>Skema umum: decoder melihat seluruh state encoder, bukan satu vektor tunggal. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<p>Pada setiap langkah decoder, attention melakukan rangkaian berikut. Mula-mula ia menerima masukan, yaitu satu <span class="dec">state decoder \(h_t\)</span> dan seluruh <span class="enc">state encoder \(s_1, s_2, \dots, s_m\)</span>. (Warna di sini sengaja menyamai diagram aslinya: merah muda untuk sisi decoder, hijau untuk sisi encoder.) Lalu attention menghitung <strong>attention score</strong>: untuk setiap state encoder \(\color{#4f7d12}{s_k}\), sebuah fungsi mengukur "relevansi"-nya terhadap state decoder \(\color{#b01277}{h_t}\) saat ini, dan mengembalikan satu nilai skalar \(\text{score}(\color{#b01277}{h_t}\color{black}{,}\,\color{#4f7d12}{s_k}\color{black}{)}\).</p>
+
+<p>Selanjutnya attention menghitung <strong>attention weights</strong>, yaitu distribusi probabilitas yang diperoleh dengan menerapkan softmax pada skor-skor tadi. Terakhir ia menghitung <strong>attention output</strong>, yaitu jumlah berbobot dari seluruh state encoder, dengan bobot berupa attention weights tersebut. Output inilah ringkasan sumber yang relevan khusus untuk langkah \(t\).</p>
+
+<figure>
+  <img src="img/attn_computation_scheme.png" alt="Skema komputasi attention">
+  <figcaption>Alur komputasi: score, kemudian softmax menjadi weights, lalu jumlah berbobot menjadi output. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<div class="note">
+  <span class="lbl">Mengapa ini bisa dilatih</span>
+  Gagasan utamanya adalah jaringan dapat <em>belajar sendiri</em> bagian masukan mana yang lebih penting di tiap langkah. Karena seluruh komponennya (fungsi attention, softmax, dan sisanya) dapat diturunkan (differentiable), model dengan attention bisa dilatih secara <em>end-to-end</em>. Kita tidak perlu mengajari model kata mana yang harus dipilih; model akan mempelajarinya sendiri.
+</div>
+
+<h2 id="score"><span class="num">09</span>Fungsi Attention Score</h2>
+
+<p>Pada skema umum tadi kita belum menetapkan bagaimana persisnya attention score dihitung. Sebenarnya kita boleh memakai fungsi apa pun, bahkan yang rumit. Namun biasanya tidak perlu, karena ada beberapa pilihan sederhana yang sudah bekerja cukup baik. Misalkan \(\color{#4f7d12}{s_k}\) adalah sebuah state encoder dan \(\color{#b01277}{h_t}\) state decoder, tiga varian paling populer adalah:</p>
+
+<div class="mathblock">\[ \text{score}(\color{#b01277}{h_t}\color{black}{,}\,\color{#4f7d12}{s_k}\color{black}{)} = \begin{cases} \color{#4f7d12}{s_k}^{\!\top} \color{#b01277}{h_t} & \text{dot-product} \\[4pt] \color{#4f7d12}{s_k}^{\!\top} W\, \color{#b01277}{h_t} & \text{bilinear (Luong)} \\[4pt] w_2^{\top} \tanh\!\big(W_1 [\color{#4f7d12}{s_k}\color{black}{;}\,\color{#b01277}{h_t}\color{black}{]}\big) & \text{multi-layer perceptron (Bahdanau)} \end{cases} \]</div>
+
+<figure>
+  <img src="img/score_functions.png" alt="Tiga fungsi attention score">
+  <figcaption>Tiga cara populer menghitung attention score. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<p>Versi <strong>dot-product</strong> adalah yang paling sederhana dan tanpa parameter tambahan. Versi <strong>bilinear</strong> menambahkan matriks bobot \(W\) di antara kedua vektor, dan inilah yang dipakai pada makalah <a href="https://arxiv.org/abs/1508.04025" target="_blank" rel="noopener">Effective Approaches to Attention-based Neural Machine Translation</a> sehingga kerap disebut "Luong attention". Versi <strong>multi-layer perceptron</strong> menyatukan kedua state lalu memprosesnya dengan jaringan kecil ber-nonlinearitas \(\tanh\); inilah metode pada makalah asli attention, yang lazim disebut "Bahdanau attention".</p>
+
+<h2 id="bahdanau-luong"><span class="num">10</span>Model Bahdanau dan Luong</h2>
+
+<p>Saat membahas model attention awal, dua nama yang paling sering muncul adalah Bahdanau dan Luong. Keduanya bisa merujuk pada fungsi score, tetapi juga pada keseluruhan model yang dipakai di masing-masing makalah. Mari kita lihat keduanya lebih dekat.</p>
+
+<h3>Model Bahdanau</h3>
+<p>Model ini berasal dari makalah <a href="https://arxiv.org/abs/1409.0473" target="_blank" rel="noopener">Neural Machine Translation by Jointly Learning to Align and Translate</a> oleh Dzmitry Bahdanau, KyungHyun Cho, dan Yoshua Bengio, makalah yang pertama kali memperkenalkan mekanisme attention. Ciri-cirinya:</p>
+<ul>
+  <li><strong>Encoder dwiarah (bidirectional).</strong> Untuk menyandikan tiap kata sumber dengan lebih baik, encoder memiliki dua RNN, satu maju dan satu mundur, yang membaca masukan dari arah berlawanan. Untuk setiap token, state kedua RNN tersebut digabung (concatenate). Inilah yang disebut <em>BiRNN</em> (bidirectional RNN). Manfaatnya, representasi setiap token memuat konteks dari kiri sekaligus dari kanan.</li>
+  <li><strong>Attention score: multi-layer perceptron.</strong> Skor dihitung dengan menerapkan MLP pada satu state encoder dan satu state decoder.</li>
+  <li><strong>Attention dipakai di antara langkah decoder.</strong> State <span class="dec">\(h_{t-1}\)</span> dipakai untuk menghitung attention dan outputnya <span class="enc">\(c^{(t)}\)</span>, lalu baik <span class="dec">\(h_{t-1}\)</span> maupun <span class="enc">\(c^{(t)}\)</span> diberikan ke decoder pada langkah \(t\).</li>
+</ul>
+
+<figure>
+  <img src="img/bahdanau_model.png" alt="Model Bahdanau">
+  <figcaption>Model Bahdanau dengan encoder BiRNN. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<h3>Model Luong</h3>
+<p>Makalah Luong sebenarnya membahas beberapa varian, tetapi yang biasa disebut "Luong attention" adalah varian berikut:</p>
+<ul>
+  <li><strong>Encoder searah (unidirectional)</strong>, jadi lebih sederhana daripada Bahdanau.</li>
+  <li><strong>Attention score: fungsi bilinear.</strong></li>
+  <li><strong>Attention dipakai setelah langkah decoder \(t\), sebelum prediksi.</strong> State <span class="dec">\(h_t\)</span> dipakai untuk menghitung attention dan outputnya <span class="enc">\(c^{(t)}\)</span>. Lalu <span class="dec">\(h_t\)</span> dipadukan dengan <span class="enc">\(c^{(t)}\)</span> menjadi representasi baru <span class="dec">\(\tilde{h}_t\)</span>, yang dipakai untuk membuat prediksi.</li>
+</ul>
+
+<figure>
+  <img src="img/luong_model.png" alt="Model Luong">
+  <figcaption>Model Luong: attention dipakai setelah state decoder, sebelum prediksi. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<h2 id="alignment"><span class="num">11</span>Attention dan Alignment</h2>
+
+<p>Ingat kembali motivasi attention: pada langkah yang berbeda, decoder mungkin perlu fokus pada token sumber yang berbeda, yaitu token yang paling relevan saat itu. Jika kita amati attention weights, kita bisa melihat kata sumber mana yang dipakai decoder pada tiap langkah.</p>
+
+<figure>
+  <img src="img/bahdanau_examples.png" alt="Contoh alignment dari attention weights">
+  <figcaption>Attention weights membentuk alignment lunak antara kata sumber dan kata sasaran. Contoh dari makalah Bahdanau dkk., diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<p>Dari contoh-contoh tersebut terlihat bahwa attention mempelajari <em>alignment</em> (penyelarasan) yang bersifat lunak antara kata sumber dan kata sasaran. Decoder cenderung melihat token sumber yang sedang ia terjemahkan pada langkah itu. Istilah "alignment" berasal dari penerjemahan mesin statistik, tetapi di sini pemahaman intuitifnya saja, yaitu "apa yang diterjemahkan menjadi apa", sudah cukup.</p>
+
+<h2 id="transformer"><span class="num">12</span>Transformer</h2>
+
+<p>Transformer adalah model yang diperkenalkan pada makalah <a href="https://papers.nips.cc/paper/7181-attention-is-all-you-need.pdf" target="_blank" rel="noopener">Attention is All You Need</a> tahun 2017. Model ini bersandar sepenuhnya pada mekanisme attention, tanpa rekurensi (recurrence) maupun konvolusi. Selain menghasilkan kualitas terjemahan yang lebih tinggi, model ini juga jauh lebih cepat dilatih. Saat ini Transformer beserta variasinya sudah menjadi model standar de facto, bukan hanya untuk tugas seq2seq tetapi juga untuk language modeling dan pra-pelatihan (pretraining).</p>
+
+<figure>
+  <img src="img/transformer_original.gif" alt="Animasi Transformer" class="bare">
+  <figcaption>Animasi alur kerja Transformer dari Google AI blog, sebagaimana ditampilkan pada NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<p>Mengapa pendekatan tanpa rekurensi ini bisa lebih cocok daripada RNN untuk memahami bahasa? Pertimbangkan kata yang bermakna ganda, misalnya kata <em>bank</em> dalam bahasa Inggris yang bisa berarti tepi sungai atau lembaga keuangan. Ketika menyandikan kalimat, RNN tidak akan memahami arti <em>bank</em> sampai ia selesai membaca seluruh kalimat, dan untuk kalimat panjang ini bisa lama. Sebaliknya, pada encoder Transformer semua token saling berinteraksi sekaligus.</p>
+
+<p>Secara intuitif, encoder Transformer dapat dibayangkan sebagai serangkaian langkah penalaran (lapisan). Pada tiap langkah, token saling memandang satu sama lain (di sinilah attention diperlukan, tepatnya <em>self-attention</em>), bertukar informasi, dan berusaha saling memahami dalam konteks seluruh kalimat. Proses ini terjadi dalam beberapa lapis, biasanya enam. Pada tiap lapis decoder, token prefiks juga saling berinteraksi lewat self-attention, tetapi tambahan mereka juga memandang state encoder, sebab tanpa itu tidak ada terjemahan yang bisa terjadi.</p>
+
+<h2 id="self-attention"><span class="num">13</span>Self-Attention</h2>
+
+<p>Self-attention adalah salah satu komponen kunci Transformer. Perbedaannya dengan attention biasa: <em>self-attention</em> bekerja antarrepresentasi yang sejenis, misalnya seluruh state encoder pada suatu lapisan. Di sinilah token-token saling berinteraksi. Setiap token "memandang" token lain dalam kalimat lewat mekanisme attention, mengumpulkan konteks, lalu memperbarui representasi dirinya sendiri. Pada praktiknya, ini terjadi secara paralel untuk semua token sekaligus.</p>
+
+<figure>
+  <img src="img/decenc_vs_self.png" alt="Perbedaan attention decoder-encoder dengan self-attention">
+  <figcaption>Attention biasa beroperasi antara dua himpunan representasi berbeda; self-attention beroperasi dalam satu himpunan yang sama. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<h3>Query, key, dan value</h3>
+<p>Secara formal, intuisi tadi diwujudkan dengan attention bergaya <em>query-key-value</em>. Setiap token masukan menerima tiga representasi sesuai peran yang dapat ia mainkan. <strong>Query</strong> (kueri, "permintaan") dipakai saat sebuah token memandang token lain, yaitu mencari informasi untuk memahami dirinya lebih baik. <strong>Key</strong> (kunci) menanggapi permintaan query dan dipakai untuk menghitung attention weights. <strong>Value</strong> (nilai) dipakai untuk menghitung attention output, yaitu memberikan informasi kepada token yang "berkata" membutuhkannya, yakni token yang memberi bobot besar padanya.</p>
+
+<figure>
+  <img src="img/qkv_explained.png" alt="Penjelasan query, key, value">
+  <figcaption>Peran query, key, dan value dalam self-attention. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<p>Pada Transformer, attention output dihitung dengan rumus <em>scaled dot-product attention</em>, yaitu hasil kali titik antara query dan key yang diskalakan oleh \(\sqrt{d_k}\), dilewatkan softmax, lalu dipakai membobot value:</p>
+
+<div class="mathblock">\[ \text{Attention}(Q, K, V) = \text{softmax}\!\left( \frac{Q K^{\top}}{\sqrt{d_k}} \right) V, \]</div>
+
+<p>dengan \(Q\), \(K\), \(V\) berturut-turut adalah matriks query, key, dan value, sedangkan \(d_k\) adalah dimensi vektor key. Pembagian dengan \(\sqrt{d_k}\) menjaga agar nilai hasil kali titik tidak membesar berlebihan sehingga softmax tetap stabil.</p>
+
+<h2 id="masked"><span class="num">14</span>Masked Self-Attention</h2>
+
+<p>Di dalam decoder juga ada self-attention, dan inilah yang menjalankan fungsi "memandang token-token sebelumnya". Namun ada perbedaan penting dengan self-attention di encoder. Encoder menerima semua token sekaligus, sehingga tiap token boleh memandang seluruh token dalam kalimat masukan. Sebaliknya, decoder membangkitkan satu token pada satu waktu; ketika membangkitkan, kita belum tahu token apa yang akan muncul di masa depan.</p>
+
+<p>Agar decoder tidak boleh "mengintip ke depan", model memakai <em>masked self-attention</em>, yaitu token-token masa depan ditutup (di-mask). Lalu muncul pertanyaan: bukankah saat pelatihan kita memberikan seluruh kalimat sasaran ke decoder, jadi bagaimana mencegahnya mengintip? Memang benar, saat pelatihan kita memakai terjemahan rujukan yang sudah diketahui dan memasukkannya seluruhnya ke decoder. Tanpa mask, token akan "melihat masa depan", dan itu yang tidak kita inginkan, sehingga mask diperlukan.</p>
+
+<p>Cara ini ditempuh demi efisiensi komputasi. Karena Transformer tidak punya rekurensi, semua token dapat diproses sekaligus. Inilah salah satu alasan ia begitu populer untuk penerjemahan mesin: jauh lebih cepat dilatih daripada model rekuren yang dulu mendominasi. Pada model rekuren, satu langkah pelatihan membutuhkan \(O(\text{len(source)} + \text{len(target)})\) langkah berurutan, sedangkan pada Transformer kompleksitasnya \(O(1)\), yaitu konstan.</p>
+
+<h2 id="multihead"><span class="num">15</span>Multi-Head Attention</h2>
+
+<p>Memahami peran sebuah kata dalam kalimat sering menuntut pemahaman tentang bagaimana kata itu berhubungan dengan berbagai bagian kalimat sekaligus. Pada banyak bahasa, subjek menentukan infleksi verba, verba menentukan kasus objeknya, dan seterusnya. Singkatnya, setiap kata adalah bagian dari banyak relasi sekaligus.</p>
+
+<p>Karena itu kita perlu membiarkan model fokus pada beberapa hal sekaligus. Inilah motivasi <em>multi-head attention</em>. Alih-alih satu mekanisme attention tunggal, multi-head attention punya beberapa "kepala" (head) yang bekerja secara mandiri, masing-masing bisa memperhatikan pola relasi yang berbeda.</p>
+
+<figure>
+  <img src="img/qkv_for_heads.png" alt="Query, key, value untuk beberapa head">
+  <figcaption>Query, key, dan value dipecah menjadi beberapa head yang bekerja mandiri. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<p>Secara formal, ini diwujudkan sebagai beberapa mekanisme attention yang hasilnya digabung:</p>
+
+<div class="mathblock">\[ \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \dots, \text{head}_n)\, W_O, \]</div>
+<div class="mathblock">\[ \text{head}_i = \text{Attention}(Q W_Q^i,\; K W_K^i,\; V W_V^i). \]</div>
+
+<p>Pada implementasinya, query, key, dan value yang dihitung untuk attention satu kepala cukup dibagi menjadi beberapa bagian. Dengan cara ini, model dengan satu head atau beberapa head memiliki ukuran yang sama, sehingga multi-head attention tidak menambah ukuran model.</p>
+
+<h2 id="arsitektur"><span class="num">16</span>Arsitektur Transformer</h2>
+
+<p>Setelah memahami komponen utama dan gagasan umumnya, mari lihat keseluruhan model. Secara intuitif, model melakukan persis yang sudah dibahas: di encoder, token saling berkomunikasi dan memperbarui representasinya; di decoder, sebuah token sasaran mula-mula memandang token sasaran yang sudah dibangkitkan sebelumnya, lalu memandang sumber, dan akhirnya memperbarui representasinya. Semua ini terjadi dalam beberapa lapis, biasanya enam.</p>
+
+<figure>
+  <img src="img/transformer_model.png" alt="Arsitektur model Transformer">
+  <figcaption>Arsitektur Transformer dari makalah aslinya. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
+</figure>
+
+<p>Selain attention, ada beberapa komponen lain yang perlu dipahami.</p>
+
+<h3>Feed-forward block</h3>
+<p>Setiap lapis memiliki blok jaringan <em>feed-forward</em>, yaitu dua lapisan linear dengan nonlinearitas ReLU di antaranya:</p>
+
+<div class="mathblock">\[ \text{FFN}(x) = \max(0,\; x W_1 + b_1)\, W_2 + b_2. \]</div>
+
+<p>Setelah memandang token lain lewat attention, model memakai blok FFN untuk mengolah informasi baru tersebut. Perumpamaan yang enak: attention adalah "memandang token lain dan mengumpulkan informasi", sedangkan FFN adalah "berhenti sejenak untuk memikirkan dan mengolah informasi itu".</p>
+
+<h3>Residual connection</h3>
+<p><em>Residual connection</em> (sambungan sisa) sangat sederhana, yaitu menambahkan masukan sebuah blok ke keluarannya. Meski sederhana, ia sangat berguna karena memperlancar aliran gradien melalui jaringan dan memungkinkan kita menumpuk banyak lapisan. Pada Transformer, residual connection dipakai setelah setiap blok attention dan setiap blok FFN. Pada diagram, bagian "Add" dalam lapisan "Add &amp; Norm" merujuk pada sambungan sisa ini.</p>
+
+<h3>Layer normalization</h3>
+<p>Bagian "Norm" dalam "Add &amp; Norm" merujuk pada <em>layer normalization</em>. Operasi ini menormalkan representasi vektor setiap contoh secara mandiri, untuk mengendalikan "aliran" menuju lapisan berikutnya. Layer normalization memperbaiki kestabilan konvergensi dan kadang bahkan kualitas. Pada Transformer, normalisasi dilakukan pada representasi vektor tiap token. Selain itu, layer normalization di sini punya parameter terlatih, yaitu \(scale\) dan \(bias\), yang dipakai setelah normalisasi untuk menskala ulang keluaran lapisan. Perlu dicatat, rerata \(\mu_k\) dan simpangan baku \(\sigma_k\) dihitung untuk tiap contoh, sedangkan \(scale\) dan \(bias\) sama untuk semua karena keduanya adalah parameter lapisan.</p>
+
+<h3>Positional encoding</h3>
+<p>Karena Transformer tidak mengandung rekurensi maupun konvolusi, ia tidak mengetahui urutan token masukan. Karena itu kita harus memberi tahu posisi token secara eksplisit. Untuk ini ada dua himpunan embedding: untuk token (seperti biasa) dan untuk posisi (yang baru, khusus model ini). Representasi masukan sebuah token adalah jumlah dari kedua embedding tersebut, yaitu embedding token ditambah embedding posisi.</p>
+
+<p>Embedding posisi bisa dipelajari, tetapi penulis Transformer menemukan bahwa memakai embedding posisi tetap (fixed) tidak menurunkan kualitas. <em>Positional encoding</em> tetap yang dipakai pada Transformer adalah:</p>
+
+<div class="mathblock">\[ \text{PE}_{pos,\, 2i} = \sin\!\left( \frac{pos}{10000^{\,2i/d_{model}}} \right), \]</div>
+<div class="mathblock">\[ \text{PE}_{pos,\, 2i+1} = \cos\!\left( \frac{pos}{10000^{\,2i/d_{model}}} \right), \]</div>
+
+<p>dengan \(pos\) adalah posisi dan \(i\) adalah indeks dimensi vektor. Tiap dimensi positional encoding berkaitan dengan satu gelombang sinus, dan panjang gelombangnya membentuk deret geometri dari \(2\pi\) hingga \(10000 \cdot 2\pi\).</p>
+
+<div class="note">
+  <span class="lbl">Penutup</span>
+  Sampai di sini kita sudah melihat alurnya secara utuh: dari encoder-decoder berbasis RNN, masalah representasi tetap yang melahirkan attention, varian Bahdanau dan Luong, sampai Transformer dengan self-attention, multi-head attention, dan komponen pendukungnya. Untuk pendalaman, bagian Byte Pair Encoding serta analisis dan interpretabilitas pada sumber aslinya layak dibaca lebih lanjut.
+</div>
+
+</main>
+
+<footer class="page">
+  <p>Artikel asli berbahasa Indonesia, disusun berdasarkan materi <a href="https://lena-voita.github.io/nlp_course/seq2seq_and_attention.html" target="_blank" rel="noopener">Seq2seq and Attention</a> dari NLP Course | For You karya Elena Voita (2020). Seluruh diagram milik penulis aslinya dan digunakan dengan sitasi. Rumus dirender dengan MathJax.</p>
+</footer>
+
+</div>
+</body>
+</html>
