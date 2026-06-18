@@ -1,32 +1,43 @@
 # Blog posts: technical writing with mathematical notation.
 # Fields:
-#   slug, type ('translation' | 'original'), title,
-#   original_title, original_author, original_url (only for translations),
+#   slug, type ('translation' | 'original'), title, date (YYYY-MM-DD for sorting/display),
+#   original_title, original_author, original_url, original_date (only for translations),
 #   inspirations (only for originals): list of {title, author, url, year}
-#   original_date, translated_date | written_date,
 #   summary_id, tags, language
 posts:
-  - slug: seq2seq-dan-attention
+  - slug: seq2seq-attention-terjemahan
+    type: translation
+    date: "2026-06-18"
+    title: "Memvisualisasikan Model Neural Machine Translation (Mekanika Seq2seq dengan Attention)"
+    original_title: "Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)"
+    original_author: "Jay Alammar"
+    original_url: "https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/"
+    original_date: "2018-05-09"
+    summary_id: "Terjemahan Bahasa Indonesia dari tulisan visual Jay Alammar tentang model seq2seq dan attention pada neural machine translation. Lengkap dengan animasi asli yang menjelaskan alur encoder-decoder dan mekanisme attention langkah demi langkah."
+    tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan", "Attention"]
+    language: id
+
+  - slug: representasi-data-deep-learning
     type: original
-    title: "Seq2seq dan Attention"
-    written_date: "2026-08-20"
+    date: "2026-06-16"
+    title: "Representasi Data pada Deep Learning: Manifold ke Contextual Embedding"
     inspirations:
-      - title: "NLP Course | For You"
-        author: "Elena Voita"
-        url: "https://lena-voita.github.io/nlp_course.html"
-        year: 2020
-      - title: "Attention Is All You Need"
-        author: "Vaswani dkk."
-        url: "https://arxiv.org/abs/1706.03762"
-        year: 2017
-    summary_id: "Artikel asli berbahasa Indonesia tentang model sequence-to-sequence, mekanisme attention, dan Transformer. Membahas alur dari encoder-decoder berbasis RNN, kebutuhan attention untuk mengatasi bottleneck, sampai self-attention pada Transformer."
-    tags: ["NLP", "Deep Learning", "Tutorial", "Transformer"]
+      - title: "Neural Networks, Manifolds, and Topology"
+        author: "Christopher Olah"
+        url: "https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/"
+        year: 2014
+      - title: "Deep Learning, NLP, and Representations"
+        author: "Christopher Olah"
+        url: "https://colah.github.io/posts/2014-07-NLP-RNNs-Representations/"
+        year: 2014
+    summary_id: "Mengapa jaringan saraf bekerja, dilihat dari sudut pandang representasi. Dari geometri manifold dan tangle data, ke word embedding, sampai contextual embedding modern."
+    tags: ["NLP", "Deep Learning", "Tutorial", "Representasi"]
     language: id
 
   - slug: positional-encoding
     type: original
+    date: "2026-06-14"
     title: "Positional Encoding pada Transformer"
-    written_date: "2026-07-15"
     inspirations:
       - title: "Transformer Architecture: The Positional Encoding"
         author: "Amirhossein Kazemnejad"
@@ -40,14 +51,31 @@ posts:
     tags: ["NLP", "Transformer", "Tutorial", "Matematika"]
     language: id
 
+  - slug: seq2seq-dan-attention
+    type: original
+    date: "2026-06-07"
+    title: "Seq2seq dan Attention"
+    inspirations:
+      - title: "NLP Course | For You"
+        author: "Elena Voita"
+        url: "https://lena-voita.github.io/nlp_course.html"
+        year: 2020
+      - title: "Attention Is All You Need"
+        author: "Vaswani dkk."
+        url: "https://arxiv.org/abs/1706.03762"
+        year: 2017
+    summary_id: "Artikel asli berbahasa Indonesia tentang model sequence-to-sequence, mekanisme attention, dan Transformer. Membahas alur dari encoder-decoder berbasis RNN, kebutuhan attention untuk mengatasi bottleneck, sampai self-attention pada Transformer."
+    tags: ["NLP", "Deep Learning", "Tutorial", "Transformer"]
+    language: id
+
   - slug: memahami-jaringan-lstm
     type: translation
+    date: "2026-06-06"
     title: "Memahami Jaringan LSTM"
     original_title: "Understanding LSTM Networks"
     original_author: "Christopher Olah"
     original_url: "https://colah.github.io/posts/2015-08-Understanding-LSTMs/"
     original_date: "2015-08-27"
-    translated_date: "2026-06-06"
     summary_id: "Terjemahan Bahasa Indonesia dari artikel klasik Christopher Olah yang menjelaskan jaringan LSTM, recurrent neural networks, masalah vanishing gradient, dan arsitektur LSTM langkah demi langkah."
     tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan"]
     language: id
