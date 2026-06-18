@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Representasi Data pada Deep Learning: Manifold ke Contextual Embedding</title>
+<meta name="description" content="Mengapa jaringan saraf bekerja, dilihat dari sudut pandang representasi: dari geometri manifold, word embedding, sampai contextual embedding.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+
+<style>
+  :root{--bg:#fbfaf6;--surface:#ffffff;--ink:#1f2328;--muted:#6b7280;--hair:#e6e1d6;
+    --accent:#2d54a8;--warm:#b01277;--green:#1f8a70;--code-bg:#f3f1ea;--maxw:730px}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Serif 4",Georgia,serif;font-size:19px;line-height:1.72;font-feature-settings:"liga" 1,"onum" 1}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  header.page{padding:64px 0 30px}
+  .eyebrow{font-family:"Inter",sans-serif;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 14px}
+  h1{font-family:"Inter",sans-serif;font-weight:700;font-size:2.4rem;line-height:1.14;letter-spacing:-.02em;margin:0 0 18px}
+  .lede{font-size:1.12rem;color:#3b4046;margin:0 0 28px}
+  .meta{border:1px solid var(--hair);background:var(--surface);border-radius:12px;padding:18px 20px;font-family:"Inter",sans-serif;font-size:.92rem;line-height:1.6;color:#3b4046}
+  .meta strong{color:var(--ink)} .meta a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,84,168,.3)}
+  nav.toc{margin:34px 0 10px;padding:20px 22px;border:1px solid var(--hair);border-radius:12px;background:var(--surface);font-family:"Inter",sans-serif;font-size:.95rem}
+  nav.toc p{margin:0 0 10px;font-weight:600;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  nav.toc ol{margin:0;padding-left:1.3em;line-height:1.95} nav.toc a{color:var(--ink);text-decoration:none} nav.toc a:hover{color:var(--accent)}
+  .act{font-family:"Inter",sans-serif;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--warm);font-weight:600;margin:60px 0 -6px}
+  main{padding:18px 0 40px}
+  h2{font-family:"Inter",sans-serif;font-weight:700;font-size:1.6rem;line-height:1.2;letter-spacing:-.015em;margin:14px 0 6px;padding-top:14px;border-top:2px solid var(--ink)}
+  h2 .num{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:.5em}
+  h3{font-family:"Inter",sans-serif;font-weight:600;font-size:1.18rem;margin:38px 0 4px;letter-spacing:-.01em}
+  p{margin:18px 0} a{color:var(--accent)} ul,ol{margin:18px 0;padding-left:1.4em} li{margin:8px 0} strong{font-weight:600}
+  .read{margin:22px 0;border:1px solid #d9e0f2;background:#f1f4fb;border-radius:10px;padding:16px 20px}
+  .read .lbl{font-family:"Inter",sans-serif;font-weight:600;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:8px}
+  .read dl{margin:0} .read dt{font-family:"JetBrains Mono",monospace;font-size:.88rem;color:var(--ink);margin-top:12px} .read dt:first-child{margin-top:0}
+  .read dd{margin:3px 0 0;font-size:.97rem;color:#33405e}
+  .key{margin:26px 0;padding:16px 20px;border-radius:10px;background:#fbf1f6;border:1px solid #efd3e3;font-size:1.0rem;color:#5c2547}
+  .key .lbl{font-family:"Inter",sans-serif;font-weight:600;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--warm);display:block;margin-bottom:6px}
+  .nlp{margin:26px 0;padding:16px 20px;border-radius:10px;background:#eef7f4;border:1px solid #cfe8e0;font-size:.98rem;color:#1c4a40}
+  .nlp .lbl{font-family:"Inter",sans-serif;font-weight:600;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);display:block;margin-bottom:6px}
+  blockquote{margin:26px 0;padding:4px 20px;border-left:3px solid var(--accent);color:#43484e;font-style:italic}
+  figure{margin:34px 0;text-align:center}
+  figure img{max-width:100%;height:auto;border-radius:10px;border:1px solid var(--hair);background:#fff}
+  figcaption{font-family:"Inter",sans-serif;font-size:.84rem;color:var(--muted);line-height:1.55;margin-top:12px;max-width:620px;margin-left:auto;margin-right:auto}
+  .mathblock{overflow-x:auto;margin:22px 0}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:var(--code-bg);padding:1px 5px;border-radius:4px}
+  footer.page{border-top:1px solid var(--hair);margin-top:60px;padding:30px 0 70px;font-family:"Inter",sans-serif;font-size:.9rem;color:var(--muted)}
+  ol.refs{font-family:"Inter",sans-serif;font-size:.9rem;line-height:1.6;color:#3b4046} ol.refs li{margin:10px 0}
+  ol.refs a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,84,168,.28)}
+  @media (max-width:560px){body{font-size:17.5px}h1{font-size:1.9rem}h2{font-size:1.36rem}header.page{padding:44px 0 22px}}
+</style>
+</head>
+<body>
+
+<style>
+  .site-bar {
+    max-width: var(--maxw, 760px);
+    margin: 0 auto;
+    padding: 18px 24px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  .site-bar a {
+    color: var(--muted, #6b7280);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .site-bar a:hover { color: var(--accent, #2d54a8); }
+  .site-bar-brand { font-weight: 500; }
+</style>
+<div class="site-bar">
+  <a href="/id/" class="site-bar-brand">Feliks Samosir</a>
+  <a href="/id/blog/" class="site-bar-back">← Kembali ke Blog</a>
+</div>
+<div class="wrap">
+
+<header class="page">
+  <p class="eyebrow">Catatan Deep Learning &middot; Bahasa Indonesia</p>
+  <h1>Representasi Data pada Deep Learning: Manifold ke Contextual Embedding</h1>
+  <p class="lede">Mengapa jaringan saraf bekerja begitu baik? Satu jawaban yang elegan: ia belajar cara <em>merepresentasikan</em> data. Tulisan ini menelusuri gagasan itu dalam tiga babak, dari geometri ruang yang dilipat tiap lapisan, ke ruang makna kata, sampai representasi yang bergantung konteks.</p>
+  <div class="meta">
+    <strong>Artikel asli berbahasa Indonesia.</strong> Sekitar 70 persen materinya mengikuti alur dua tulisan Christopher Olah, "Neural Networks, Manifolds, and Topology" (2014) dan "Deep Learning, NLP, and Representations" (2014). Penjelasan disusun ulang dengan kata sendiri, seluruh diagram dibuat sendiri, dan sisanya diperkuat dari publikasi sumber yang tercantum di bagian <a href="#referensi">Referensi</a>.
+  </div>
+  <nav class="toc">
+    <p>Daftar Isi</p>
+    <ol>
+      <li><a href="#mengapa">Pertanyaan yang Sebenarnya</a></li>
+      <li><a href="#universal">Universalitas dan Jebakannya</a></li>
+      <li><a href="#geometri">Babak 1: Geometri Tiap Lapisan</a></li>
+      <li><a href="#manifold">Manifold, Topologi, dan Pemisahan</a></li>
+      <li><a href="#embedding">Babak 2: Word Embedding</a></li>
+      <li><a href="#analogi">Analogi sebagai Selisih Vektor</a></li>
+      <li><a href="#shared">Representasi Bersama</a></li>
+      <li><a href="#recursive">Recursive Neural Network</a></li>
+      <li><a href="#contextual">Babak 3: Menuju Contextual Embedding</a></li>
+      <li><a href="#penutup">Penutup</a></li>
+      <li><a href="#referensi">Referensi</a></li>
+    </ol>
+  </nav>
+</header>
+
+<main>
+
+<h2 id="mengapa"><span class="num">01</span>Pertanyaan yang Sebenarnya</h2>
+<p>Beberapa tahun terakhir, jaringan saraf dalam (deep neural network) mendominasi pengenalan pola. Hasilnya memukau pada penglihatan komputer, pengenalan suara, dan pemrosesan bahasa. Namun di balik semua hasil itu tersimpan satu pertanyaan yang lebih menarik daripada sekadar angka akurasi: mengapa mereka bekerja sebaik itu?</p>
+<p>Ada jawaban yang menurut saya sangat elegan. Jaringan saraf bekerja karena ia belajar <strong>representasi</strong> yang baik, yaitu cara menata ulang data sehingga pola yang semula rumit menjadi sederhana. Sepanjang tulisan ini kita akan melihat gagasan tunggal itu dari dua arah: secara geometris lewat bentuk ruang yang dilipat tiap lapisan, dan secara semantik lewat ruang makna kata. Keduanya adalah sisi yang sama dari satu mata uang.</p>
+
+<h2 id="universal"><span class="num">02</span>Universalitas dan Jebakannya</h2>
+<p>Sering dikutip bahwa jaringan saraf dengan satu lapisan tersembunyi bersifat <em>universal</em>: dengan cukup banyak unit tersembunyi, ia bisa menghampiri fungsi apa pun. Pernyataan ini benar, tetapi juga sering disalahpahami.</p>
+<p>Mengapa benar? Bayangkan jaringan perceptron sederhana yang menerima masukan biner. Banyaknya kemungkinan masukan berhingga. Untuk tiap kemungkinan masukan, kita bisa merancang satu neuron tersembunyi yang aktif hanya untuk masukan spesifik itu, lalu memakai sambungan ke neuron keluaran untuk menentukan jawaban pada kasus tersebut. Pada dasarnya, lapisan tersembunyi berperan sebagai <strong>tabel pencarian (lookup table)</strong>.</p>
+<div class="key">
+  <span class="lbl">Inti yang sering terlewat</span>
+  Universalitas berarti jaringan bisa <em>mencocokkan</em> data pelatihan apa pun. Ia tidak menjamin jaringan akan <em>menggeneralisasi</em> ke data baru secara masuk akal. Mengatakan "model saya setara tabel pencarian" bukan argumen yang kuat; itu hanya berarti tugasnya bukan hal yang mustahil. Jadi universalitas bukan jawaban atas pertanyaan kita. Jawaban sebenarnya lebih halus.
+</div>
+
+<p class="act">Babak 1 &middot; Geometri</p>
+<h2 id="geometri"><span class="num">03</span>Geometri Tiap Lapisan</h2>
+<p>Mari mulai dari kasus yang bisa digambar, yaitu data dua dimensi dengan dua kelas. Tugas klasifikasi sama dengan mencari batas yang memisahkan kedua kelas. Persoalan muncul saat kedua kelas saling terjalin sehingga tidak ada garis lurus yang bisa memisahkannya.</p>
+<figure>
+  <img src="img/linsep.png" alt="Dua kelas yang saling terjalin tidak dapat dipisah garis lurus">
+  <figcaption>Dua kelas yang saling terjalin. Tidak ada satu garis lurus pun yang memisahkan keduanya dengan benar. Diagram dibuat sendiri.</figcaption>
+</figure>
+<p>Apa yang dikerjakan satu lapisan jaringan saraf? Sebuah lapisan penuh (fully connected) dengan aktivasi \(\tanh\) melakukan transformasi:</p>
+<div class="mathblock">\[ y = \tanh(Wx + b). \]</div>
+<div class="read">
+  <span class="lbl">Cara membaca</span>
+  <dl>
+    <dt>\(x\)</dt><dd>Vektor masukan, yaitu satu titik data pada ruangnya.</dd>
+    <dt>\(W x\)</dt><dd>Perkalian matriks. Secara geometris ini memutar, menskala, dan menggeser-miringkan (shear) seluruh ruang.</dd>
+    <dt>\(+\,b\)</dt><dd>Menambah vektor bias, yaitu menggeser (translasi) ruang.</dd>
+    <dt>\(\tanh(\cdot)\)</dt><dd>Fungsi penyaru (squashing) yang diterapkan per komponen. Ia menekuk dan memampatkan ruang ke dalam kotak \((-1, 1)\), bagian inilah yang melengkungkan garis lurus menjadi kurva.</dd>
+  </dl>
+</div>
+<p>Jadi satu lapisan adalah transformasi afin (linear plus geseran) yang dilanjutkan pelengkungan halus. Bila kita gambarkan efeknya pada kisi-kisi (grid), terlihat jelas bahwa ruang diregang, diputar, lalu dilipat:</p>
+<figure>
+  <img src="img/warp.png" alt="Kisi-kisi ruang sebelum dan sesudah transformasi tanh(Wx+b)">
+  <figcaption>Efek satu lapisan terhadap kisi-kisi ruang. Garis lurus menjadi melengkung, jarak meregang di sebagian tempat dan memampat di tempat lain. Diagram dibuat sendiri.</figcaption>
+</figure>
+<p>Jaringan dalam menumpuk banyak transformasi seperti ini. Setiap lapisan menata ulang ruang sedikit demi sedikit. Yang dilakukan jaringan, secara geometris, adalah <strong>mengubah sistem koordinat</strong> tempat data berada, sampai pada koordinat terakhir kedua kelas cukup terpisah untuk dibelah satu bidang datar.</p>
+
+<h2 id="manifold"><span class="num">04</span>Manifold, Topologi, dan Pemisahan</h2>
+<p>Ada cara pandang yang lebih dalam. <strong>Hipotesis manifold</strong> menyatakan bahwa data alami berdimensi tinggi sebenarnya terletak pada manifold berdimensi rendah yang melengkung di dalam ruang itu. Istilah <em>manifold</em> dipertahankan dalam bahasa Inggris; secara bebas ia berarti permukaan mulus yang, bila diamati dari dekat, tampak seperti ruang datar biasa. Citra wajah, misalnya, tidak tersebar acak di seluruh ruang piksel, melainkan menempati manifold tipis di dalamnya.</p>
+<p>Dengan sudut pandang ini, tugas klasifikasi menjadi soal geometri: dua kelas adalah dua manifold yang terjalin, dan jaringan harus <strong>menguraikannya</strong> sampai keduanya terpisah.</p>
+<figure>
+  <img src="img/untangle.png" alt="Manifold yang terjalin diuraikan menjadi terpisah">
+  <figcaption>Tugas tiap lapisan: secara bertahap mengurai manifold yang terjalin sampai sebuah bidang datar bisa memisahkannya. Diagram dibuat sendiri.</figcaption>
+</figure>
+<p>Di sinilah topologi masuk. Sebuah lapisan dengan matriks bobot \(W\) yang dapat dibalik (invertible), yaitu determinannya tidak nol, bersama aktivasi yang monoton dan kontinu, merupakan sebuah <strong>homeomorfisme</strong>, yaitu deformasi kontinu yang tidak merobek atau merekatkan ruang. Ini punya konsekuensi penting.</p>
+<div class="read">
+  <span class="lbl">Cara membaca</span>
+  <dl>
+    <dt>\(\det(W) \ne 0\)</dt><dd>"Determinan W tidak nol", syarat agar transformasi linear bisa dibalik sehingga tidak memampatkan ruang sampai gepeng.</dd>
+    <dt>homeomorfisme</dt><dd>Peregangan dan pelengkungan yang boleh dilakukan tanpa menggunting atau menyambung. Lingkaran dan persegi homeomorfik; lingkaran dan garis tidak.</dd>
+  </dl>
+</div>
+<p>Karena deformasi kontinu tidak boleh merobek, ada konfigurasi data yang tidak mungkin diuraikan pada dimensi rendah. Dua kurva tertaut seperti rantai tidak bisa dipisahkan di bidang dua dimensi tanpa memotongnya. Namun bila kita menambah dimensi, ruang gerak bertambah dan jalinan yang tampak mustahil pun bisa terurai. Inilah salah satu alasan jaringan yang <em>lebar</em>, yaitu punya banyak unit per lapisan, sering lebih mudah dilatih: dimensi ekstra memberi ruang untuk mengurai simpul.</p>
+<div class="key">
+  <span class="lbl">Gagasan kunci babak 1</span>
+  Klasifikasi yang baik sama dengan representasi yang baik. Jaringan dalam tidak "menghafal" batas yang rumit; ia mendeformasi ruang lapis demi lapis sampai pada koordinat akhir, masalah yang semula berbelit menjadi mudah dan linear. Representasi yang baik membuat masalah sulit tampak sederhana.
+</div>
+
+<p class="act">Babak 2 &middot; Representasi Makna</p>
+<h2 id="embedding"><span class="num">05</span>Word Embedding</h2>
+<p>Bila lapisan jaringan pandai menata ulang ruang, apa jadinya bila kita biarkan ia menata ulang ruang <em>kata</em>? Inilah yang dilakukan word embedding, dan menurut saya inilah salah satu tempat terbaik untuk merasakan mengapa deep learning begitu ampuh.</p>
+<p>Sebuah <strong>word embedding</strong> adalah fungsi berparameter yang memetakan kata ke vektor berdimensi tinggi:</p>
+<div class="mathblock">\[ W : \text{kata} \to \mathbb{R}^{n}, \qquad n \approx 200 \text{ sampai } 500. \]</div>
+<div class="read">
+  <span class="lbl">Cara membaca</span>
+  <dl>
+    <dt>\(W : \text{kata} \to \mathbb{R}^n\)</dt><dd>"W memetakan kata ke vektor real berdimensi n". Tiap kata diberi satu titik di ruang berdimensi n.</dd>
+    <dt>\(W(\text{"kucing"}) = (0.2, -0.4, 0.7, \dots)\)</dt><dd>Contoh: kata "kucing" menjadi sebuah daftar bilangan. Lazimnya \(W\) berupa tabel pencarian, satu baris matriks parameter \(\theta\) untuk tiap kata.</dd>
+  </dl>
+</div>
+<p>Awalnya \(W\) diisi vektor acak. Ia belajar menjadi bermakna saat dilatih untuk suatu tugas. Salah satu tugas sederhana: menebak apakah sebuah barisan lima kata (5-gram) "wajar" atau tidak. Kita ambil banyak 5-gram dari korpus (misalnya "kucing duduk di atas tikar"), lalu separuhnya dirusak dengan mengganti satu kata secara acak ("kucing duduk <em>lagu</em> atas tikar"), yang hampir pasti membuatnya janggal. Model melewatkan tiap kata melalui \(W\), lalu sebuah modul lain menilai kewajaran barisan itu.</p>
+<p>Tugasnya sendiri tidak terlalu menarik. Yang menarik adalah \(W\) yang dihasilkan. Ketika divisualisasikan, ruang embedding menunjukkan struktur yang sangat intuitif: kata-kata bermakna mirip berkumpul berdekatan. Ini masuk akal. Bila kita mengganti sebuah kata dengan sinonimnya, kewajaran kalimat tidak berubah, sehingga jaringan terdorong menempatkan sinonim berdekatan agar tugasnya lebih mudah. Karena banyak 5-gram berbeda menjadi "mirip" di mata model, ia bisa menggeneralisasi dari satu kalimat ke sekelas kalimat serupa.</p>
+
+<h2 id="analogi"><span class="num">06</span>Analogi sebagai Selisih Vektor</h2>
+<p>Word embedding menunjukkan sifat yang lebih menakjubkan lagi: analogi antarkata tampak tersandi sebagai <strong>selisih vektor</strong>. Ada arah yang kira-kira tetap untuk "pria ke wanita", arah lain untuk "tunggal ke jamak", dan seterusnya.</p>
+<div class="mathblock">\[ W(\text{"wanita"}) - W(\text{"pria"}) \;\approx\; W(\text{"ratu"}) - W(\text{"raja"}). \]</div>
+<figure>
+  <img src="img/wordvec.png" alt="Analogi tersimpan sebagai selisih vektor yang sejajar">
+  <figcaption>Selisih vektor "pria ke wanita" kira-kira sejajar dengan "raja ke ratu". Hubungan makna tersimpan sebagai arah di ruang embedding. Diagram dibuat sendiri.</figcaption>
+</figure>
+<p>Yang penting disadari, semua sifat ini adalah <strong>efek samping</strong>. Kita tidak pernah menyuruh model membuat kata mirip berdekatan, atau menyimpan analogi sebagai selisih vektor. Kita hanya memintanya mengerjakan tugas sederhana, dan sifat-sifat itu muncul sendiri dari proses optimasi. Inilah kekuatan jaringan saraf: ia belajar cara yang lebih baik untuk merepresentasikan data, secara otomatis.</p>
+
+<h2 id="shared"><span class="num">07</span>Representasi Bersama</h2>
+<p>Karena representasi yang baik berguna lintas tugas, kita bisa mempelajarinya pada satu tugas A lalu memakainya untuk tugas B. Trik ini punya banyak nama sesuai detailnya: <em>pretraining</em>, <em>transfer learning</em>, dan <em>multi-task learning</em>. Salah satu kekuatannya, representasi bisa belajar dari lebih dari satu jenis data.</p>
+<p>Ada pula kebalikannya. Alih-alih satu jenis data untuk banyak tugas, kita bisa memetakan beberapa jenis data ke <strong>satu ruang representasi yang sama</strong>. Contoh yang elegan adalah word embedding dwibahasa: kata dari dua bahasa, misalnya Inggris dan Mandarin, ditanam ke ruang yang sama dengan syarat tambahan bahwa pasangan terjemahan yang kita ketahui harus berdekatan. Yang menarik, kata-kata yang <em>tidak</em> kita beri tahu sebagai terjemahan pun ikut berdekatan. Secara intuitif, kedua bahasa punya "bentuk" ruang makna yang serupa, dan dengan memaksa beberapa titik berimpit, sisanya ikut tertarik ke posisi yang benar.</p>
+<p>Gagasan ini bahkan melintasi modalitas. Model dapat memetakan citra dan kata ke ruang yang sama: citra anjing jatuh dekat vektor kata "anjing", citra kuda dekat "kuda". Saat diuji dengan kelas yang belum pernah dilatih, model tetap menempatkan citra itu di lingkungan yang masuk akal, bukan di titik acak. Representasi bersama inilah salah satu alasan sudut pandang berbasis representasi terasa begitu meyakinkan.</p>
+<div class="nlp">
+  <span class="lbl">Kaitan dengan NLP</span>
+  Representasi kata menjadi "bumbu rahasia" banyak sistem NLP modern, mulai dari pengenalan entitas, pelabelan kelas kata, sampai parsing. Untuk topik parsing dependensi, embedding yang baik berarti kata dengan peran sintaksis serupa menempati wilayah ruang yang berdekatan, sehingga model lebih mudah menggeneralisasi pola ketergantungan antarkata.
+</div>
+
+<h2 id="recursive"><span class="num">08</span>Recursive Neural Network</h2>
+<p>Model penilai 5-gram tadi punya keterbatasan: jumlah masukannya tetap. Kalimat nyata berbeda-beda panjangnya. Solusinya adalah menambah modul penggabung \(A\) yang menerima dua representasi kata atau frasa lalu meleburnya menjadi satu. Dengan menggabungkan kata secara bertahap, \(A\) membawa kita dari representasi kata ke representasi frasa, bahkan kalimat utuh, tanpa batas jumlah masukan.</p>
+<p>Penggabungan tidak harus linear dari kiri ke kanan. Kalimat "kucing duduk di atas tikar" lebih wajar dikelompokkan sesuai strukturnya: "((kucing) (duduk (di (atas tikar))))". Modul \(A\) diterapkan mengikuti pengelompokan ini, menghasilkan jaringan berbentuk pohon. Karena keluaran sebuah modul kerap masuk ke modul bertipe sama, model ini disebut <strong>recursive neural network</strong> atau jaringan berstruktur pohon.</p>
+<p>Salah satu cita-cita besar bidang ini adalah representasi kalimat yang <em>dapat dibalik</em> (reversible), yaitu representasi yang darinya kalimat asli bisa direkonstruksi. Bila tercapai, ini alat yang sangat ampuh, misalnya untuk penerjemahan: rangkai kalimat sumber menjadi satu representasi, lalu uraikan menjadi kalimat sasaran. Pekerjaan ini ternyata sangat sulit, tetapi langkah awal ke arah sana, yaitu model yang menyandikan frasa satu bahasa dan menyahsandikannya ke bahasa lain, justru menjadi cikal bakal arsitektur encoder-decoder modern.</p>
+<div class="nlp">
+  <span class="lbl">Jembatan ke Transformer</span>
+  Ide "satu modul menyandikan, modul lain menyahsandikan" inilah yang berkembang menjadi kerangka encoder-decoder dan, pada akhirnya, attention serta Transformer. Saya membahasnya terpisah pada artikel <a href="seq2seq-dan-attention.html">Seq2seq dan Attention</a>.
+</div>
+
+<p class="act">Babak 3 &middot; Konteks</p>
+<h2 id="contextual"><span class="num">09</span>Menuju Contextual Embedding</h2>
+<p>Word embedding klasik punya satu kelemahan mendasar: setiap kata mendapat <strong>satu vektor tetap</strong>, berapa pun konteksnya. Padahal banyak kata bermakna ganda. Kata "bisa" dalam "ular itu berbisa" jelas berbeda dari "saya bisa berenang". Dengan satu vektor tetap, kedua makna itu terpaksa dipampatkan ke titik yang sama, sebuah kompromi yang merugikan.</p>
+<p>Jawabannya adalah <strong>contextual embedding</strong>, yaitu representasi kata yang dihitung ulang berdasarkan kalimat tempatnya berada. Kata "bisa" kini memperoleh vektor yang berbeda di tiap kalimat, sesuai makna yang sedang diaktifkan konteks. Pergeseran ini menandai lompatan besar dalam NLP. Model seperti ELMo membangun representasi dari language model dua arah, sedangkan BERT memakai Transformer yang dilatih dengan masked language modeling sehingga tiap token menyerap konteks dari kedua sisinya.</p>
+<p>Inti mekanismenya adalah <em>self-attention</em>, yang membuat tiap kata memandang kata lain dalam kalimat untuk memperbarui representasinya. Dengan kata lain, gagasan "menata ulang representasi agar masalah menjadi mudah" yang kita lihat sejak babak pertama kini bekerja secara dinamis dan peka konteks. Karena pembahasan attention, query-key-value, dan arsitektur Transformer sudah saya tulis tersendiri, saya cukup mengarahkan ke sana agar artikel ini tidak mengulang.</p>
+<div class="nlp">
+  <span class="lbl">Lanjutkan di sini</span>
+  Mekanisme self-attention dan Transformer yang menjadi mesin contextual embedding saya bahas lengkap pada artikel <a href="seq2seq-dan-attention.html">Seq2seq dan Attention</a>, dan penanganan urutan kata pada <a href="positional-encoding.html">Positional Encoding pada Transformer</a>.
+</div>
+
+<h2 id="penutup"><span class="num">10</span>Penutup</h2>
+<p>Satu benang merah menyatukan tiga babak ini. Pada babak geometri, jaringan menata ulang ruang lapis demi lapis sampai manifold yang terjalin terurai. Pada babak makna, penataan ulang yang sama melahirkan ruang kata tempat kemiripan dan analogi muncul sebagai struktur geometris. Pada babak konteks, penataan itu menjadi dinamis, menyesuaikan diri dengan kalimat. Mengapa jaringan saraf bekerja? Karena cara yang lebih baik untuk merepresentasikan data dapat muncul sendiri dari mengoptimalkan model berlapis. Representasi yang baik membuat yang sulit menjadi sederhana, dan itulah inti dari deep learning.</p>
+
+<h2 id="referensi"><span class="num">11</span>Referensi</h2>
+<ol class="refs">
+  <li>C. Olah, "Neural Networks, Manifolds, and Topology," <em>colah.github.io</em>, 2014. <a href="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/" target="_blank" rel="noopener">tautan</a></li>
+  <li>C. Olah, "Deep Learning, NLP, and Representations," <em>colah.github.io</em>, 2014. <a href="https://colah.github.io/posts/2014-07-NLP-RNNs-Representations/" target="_blank" rel="noopener">tautan</a></li>
+  <li>Y. Bengio, R. Ducharme, P. Vincent, dan C. Jauvin, "A Neural Probabilistic Language Model," <em>JMLR</em>, 2003.</li>
+  <li>R. Collobert dan J. Weston, "A Unified Architecture for Natural Language Processing," <em>ICML</em>, 2008; serta Collobert dkk., <em>JMLR</em>, 2011.</li>
+  <li>T. Mikolov, K. Chen, G. Corrado, dan J. Dean, "Efficient Estimation of Word Representations in Vector Space," <em>arXiv:1301.3781</em>, 2013.</li>
+  <li>R. Socher dkk., karya tentang recursive neural network dan ruang representasi bersama, Stanford NLP, 2013.</li>
+  <li>K. Cho dkk., "Learning Phrase Representations using RNN Encoder-Decoder," <em>arXiv:1406.1078</em>, 2014.</li>
+  <li>M. Peters dkk., "Deep Contextualized Word Representations" (ELMo), <em>NAACL</em>, 2018.</li>
+  <li>J. Devlin, M. Chang, K. Lee, dan K. Toutanova, "BERT: Pre-training of Deep Bidirectional Transformers," <em>NAACL</em>, 2019.</li>
+  <li>A. Vaswani dkk., "Attention is All You Need," <em>NeurIPS</em>, 2017.</li>
+</ol>
+</main>
+
+<footer class="page">
+  <p>Artikel asli berbahasa Indonesia. Alur dua babak pertama mengikuti tulisan Christopher Olah (2014) dengan penjelasan dan diagram yang disusun ulang sendiri, diperkuat publikasi pada bagian Referensi. Rumus dirender dengan MathJax.</p>
+</footer>
+
+</div>
+</body>
+</html>
