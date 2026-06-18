@@ -107,7 +107,7 @@
 
 <h2>Melihat ke Dalam</h2>
 
-<p>Di balik layar, model ini tersusun atas sebuah <strong>encoder</strong> (penyandi) dan sebuah <strong>decoder</strong> (penyahsandi).</p>
+<p>Di balik layar, model ini tersusun atas sebuah <strong>encoder</strong> dan sebuah <strong>decoder</strong>.</p>
 
 <p>Encoder memproses setiap item pada barisan masukan, lalu memadatkan informasi yang ditangkapnya menjadi sebuah vektor yang disebut <span class="term">context</span> (konteks). Setelah selesai memproses seluruh barisan masukan, encoder mengirimkan context tersebut ke decoder, yang kemudian mulai menghasilkan barisan keluaran item demi item.</p>
 
@@ -137,16 +137,16 @@
   <figcaption>Kita perlu mengubah kata masukan menjadi vektor sebelum memprosesnya, dilakukan dengan algoritma word embedding. Kita bisa memakai embedding terlatih (pre-trained) atau melatih embedding sendiri pada data kita. Vektor embedding berukuran 200 atau 300 adalah hal yang lazim, di sini ditampilkan ukuran empat untuk kesederhanaan. Gambar oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
-<p>Setelah memperkenalkan vektor utama kita, mari rangkum kembali mekanika RNN dan tetapkan bahasa visual untuk menggambarkan model ini:</p>
+<p>Setelah berkenalan dengan vektor utama, mari kita lihat kembali mekanika RNN dan tetapkan ilustrasi visual untuk menggambarkan model ini:</p>
 
 <figure>
   <video src="img/RNN_1.mp4" controls loop muted playsinline preload="metadata" width="700"></video>
   <figcaption>Animasi oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
-<p>Langkah RNN berikutnya mengambil vektor masukan kedua dan hidden state pertama untuk menghasilkan keluaran pada langkah waktu itu. Pada bagian selanjutnya, animasi serupa akan dipakai untuk menggambarkan vektor di dalam model neural machine translation.</p>
+<p>Langkah RNN berikutnya mengambil vektor masukan kedua dan hidden state pertama untuk menghasilkan keluaran pada langkah waktu itu. Pada bagian selanjutnya, animasi serupa akan dipakai untuk menggambarkan vektor di dalam model <em>neural machine translation</em>.</p>
 
-<p>Pada visualisasi berikut, setiap denyut pada encoder atau decoder menandakan RNN sedang memproses masukannya dan menghasilkan keluaran untuk langkah waktu tersebut. Karena encoder dan decoder sama-sama RNN, pada tiap langkah waktu salah satu RNN melakukan pemrosesan dan memperbarui hidden state-nya berdasarkan masukan saat ini serta masukan-masukan sebelumnya yang sudah dilihat.</p>
+<p>Pada visualisasi berikut, setiap denyut pada encoder atau decoder menandakan RNN sedang memproses masukannya dan menghasilkan keluaran untuk langkah waktu <em>(timesteps)</em> tersebut. Karena encoder dan decoder sama-sama RNN, pada tiap langkah waktu salah satu RNN melakukan pemrosesan dan memperbarui hidden state-nya berdasarkan masukan saat ini serta masukan-masukan sebelumnya yang sudah dilihat.</p>
 
 <p>Mari amati hidden state pada encoder. Perhatikan bahwa hidden state terakhir sebenarnya adalah context yang diteruskan ke decoder.</p>
 
@@ -157,7 +157,7 @@
 
 <p>Decoder juga menyimpan hidden state yang diteruskan dari satu langkah waktu ke langkah berikutnya. Hidden state decoder tidak digambarkan pada visual ini karena untuk saat ini kita berfokus pada bagian-bagian utama model.</p>
 
-<p>Sekarang mari lihat cara lain memvisualisasikan model sequence-to-sequence. Animasi ini akan memudahkan pemahaman atas gambar statis yang menggambarkan model semacam ini. Cara pandang ini disebut tampilan "terurai" (unrolled): alih-alih menampilkan satu decoder, kita menampilkan satu salinan decoder untuk tiap langkah waktu. Dengan begitu kita bisa mengamati masukan dan keluaran pada setiap langkah waktu.</p>
+<p>Sekarang mari lihat cara lain memvisualisasikan model <em>sequence-to-sequence</em>. Animasi ini akan memudahkan pemahaman atas gambar statis yang menggambarkan model semacam ini. Cara pandang ini disebut tampilan "terurai" (unrolled): alih-alih menampilkan satu decoder, kita menampilkan satu salinan decoder untuk tiap langkah waktu. Dengan begitu kita bisa mengamati masukan dan keluaran pada setiap langkah waktu.</p>
 
 <figure>
   <video src="img/seq2seq_6.mp4" controls loop muted playsinline preload="metadata" width="700"></video>
