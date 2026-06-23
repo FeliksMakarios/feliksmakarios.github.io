@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#e9ebe5}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#1b2433}
+  input:focus,button:focus{outline:2px solid #5b6b3a;outline-offset:1px}
+  ::selection{background:#cfd8c2}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="background:#14304d;color:#fff;padding:16px 26px 18px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <div>
+      <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9db0c4;font-weight:700;margin-bottom:6px">Pemrosesan Bahasa Alami &middot; Pertemuan 06</div>
+      <h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.01em;line-height:1.05">Pipeline Klasifikasi<span style="color:#9fb074"> &middot; Analisis Sentimen</span></h1>
+      <p style="margin:7px 0 0;font-size:13.5px;color:#c5d0dc;max-width:700px;line-height:1.5">Ikuti perjalanan sebuah ulasan dari teks mentah menjadi label: tokenisasi, fitur tiap kata, agregasi, lalu softmax. Ketik ulasanmu sendiri dan lihat prediksinya berubah.</p>
+    </div>
+    <a href="galeri.dc.html" style="font-size:12.5px;color:#9fb074;font-weight:700;text-decoration:none;white-space:nowrap">&larr; Galeri</a>
+  </header>
+
+  <main style="flex:1;display:flex;flex-direction:column;gap:14px;padding:16px;max-width:1080px;margin:0 auto;width:100%">
+
+    <!-- INPUT -->
+    <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:14px 16px">
+      <div style="font-size:11.5px;font-weight:800;color:#8a9285;margin-bottom:8px">1 &middot; TEKS MASUKAN</div>
+      <input value="{{ text }}" onInput="{{ onInput }}" placeholder="tulis sebuah ulasan..." style="width:100%;padding:11px 13px;border:1px solid #cdd2c9;border-radius:9px;background:#f7f8f5;color:#14304d;font-weight:600;font-family:inherit;font-size:14.5px"/>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:10px">
+        <span style="font-size:11.5px;color:#9aa295;align-self:center;font-weight:600">contoh:</span>
+        <sc-for list="{{ presets }}" as="p" hint-placeholder-count="4">
+          <button onClick="{{ p.onClick }}" style="font-size:11.5px;font-weight:600;color:#14304d;background:#eef1ea;border:1px solid #dde2d6;border-radius:7px;padding:5px 9px;cursor:pointer;font-family:inherit">{{ p.label }}</button>
+        </sc-for>
+      </div>
+    </section>
+
+    <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start">
+
+      <!-- LEFT: TOKENS + AGGREGATION -->
+      <section style="flex:1.3;min-width:380px;display:flex;flex-direction:column;gap:14px">
+        <div style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px">
+          <div style="font-size:11.5px;font-weight:800;color:#8a9285;margin-bottom:3px">2 &middot; FITUR SENTIMEN TIAP TOKEN</div>
+          <p style="margin:0 0 12px;font-size:12px;color:#6d756c;line-height:1.4">Tiap kata punya bobot sentimen. Kata <span style="color:#5b6b3a;font-weight:700">positif</span>, <span style="color:#b06a43;font-weight:700">negatif</span>, atau netral. Kata pengingkar (tidak, kurang) membalik tetangganya.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <sc-for list="{{ chips }}" as="c" hint-placeholder-count="6">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+                <span style="padding:8px 12px;border-radius:9px;font-weight:700;font-size:13.5px;background:{{ c.bg }};color:{{ c.color }};border:2px solid {{ c.border }}">{{ c.word }}</span>
+                <span style="font-family:'Space Mono',monospace;font-size:10.5px;font-weight:700;color:{{ c.wColor }};height:13px">{{ c.wTxt }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px">
+          <div style="font-size:11.5px;font-weight:800;color:#8a9285;margin-bottom:10px">3 &middot; AGREGASI &rarr; SKOR SENTIMEN</div>
+          <div style="position:relative;height:42px;background:linear-gradient(90deg,#f0e0d6 0%,#f3f4ef 50%,#dfe7d4 100%);border-radius:9px;border:1px solid #e3e7dd">
+            <span style="position:absolute;left:50%;top:0;bottom:0;width:1.5px;background:#c2c9bb"></span>
+            <span style="position:absolute;top:50%;left:{{ scorePos }}%;transform:translate(-50%,-50%);width:20px;height:20px;border-radius:50%;background:{{ scoreColor }};border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.2);transition:left .3s ease"></span>
+            <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:#b06a43">&minus; negatif</span>
+            <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:#5b6b3a">positif +</span>
+          </div>
+          <div style="text-align:center;margin-top:9px;font-family:'Space Mono',monospace;font-size:13px;color:#3a4436">skor = Σ bobot = <span style="font-weight:700;color:{{ scoreColor }}">{{ scoreTxt }}</span></div>
+        </div>
+      </section>
+
+      <!-- RIGHT: RESULT -->
+      <section style="flex:1;min-width:300px;background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:16px">
+        <div style="font-size:11.5px;font-weight:800;color:#8a9285;margin-bottom:12px">4 &middot; SOFTMAX &rarr; PREDIKSI</div>
+        <div style="text-align:center;padding:14px 0 16px;background:{{ predBg }};border-radius:11px;margin-bottom:16px">
+          <div style="font-size:11.5px;color:#7d857a;font-weight:700;letter-spacing:.1em;text-transform:uppercase">Prediksi</div>
+          <div style="font-size:34px;font-weight:800;color:{{ predColor }};letter-spacing:-.01em;line-height:1.1">{{ predLabel }}</div>
+          <div style="font-family:'Space Mono',monospace;font-size:12.5px;color:#7d857a">keyakinan {{ confTxt }}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:11px">
+          <sc-for list="{{ probs }}" as="p" hint-placeholder-count="2">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:4px"><span style="color:{{ p.color }}">{{ p.label }}</span><span style="font-family:'Space Mono',monospace;color:#7d857a">{{ p.pctTxt }}</span></div>
+              <div style="height:14px;background:#eef1ea;border-radius:7px;overflow:hidden"><span style="display:block;height:100%;width:{{ p.pct }}%;background:{{ p.color }};border-radius:7px;transition:width .3s ease"></span></div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:15px;background:#f5f7f2;border:1px solid #e3e7dd;border-radius:9px;padding:10px 12px;font-family:'Space Mono',monospace;font-size:11.5px;color:#6d756c;line-height:1.6">P(kelas) = e^logit / Σ e^logit</div>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1080,&quot;height&quot;:700}}">
+class Component extends DCLogic {
+  state = { text:'pelayanannya sangat ramah dan tempatnya bersih' };
+
+  pos = new Set(['suka','bagus','hebat','keren','indah','senang','mantap','puas','ramah','cepat','bersih','nyaman','enak','baik','sempurna','memuaskan','rekomendasi','cinta','asyik','murah','lezat','ramai','sopan']);
+  neg = new Set(['buruk','jelek','benci','kecewa','lambat','kotor','mahal','rusak','payah','mengecewakan','parah','kasar','lama','sedih','gagal','bosan','membosankan','jorok','lemot','sempit','antri','basi']);
+  negator = new Set(['tidak','bukan','kurang','tanpa','jangan','belum']);
+  intensPre = new Set(['sangat','amat','lebih','paling','begitu']);
+  intensPost = new Set(['sekali','banget','sangat']);
+
+  tokens(){ return this.state.text.trim().toLowerCase().replace(/[.,!?;:"']/g,'').split(/\s+/).filter(Boolean).slice(0,14); }
+
+  analyze(){
+    const toks=this.tokens();
+    return toks.map((w,i)=>{
+      let base = this.pos.has(w)?1 : (this.neg.has(w)?-1:0);
+      if(base===0) return { word:w, val:0, neg:false };
+      let mult=1;
+      if(i>0 && this.intensPre.has(toks[i-1])) mult*=1.7;
+      if(i<toks.length-1 && this.intensPost.has(toks[i+1])) mult*=1.6;
+      let flipped=false;
+      for(let k=1;k<=2;k++){ if(i-k>=0 && this.negator.has(toks[i-k])){ flipped=true; break; } }
+      let val = base*mult*(flipped?-0.85:1);
+      return { word:w, val, neg:flipped };
+    });
+  }
+  fmt(v){ return (v>0?'+':'')+v.toFixed(1); }
+
+  renderVals(){
+    const feats=this.analyze();
+    const score=feats.reduce((s,f)=>s+f.val,0);
+
+    const chips=feats.map(f=>{
+      const v=f.val, mag=Math.min(1,Math.abs(v)/1.7);
+      let bg='#f2f4ef', color='#aab1a4', border='transparent', wColor='#aab1a4';
+      if(v>0){ bg=`rgba(91,107,58,${(0.12+mag*0.55).toFixed(2)})`; color=mag>0.5?'#fff':'#3a4426'; wColor='#5b6b3a'; }
+      else if(v<0){ bg=`rgba(176,106,67,${(0.12+mag*0.55).toFixed(2)})`; color=mag>0.5?'#fff':'#5a3320'; wColor='#b06a43'; }
+      if(f.neg) border='#b06a43';
+      return { word:f.word, bg, color, border, wTxt: v!==0?this.fmt(v):'', wColor };
+    });
+
+    // score meter position (clamp score to +-5 -> 0..100%)
+    const clamped=Math.max(-5,Math.min(5,score));
+    const scorePos=((clamped+5)/10*100).toFixed(1);
+    const scoreColor= score>0.3?'#5b6b3a':(score<-0.3?'#b06a43':'#9aa295');
+
+    // softmax over 2 classes
+    const k=1.05; const lp=score*k, ln=-score*k;
+    const m=Math.max(lp,ln); const ep=Math.exp(lp-m), en=Math.exp(ln-m); const Z=ep+en;
+    const pPos=ep/Z, pNeg=en/Z;
+    const neutral=Math.abs(score)<0.3;
+    const conf=Math.round(Math.max(pPos,pNeg)*100);
+
+    let predLabel, predColor, predBg;
+    if(neutral){ predLabel='NETRAL'; predColor='#7d857a'; predBg='#f2f4ef'; }
+    else if(score>0){ predLabel='POSITIF'; predColor='#46582b'; predBg='#eef3e4'; }
+    else { predLabel='NEGATIF'; predColor='#8a4a2b'; predBg='#f6e8df'; }
+
+    const probs=[
+      { label:'Positif', color:'#5b6b3a', pct:Math.round(pPos*100), pctTxt:Math.round(pPos*100)+'%' },
+      { label:'Negatif', color:'#b06a43', pct:Math.round(pNeg*100), pctTxt:Math.round(pNeg*100)+'%' }
+    ];
+
+    const P=(t)=>({ label:t, onClick:()=>this.setState({text:t}) });
+    return {
+      text:this.state.text, chips,
+      scorePos, scoreColor, scoreTxt:this.fmt(score),
+      predLabel, predColor, predBg, confTxt: neutral?'rendah':conf+'%', probs,
+      onInput:e=>this.setState({text:e.target.value}),
+      presets:[
+        P('pelayanannya sangat ramah dan tempatnya bersih'),
+        P('makanannya enak tapi pelayanannya lambat dan mahal'),
+        P('saya tidak suka filmnya, ceritanya membosankan'),
+        P('produknya bagus sekali, sangat memuaskan')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

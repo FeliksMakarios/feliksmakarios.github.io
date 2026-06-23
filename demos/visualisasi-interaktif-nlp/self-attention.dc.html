@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#e9ebe5}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#1b2433}
+  input:focus,button:focus{outline:2px solid #5b6b3a;outline-offset:1px}
+  ::selection{background:#cfd8c2}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="background:#14304d;color:#fff;padding:16px 26px 18px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <div>
+      <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9db0c4;font-weight:700;margin-bottom:6px">Pemrosesan Bahasa Alami &middot; Pertemuan 07</div>
+      <h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.01em;line-height:1.05">Self-Attention<span style="color:#9fb074"> &middot; Transformer Anatomy</span></h1>
+      <p style="margin:7px 0 0;font-size:13.5px;color:#c5d0dc;max-width:700px;line-height:1.5">Tiap kata boleh "memandang" semua kata lain sekaligus dan memilih mana yang relevan. Klik sebuah kata untuk melihat ke mana perhatiannya tertuju, lalu bandingkan pola antar attention head.</p>
+    </div>
+    <a href="galeri.dc.html" style="font-size:12.5px;color:#9fb074;font-weight:700;text-decoration:none;white-space:nowrap">&larr; Galeri</a>
+  </header>
+
+  <main style="flex:1;display:flex;flex-direction:column;gap:14px;padding:16px;max-width:1080px;margin:0 auto;width:100%">
+
+    <!-- CONTROLS -->
+    <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:14px 16px;display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+      <input value="{{ sentence }}" onInput="{{ onInput }}" placeholder="ketik sebuah kalimat..." style="flex:1;min-width:240px;padding:10px 13px;border:1px solid #cdd2c9;border-radius:9px;background:#f7f8f5;color:#14304d;font-weight:600;font-family:inherit;font-size:14px"/>
+      <div style="display:flex;gap:3px;background:#eef1ea;border:1px solid #dde2d6;border-radius:9px;padding:3px">
+        <sc-for list="{{ heads }}" as="hd" hint-placeholder-count="4">
+          <button onClick="{{ hd.onClick }}" style="border:none;border-radius:7px;padding:7px 11px;cursor:pointer;font-weight:700;font-size:12px;font-family:inherit;background:{{ hd.bg }};color:{{ hd.color }}">{{ hd.label }}</button>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- SENTENCE + ARCS -->
+    <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px 12px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+        <div style="font-size:13.5px;font-weight:800;color:#14304d">Perhatian dari kata <span style="color:#5b6b3a">"{{ queryWord }}"</span></div>
+        <span style="font-size:11.5px;color:#9aa295">{{ headDesc }}</span>
+      </div>
+      <svg viewBox="0 0 1000 120" preserveAspectRatio="none" style="width:100%;height:96px;display:block">
+        <sc-for list="{{ arcs }}" as="a" hint-placeholder-count="6">
+          <path d="{{ a.d }}" fill="none" stroke="#1b3a5b" stroke-width="{{ a.sw }}" opacity="{{ a.op }}"></path>
+        </sc-for>
+      </svg>
+      <div style="display:flex;gap:5px">
+        <sc-for list="{{ slots }}" as="s" hint-placeholder-count="7">
+          <button onClick="{{ s.onClick }}" style="flex:1;border:2px solid {{ s.border }};background:{{ s.bg }};color:{{ s.color }};border-radius:9px;padding:9px 4px;cursor:pointer;font-weight:700;font-size:13px;font-family:inherit;text-align:center;transition:all .15s ease">{{ s.word }}</button>
+        </sc-for>
+      </div>
+      <div style="font-size:11px;color:#9aa295;margin-top:8px;text-align:center">tebal &amp; gelap garis = perhatian lebih kuat &middot; klik kata untuk mengganti query</div>
+    </section>
+
+    <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start">
+
+      <!-- MATRIX -->
+      <section style="flex:1.3;min-width:380px;background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px">
+        <div style="font-size:14px;font-weight:800;color:#14304d;margin-bottom:2px">Matriks perhatian</div>
+        <p style="margin:0 0 12px;font-size:12px;color:#6d756c;line-height:1.45">Baris = kata yang memandang (query), kolom = kata yang dipandang (key). Makin gelap, makin besar bobotnya.</p>
+        <div style="display:flex;gap:7px;margin-bottom:5px;padding-left:62px">
+          <sc-for list="{{ colLabels }}" as="c" hint-placeholder-count="7">
+            <span style="flex:1;text-align:center;font-size:10px;font-weight:700;color:{{ c.color }};white-space:nowrap;overflow:hidden;transform:rotate(-32deg);transform-origin:center">{{ c.word }}</span>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <sc-for list="{{ matrix }}" as="row" hint-placeholder-count="7">
+            <div onClick="{{ row.onClick }}" style="display:flex;align-items:center;gap:7px;cursor:pointer">
+              <span style="width:55px;flex:none;text-align:right;font-size:11px;font-weight:700;color:{{ row.labelColor }};white-space:nowrap;overflow:hidden">{{ row.qLabel }}</span>
+              <div style="flex:1;display:flex;gap:3px">
+                <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="7">
+                  <span title="{{ cell.title }}" style="flex:1;aspect-ratio:1;border-radius:4px;background:{{ cell.bg }};outline:{{ cell.outline }}"></span>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <!-- QUERY DISTRIBUTION + FORMULA -->
+      <section style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:14px">
+        <div style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px">
+          <div style="font-size:14px;font-weight:800;color:#14304d;margin-bottom:2px">Bobot perhatian "{{ queryWord }}"</div>
+          <p style="margin:0 0 12px;font-size:12px;color:#6d756c;line-height:1.4">Total bobot selalu 100% (hasil softmax).</p>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ qBars }}" as="b" hint-placeholder-count="7">
+              <div style="display:flex;align-items:center;gap:9px">
+                <span style="width:78px;flex:none;font-size:12.5px;font-weight:700;color:{{ b.labelColor }};white-space:nowrap;overflow:hidden">{{ b.word }}</span>
+                <span style="flex:1;height:13px;background:#eef1ea;border-radius:6px;overflow:hidden"><span style="display:block;height:100%;width:{{ b.pct }}%;background:{{ b.bg }};border-radius:6px;transition:width .25s ease"></span></span>
+                <span style="width:36px;flex:none;text-align:right;font-family:'Space Mono',monospace;font-size:11px;color:#7d857a">{{ b.pctTxt }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:#14304d;color:#fff;border-radius:14px;padding:15px 16px">
+          <div style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700;letter-spacing:.01em;line-height:1.6">Attention = softmax( <span style="color:#9fb074">Q&middot;Kᵀ</span> / √d ) <span style="color:#9fb074">V</span></div>
+          <p style="margin:9px 0 0;font-size:12px;color:#c5d0dc;line-height:1.5">Q (query) dan K (key) menentukan <em>siapa memandang siapa</em>; V (value) adalah informasi yang dikumpulkan sesuai bobot itu.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1080,&quot;height&quot;:820}}">
+class Component extends DCLogic {
+  state = { sentence:'kucing hitam itu mengejar seekor tikus kecil', head:'avg', query:3 };
+  E = 16; MAXTOK = 9;
+  stop = new Set(['itu','di','yang','dan','ke','dari','seekor','sebuah','ini','para','akan','pada']);
+
+  rng(seed){ let a=seed>>>0; return ()=>{ a=a+0x6D2B79F5|0; let x=Math.imul(a^a>>>15,1|a); x=x+Math.imul(x^x>>>7,61|x)^x; return ((x^x>>>14)>>>0)/4294967296; }; }
+  gx(r){ let u=0,v=0; while(!u)u=r(); while(!v)v=r(); return Math.sqrt(-2*Math.log(u))*Math.cos(6.2832*v); }
+  initP(){ const r=this.rng(2024); this.P=Array.from({length:this.E},()=>Array.from({length:this.E},()=>this.gx(r)*0.5)); }
+  hashStr(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+  emb(w){ const r=this.rng(this.hashStr(w)+7); return Array.from({length:this.E},()=>this.gx(r)); }
+  proj(v){ return this.P.map(row=>row.reduce((s,a,k)=>s+a*v[k],0)); }
+  dot(a,b){ return a.reduce((s,x,i)=>s+x*b[i],0); }
+  norm(v){ const n=Math.hypot(...v)||1; return v.map(x=>x/n); }
+  tokens(){ return this.state.sentence.trim().toLowerCase().split(/\s+/).filter(Boolean).slice(0,this.MAXTOK); }
+  softmax(a){ const m=Math.max(...a); const e=a.map(x=>Math.exp(x-m)); const s=e.reduce((p,q)=>p+q,0); return e.map(x=>x/s); }
+
+  // attention matrix for a head: returns n x n row-stochastic
+  attn(head){
+    const toks=this.tokens(), n=toks.length;
+    const E=toks.map(w=>this.norm(this.proj(this.emb(w))));
+    const sal=toks.map(w=>this.stop.has(w)?0.15:1.0);
+    const A=[];
+    for(let i=0;i<n;i++){
+      const sc=[];
+      for(let j=0;j<n;j++){
+        let s;
+        if(head==='a') s = -Math.abs(i-j)*1.4 + (i===j?0.6:0);            // tetangga (posisi)
+        else if(head==='b') s = this.dot(E[i],E[j])*3.2;                  // makna (kemiripan)
+        else if(head==='c') s = sal[j]*2.6 + (i===j?0.3:0);              // fokus kata penting
+        else { const a=-Math.abs(i-j)*1.4+(i===j?0.6:0), b=this.dot(E[i],E[j])*3.2, c=sal[j]*2.6; s=(a+b+c)/3; }
+        sc.push(s);
+      }
+      A.push(this.softmax(sc));
+    }
+    return {A,toks,n};
+  }
+  attnCol(t){ const k=Math.min(1,t); const L=(f,to)=>Math.round(f+(to-f)*k); return `rgb(${L(245,27)},${L(247,58)},${L(242,91)})`; }
+
+  setQuery(i){ this.setState({query:i}); }
+  renderVals(){
+    if(!this.P) this.initP();
+    const {A,toks,n}=this.attn(this.state.head);
+    const q=Math.min(this.state.query,n-1);
+    const row=A[q]||[];
+    const rowMax=Math.max(...row,0.0001);
+
+    const headInfo={ avg:'rata-rata semua head', a:'Head A: cenderung ke tetangga (posisi)', b:'Head B: cenderung ke kata bermakna serupa', c:'Head C: fokus ke kata penting' };
+    const headList=[ ['avg','Rata-rata'],['a','Head A'],['b','Head B'],['c','Head C'] ];
+    const heads=headList.map(([k,label])=>({ label, bg:this.state.head===k?'#14304d':'transparent', color:this.state.head===k?'#fff':'#6d756c', onClick:()=>this.setState({head:k}) }));
+
+    // arcs over slots (viewBox 1000x120, slot center x)
+    const cx=i=>((i+0.5)/n)*1000;
+    const arcs=[];
+    for(let j=0;j<n;j++){ if(j===q) continue; const w=row[j]||0;
+      const x1=cx(q), x2=cx(j), midx=(x1+x2)/2, h=Math.min(110, 34+Math.abs(q-j)*16);
+      arcs.push({ d:`M ${x1} 116 Q ${midx} ${116-h} ${x2} 116`, sw:(1+w*11).toFixed(2), op:(0.1+Math.min(0.8,w*1.6)).toFixed(2) }); }
+
+    const slots=toks.map((w,i)=>{ const sel=i===q; const wt=row[i]||0; const tint=Math.min(1,wt/rowMax);
+      return { word:w, onClick:()=>this.setQuery(i),
+        border: sel?'#5b6b3a':'transparent',
+        bg: sel?'#14304d':`rgba(27,58,91,${(0.06+tint*0.5).toFixed(3)})`,
+        color: sel?'#fff':(tint>0.55?'#fff':'#28465f') }; });
+
+    const colLabels=toks.map((w,j)=>({ word:w, color:j===q?'#14304d':'#9aa295' }));
+    const matrix=toks.map((w,i)=>{ const rmax=Math.max(...A[i],0.0001);
+      return { qLabel:w, labelColor:i===q?'#14304d':'#7d857a', onClick:()=>this.setQuery(i),
+        cells:A[i].map((v,j)=>({ bg:this.attnCol(v/rmax), outline:(i===q&&j===q)?'2px solid #5b6b3a':'none', title:w+' \u2192 '+toks[j]+': '+Math.round(v*100)+'%' })) }; });
+
+    const order=row.map((w,j)=>[j,w]).sort((a,b)=>b[1]-a[1]);
+    const qBars=order.map(([j,w])=>({ word:toks[j], pct:Math.round((w/rowMax)*100), pctTxt:Math.round(w*100)+'%',
+      bg:j===q?'#5b6b3a':'#1b3a5b', labelColor:j===q?'#46582b':'#28313b' }));
+
+    return {
+      sentence:this.state.sentence, heads, headDesc:headInfo[this.state.head], queryWord:toks[q]||'',
+      arcs, slots, colLabels, matrix, qBars,
+      onInput:e=>this.setState({ sentence:e.target.value, query:0 })
+    };
+  }
+}
+</script>
+</body>
+</html>

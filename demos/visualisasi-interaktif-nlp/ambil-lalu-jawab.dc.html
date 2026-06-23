@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#e9ebe5}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#1b2433}
+  input:focus,button:focus{outline:2px solid #5b6b3a;outline-offset:1px}
+  ::selection{background:#cfd8c2}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="background:#14304d;color:#fff;padding:16px 26px 18px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <div>
+      <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9db0c4;font-weight:700;margin-bottom:6px">Pemrosesan Bahasa Alami &middot; Pertemuan 11</div>
+      <h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.01em;line-height:1.05">Ambil lalu Jawab<span style="color:#9fb074"> &middot; Retrieval-Augmented Generation</span></h1>
+      <p style="margin:7px 0 0;font-size:13.5px;color:#c5d0dc;max-width:710px;line-height:1.5">RAG menjawab pertanyaan dengan dua tahap: mengambil dokumen paling relevan dari basis pengetahuan, lalu menyusun jawaban dari konteks tersebut, bukan mengarang.</p>
+    </div>
+    <a href="galeri.dc.html" style="font-size:12.5px;color:#9fb074;font-weight:700;text-decoration:none;white-space:nowrap">&larr; Galeri</a>
+  </header>
+
+  <main style="flex:1;display:flex;flex-direction:column;gap:14px;padding:16px;max-width:1080px;margin:0 auto;width:100%">
+
+    <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:20px">&#128269;</span>
+        <input value="{{ question }}" onInput="{{ onInput }}" placeholder="ajukan pertanyaan..." style="flex:1;padding:11px 13px;border:1px solid #cdd2c9;border-radius:9px;background:#f7f8f5;color:#14304d;font-weight:600;font-family:inherit;font-size:15px"/>
+      </div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:10px">
+        <span style="font-size:11.5px;color:#9aa295;align-self:center;font-weight:600">coba:</span>
+        <sc-for list="{{ presets }}" as="p" hint-placeholder-count="4">
+          <button onClick="{{ p.onClick }}" style="font-size:11.5px;font-weight:600;color:#14304d;background:#eef1ea;border:1px solid #dde2d6;border-radius:7px;padding:5px 9px;cursor:pointer;font-family:inherit">{{ p.label }}</button>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- FLOW -->
+    <section style="display:flex;gap:10px;align-items:stretch;flex-wrap:wrap">
+      <div style="flex:1;min-width:150px;background:#fff;border:1px solid #d8ddd2;border-radius:12px;padding:12px 14px">
+        <div style="font-size:11px;font-weight:800;color:#9aa295;letter-spacing:.06em">1 &middot; PERTANYAAN</div>
+        <div style="font-size:13px;font-weight:700;color:#14304d;margin-top:3px;line-height:1.3">{{ question }}</div>
+      </div>
+      <div style="display:flex;align-items:center;color:#9fb074;font-size:20px;font-weight:800">&rarr;</div>
+      <div style="flex:1;min-width:150px;background:#fff;border:1px solid #d8ddd2;border-radius:12px;padding:12px 14px">
+        <div style="font-size:11px;font-weight:800;color:#2f6f7d;letter-spacing:.06em">2 &middot; AMBIL (RETRIEVAL)</div>
+        <div style="font-size:13px;color:#56605a;margin-top:3px;line-height:1.3">cari dokumen termirip &rarr; <span style="font-weight:700;color:#2f6f7d">Dokumen {{ topNum }}</span></div>
+      </div>
+      <div style="display:flex;align-items:center;color:#9fb074;font-size:20px;font-weight:800">&rarr;</div>
+      <div style="flex:1;min-width:150px;background:#fff;border:1px solid #d8ddd2;border-radius:12px;padding:12px 14px">
+        <div style="font-size:11px;font-weight:800;color:#5b6b3a;letter-spacing:.06em">3 &middot; JAWAB (GENERATION)</div>
+        <div style="font-size:13px;color:#56605a;margin-top:3px;line-height:1.3">susun jawaban dari konteks</div>
+      </div>
+    </section>
+
+    <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start">
+
+      <!-- KB -->
+      <section style="flex:1.5;min-width:380px;background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px">
+        <div style="font-size:14px;font-weight:800;color:#14304d;margin-bottom:2px">Basis pengetahuan</div>
+        <p style="margin:0 0 12px;font-size:12px;color:#6d756c;line-height:1.4">Dokumen diurutkan berdasarkan skor kemiripan dengan pertanyaan. Kalimat jawaban tersorot pada dokumen teratas.</p>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ docs }}" as="d" hint-placeholder-count="5">
+            <div style="border:1px solid {{ d.border }};background:{{ d.bg }};border-radius:11px;padding:11px 13px">
+              <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px">
+                <span style="font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:{{ d.numColor }};white-space:nowrap">Dok {{ d.num }}</span>
+                <span style="flex:1;height:9px;background:#eef1ea;border-radius:5px;overflow:hidden"><span style="display:block;height:100%;width:{{ d.pct }}%;background:{{ d.barColor }};border-radius:5px;transition:width .3s ease"></span></span>
+                <span style="font-family:'Space Mono',monospace;font-size:10.5px;color:#7d857a;width:34px;text-align:right">{{ d.pctTxt }}</span>
+              </div>
+              <div style="font-size:13px;line-height:1.5;color:#3a4340">
+                <sc-for list="{{ d.parts }}" as="pt" hint-placeholder-count="2"><span style="background:{{ pt.bg }};color:{{ pt.color }};border-radius:4px;padding:{{ pt.pad }};font-weight:{{ pt.weight }}">{{ pt.text }}</span></sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <!-- ANSWER -->
+      <section style="flex:1;min-width:280px;display:flex;flex-direction:column;gap:14px">
+        <div style="background:#5b6b3a;color:#fff;border-radius:14px;padding:17px 18px">
+          <div style="font-size:11.5px;font-weight:800;color:#cfe0a0;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">Jawaban</div>
+          <p style="margin:0;font-size:15.5px;line-height:1.55;font-weight:600">{{ answerText }}</p>
+          <div style="margin-top:13px;padding-top:11px;border-top:1px solid #6d7d4c;display:flex;justify-content:space-between;font-size:11.5px;color:#dbe6c4;font-family:'Space Mono',monospace">
+            <span>sumber: Dokumen {{ topNum }}</span><span>relevansi {{ confTxt }}</span>
+          </div>
+        </div>
+        <div style="background:#f5f7f2;border:1px solid #e3e7dd;border-radius:14px;padding:14px 16px">
+          <div style="font-size:12.5px;font-weight:800;color:#14304d;margin-bottom:6px">Mengapa RAG?</div>
+          <p style="margin:0;font-size:12px;color:#56605a;line-height:1.55">Dengan menambatkan jawaban pada dokumen nyata, model lebih akurat, dapat menyebut sumber, dan tidak mudah berhalusinasi.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1080,&quot;height&quot;:760}}">
+class Component extends DCLogic {
+  state = { question:'Kapan Transformer diperkenalkan?' };
+  KB = [
+    'Model Transformer diperkenalkan pada tahun 2017 melalui makalah Attention is All You Need. Arsitektur ini sepenuhnya mengandalkan mekanisme attention tanpa recurrence.',
+    'BERT adalah model bahasa dari Google yang dilatih secara dua arah. BERT sangat baik untuk tugas pemahaman seperti klasifikasi dan question answering.',
+    'GPT adalah model bahasa generatif buatan OpenAI. GPT bekerja dengan memprediksi kata berikutnya dan unggul dalam menghasilkan teks.',
+    'Word embedding seperti Word2Vec memetakan kata menjadi vektor. Kata dengan makna serupa akan memiliki vektor yang saling berdekatan.',
+    'Retrieval-Augmented Generation menggabungkan pencarian dokumen dengan model generatif. Sistem mengambil konteks relevan terlebih dahulu lalu menyusun jawaban berdasarkan konteks itu.',
+    'Metrik ROUGE menilai kualitas ringkasan dengan mengukur tumpang tindih kata terhadap ringkasan acuan buatan manusia.'
+  ];
+  stop=new Set(['yang','dan','di','ke','dari','untuk','dengan','adalah','pada','itu','ini','sebagai','atau','juga','dalam','apa','apakah','bagaimana','siapa','kapan','dimana','mengapa','kenapa','buatan','seperti','akan','secara','para','lalu','terlebih','dahulu']);
+
+  words(s){ return s.toLowerCase().replace(/[^a-z0-9\s]/g,'').split(/\s+/).filter(w=>w.length>2 && !this.stop.has(w)); }
+  sents(p){ return p.split(/(?<=[.!?])\s+/).map(s=>s.trim()).filter(Boolean); }
+  vocab(){ if(this._v) return this._v; const v={}; this.KB.forEach(p=>this.words(p).forEach(w=>{ if(!(w in v)) v[w]=Object.keys(v).length; })); this.words(this.state.question).forEach(w=>{ if(!(w in v)) v[w]=Object.keys(v).length; }); return v; }
+  vec(s,v){ const x=new Array(Object.keys(v).length).fill(0); this.words(s).forEach(w=>{ if(w in v) x[v[w]]++; }); const n=Math.hypot(...x)||1; return x.map(e=>e/n); }
+  cos(a,b){ let d=0; const L=Math.min(a.length,b.length); for(let i=0;i<L;i++) d+=a[i]*b[i]; return d; }
+
+  renderVals(){
+    this._v=null; const v=this.vocab();
+    const qv=this.vec(this.state.question,v);
+    const scored=this.KB.map((p,i)=>({ i, p, score:this.cos(qv,this.vec(p,v)) }));
+    const ranked=[...scored].sort((a,b)=>b.score-a.score);
+    const top=ranked[0];
+    const maxScore=Math.max(...scored.map(s=>s.score),0.0001);
+
+    // best answer sentence in top doc
+    let ansIdx=0, bs=-1; const tSents=this.sents(top.p);
+    tSents.forEach((s,si)=>{ const sc=this.cos(qv,this.vec(s,v)); if(sc>bs){ bs=sc; ansIdx=si; } });
+    const found = top.score>0.04;
+    const answerText = found ? tSents[ansIdx] : 'Maaf, tidak ada dokumen yang cukup relevan untuk menjawab pertanyaan ini.';
+
+    const docs=ranked.map(r=>{ const isTop=r.i===top.i && found; const pct=Math.round(r.score/maxScore*100);
+      const parts=this.sents(r.p).map((s,si)=>{ const hl=isTop && si===ansIdx;
+        return { text:(si>0?' ':'')+s, bg:hl?'#dcebbf':'transparent', color:'#3a4340', pad:hl?'2px 4px':'0', weight:hl?'700':'400' }; });
+      // fix highlight color (army-green soft)
+      parts.forEach(pt=>{ if(pt.bg==='#dcebbf') pt.bg='#e3efce'; });
+      return { num:r.i+1, pct, pctTxt:Math.round(r.score*100)+'%',
+        border:isTop?'#5b6b3a':'#edf0ea', bg:isTop?'#f4f8ec':'#fbfcfa',
+        numColor:isTop?'#46582b':'#9aa295', barColor:isTop?'#5b6b3a':'#c2c9bb', parts }; });
+
+    const P=t=>({ label:t, onClick:()=>this.setState({question:t}) });
+    return {
+      question:this.state.question, docs, answerText, topNum:top.i+1,
+      confTxt: found?Math.round(top.score*100)+'%':'rendah',
+      onInput:e=>this.setState({question:e.target.value}),
+      presets:[
+        P('Kapan Transformer diperkenalkan?'),
+        P('Apa itu BERT?'),
+        P('Model apa yang dibuat OpenAI?'),
+        P('Bagaimana cara kerja RAG?'),
+        P('Apa fungsi metrik ROUGE?')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

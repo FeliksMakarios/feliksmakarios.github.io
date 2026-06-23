@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#e9ebe5}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#1b2433}
+  input:focus,button:focus{outline:2px solid #5b6b3a;outline-offset:1px}
+  ::selection{background:#cfd8c2}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="background:#14304d;color:#fff;padding:16px 26px 18px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <div>
+      <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9db0c4;font-weight:700;margin-bottom:6px">Pemrosesan Bahasa Alami &middot; Pertemuan 05</div>
+      <h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.01em;line-height:1.05">Sekuensial vs Paralel<span style="color:#9fb074"> &middot; Mengapa Transformer</span></h1>
+      <p style="margin:7px 0 0;font-size:13.5px;color:#c5d0dc;max-width:700px;line-height:1.5">RNN harus membaca berurutan, sehingga kata yang berjauhan sulit saling terhubung. Transformer menghubungkan semua kata sekaligus dalam satu langkah. Pilih kata sumber, lalu jalankan untuk merasakan bedanya.</p>
+    </div>
+    <a href="galeri.dc.html" style="font-size:12.5px;color:#9fb074;font-weight:700;text-decoration:none;white-space:nowrap">&larr; Galeri</a>
+  </header>
+
+  <main style="flex:1;display:flex;flex-direction:column;gap:14px;padding:16px;max-width:1080px;margin:0 auto;width:100%">
+
+    <!-- CONTROLS -->
+    <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:14px 16px;display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+      <input value="{{ sentence }}" onInput="{{ onInput }}" placeholder="ketik sebuah kalimat..." style="flex:1;min-width:240px;padding:10px 13px;border:1px solid #cdd2c9;border-radius:9px;background:#f7f8f5;color:#14304d;font-weight:600;font-family:inherit;font-size:14px"/>
+      <button onClick="{{ playToggle }}" style="height:38px;padding:0 18px;border:none;background:#14304d;color:#fff;border-radius:9px;cursor:pointer;font-weight:700;font-size:13.5px;font-family:inherit">{{ playLabel }}</button>
+      <span style="font-size:12px;color:#9aa295;font-weight:600">klik kata mana pun sebagai sumber informasi</span>
+    </section>
+
+    <!-- RNN PANEL -->
+    <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px 12px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px">
+        <div style="font-size:14px;font-weight:800;color:#b06a43">RNN &middot; berurutan</div>
+        <span style="font-size:12px;color:#6d756c">menjangkau kata terjauh: <span style="font-family:'Space Mono',monospace;font-weight:700;color:#b06a43">{{ rnnHops }} langkah</span></span>
+      </div>
+      <p style="margin:0 0 4px;font-size:12px;color:#6d756c;line-height:1.4">Informasi hanya mengalir ke tetangga langsung. Untuk kata jauh, sinyal harus melewati banyak langkah dan melemah.</p>
+      <svg viewBox="0 0 1000 70" preserveAspectRatio="none" style="width:100%;height:58px;display:block">
+        <sc-for list="{{ rnnEdges }}" as="e" hint-placeholder-count="6">
+          <path d="{{ e.d }}" fill="none" stroke="{{ e.stroke }}" stroke-width="{{ e.sw }}" opacity="{{ e.op }}"></path>
+        </sc-for>
+      </svg>
+      <div style="display:flex;gap:6px">
+        <sc-for list="{{ rnnSlots }}" as="s" hint-placeholder-count="6">
+          <button onClick="{{ s.onClick }}" style="flex:1;border:2px solid {{ s.border }};background:{{ s.bg }};color:{{ s.color }};border-radius:9px;padding:8px 4px;cursor:pointer;font-weight:700;font-size:12.5px;font-family:inherit">{{ s.word }}</button>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- TRANSFORMER PANEL -->
+    <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px 12px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px">
+        <div style="font-size:14px;font-weight:800;color:#2f6f7d">Transformer &middot; paralel</div>
+        <span style="font-size:12px;color:#6d756c">menjangkau semua kata: <span style="font-family:'Space Mono',monospace;font-weight:700;color:#2f6f7d">1 langkah</span></span>
+      </div>
+      <p style="margin:0 0 4px;font-size:12px;color:#6d756c;line-height:1.4">Lewat self-attention, satu kata terhubung langsung ke semua kata lain sekaligus, sejauh apa pun jaraknya.</p>
+      <svg viewBox="0 0 1000 70" preserveAspectRatio="none" style="width:100%;height:58px;display:block">
+        <sc-for list="{{ trEdges }}" as="e" hint-placeholder-count="10">
+          <path d="{{ e.d }}" fill="none" stroke="{{ e.stroke }}" stroke-width="{{ e.sw }}" opacity="{{ e.op }}"></path>
+        </sc-for>
+      </svg>
+      <div style="display:flex;gap:6px">
+        <sc-for list="{{ trSlots }}" as="s" hint-placeholder-count="6">
+          <button onClick="{{ s.onClick }}" style="flex:1;border:2px solid {{ s.border }};background:{{ s.bg }};color:{{ s.color }};border-radius:9px;padding:8px 4px;cursor:pointer;font-weight:700;font-size:12.5px;font-family:inherit">{{ s.word }}</button>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- POSITIONAL ENCODING -->
+    <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px">
+      <div style="font-size:14px;font-weight:800;color:#14304d;margin-bottom:2px">Tapi paralel kehilangan urutan, maka: Positional Encoding</div>
+      <p style="margin:0 0 12px;font-size:12px;color:#6d756c;line-height:1.45;max-width:760px">Karena semua kata diproses bersamaan, model tak tahu mana yang lebih dulu. Solusinya: tiap posisi diberi "sidik jari" angka unik (pola sinus-cosinus) yang ditambahkan ke embedding. Tiap baris di bawah adalah satu posisi.</p>
+      <div style="display:flex;gap:13px;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:1;min-width:300px">
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <sc-for list="{{ peRows }}" as="row" hint-placeholder-count="8">
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="width:54px;flex:none;text-align:right;font-family:'Space Mono',monospace;font-size:10.5px;color:#7d857a;font-weight:700">{{ row.label }}</span>
+                <div style="flex:1;display:flex;gap:2px;height:17px;border-radius:4px;overflow:hidden">
+                  <sc-for list="{{ row.cells }}" as="c" hint-placeholder-count="16"><span style="flex:1;background:{{ c.bg }}"></span></sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px;padding-left:62px">
+            <span style="font-size:10.5px;color:#9aa295;font-family:'Space Mono',monospace">dimensi 0</span>
+            <span style="font-size:10.5px;color:#9aa295;font-family:'Space Mono',monospace">dimensi {{ peDimMax }}</span>
+          </div>
+        </div>
+        <div style="width:200px;flex:none;background:#f5f7f2;border:1px solid #e3e7dd;border-radius:9px;padding:12px 13px">
+          <div style="font-family:'Space Mono',monospace;font-size:11.5px;color:#3a4436;line-height:1.8">PE(pos,2i)=<br/>&nbsp;sin(pos / 10000^(2i/d))<br/><br/>PE(pos,2i+1)=<br/>&nbsp;cos(pos / 10000^(2i/d))</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1080,&quot;height&quot;:840}}">
+class Component extends DCLogic {
+  state = { sentence:'kucing yang duduk di tikar itu lapar', source:0, playing:false, reach:99 };
+  MAXTOK = 8; PED = 16; PEROWS = 8;
+
+  componentWillUnmount(){ if(this.timer) clearInterval(this.timer); }
+  tokens(){ return this.state.sentence.trim().toLowerCase().split(/\s+/).filter(Boolean).slice(0,this.MAXTOK); }
+
+  pick(i){ this.stop(); this.setState({ source:i, reach:99 }); }
+  stop(){ if(this.timer){ clearInterval(this.timer); this.timer=null; } if(this.state.playing) this.setState({playing:false}); }
+  playToggle(){
+    if(this.state.playing){ this.stop(); return; }
+    const n=this.tokens().length, src=Math.min(this.state.source,n-1);
+    const maxD=Math.max(src, n-1-src);
+    this.setState({ playing:true, reach:0 });
+    this.timer=setInterval(()=>{
+      this.setState(s=>{ if(s.reach>=maxD){ clearInterval(this.timer); this.timer=null; return {playing:false}; } return {reach:s.reach+1}; });
+    }, 650);
+  }
+
+  cx(i,n){ return ((i+0.5)/n)*1000; }
+
+  renderVals(){
+    const toks=this.tokens(), n=toks.length;
+    const src=Math.min(this.state.source,n-1);
+    const reach=this.state.reach;
+    const maxD=Math.max(src,n-1-src);
+
+    // RNN slots: tint fades by distance, gated by reach
+    const rnnSlots=toks.map((w,i)=>{
+      const d=Math.abs(i-src); const within=d<=reach;
+      const sel=i===src;
+      const tint=within? Math.max(0.08, 1-d*0.24) : 0.05;
+      return { word:w, onClick:()=>this.pick(i),
+        border: sel?'#b06a43':'transparent',
+        bg: sel?'#b06a43':`rgba(176,106,67,${tint.toFixed(3)})`,
+        color: sel?'#fff':(tint>0.5?'#fff':'#6a4632') };
+    });
+    const rnnEdges=[];
+    for(let i=0;i<n-1;i++){ const onPath=(Math.min(i,i+1)>=src-reach && Math.max(i,i+1)<=src+reach); const near=(i>=src-reach && i+1<=src+reach);
+      const active = (i>=Math.min(src,src) ) && (Math.max(i,i+1)<=src+reach && Math.min(i,i+1)>=src-reach);
+      const x1=this.cx(i,n),x2=this.cx(i+1,n),mid=(x1+x2)/2;
+      rnnEdges.push({ d:`M ${x1} 64 Q ${mid} 20 ${x2} 64`, stroke:active?'#b06a43':'#dde2d6', sw:active?3:1.6, op:active?0.9:0.7 }); }
+
+    // Transformer slots: all reached in 1 step (uniform), source highlighted
+    const trSlots=toks.map((w,i)=>{ const sel=i===src;
+      return { word:w, onClick:()=>this.pick(i),
+        border: sel?'#2f6f7d':'transparent',
+        bg: sel?'#2f6f7d':'rgba(47,111,125,0.34)',
+        color: sel?'#fff':'#1d4a54' }; });
+    const trEdges=[];
+    for(let j=0;j<n;j++){ if(j===src) continue; const x1=this.cx(src,n),x2=this.cx(j,n),mid=(x1+x2)/2, h=Math.min(56,14+Math.abs(src-j)*9);
+      trEdges.push({ d:`M ${x1} 64 Q ${mid} ${64-h} ${x2} 64`, stroke:'#2f6f7d', sw:2.4, op:0.55 }); }
+    // faint full graph behind
+    for(let a=0;a<n;a++)for(let b=a+1;b<n;b++){ if(a===src||b===src) continue; const x1=this.cx(a,n),x2=this.cx(b,n),mid=(x1+x2)/2,h=Math.min(54,12+Math.abs(a-b)*8);
+      trEdges.push({ d:`M ${x1} 64 Q ${mid} ${64-h} ${x2} 64`, stroke:'#dde2d6', sw:1, op:0.5 }); }
+
+    // positional encoding heatmap
+    const peRows=[];
+    for(let pos=0;pos<this.PEROWS;pos++){ const cells=[];
+      for(let i=0;i<this.PED;i++){ const k=Math.floor(i/2); const denom=Math.pow(10000,(2*k)/this.PED); const v=(i%2===0)?Math.sin(pos/denom):Math.cos(pos/denom);
+        const t=(v+1)/2, L=(f,to)=>Math.round(f+(to-f)*Math.abs(v)); const bg= v>=0?`rgb(${L(245,27)},${L(247,58)},${L(242,91)})`:`rgb(${L(245,91)},${L(247,107)},${L(242,58)})`;
+        cells.push({ bg }); }
+      peRows.push({ label:'pos '+pos, cells }); }
+
+    return {
+      sentence:this.state.sentence, playLabel:this.state.playing?'Jeda':'Putar animasi',
+      rnnSlots, rnnEdges, trSlots, trEdges, rnnHops:maxD, peRows, peDimMax:this.PED-1,
+      onInput:e=>{ this.stop(); this.setState({ sentence:e.target.value, source:0, reach:99 }); },
+      playToggle:()=>this.playToggle()
+    };
+  }
+}
+</script>
+</body>
+</html>

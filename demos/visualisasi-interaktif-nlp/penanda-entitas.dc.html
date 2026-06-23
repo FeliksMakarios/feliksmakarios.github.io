@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#e9ebe5}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#1b2433}
+  textarea:focus,button:focus{outline:2px solid #5b6b3a;outline-offset:1px}
+  ::selection{background:#cfd8c2}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="background:#14304d;color:#fff;padding:16px 26px 18px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <div>
+      <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9db0c4;font-weight:700;margin-bottom:6px">Pemrosesan Bahasa Alami &middot; Pertemuan 09</div>
+      <h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.01em;line-height:1.05">Penanda Entitas<span style="color:#9fb074"> &middot; Named Entity Recognition</span></h1>
+      <p style="margin:7px 0 0;font-size:13.5px;color:#c5d0dc;max-width:700px;line-height:1.5">NER menemukan dan mengklasifikasikan nama dalam teks: orang, organisasi, dan lokasi. Tempel teks berbahasa Indonesia atau Inggris, lalu lihat entitasnya tersorot otomatis.</p>
+    </div>
+    <a href="galeri.dc.html" style="font-size:12.5px;color:#9fb074;font-weight:700;text-decoration:none;white-space:nowrap">&larr; Galeri</a>
+  </header>
+
+  <main style="flex:1;display:flex;flex-direction:column;gap:14px;padding:16px;max-width:1080px;margin:0 auto;width:100%">
+
+    <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:14px 16px">
+      <input value="{{ text }}" onInput="{{ onInput }}" placeholder="tempel teks di sini..." style="width:100%;padding:11px 13px;border:1px solid #cdd2c9;border-radius:9px;background:#f7f8f5;color:#14304d;font-weight:500;font-family:inherit;font-size:14.5px"/>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:10px">
+        <span style="font-size:11.5px;color:#9aa295;align-self:center;font-weight:600">contoh:</span>
+        <sc-for list="{{ presets }}" as="p" hint-placeholder-count="4">
+          <button onClick="{{ p.onClick }}" style="font-size:11.5px;font-weight:600;color:#14304d;background:#eef1ea;border:1px solid #dde2d6;border-radius:7px;padding:5px 9px;cursor:pointer;font-family:inherit">{{ p.label }}</button>
+        </sc-for>
+      </div>
+    </section>
+
+    <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start">
+      <section style="flex:1.6;min-width:380px;background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:18px 20px">
+        <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px">
+          <sc-for list="{{ legend }}" as="l" hint-placeholder-count="4">
+            <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:#56605a"><span style="width:11px;height:11px;border-radius:3px;background:{{ l.color }}"></span>{{ l.name }}</span>
+          </sc-for>
+        </div>
+        <div style="font-size:17px;line-height:2.1;color:#2a3340">
+          <sc-for list="{{ segments }}" as="s" hint-placeholder-count="12"><span style="background:{{ s.bg }};color:{{ s.color }};border-radius:6px;padding:{{ s.pad }};font-weight:{{ s.weight }};white-space:pre-wrap">{{ s.text }}<sub style="font-size:8.5px;font-weight:800;vertical-align:super;letter-spacing:.04em;margin-left:2px">{{ s.label }}</sub></span></sc-for>
+        </div>
+      </section>
+
+      <section style="flex:1;min-width:260px;background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:16px">
+        <div style="font-size:14px;font-weight:800;color:#14304d;margin-bottom:3px">Entitas ditemukan</div>
+        <p style="margin:0 0 13px;font-size:12px;color:#9aa295;font-family:'Space Mono',monospace">{{ countTxt }}</p>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+            <div>
+              <div style="display:flex;align-items:center;gap:7px;margin-bottom:7px"><span style="width:10px;height:10px;border-radius:3px;background:{{ g.color }}"></span><span style="font-size:12px;font-weight:800;color:{{ g.color }}">{{ g.name }}</span><span style="font-size:11px;color:#9aa295;font-family:'Space Mono',monospace">{{ g.count }}</span></div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="3"><span style="font-size:12.5px;font-weight:600;color:#2a3340;background:{{ g.soft }};border:1px solid {{ g.border }};border-radius:6px;padding:4px 9px">{{ it }}</span></sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1080,&quot;height&quot;:620}}">
+class Component extends DCLogic {
+  state = { text:'Presiden Joko Widodo mengunjungi Universitas Pelita Harapan di Tangerang minggu lalu.' };
+
+  TYPES = { PER:{name:'Orang (PER)',color:'#14304d',soft:'#e8edf3',border:'#c4d0dc'},
+            ORG:{name:'Organisasi (ORG)',color:'#2f6f7d',soft:'#e1eef0',border:'#bcd7db'},
+            LOC:{name:'Lokasi (LOC)',color:'#5b6b3a',soft:'#eaf0e0',border:'#cdd9bb'},
+            MISC:{name:'Lainnya (MISC)',color:'#b06a43',soft:'#f4e7df',border:'#e3cbbb'} };
+
+  gaz(){
+    if(this._g) return this._g;
+    const g={};
+    const add=(type,arr)=>arr.forEach(p=>{ g[p.toLowerCase()]=type; });
+    add('PER',['joko widodo','albert einstein','tim cook','mohammad hatta','soekarno','b.j. habibie','budi santoso','siti aminah','bill gates','elon musk']);
+    add('ORG',['universitas pelita harapan','fakultas teknologi informasi','google','microsoft','apple','tokopedia','gojek','bank indonesia','kementerian pendidikan','pbb','telkom','samsung','openai','nvidia']);
+    add('LOC',['jakarta','bandung','surabaya','tangerang','indonesia','jawa barat','bali','yogyakarta','medan','singapura','amerika serikat','jepang','jerman','london','new york','eropa','asia','silicon valley']);
+    this._g=g; return g;
+  }
+  titles = new Set(['presiden','bapak','ibu','pak','bu','dr','prof','raja','ratu','ceo','menteri','gubernur','profesor','sir']);
+  orgTrig = new Set(['pt','cv','universitas','bank','kementerian','fakultas','perusahaan']);
+  norm(t){ return t.toLowerCase().replace(/[^a-z0-9.]/g,''); }
+  isCap(t){ return /^[A-Z]/.test(t); }
+
+  tag(){
+    const raw=this.state.text;
+    const toks=raw.split(/(\s+)/); // keep whitespace tokens
+    const words=[]; // indices of word tokens
+    toks.forEach((t,i)=>{ if(!/^\s+$/.test(t) && t.length) words.push(i); });
+    const g=this.gaz();
+    const tagOf=new Array(toks.length).fill(null); // type per token index
+    const used=new Array(toks.length).fill(false);
+
+    // 1. gazetteer longest match over word sequence
+    for(let wi=0; wi<words.length; wi++){
+      for(let L=4; L>=1; L--){
+        if(wi+L>words.length) continue;
+        const idxs=words.slice(wi,wi+L);
+        const phrase=idxs.map(k=>this.norm(toks[k])).join(' ');
+        if(g[phrase]){ idxs.forEach(k=>{ tagOf[k]=g[phrase]; used[k]=true; }); wi+=L-1; break; }
+      }
+    }
+    // 2. triggers + capitalization
+    for(let wi=0; wi<words.length; wi++){
+      const k=words[wi]; if(used[k]) continue;
+      const w=toks[k]; const nrm=this.norm(w);
+      if(this.titles.has(nrm) || this.orgTrig.has(nrm)){
+        const type=this.orgTrig.has(nrm)?'ORG':'PER';
+        let m=wi+1, any=false;
+        while(m<words.length && this.isCap(toks[words[m]]) && !used[words[m]]){ tagOf[words[m]]=type; used[words[m]]=true; m++; any=true; }
+        if(any && type==='ORG'){ tagOf[k]=type; used[k]=true; } // include trigger word for ORG
+        continue;
+      }
+    }
+    // 3. leftover capitalized (not sentence-initial) -> MISC
+    let sentStart=true;
+    for(let wi=0; wi<words.length; wi++){
+      const k=words[wi]; const w=toks[k];
+      const nw=this.norm(w);
+      if(!used[k] && this.isCap(w) && !sentStart && nw.length>1 && !this.titles.has(nw) && !this.orgTrig.has(nw)){ tagOf[k]='MISC'; }
+      sentStart = /[.!?]$/.test(w);
+    }
+
+    // build segments merging consecutive same-tag word tokens (and the spaces between them)
+    const segs=[]; let i=0;
+    const push=(text,type)=>{ if(text==='') return; segs.push({text,type}); };
+    while(i<toks.length){
+      const t=toks[i];
+      if(/^\s+$/.test(t) || t===''){ push(t,null); i++; continue; }
+      const type=tagOf[i];
+      if(!type){ push(t,null); i++; continue; }
+      // gather span: this token, then while next non-space token has same type
+      let text=t; let j=i+1;
+      while(j<toks.length){
+        if(/^\s+$/.test(toks[j])){ // peek next word
+          let k=j+1; if(k<toks.length && tagOf[k]===type){ text+=toks[j]+toks[k]; j=k+1; continue; } else break;
+        } else if(tagOf[j]===type){ text+=toks[j]; j++; } else break;
+      }
+      push(text,type); i=j;
+    }
+
+    return segs;
+  }
+
+  renderVals(){
+    const segs=this.tag();
+    const segments=segs.map(s=>{ const T=s.type?this.TYPES[s.type]:null;
+      return { text:s.text, label:s.type||'', bg:T?T.soft:'transparent', color:T?T.color:'#2a3340',
+        pad:T?'2px 5px':'0', weight:T?'700':'400' }; });
+
+    // groups
+    const found={}; segs.forEach(s=>{ if(s.type){ (found[s.type]=found[s.type]||[]).push(s.text.trim()); } });
+    const order=['PER','ORG','LOC','MISC'];
+    const groups=order.filter(t=>found[t]&&found[t].length).map(t=>{ const T=this.TYPES[t];
+      const uniq=[...new Set(found[t])];
+      return { name:T.name, color:T.color, soft:T.soft, border:T.border, count:uniq.length, items:uniq }; });
+    const total=Object.values(found).reduce((s,a)=>s+new Set(a).size,0);
+
+    const P=t=>({ label:t.length>46?t.slice(0,44)+'…':t, onClick:()=>this.setState({text:t}) });
+    return {
+      text:this.state.text, segments, groups, countTxt: total+' entitas unik terdeteksi',
+      legend:order.map(t=>({ name:this.TYPES[t].name, color:this.TYPES[t].color })),
+      onInput:e=>this.setState({text:e.target.value}),
+      presets:[
+        P('Presiden Joko Widodo mengunjungi Universitas Pelita Harapan di Tangerang minggu lalu.'),
+        P('Google dan Microsoft membuka kantor baru di Jakarta dan Singapura.'),
+        P('Albert Einstein lahir di Jerman lalu pindah ke Amerika Serikat.'),
+        P('Apple announced a new office in London, said CEO Tim Cook.')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

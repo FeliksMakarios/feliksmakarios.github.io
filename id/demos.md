@@ -23,6 +23,16 @@ untuk demo yang saya bangun dari riset saya sendiri dan side project,
 <section id="my-project" class="demo-section">
 
 <div class="card-demo">
+  <div class="thumb" aria-hidden="true">🧩</div>
+  <div>
+    <h3>Visualisasi Interaktif Mata Kuliah NLP</h3>
+    <p class="meta">Pelengkap pengajaran · Galeri visualisasi seluruh mata kuliah</p>
+    <p>Galeri interaktif konsep-konsep NLP yang saya bangun sebagai pendamping mata kuliah Natural Language Processing. Mencakup tokenisasi, embedding, attention, komputasi sekuensial dan paralel, computational graph, serta beberapa ide inti lain dalam visualisasi yang berjalan di browser.</p>
+    <p><a href="/demos/visualisasi-interaktif-nlp/" target="_blank" rel="noopener">Jalankan demo →</a></p>
+  </div>
+</div>
+
+<div class="card-demo">
   <div class="thumb" aria-hidden="true">📄</div>
   <div>
     <h3>BESKlus: BERT Extractive Summarization with K-Means Clustering</h3>

@@ -23,6 +23,16 @@ demos used at open-house events with high-school students.
 <section id="my-project" class="demo-section">
 
 <div class="card-demo">
+  <div class="thumb" aria-hidden="true">🧩</div>
+  <div>
+    <h3>Visualisasi Interaktif Mata Kuliah NLP</h3>
+    <p class="meta">Teaching companion · Course-wide visualization gallery</p>
+    <p>Interactive gallery of NLP concepts I built to accompany my Natural Language Processing course. Covers tokenization, embeddings, attention, sequential vs parallel computation, computational graphs, and several other core ideas in browser-only visualizations.</p>
+    <p><a href="/demos/visualisasi-interaktif-nlp/" target="_blank" rel="noopener">Launch demo →</a></p>
+  </div>
+</div>
+
+<div class="card-demo">
   <div class="thumb" aria-hidden="true">📄</div>
   <div>
     <h3>BESKlus: BERT Extractive Summarization with K-Means Clustering</h3>
