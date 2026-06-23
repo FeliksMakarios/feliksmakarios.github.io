@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#e9ebe5}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#1b2433}
+  input:focus,button:focus{outline:2px solid #5b6b3a;outline-offset:1px}
+  ::selection{background:#cfd8c2}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="background:#14304d;color:#fff;padding:16px 26px 18px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <div>
+      <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9db0c4;font-weight:700;margin-bottom:6px">Pemrosesan Bahasa Alami &middot; Pertemuan 04</div>
+      <h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.01em;line-height:1.05">Gerbang Memori<span style="color:#9fb074"> &middot; Long Short-Term Memory</span></h1>
+      <p style="margin:7px 0 0;font-size:13.5px;color:#c5d0dc;max-width:690px;line-height:1.5">LSTM menambahkan tiga gerbang yang bekerja seperti kran: lupa, simpan, dan keluaran. Bersama sebuah cell state, gerbang ini memutuskan apa yang dibuang dan apa yang dijaga, jauh lebih lama dari RNN biasa.</p>
+    </div>
+    <a href="galeri.dc.html" style="font-size:12.5px;color:#9fb074;font-weight:700;text-decoration:none;white-space:nowrap">&larr; Galeri</a>
+  </header>
+
+  <main style="flex:1;display:flex;flex-direction:column;gap:14px;padding:16px;max-width:1080px;margin:0 auto;width:100%">
+
+    <!-- CONTROLS + SEQUENCE -->
+    <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <input value="{{ sentence }}" onInput="{{ onInput }}" placeholder="ketik sebuah kalimat..." style="flex:1;min-width:240px;padding:10px 13px;border:1px solid #cdd2c9;border-radius:9px;background:#f7f8f5;color:#14304d;font-weight:600;font-family:inherit;font-size:14px"/>
+        <div style="display:flex;gap:7px;align-items:center">
+          <button onClick="{{ reset }}" title="ulang" style="width:38px;height:38px;border:1px solid #cdd2c9;background:#f7f8f5;border-radius:9px;cursor:pointer;color:#14304d;font-size:15px;font-weight:700">&#8635;</button>
+          <button onClick="{{ back }}" title="mundur" style="width:38px;height:38px;border:1px solid #cdd2c9;background:#f7f8f5;border-radius:9px;cursor:pointer;color:#14304d;font-size:15px;font-weight:700">&#9664;</button>
+          <button onClick="{{ playToggle }}" style="height:38px;padding:0 16px;border:none;background:#14304d;color:#fff;border-radius:9px;cursor:pointer;font-weight:700;font-size:13.5px;font-family:inherit">{{ playLabel }}</button>
+          <button onClick="{{ fwd }}" title="maju" style="width:38px;height:38px;border:1px solid #cdd2c9;background:#f7f8f5;border-radius:9px;cursor:pointer;color:#14304d;font-size:15px;font-weight:700">&#9654;</button>
+        </div>
+        <span style="font-family:'Space Mono',monospace;font-size:13px;color:#5b6b3a;font-weight:700;white-space:nowrap">t = {{ t }} / {{ n }}</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        <sc-for list="{{ chips }}" as="c" hint-placeholder-count="7">
+          <span style="padding:8px 12px;border-radius:9px;font-weight:700;font-size:13.5px;background:{{ c.bg }};color:{{ c.color }};border:2px solid {{ c.border }};opacity:{{ c.opacity }};transition:all .18s ease">{{ c.word }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+    <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:stretch">
+
+      <!-- GATES -->
+      <section style="flex:1;min-width:320px;background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px">
+        <div style="font-size:14px;font-weight:800;color:#14304d;margin-bottom:3px">Tiga gerbang pada langkah ini</div>
+        <p style="margin:0 0 14px;font-size:12px;color:#6d756c;line-height:1.45">Tiap gerbang bernilai 0 (tertutup) sampai 1 (terbuka penuh), dihitung dari kata sekarang dan ingatan sebelumnya.</p>
+        <div style="display:flex;flex-direction:column;gap:15px">
+          <sc-for list="{{ gates }}" as="g" hint-placeholder-count="3">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px">
+                <span style="font-size:13px;font-weight:700;color:{{ g.color }}">{{ g.name }} <span style="color:#9aa295;font-weight:600;font-size:11.5px">{{ g.sub }}</span></span>
+                <span style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:{{ g.color }}">{{ g.pctTxt }}</span>
+              </div>
+              <div style="height:11px;background:#eef1ea;border-radius:6px;overflow:hidden">
+                <span style="display:block;height:100%;width:{{ g.pct }}%;background:{{ g.color }};border-radius:6px;transition:width .25s ease"></span>
+              </div>
+              <div style="display:flex;gap:2px;height:9px;margin-top:4px">
+                <sc-for list="{{ g.units }}" as="u" hint-placeholder-count="12"><span style="flex:1;background:{{ u.bg }};border-radius:2px"></span></sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <!-- CELL UPDATE FLOW -->
+      <section style="flex:1.25;min-width:360px;background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px">
+        <div style="font-size:14px;font-weight:800;color:#14304d;margin-bottom:3px">Memperbarui cell state</div>
+        <p style="margin:0 0 12px;font-size:12px;color:#6d756c;line-height:1.45">Ingatan lama disaring gerbang lupa, lalu informasi baru dimasukkan lewat gerbang simpan.</p>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ strips }}" as="s" hint-placeholder-count="6">
+            <div style="opacity:{{ s.opacity }}">
+              <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+                <span style="font-size:11.5px;font-weight:700;color:{{ s.labelColor }}">{{ s.label }}</span>
+                <span style="font-size:10.5px;color:#9aa295;font-family:'Space Mono',monospace">{{ s.sub }}</span>
+              </div>
+              <div style="display:flex;gap:2px;height:{{ s.h }}px;border-radius:4px;overflow:hidden;outline:{{ s.outline }}">
+                <sc-for list="{{ s.cells }}" as="c" hint-placeholder-count="12"><span style="flex:1;background:{{ c.bg }}"></span></sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:12px;background:#f5f7f2;border:1px solid #e3e7dd;border-radius:9px;padding:10px 12px;font-family:'Space Mono',monospace;font-size:12px;color:#3a4436;line-height:1.7">
+          cₜ = <span style="color:#b06a43;font-weight:700">f</span>&middot;cₜ₋₁ + <span style="color:#5b6b3a;font-weight:700">i</span>&middot;g<br/>
+          hₜ = <span style="color:#2f6f7d;font-weight:700">o</span>&middot;tanh(cₜ)
+        </div>
+      </section>
+    </div>
+
+    <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:stretch">
+      <!-- CELL STATE OVER TIME -->
+      <section style="flex:1.4;min-width:360px;background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">
+          <div style="font-size:14px;font-weight:800;color:#14304d">Cell state di tiap langkah</div>
+          <span style="font-size:11.5px;color:#9aa295;font-family:'Space Mono',monospace">dim = {{ Hdim }}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:3px">
+          <sc-for list="{{ cellRows }}" as="row" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;gap:9px;opacity:{{ row.opacity }}">
+              <span style="width:30px;flex:none;text-align:right;font-family:'Space Mono',monospace;font-size:10.5px;color:{{ row.labelColor }};font-weight:700">{{ row.label }}</span>
+              <div style="flex:1;display:flex;gap:2px;height:{{ row.h }}px;border-radius:4px;overflow:hidden;outline:{{ row.outline }}">
+                <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="12"><span style="flex:1;background:{{ cell.bg }}"></span></sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <!-- RETENTION -->
+      <section style="flex:1;min-width:280px;background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px">
+        <div style="font-size:14px;font-weight:800;color:#14304d;margin-bottom:3px">Retensi ingatan</div>
+        <p style="margin:0 0 14px;font-size:12px;color:#6d756c;line-height:1.45">Kekuatan jejak kata pertama setelah beberapa langkah. Cell state LSTM menjaganya jauh lebih lama.</p>
+        <div style="font-size:11px;font-weight:700;color:#2f6f7d;margin-bottom:4px">LSTM (cell state)</div>
+        <div style="display:flex;align-items:flex-end;gap:5px;height:62px">
+          <sc-for list="{{ lstmRet }}" as="m" hint-placeholder-count="7"><span style="flex:1;background:#2f6f7d;height:{{ m.pct }}%;min-height:2px;border-radius:3px 3px 0 0"></span></sc-for>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:#aab2a3;margin:12px 0 4px">RNN biasa</div>
+        <div style="display:flex;align-items:flex-end;gap:5px;height:62px;border-bottom:1.5px solid #dde2d6">
+          <sc-for list="{{ rnnRet }}" as="m" hint-placeholder-count="7"><span style="flex:1;background:#c2c9bb;height:{{ m.pct }}%;min-height:2px;border-radius:3px 3px 0 0"></span></sc-for>
+        </div>
+        <div style="display:flex;gap:5px;margin-top:4px">
+          <sc-for list="{{ lstmRet }}" as="m" hint-placeholder-count="7"><span style="flex:1;text-align:center;font-family:'Space Mono',monospace;font-size:9.5px;color:#9aa295">{{ m.k }}</span></sc-for>
+        </div>
+        <div style="text-align:center;font-size:10px;color:#9aa295;margin-top:2px">perbandingan ilustratif</div>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1080,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  state = { sentence:'kucing hitam itu duduk manis di tikar', t:1, playing:false };
+  H = 12; E = 8; MAXTOK = 9;
+
+  componentWillUnmount(){ if(this.timer) clearInterval(this.timer); }
+
+  rng(seed){ let a=seed>>>0; return ()=>{ a=a+0x6D2B79F5|0; let x=Math.imul(a^a>>>15,1|a); x=x+Math.imul(x^x>>>7,61|x)^x; return ((x^x>>>14)>>>0)/4294967296; }; }
+  gx(r){ let u=0,v=0; while(!u)u=r(); while(!v)v=r(); return Math.sqrt(-2*Math.log(u))*Math.cos(6.2832*v); }
+  mat(r,rows,cols,sc){ return Array.from({length:rows},()=>Array.from({length:cols},()=>this.gx(r)*sc)); }
+  initW(){
+    const r=this.rng(13579); const D=this.H+this.E, sc=0.5/Math.sqrt(D);
+    this.Wf=this.mat(r,this.H,D,sc); this.Wi=this.mat(r,this.H,D,sc); this.Wo=this.mat(r,this.H,D,sc); this.Wg=this.mat(r,this.H,D,sc);
+    this.bf=new Array(this.H).fill(1.6); this.bi=new Array(this.H).fill(-0.2); this.bo=new Array(this.H).fill(0.1);
+    // illustrative RNN contraction matrix
+    const r2=this.rng(99); this.Wrnn=this.mat(r2,this.H,this.H,0.55/Math.sqrt(this.H));
+  }
+  hashStr(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+  emb(w){ const r=this.rng(this.hashStr(w)+7); return Array.from({length:this.E},()=>this.gx(r)); }
+  mv(M,x){ return M.map(row=>row.reduce((s,a,k)=>s+a*x[k],0)); }
+  sig(x){ return x.map(v=>1/(1+Math.exp(-v))); }
+  add(a,b){ return a.map((v,i)=>v+b[i]); }
+  mul(a,b){ return a.map((v,i)=>v*b[i]); }
+  tokens(){ return this.state.sentence.trim().toLowerCase().split(/\s+/).filter(Boolean).slice(0,this.MAXTOK); }
+
+  run(){
+    const toks=this.tokens(), n=toks.length;
+    const xs=toks.map(w=>this.emb(w));
+    const c=[new Array(this.H).fill(0)], h=[new Array(this.H).fill(0)], F=[], I=[], O=[], G=[];
+    for(let s=0;s<n;s++){
+      const z=h[s].concat(xs[s]);
+      const f=this.sig(this.add(this.mv(this.Wf,z),this.bf));
+      const i=this.sig(this.add(this.mv(this.Wi,z),this.bi));
+      const o=this.sig(this.add(this.mv(this.Wo,z),this.bo));
+      const g=this.add(this.mv(this.Wg,z),new Array(this.H).fill(0)).map(Math.tanh);
+      const cNew=this.add(this.mul(f,c[s]),this.mul(i,g));
+      const hNew=this.mul(o,cNew.map(Math.tanh));
+      c.push(cNew); h.push(hNew); F.push(f); I.push(i); O.push(o); G.push(g);
+    }
+    return {n,c,h,F,I,O,G};
+  }
+
+  setT(nt){ const n=this.tokens().length; this.setState({ t:Math.max(0,Math.min(n,nt)) }); }
+  reset(){ this.stop(); this.setState({ t:0 }); }
+  back(){ this.stop(); this.setT(this.state.t-1); }
+  fwd(){ this.stop(); this.setT(this.state.t+1); }
+  stop(){ if(this.timer){ clearInterval(this.timer); this.timer=null; } if(this.state.playing) this.setState({playing:false}); }
+  playToggle(){
+    if(this.state.playing){ this.stop(); return; }
+    const n=this.tokens().length; if(this.state.t>=n) this.setState({t:0});
+    this.setState({playing:true});
+    this.timer=setInterval(()=>{ this.setState(s=>{ const nn=this.tokens().length; if(s.t>=nn){ clearInterval(this.timer); this.timer=null; return {playing:false}; } return {t:s.t+1}; }); }, 780);
+  }
+
+  cs(v){ const k=Math.min(1,Math.abs(v)); const L=(f,t)=>Math.round(f+(t-f)*k);
+    return v>=0 ? `rgb(${L(255,27)},${L(255,58)},${L(255,91)})` : `rgb(${L(255,91)},${L(255,107)},${L(255,58)})`; }
+  gc(v,rgb){ const k=Math.min(1,Math.max(0,v)); const L=(t)=>Math.round(255+(t-255)*k); return `rgb(${L(rgb[0])},${L(rgb[1])},${L(rgb[2])})`; }
+
+  renderVals(){
+    if(!this.Wf) this.initW();
+    const R=this.run(); const n=R.n; const t=Math.min(this.state.t,n);
+    const toks=this.tokens();
+    const si=Math.max(0,t-1); // gate/step index for current token
+    const has=t>=1;
+
+    const chips=toks.map((w,i)=>{ const done=i<t, cur=i===t-1;
+      return { word:w, bg:cur?'#14304d':(done?'#dfe6ea':'#f2f4ef'), color:cur?'#fff':(done?'#28465f':'#aab1a4'), border:cur?'#5b6b3a':'transparent', opacity:(done||cur)?1:0.55 }; });
+
+    const F=has?R.F[si]:new Array(this.H).fill(0);
+    const I=has?R.I[si]:new Array(this.H).fill(0);
+    const O=has?R.O[si]:new Array(this.H).fill(0);
+    const mean=a=>a.reduce((s,v)=>s+v,0)/a.length;
+    const gateDef=[
+      {name:'Lupa', key:'f', sub:'forget', rgb:[176,106,67], color:'#b06a43', vec:F},
+      {name:'Simpan', key:'i', sub:'input', rgb:[91,107,58], color:'#5b6b3a', vec:I},
+      {name:'Keluaran', key:'o', sub:'output', rgb:[47,111,125], color:'#2f6f7d', vec:O}
+    ];
+    const gates=gateDef.map(d=>({ name:d.name, sub:d.sub, color:d.color,
+      pct: has?Math.round(mean(d.vec)*100):0, pctTxt: has?Math.round(mean(d.vec)*100)+'%':'–',
+      units:d.vec.map(v=>({ bg:this.gc(v,d.rgb) })) }));
+
+    // cell update strips
+    const cPrev=R.c[si], gCand=has?R.G[si]:new Array(this.H).fill(0);
+    const kept=has?this.mul(F,cPrev):cPrev;
+    const added=has?this.mul(I,gCand):new Array(this.H).fill(0);
+    const cNow=R.c[t], hNow=R.h[t];
+    const strip=(label,sub,vec,emph,lc)=>({ label, sub, cells:vec.map(v=>({bg:this.cs(v)})), opacity:has?1:0.5, h:emph?24:16, outline:emph?'2px solid #14304d':'none', labelColor:lc||'#56605a' });
+    const strips=[
+      strip('cₜ₋₁  ingatan lama','sebelumnya',cPrev,false),
+      strip('disimpan  =  f · cₜ₋₁','setelah gerbang lupa',kept,false,'#b06a43'),
+      strip('g  kandidat baru','tanh',gCand,false),
+      strip('ditambah  =  i · g','setelah gerbang simpan',added,false,'#5b6b3a'),
+      strip('cₜ  ingatan baru','disimpan + ditambah',cNow,true,'#14304d'),
+      strip('hₜ  keluaran','o · tanh(cₜ)',hNow,false,'#2f6f7d')
+    ];
+
+    // cell state over time
+    const cellRows=[];
+    for(let i=0;i<=t;i++){ cellRows.push({ label:'c'+i, labelColor:i===t?'#14304d':'#aab1a4', opacity:i===t?1:0.62, h:i===t?24:14, outline:i===t?'2px solid #14304d':'none', cells:R.c[i].map(v=>({bg:this.cs(v)})) }); }
+
+    // retention
+    const steps=Math.max(n,6);
+    const lstmRet=[], rnnRet=[];
+    if(n>0){
+      const meanF=mean(R.F[0]);
+      let lv=R.c[1].slice(), rb=Math.hypot(...lv)||1;
+      let rv=R.h[1].slice(), rbase=Math.hypot(...rv)||1;
+      for(let k=0;k<steps;k++){
+        lstmRet.push({ k, pct:Math.max(2,Math.round(Math.hypot(...lv)/rb*100)) });
+        rnnRet.push({ k, pct:Math.max(2,Math.round(Math.hypot(...rv)/rbase*100)) });
+        lv=this.mul(R.F[0],lv);
+        rv=this.mv(this.Wrnn,rv).map(Math.tanh);
+      }
+    }
+
+    return {
+      sentence:this.state.sentence, t, n, Hdim:this.H, chips, gates, strips, cellRows, lstmRet, rnnRet,
+      playLabel:this.state.playing?'Jeda':'Putar',
+      onInput:e=>{ this.stop(); this.setState({ sentence:e.target.value, t:1 }); },
+      reset:()=>this.reset(), back:()=>this.back(), fwd:()=>this.fwd(), playToggle:()=>this.playToggle()
+    };
+  }
+}
+</script>
+</body>
+</html>

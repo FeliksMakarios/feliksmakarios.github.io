@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#e9ebe5}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#1b2433}
+  input:focus,button:focus{outline:2px solid #5b6b3a;outline-offset:1px}
+  ::selection{background:#cfd8c2}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="background:#14304d;color:#fff;padding:16px 26px 18px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <div>
+      <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9db0c4;font-weight:700;margin-bottom:6px">Pemrosesan Bahasa Alami &middot; Pertemuan 02</div>
+      <h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.01em;line-height:1.05">Memori Berjalan<span style="color:#9fb074"> &middot; Recurrent Neural Network</span></h1>
+      <p style="margin:7px 0 0;font-size:13.5px;color:#c5d0dc;max-width:680px;line-height:1.5">RNN membaca teks satu token demi satu token. Tiap langkah, ia memperbarui satu vektor ingatan (hidden state) memakai rumus yang sama. Jalankan, lalu amati ingatannya tumbuh dan memudar.</p>
+    </div>
+    <a href="galeri.dc.html" style="font-size:12.5px;color:#9fb074;font-weight:700;text-decoration:none;white-space:nowrap">&larr; Galeri</a>
+  </header>
+
+  <main style="flex:1;display:flex;flex-direction:column;gap:14px;padding:16px;max-width:1080px;margin:0 auto;width:100%">
+
+    <!-- INPUT + CONTROLS -->
+    <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <input value="{{ sentence }}" onInput="{{ onInput }}" placeholder="ketik sebuah kalimat..." style="flex:1;min-width:240px;padding:10px 13px;border:1px solid #cdd2c9;border-radius:9px;background:#f7f8f5;color:#14304d;font-weight:600;font-family:inherit;font-size:14px"/>
+        <div style="display:flex;gap:7px;align-items:center">
+          <button onClick="{{ reset }}" title="ulang" style="width:38px;height:38px;border:1px solid #cdd2c9;background:#f7f8f5;border-radius:9px;cursor:pointer;color:#14304d;font-size:15px;font-weight:700">&#8635;</button>
+          <button onClick="{{ back }}" title="mundur" style="width:38px;height:38px;border:1px solid #cdd2c9;background:#f7f8f5;border-radius:9px;cursor:pointer;color:#14304d;font-size:15px;font-weight:700">&#9664;</button>
+          <button onClick="{{ playToggle }}" style="height:38px;padding:0 16px;border:none;background:#14304d;color:#fff;border-radius:9px;cursor:pointer;font-weight:700;font-size:13.5px;font-family:inherit">{{ playLabel }}</button>
+          <button onClick="{{ fwd }}" title="maju" style="width:38px;height:38px;border:1px solid #cdd2c9;background:#f7f8f5;border-radius:9px;cursor:pointer;color:#14304d;font-size:15px;font-weight:700">&#9654;</button>
+        </div>
+        <span style="font-family:'Space Mono',monospace;font-size:13px;color:#5b6b3a;font-weight:700;white-space:nowrap">t = {{ t }} / {{ n }}</span>
+      </div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:11px">
+        <span style="font-size:11.5px;color:#9aa295;align-self:center;font-weight:600">contoh:</span>
+        <sc-for list="{{ presets }}" as="p" hint-placeholder-count="3">
+          <button onClick="{{ p.onClick }}" style="font-size:11.5px;font-weight:600;color:#14304d;background:#eef1ea;border:1px solid #dde2d6;border-radius:7px;padding:5px 9px;cursor:pointer;font-family:inherit">{{ p.label }}</button>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- SEQUENCE -->
+    <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px">
+      <div style="font-size:12px;font-weight:700;color:#8a9285;margin-bottom:10px">URUTAN TOKEN &middot; xₜ</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <sc-for list="{{ chips }}" as="c" hint-placeholder-count="7">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <span style="font-size:10px;font-family:'Space Mono',monospace;color:{{ c.idxColor }};font-weight:700;height:13px">{{ c.idxLabel }}</span>
+            <span style="padding:9px 13px;border-radius:9px;font-weight:700;font-size:14px;background:{{ c.bg }};color:{{ c.color }};border:2px solid {{ c.border }};opacity:{{ c.opacity }};transition:all .18s ease">{{ c.word }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="margin-top:14px;background:#f5f7f2;border:1px solid #e3e7dd;border-radius:9px;padding:11px 13px;font-family:'Space Mono',monospace;font-size:13.5px;color:#3a4436">
+        hₜ = tanh( <span style="color:#1b3a5b;font-weight:700">W</span>&middot;hₜ₋₁ + <span style="color:#5b6b3a;font-weight:700">U</span>&middot;xₜ )
+        <span style="color:#9aa295;font-size:11.5px"> &nbsp; bobot W, U sama di tiap langkah</span>
+      </div>
+    </section>
+
+    <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:stretch">
+
+      <!-- HIDDEN STATE EVOLUTION -->
+      <section style="flex:2;min-width:380px;background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
+          <div style="font-size:14px;font-weight:800;color:#14304d">Hidden state di tiap langkah</div>
+          <span style="font-size:11.5px;color:#9aa295;font-family:'Space Mono',monospace">dim = {{ Hdim }}</span>
+        </div>
+        <p style="margin:0 0 12px;font-size:12px;color:#6d756c;line-height:1.45">Tiap baris satu langkah waktu. Warna = nilai tiap dimensi (<span style="color:#5b6b3a;font-weight:700">negatif</span> / <span style="color:#1b3a5b;font-weight:700">positif</span>). Baris paling bawah adalah ingatan terkini hₜ.</p>
+        <div style="display:flex;flex-direction:column;gap:3px">
+          <sc-for list="{{ hiddenRows }}" as="row" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;gap:9px;opacity:{{ row.opacity }}">
+              <span style="width:30px;flex:none;text-align:right;font-family:'Space Mono',monospace;font-size:10.5px;color:{{ row.labelColor }};font-weight:700">{{ row.label }}</span>
+              <div style="flex:1;display:flex;gap:2px;height:{{ row.h }}px;border-radius:4px;overflow:hidden;outline:{{ row.outline }}">
+                <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="14">
+                  <span style="flex:1;background:{{ cell.bg }}"></span>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <!-- MEMORY DECAY -->
+      <section style="flex:1;min-width:260px;background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px">
+        <div style="font-size:14px;font-weight:800;color:#14304d;margin-bottom:4px">Ingatan memudar</div>
+        <p style="margin:0 0 14px;font-size:12px;color:#6d756c;line-height:1.45">Seberapa kuat jejak <span style="font-weight:700;color:#14304d">kata pertama</span> bertahan setelah beberapa langkah, tanpa input baru. Inilah masalah memori jangka panjang pada RNN biasa.</p>
+        <div style="display:flex;align-items:flex-end;gap:6px;height:130px;border-bottom:1.5px solid #dde2d6;padding-bottom:0">
+          <sc-for list="{{ memBars }}" as="m" hint-placeholder-count="7">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px;height:100%">
+              <span style="height:{{ m.pct }}%;width:100%;background:{{ m.bg }};border-radius:4px 4px 0 0;min-height:2px;transition:height .25s ease"></span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:5px">
+          <sc-for list="{{ memBars }}" as="m" hint-placeholder-count="7">
+            <span style="flex:1;text-align:center;font-family:'Space Mono',monospace;font-size:9.5px;color:#9aa295">{{ m.k }}</span>
+          </sc-for>
+        </div>
+        <div style="text-align:center;font-size:10.5px;color:#9aa295;margin-top:3px">langkah setelah kata pertama</div>
+      </section>
+
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1120,&quot;height&quot;:760}}">
+class Component extends DCLogic {
+  state = { sentence:'kucing hitam itu duduk manis di tikar', t:0, playing:false };
+  H = 14; E = 8; MAXTOK = 9;
+
+  componentWillUnmount(){ if(this.timer) clearInterval(this.timer); }
+
+  rng(seed){ let a=seed>>>0; return ()=>{ a=a+0x6D2B79F5|0; let x=Math.imul(a^a>>>15,1|a); x=x+Math.imul(x^x>>>7,61|x)^x; return ((x^x>>>14)>>>0)/4294967296; }; }
+  initW(){
+    const r=this.rng(424242);
+    const g=()=>{ let u=0,v=0; while(!u)u=r(); while(!v)v=r(); return Math.sqrt(-2*Math.log(u))*Math.cos(6.2832*v); };
+    this.W=Array.from({length:this.H},()=>Array.from({length:this.H},()=>g()*0.55/Math.sqrt(this.H)));
+    this.U=Array.from({length:this.H},()=>Array.from({length:this.E},()=>g()*0.9/Math.sqrt(this.E)));
+  }
+  hashStr(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+  emb(word){ const r=this.rng(this.hashStr(word)+7); const g=()=>{ let u=0,v=0; while(!u)u=r(); while(!v)v=r(); return Math.sqrt(-2*Math.log(u))*Math.cos(6.2832*v); }; return Array.from({length:this.E},()=>g()); }
+  mv(M,x){ return M.map(row=>row.reduce((s,a,k)=>s+a*x[k],0)); }
+  tanh(x){ return x.map(Math.tanh); }
+  tokens(){ return this.state.sentence.trim().toLowerCase().split(/\s+/).filter(Boolean).slice(0,this.MAXTOK); }
+
+  setT(nt){ const n=this.tokens().length; this.setState({ t:Math.max(0,Math.min(n,nt)) }); }
+  reset(){ this.stop(); this.setState({ t:0 }); }
+  back(){ this.stop(); this.setT(this.state.t-1); }
+  fwd(){ this.stop(); this.setT(this.state.t+1); }
+  stop(){ if(this.timer){ clearInterval(this.timer); this.timer=null; } if(this.state.playing) this.setState({playing:false}); }
+  playToggle(){
+    if(this.state.playing){ this.stop(); return; }
+    const n=this.tokens().length;
+    if(this.state.t>=n) this.setState({t:0});
+    this.setState({playing:true});
+    this.timer=setInterval(()=>{
+      this.setState(s=>{ const nn=this.tokens().length; if(s.t>=nn){ clearInterval(this.timer); this.timer=null; return {playing:false}; } return {t:s.t+1}; });
+    }, 720);
+  }
+
+  col(v){ const k=Math.min(1,Math.abs(v)); const L=(f,t)=>Math.round(f+(t-f)*k);
+    return v>=0 ? `rgb(${L(255,27)},${L(255,58)},${L(255,91)})` : `rgb(${L(255,91)},${L(255,107)},${L(255,58)})`; }
+
+  renderVals(){
+    if(!this.W) this.initW();
+    const toks=this.tokens(); const n=toks.length; const t=Math.min(this.state.t,n);
+
+    // forward pass -> hidden states h[0..n]
+    const xs=toks.map(w=>this.emb(w));
+    const hs=[new Array(this.H).fill(0)];
+    for(let i=0;i<n;i++){ const pre=this.mv(this.W,hs[i]).map((v,j)=>v+this.mv(this.U,xs[i])[j]); hs.push(this.tanh(pre)); }
+
+    // chips
+    const chips=toks.map((w,i)=>{
+      const done=i<t, cur=i===t-1;
+      return { word:w,
+        idxLabel: cur?'x'+(i+1):'', idxColor:'#5b6b3a',
+        bg: cur?'#14304d':(done?'#dfe6ea':'#f2f4ef'),
+        color: cur?'#fff':(done?'#28465f':'#aab1a4'),
+        border: cur?'#5b6b3a':'transparent',
+        opacity: (done||cur)?1:0.55 };
+    });
+
+    // hidden rows up to t (show h0..ht), newest at bottom
+    const rows=[];
+    for(let i=0;i<=t;i++){
+      rows.push({ label: 'h'+i, labelColor: i===t?'#14304d':'#aab1a4', opacity: i===t?1:0.62,
+        h: i===t?26:15, outline: i===t?'2px solid #14304d':'none',
+        cells: hs[i].map(v=>({ bg:this.col(v) })) });
+    }
+
+    // memory decay: echo of first token then silence
+    const memBars=[];
+    if(n>0){
+      let g=hs[1].slice(); const base=Math.hypot(...g)||1;
+      for(let k=0;k<Math.max(n,6);k++){
+        const nrm=Math.hypot(...g)/base;
+        memBars.push({ k:k, pct:Math.max(2,Math.round(nrm*100)), bg:'#5b6b3a' });
+        g=this.tanh(this.mv(this.W,g));
+      }
+    }
+
+    return {
+      sentence:this.state.sentence, t, n, Hdim:this.H,
+      playLabel: this.state.playing?'Jeda':'Putar',
+      chips, hiddenRows:rows, memBars,
+      onInput:e=>{ this.stop(); this.setState({ sentence:e.target.value, t:0 }); },
+      reset:()=>this.reset(), back:()=>this.back(), fwd:()=>this.fwd(), playToggle:()=>this.playToggle(),
+      presets:[
+        {label:'kucing hitam itu duduk manis di tikar', onClick:()=>{ this.stop(); this.setState({sentence:'kucing hitam itu duduk manis di tikar',t:0}); }},
+        {label:'raja tua memerintah negeri yang jauh', onClick:()=>{ this.stop(); this.setState({sentence:'raja tua memerintah negeri yang jauh',t:0}); }},
+        {label:'saya suka belajar bahasa', onClick:()=>{ this.stop(); this.setState({sentence:'saya suka belajar bahasa',t:0}); }}
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

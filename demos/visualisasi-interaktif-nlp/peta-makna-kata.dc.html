@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#e9ebe5}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#1b2433}
+  select:focus,button:focus{outline:2px solid #5b6b3a;outline-offset:1px}
+  ::selection{background:#cfd8c2}
+</style>
+<script src="./embeddings.js"></script>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="background:#14304d;color:#fff;padding:18px 26px 20px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+    <div>
+      <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9db0c4;font-weight:700;margin-bottom:6px">Pemrosesan Bahasa Alami &middot; Modul 1</div>
+      <h1 style="margin:0;font-size:27px;font-weight:800;letter-spacing:-.01em;line-height:1.05">Peta Makna Kata: <span style="color:#9fb074">Word Embeddings</span></h1>
+      <p style="margin:7px 0 0;font-size:13.5px;color:#c5d0dc;max-width:640px;line-height:1.5">Setiap kata adalah sebuah <em>vector</em> angka. Kata yang maknanya mirip berdekatan di ruang ini, dan hubungan antar kata bisa dihitung secara aljabar. Klik, geser, dan coba sendiri.</p>
+    </div>
+    <div style="font-family:'Space Mono',monospace;font-size:11.5px;color:#8fa3b8;text-align:right;line-height:1.6">
+      <div><span style="color:#cfe0a0">{{ wordCount }}</span> kata &middot; <span style="color:#cfe0a0">{{ dimTxt }}</span> dimensi</div>
+      <div>cosine similarity</div>
+    </div>
+  </header>
+
+  <main style="flex:1;display:flex;gap:16px;padding:16px;align-items:stretch;flex-wrap:wrap">
+
+    <!-- MAP -->
+    <section style="flex:1.55;min-width:520px;background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:14px 16px 10px;display:flex;flex-direction:column">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px">
+        <h2 style="margin:0;font-size:15px;font-weight:800;color:#14304d">Peta 2D Ruang Embedding</h2>
+        <span style="font-size:12px;color:#7d857a">proyeksi PCA &middot; klik kata untuk memilih</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px 12px;margin-bottom:6px">
+        <sc-for list="{{ themes }}" as="th" hint-placeholder-count="8">
+          <span style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:#56605a;font-weight:600">
+            <span style="width:10px;height:10px;border-radius:50%;background:{{ th.color }}"></span>{{ th.name }}
+          </span>
+        </sc-for>
+      </div>
+      <div style="position:relative;width:100%;aspect-ratio:1000 / 760;margin-top:2px">
+        <svg viewBox="0 0 1000 760" style="width:100%;height:100%;display:block">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6b3a"></path>
+            </marker>
+          </defs>
+          <sc-for list="{{ mapLines }}" as="ln" hint-placeholder-count="0">
+            <line x1="{{ ln.x1 }}" y1="{{ ln.y1 }}" x2="{{ ln.x2 }}" y2="{{ ln.y2 }}" stroke="{{ ln.stroke }}" stroke-width="{{ ln.sw }}" opacity="{{ ln.op }}"></line>
+          </sc-for>
+          <sc-for list="{{ arrows }}" as="ar" hint-placeholder-count="0">
+            <line x1="{{ ar.x1 }}" y1="{{ ar.y1 }}" x2="{{ ar.x2 }}" y2="{{ ar.y2 }}" stroke="#5b6b3a" stroke-width="2.2" stroke-dasharray="6 5" opacity="0.85" marker-end="url(#arr)"></line>
+          </sc-for>
+          <sc-for list="{{ mapPoints }}" as="p" hint-placeholder-count="40">
+            <circle cx="{{ p.x }}" cy="{{ p.y }}" r="{{ p.r }}" fill="{{ p.fill }}" opacity="{{ p.op }}" stroke="{{ p.stroke }}" stroke-width="{{ p.sw }}" style="cursor:pointer" onClick="{{ p.onClick }}"></circle>
+          </sc-for>
+        </svg>
+        <div style="position:absolute;inset:0;pointer-events:none">
+          <sc-for list="{{ mapPoints }}" as="p" hint-placeholder-count="40">
+            <span style="position:absolute;left:{{ p.leftPct }}%;top:{{ p.topPct }}%;transform:translateY(-50%);padding-left:9px;color:{{ p.lfill }};font-size:{{ p.ls }}px;font-weight:{{ p.lw }};opacity:{{ p.lop }};white-space:nowrap;line-height:1">{{ p.w }}</span>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT COLUMN -->
+    <div style="flex:1;min-width:360px;display:flex;flex-direction:column;gap:16px">
+
+      <!-- ANALOGY -->
+      <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:16px">
+        <h2 style="margin:0 0 3px;font-size:15px;font-weight:800;color:#14304d">Kalkulator Analogi</h2>
+        <p style="margin:0 0 13px;font-size:12.5px;color:#6d756c;line-height:1.45">Aljabar vektor pada makna: <span style="font-family:'Space Mono',monospace;color:#5b6b3a;font-weight:700">A &minus; B + C</span> menghasilkan kata yang melengkapi analogi.</p>
+        <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+          <select value="{{ a }}" onChange="{{ onA }}" style="flex:1;min-width:90px;padding:9px 8px;border:1px solid #cdd2c9;border-radius:8px;background:#f7f8f5;color:#14304d;font-weight:700;font-family:inherit;font-size:13.5px;cursor:pointer">
+            <sc-for list="{{ words }}" as="w" hint-placeholder-count="10"><option value="{{ w }}">{{ w }}</option></sc-for>
+          </select>
+          <span style="font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:#b06a43">&minus;</span>
+          <select value="{{ b }}" onChange="{{ onB }}" style="flex:1;min-width:90px;padding:9px 8px;border:1px solid #cdd2c9;border-radius:8px;background:#f7f8f5;color:#14304d;font-weight:700;font-family:inherit;font-size:13.5px;cursor:pointer">
+            <sc-for list="{{ words }}" as="w" hint-placeholder-count="10"><option value="{{ w }}">{{ w }}</option></sc-for>
+          </select>
+          <span style="font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:#3f7d5a">+</span>
+          <select value="{{ c }}" onChange="{{ onC }}" style="flex:1;min-width:90px;padding:9px 8px;border:1px solid #cdd2c9;border-radius:8px;background:#f7f8f5;color:#14304d;font-weight:700;font-family:inherit;font-size:13.5px;cursor:pointer">
+            <sc-for list="{{ words }}" as="w" hint-placeholder-count="10"><option value="{{ w }}">{{ w }}</option></sc-for>
+          </select>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:13px">
+          <span style="font-family:'Space Mono',monospace;font-size:17px;font-weight:700;color:#9aa295">=</span>
+          <button onClick="{{ pickRes }}" style="display:inline-flex;align-items:baseline;gap:9px;background:#14304d;color:#fff;border:none;border-radius:9px;padding:10px 16px;cursor:pointer;font-family:inherit">
+            <span style="font-size:18px;font-weight:800;letter-spacing:-.01em">{{ res }}</span>
+            <span style="font-family:'Space Mono',monospace;font-size:11.5px;color:#9fb074">{{ resSimTxt }}</span>
+          </button>
+          <span style="font-size:11.5px;color:#9aa295">klik hasil &rarr; pilih di peta</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px">
+          <button onClick="{{ preset1 }}" style="font-size:11.5px;font-family:'Space Mono',monospace;font-weight:700;color:#14304d;background:#eef1ea;border:1px solid #dde2d6;border-radius:7px;padding:6px 9px;cursor:pointer">raja &minus; pria + wanita</button>
+          <button onClick="{{ preset2 }}" style="font-size:11.5px;font-family:'Space Mono',monospace;font-weight:700;color:#14304d;background:#eef1ea;border:1px solid #dde2d6;border-radius:7px;padding:6px 9px;cursor:pointer">jakarta &minus; indonesia + jepang</button>
+          <button onClick="{{ preset3 }}" style="font-size:11.5px;font-family:'Space Mono',monospace;font-weight:700;color:#14304d;background:#eef1ea;border:1px solid #dde2d6;border-radius:7px;padding:6px 9px;cursor:pointer">kakek &minus; pria + wanita</button>
+        </div>
+      </section>
+
+      <!-- NEIGHBORS -->
+      <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:16px;flex:1;display:flex;flex-direction:column;min-height:0">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:3px">
+          <h2 style="margin:0;font-size:15px;font-weight:800;color:#14304d">Tetangga Terdekat</h2>
+          <span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#14304d"><span style="width:9px;height:9px;border-radius:50%;background:{{ selTheme }}"></span>{{ sel }}</span>
+        </div>
+        <p style="margin:0 0 11px;font-size:12px;color:#6d756c;line-height:1.4">Kata dengan <span style="font-weight:700">cosine similarity</span> tertinggi terhadap <span style="font-weight:700;color:#14304d">{{ sel }}</span>.</p>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <sc-for list="{{ neighbors }}" as="n" hint-placeholder-count="8">
+            <button onClick="{{ n.onClick }}" style="display:flex;align-items:center;gap:10px;background:none;border:none;padding:2px 0;cursor:pointer;text-align:left;width:100%;font-family:inherit">
+              <span style="width:74px;flex:none;font-size:13px;font-weight:700;color:#28313b">{{ n.w }}</span>
+              <span style="flex:1;height:9px;background:#eef1ea;border-radius:5px;overflow:hidden"><span style="display:block;height:100%;border-radius:5px;width:{{ n.pct }}%;background:{{ n.color }}"></span></span>
+              <span style="width:42px;flex:none;text-align:right;font-family:'Space Mono',monospace;font-size:11.5px;color:#7d857a">{{ n.sim }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </section>
+
+      <!-- VECTOR -->
+      <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:16px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:3px">
+          <h2 style="margin:0;font-size:15px;font-weight:800;color:#14304d">Kata sebagai Vektor</h2>
+          <span style="font-family:'Space Mono',monospace;font-size:11px;color:#9aa295">{{ sel }} &middot; dim {{ dimTxt }}</span>
+        </div>
+        <p style="margin:0 0 11px;font-size:12px;color:#6d756c;line-height:1.4">Inilah &ldquo;{{ sel }}&rdquo; di mata komputer, hanya {{ dimTxt }} angka. Mirip artinya = mirip pola angkanya.</p>
+        <div style="display:flex;gap:1.5px;height:34px;border-radius:6px;overflow:hidden;border:1px solid #e3e6df">
+          <sc-for list="{{ vecCells }}" as="cl" hint-placeholder-count="32">
+            <span title="{{ cl.txt }}" style="flex:1;background:{{ cl.bg }}"></span>
+          </sc-for>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+          <span style="font-size:10.5px;color:#5b6b3a;font-weight:700">&#9632; negatif</span>
+          <span style="font-size:10.5px;color:#9aa295">nilai tiap dimensi</span>
+          <span style="font-size:10.5px;color:#1b3a5b;font-weight:700">positif &#9632;</span>
+        </div>
+        <div style="margin-top:9px;font-family:'Space Mono',monospace;font-size:10px;color:#9aa295;line-height:1.7;word-spacing:1px">
+          <sc-for list="{{ vecCells }}" as="cl" hint-placeholder-count="32"><span>{{ cl.txt }} </span></sc-for>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:860},&quot;showAnalogyArrows&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showNeighborLines&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { ready:false, sel:'raja', a:'raja', b:'pria', c:'wanita' };
+
+  componentDidMount(){ this.tryLoad(); }
+  tryLoad(){
+    if (window.NLP_EMB){
+      this.emb = window.NLP_EMB;
+      this.byW = {};
+      this.emb.words.forEach(o => this.byW[o.w] = o);
+      this.setState({ ready:true });
+    } else { setTimeout(()=>this.tryLoad(), 60); }
+  }
+
+  cos(a,b){ let d=0,na=0,nb=0; for(let i=0;i<a.length;i++){ d+=a[i]*b[i]; na+=a[i]*a[i]; nb+=b[i]*b[i]; } return d/Math.sqrt(na*nb); }
+  nearest(vec, exclude, k){
+    const out=[];
+    this.emb.words.forEach(o=>{ if(exclude.includes(o.w))return; out.push([o.w, this.cos(vec,o.v)]); });
+    out.sort((a,b)=>b[1]-a[1]);
+    return out.slice(0,k);
+  }
+  pick(w){ this.setState({ sel:w }); }
+  px(nx){ return 40 + nx*920; }
+  py(ny){ return 40 + (1-ny)*680; }
+  themeColor(t){
+    return ({Kerajaan:'#1f3a5f',Negara:'#5b6b3a',Hewan:'#b06a43',Buah:'#b58a2f',Profesi:'#2f7d7a',Teknologi:'#51618f',Alam:'#3f7d5a',Warna:'#855075'})[t] || '#777';
+  }
+
+  renderVals(){
+    if(!this.state.ready){
+      return { ready:false, words:[], themes:[], mapPoints:[], mapLines:[], arrows:[], neighbors:[], vecCells:[],
+        sel:'…', a:'…', b:'…', c:'…', res:'…', resSimTxt:'', selTheme:'#777', selThemeName:'', dimTxt:32, wordCount:0,
+        onA:()=>{}, onB:()=>{}, onC:()=>{}, pickRes:()=>{}, preset1:()=>{}, preset2:()=>{}, preset3:()=>{} };
+    }
+    const E = this.emb, sel = this.state.sel;
+    const showArrows = this.props.showAnalogyArrows ?? true;
+    const showLines  = this.props.showNeighborLines ?? true;
+    const words = E.words.map(o=>o.w).sort((a,b)=>a.localeCompare(b));
+    const selO = this.byW[sel];
+
+    const nb = this.nearest(selO.v, [sel], 8);
+    const nbSet = new Set(nb.slice(0,5).map(x=>x[0]));
+
+    const { a,b,c } = this.state;
+    let res=null, resSim=0;
+    if(this.byW[a] && this.byW[b] && this.byW[c]){
+      const va=this.byW[a].v, vb=this.byW[b].v, vc=this.byW[c].v;
+      const r = va.map((x,i)=> x - vb[i] + vc[i]);
+      const nr = this.nearest(r, [a,b,c], 1);
+      res = nr[0][0]; resSim = nr[0][1];
+    }
+    const roles = {}; roles[a]='A'; roles[b]='B'; roles[c]='C'; if(res) roles[res]='R';
+
+    const mapPoints = E.words.map(o=>{
+      const x=this.px(o.nx), y=this.py(o.ny);
+      const isSel=o.w===sel, isNb=nbSet.has(o.w), role=roles[o.w];
+      const fill=this.themeColor(o.t);
+      let r=5, op=1, stroke='none', sw=0, lw='500', ls=11, lfill='#3a4036', lop=1;
+      if(isSel){ r=8.5; stroke='#12243a'; sw=2.5; lw='800'; ls=14; lfill='#12243a'; }
+      else if(role){ r=7; stroke='#5b6b3a'; sw=2.5; lw='700'; ls=12.5; lfill='#3a4426'; }
+      else if(isNb){ r=6; lw='700'; ls=12; lfill='#12243a'; }
+      else { op=0.5; lop=0.42; }
+      return { w:o.w, x, y, r, fill, op, stroke, sw, lw, ls, lfill, lop, leftPct:x/1000*100, topPct:y/760*100, onClick:()=>this.pick(o.w) };
+    });
+
+    const mapLines=[];
+    if(showLines){
+      nb.slice(0,5).forEach(([w])=>{ const o=this.byW[w];
+        mapLines.push({ x1:this.px(selO.nx), y1:this.py(selO.ny), x2:this.px(o.nx), y2:this.py(o.ny), stroke:'#1b3a5b', sw:1.2, op:0.26 }); });
+    }
+    const arrows=[];
+    if(showArrows && res){
+      const oa=this.byW[a], ob=this.byW[b], oc=this.byW[c], orr=this.byW[res];
+      arrows.push({ x1:this.px(ob.nx), y1:this.py(ob.ny), x2:this.px(oa.nx), y2:this.py(oa.ny) });
+      arrows.push({ x1:this.px(oc.nx), y1:this.py(oc.ny), x2:this.px(orr.nx), y2:this.py(orr.ny) });
+    }
+
+    const neighbors = nb.map(([w,s])=>({ w, sim:s.toFixed(3), pct:Math.round(Math.max(0,s)*100), color:this.themeColor(this.byW[w].t), onClick:()=>this.pick(w) }));
+
+    const v = selO.v, maxAbs = Math.max(...v.map(Math.abs)) || 1;
+    const lerp=(f,t,k)=>Math.round(f+(t-f)*k);
+    const vecCells = v.map(val=>{
+      const k = Math.min(1, Math.abs(val)/maxAbs);
+      let bg;
+      if(val>=0) bg = `rgb(${lerp(255,27,k)},${lerp(255,58,k)},${lerp(255,91,k)})`;   // -> navy
+      else       bg = `rgb(${lerp(255,91,k)},${lerp(255,107,k)},${lerp(255,58,k)})`;  // -> army green
+      return { bg, txt: val.toFixed(2) };
+    });
+
+    const themes = ['Kerajaan','Negara','Hewan','Buah','Profesi','Teknologi','Alam','Warna'].map(t=>({ name:t, color:this.themeColor(t) }));
+
+    return {
+      ready:true, words, themes, mapPoints, mapLines, arrows, neighbors, vecCells,
+      sel, a, b, c, res: res||'?', resSimTxt: res?resSim.toFixed(3):'',
+      selTheme:this.themeColor(selO.t), selThemeName:selO.t, dimTxt:E.dim, wordCount:E.words.length,
+      onA:e=>this.setState({a:e.target.value, sel:e.target.value}),
+      onB:e=>this.setState({b:e.target.value}),
+      onC:e=>this.setState({c:e.target.value}),
+      pickRes:()=>{ if(res) this.pick(res); },
+      preset1:()=>this.setState({a:'raja',b:'pria',c:'wanita',sel:'raja'}),
+      preset2:()=>this.setState({a:'jakarta',b:'indonesia',c:'jepang',sel:'jakarta'}),
+      preset3:()=>this.setState({a:'kakek',b:'pria',c:'wanita',sel:'kakek'})
+    };
+  }
+}
+</script>
+</body>
+</html>

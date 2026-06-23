@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail">
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" rx="14" fill="#14304d"/>
+  <g stroke="#9fb074" stroke-width="2.4" fill="none">
+    <line x1="38" y1="40" x2="58" y2="34"/>
+    <line x1="38" y1="40" x2="44" y2="62"/>
+    <line x1="58" y1="34" x2="66" y2="56"/>
+    <line x1="44" y1="62" x2="66" y2="56"/>
+  </g>
+  <g fill="#cfe0a0">
+    <circle cx="38" cy="40" r="5.5"/>
+    <circle cx="58" cy="34" r="5.5"/>
+    <circle cx="44" cy="62" r="5.5"/>
+    <circle cx="66" cy="56" r="5.5"/>
+  </g>
+</svg>
+</template>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#e9ebe5}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#1b2433}
+  a{text-decoration:none;color:inherit}
+  ::selection{background:#cfd8c2}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="background:#14304d;color:#fff;padding:30px 32px 34px">
+    <div style="max-width:1120px;margin:0 auto">
+      <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9db0c4;font-weight:700;margin-bottom:9px">Pemrosesan Bahasa Alami &middot; S1 Informatika</div>
+      <h1 style="margin:0;font-size:34px;font-weight:800;letter-spacing:-.015em;line-height:1.05">Visualisasi Interaktif NLP</h1>
+      <p style="margin:11px 0 0;font-size:15px;color:#c5d0dc;max-width:660px;line-height:1.55">Kumpulan alat peraga yang bisa dicoba langsung di peramban, satu konsep satu visualisasi, tersusun mengikuti alur perkuliahan. Cocok untuk eksplorasi mandiri maupun demonstrasi di kelas.</p>
+      <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
+        <span style="font-size:12px;font-weight:700;background:#1d3f60;color:#cfe0a0;border:1px solid #2c4f72;border-radius:20px;padding:6px 13px">{{ readyCount }} visualisasi siap</span>
+        <span style="font-size:12px;font-weight:700;background:#1d3f60;color:#9db0c4;border:1px solid #2c4f72;border-radius:20px;padding:6px 13px">{{ plannedCount }} dalam pengembangan</span>
+      </div>
+    </div>
+  </header>
+
+  <main style="flex:1;padding:30px 32px 48px">
+    <div style="max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:34px">
+      <sc-for list="{{ sections }}" as="sec" hint-placeholder-count="3">
+        <section>
+          <div style="display:flex;align-items:center;gap:13px;margin-bottom:15px">
+            <span style="width:4px;align-self:stretch;border-radius:3px;background:{{ sec.accent }}"></span>
+            <div>
+              <div style="font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:{{ sec.accent }}">{{ sec.kicker }}</div>
+              <div style="font-size:18px;font-weight:800;color:#14304d;letter-spacing:-.01em">{{ sec.title }}</div>
+            </div>
+            <span style="margin-left:auto;font-family:'Space Mono',monospace;font-size:12px;color:#9aa295;font-weight:700">{{ sec.range }}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(298px,1fr));gap:15px">
+            <sc-for list="{{ sec.items }}" as="c" hint-placeholder-count="3">
+              <a href="{{ c.href }}" onClick="{{ c.onClick }}" style="display:flex;flex-direction:column;background:#fff;border:1px solid #dde1d8;border-radius:14px;padding:17px 17px 16px;opacity:{{ c.opacity }};cursor:{{ c.cursor }};transition:transform .14s ease,box-shadow .14s ease,border-color .14s ease" style-hover="transform:translateY(-3px);box-shadow:0 10px 24px rgba(20,48,77,.12);border-color:#c6ccbd">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px">
+                  <span style="width:36px;height:36px;border-radius:9px;background:{{ c.accent }};color:#fff;font-family:'Space Mono',monospace;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center">{{ c.mg }}</span>
+                  <span style="font-size:11px;font-weight:700;border-radius:20px;padding:4px 11px;background:{{ c.badgeBg }};color:{{ c.badgeColor }}">{{ c.status }}</span>
+                </div>
+                <div style="font-size:11.5px;font-weight:600;color:#8a9285;margin-bottom:3px">{{ c.eyebrow }}</div>
+                <div style="font-size:17px;font-weight:800;color:#14304d;letter-spacing:-.01em;line-height:1.15;margin-bottom:8px">{{ c.title }}</div>
+                <p style="margin:0;font-size:12.8px;color:#646c61;line-height:1.5;flex:1">{{ c.desc }}</p>
+                <div style="margin-top:13px;font-size:12.5px;font-weight:700;color:{{ c.ctaColor }}">{{ c.cta }}</div>
+              </a>
+            </sc-for>
+          </div>
+        </section>
+      </sc-for>
+
+      <footer style="border-top:1px solid #d4d8cd;padding-top:18px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:center">
+        <span style="font-size:12.5px;color:#7d857a;line-height:1.5">Bahan ajar terbuka. Tiap visualisasi dapat disematkan ke notebook dan slide melalui iframe.</span>
+        <span style="font-size:12px;color:#9aa295;font-family:'Space Mono',monospace">Feliks V. P. Samosir</span>
+      </footer>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  renderVals(){
+    const NAVY='#14304d', TEAL='#2f6f7d', ARMY='#5b6b3a';
+    const noop=()=>{};
+    const block=e=>e.preventDefault();
+
+    const mk=(mg,eyebrow,title,desc,accent,href)=>{
+      const available=!!href;
+      return {
+        mg, eyebrow, title, desc, accent,
+        href: available?href:'#',
+        onClick: available?noop:block,
+        available,
+        status: available?'Tersedia':'Segera',
+        badgeBg: available?'#e7efdc':'#eef0ec',
+        badgeColor: available?'#46582b':'#9aa295',
+        opacity: available?1:0.72,
+        cursor: available?'pointer':'default',
+        cta: available?'Buka visualisasi \u2192':'Dalam pengembangan',
+        ctaColor: available?ARMY:'#aab1a4'
+      };
+    };
+
+    const sections=[
+      { kicker:'Bagian 1', title:'Dasar Neural & Bahasa', range:'Pertemuan 1\u20133', accent:NAVY, items:[
+        mk('01','Neural Network and Language','Peta Makna Kata','Jelajahi ruang vektor kata, cari tetangga semantik terdekat, dan hitung analogi seperti raja \u2212 pria + wanita.',NAVY,'peta-makna-kata.dc.html'),
+        mk('02','Recurrent Layers','Memori Berjalan','Telusuri sebuah kalimat token demi token dan lihat bagaimana hidden state membawa "ingatan" di sepanjang teks.',NAVY,'memori-berjalan.dc.html'),
+        mk('03','Deep Learning Framework','Computational Graph','Rangkai operasi dasar (perkalian matriks, penjumlahan, aktivasi) lalu amati aliran forward dan backpropagation.',NAVY,'computational-graph.dc.html')
+      ]},
+      { kicker:'Bagian 2', title:'Dari RNN ke Transformer', range:'Pertemuan 4\u20137', accent:TEAL, items:[
+        mk('04','Long-Short Term Memory','Gerbang Memori','Lihat gerbang forget, input, dan output sebagai kran yang mengatur informasi, dan kenapa LSTM mampu mengingat lebih lama.',TEAL,'gerbang-memori.dc.html'),
+        mk('05','Introduction to Transformers','Sekuensial vs Paralel','Bandingkan pemrosesan berurutan ala RNN dengan attention yang paralel, lengkap dengan peran positional encoding.',TEAL,'sekuensial-vs-paralel.dc.html'),
+        mk('06','Text Classification','Pipeline Klasifikasi','Ikuti perjalanan teks dari tokenisasi, embedding, hingga prediksi label beserta probabilitas tiap kelas.',TEAL,'pipeline-klasifikasi.dc.html'),
+        mk('07','Transformer Anatomy','Self-Attention','Klik sebuah token dan lihat ke mana ia memandang lewat heatmap attention, termasuk perbandingan antar head.',TEAL,'self-attention.dc.html')
+      ]},
+      { kicker:'Bagian 3', title:'Aplikasi NLP', range:'Pertemuan 9\u201311', accent:ARMY, items:[
+        mk('09','Multilingual NER','Penanda Entitas','Sorot entitas seperti orang, organisasi, dan lokasi pada teks lintas bahasa secara langsung.',ARMY,'penanda-entitas.dc.html'),
+        mk('10','Summarization','Ekstraktif & Klasterisasi','Ubah kalimat menjadi vektor, kelompokkan dengan K-Means, lalu pilih kalimat yang paling representatif.',ARMY,'ekstraktif-klasterisasi.dc.html'),
+        mk('11','Question Answering & RAG','Ambil lalu Jawab','Dari pertanyaan menuju jawaban: temukan potongan teks paling relevan, lalu rangkai jawabannya.',ARMY,'ambil-lalu-jawab.dc.html')
+      ]}
+    ];
+
+    let ready=0, planned=0;
+    sections.forEach(s=>s.items.forEach(i=>{ i.available?ready++:planned++; }));
+
+    return { sections, readyCount:ready, plannedCount:planned };
+  }
+}
+</script>
+</body>
+</html>

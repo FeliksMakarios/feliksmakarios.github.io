@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#e9ebe5}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#1b2433}
+  input[type=range]{accent-color:#5b6b3a}
+  button:focus{outline:2px solid #5b6b3a;outline-offset:1px}
+  ::selection{background:#cfd8c2}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="background:#14304d;color:#fff;padding:16px 26px 18px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <div>
+      <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9db0c4;font-weight:700;margin-bottom:6px">Pemrosesan Bahasa Alami &middot; Pertemuan 03</div>
+      <h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.01em;line-height:1.05">Computational Graph<span style="color:#9fb074"> &middot; Forward &amp; Backprop</span></h1>
+      <p style="margin:7px 0 0;font-size:13.5px;color:#c5d0dc;max-width:690px;line-height:1.5">Inti tiap deep learning framework: model dirakit sebagai graf operasi. Nilai mengalir maju saat forward, lalu gradien mengalir mundur saat backward. Geser input, ungkap gradien, dan biarkan ia belajar.</p>
+    </div>
+    <a href="galeri.dc.html" style="font-size:12.5px;color:#9fb074;font-weight:700;text-decoration:none;white-space:nowrap">&larr; Galeri</a>
+  </header>
+
+  <main style="flex:1;display:flex;flex-direction:column;gap:14px;padding:16px;max-width:1080px;margin:0 auto;width:100%">
+
+    <!-- CONTROLS -->
+    <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:14px 16px;display:flex;gap:18px;flex-wrap:wrap;align-items:flex-end">
+      <div style="display:flex;gap:2px;background:#eef1ea;border:1px solid #dde2d6;border-radius:9px;padding:3px">
+        <button onClick="{{ setFwd }}" style="border:none;border-radius:7px;padding:8px 14px;cursor:pointer;font-weight:700;font-size:12.5px;font-family:inherit;background:{{ fwdBg }};color:{{ fwdColor }}">1 &middot; Forward</button>
+        <button onClick="{{ setBwd }}" style="border:none;border-radius:7px;padding:8px 14px;cursor:pointer;font-weight:700;font-size:12.5px;font-family:inherit;background:{{ bwdBg }};color:{{ bwdColor }}">2 &middot; Backward</button>
+      </div>
+      <sc-for list="{{ sliders }}" as="s" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+          <div style="display:flex;justify-content:space-between;font-size:11.5px;font-weight:700"><span style="color:{{ s.color }}">{{ s.label }}</span><span style="font-family:'Space Mono',monospace;color:#5b6b3a">{{ s.val }}</span></div>
+          <input type="range" min="-3" max="3" step="0.1" value="{{ s.raw }}" onInput="{{ s.onInput }}" style="width:100%"/>
+        </div>
+      </sc-for>
+      <div style="display:flex;gap:8px;margin-left:auto">
+        <button onClick="{{ learnStep }}" style="border:none;background:#5b6b3a;color:#fff;border-radius:9px;padding:9px 15px;cursor:pointer;font-weight:700;font-size:12.5px;font-family:inherit">Langkah belajar &darr;</button>
+        <button onClick="{{ reset }}" style="border:1px solid #cdd2c9;background:#f7f8f5;color:#14304d;border-radius:9px;padding:9px 13px;cursor:pointer;font-weight:700;font-size:12.5px;font-family:inherit">Ulang</button>
+      </div>
+    </section>
+
+    <!-- GRAPH -->
+    <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:14px 16px 8px">
+      <div style="position:relative;width:100%;aspect-ratio:980 / 440">
+        <svg viewBox="0 0 980 440" style="width:100%;height:100%;display:block">
+          <defs>
+            <marker id="fwd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#aab2a3"></path></marker>
+            <marker id="bwd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5b6b3a"></path></marker>
+          </defs>
+          <sc-for list="{{ edges }}" as="e" hint-placeholder-count="8">
+            <line x1="{{ e.x1 }}" y1="{{ e.y1 }}" x2="{{ e.x2 }}" y2="{{ e.y2 }}" stroke="{{ e.stroke }}" stroke-width="{{ e.sw }}" marker-end="{{ e.markerEnd }}" marker-start="{{ e.markerStart }}" opacity="{{ e.op }}"></line>
+          </sc-for>
+        </svg>
+        <div style="position:absolute;inset:0">
+          <sc-for list="{{ nodes }}" as="nd" hint-placeholder-count="9">
+            <div style="position:absolute;left:{{ nd.leftPct }}%;top:{{ nd.topPct }}%;transform:translate(-50%,-50%);width:94px;background:{{ nd.bg }};border:2px solid {{ nd.border }};border-radius:11px;padding:6px 4px;text-align:center;box-shadow:0 2px 6px rgba(20,48,77,.07)">
+              <div style="font-size:11px;font-weight:800;color:{{ nd.titleColor }};line-height:1.1">{{ nd.title }}</div>
+              <div style="font-family:'Space Mono',monospace;font-size:13.5px;font-weight:700;color:#14304d;margin-top:1px">{{ nd.val }}</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10.5px;font-weight:700;color:{{ nd.gradColor }};opacity:{{ nd.gradOp }};height:13px">{{ nd.grad }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center;padding:4px 2px 2px;font-size:11.5px;color:#6d756c">
+        <span style="display:inline-flex;align-items:center;gap:6px"><span style="width:22px;height:0;border-top:2px solid #aab2a3"></span>nilai (forward)</span>
+        <span style="display:inline-flex;align-items:center;gap:6px"><span style="width:22px;height:0;border-top:2.5px solid #5b6b3a"></span><span style="color:#5b6b3a;font-weight:700">∂L / ∂&middot;</span> gradien (backward)</span>
+        <span style="margin-left:auto;font-family:'Space Mono',monospace;color:#9aa295">w, b dipelajari &middot; x, y data</span>
+      </div>
+    </section>
+
+    <!-- LOSS -->
+    <section style="background:#fff;border:1px solid #d8ddd2;border-radius:14px;padding:15px 16px;display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+      <div style="min-width:150px">
+        <div style="font-size:12px;font-weight:700;color:#8a9285">LOSS &nbsp; L = (h &minus; y)²</div>
+        <div style="font-family:'Space Mono',monospace;font-size:30px;font-weight:700;color:#14304d;line-height:1.1">{{ lossTxt }}</div>
+        <div style="font-size:11.5px;color:#9aa295">{{ stepNote }}</div>
+      </div>
+      <div style="flex:1;min-width:220px">
+        <div style="font-size:11.5px;color:#6d756c;margin-bottom:5px">Loss tiap langkah belajar (klik <span style="color:#5b6b3a;font-weight:700">Langkah belajar</span> berulang)</div>
+        <div style="display:flex;align-items:flex-end;gap:3px;height:84px;border-bottom:1.5px solid #dde2d6">
+          <sc-for list="{{ lossBars }}" as="lb" hint-placeholder-count="1">
+            <span style="flex:1;max-width:26px;background:{{ lb.bg }};height:{{ lb.pct }}%;min-height:2px;border-radius:3px 3px 0 0"></span>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1080,&quot;height&quot;:820}}">
+class Component extends DCLogic {
+  state = { w:1.2, x:1.5, b:-0.5, y:2.0, mode:'forward', hist:[] };
+
+  clamp(v){ return Math.max(-3,Math.min(3,v)); }
+  forward(){
+    const {w,x,b,y}=this.state;
+    const z=w*x, a=z+b, h=Math.max(0,a), d=h-y, L=d*d;
+    const dL_d=2*d, dL_h=2*d, dL_y=-2*d, dL_a=dL_h*(a>0?1:0), dL_z=dL_a, dL_b=dL_a, dL_w=dL_z*x, dL_x=dL_z*w;
+    return {z,a,h,d,L,dL_d,dL_h,dL_y,dL_a,dL_z,dL_b,dL_w,dL_x};
+  }
+
+  learnStep(){
+    const f=this.forward(); const lr=0.12;
+    const nw=this.clamp(this.state.w-lr*f.dL_w), nb=this.clamp(this.state.b-lr*f.dL_b);
+    const hist=this.state.hist.concat([f.L]);
+    this.setState({ w:nw, b:nb, hist:hist.slice(-24), mode:'backward' });
+  }
+  reset(){ this.setState({ w:1.2,x:1.5,b:-0.5,y:2.0, mode:'forward', hist:[] }); }
+
+  num(v){ return (v>=0?' ':'') + v.toFixed(2); }
+  gcol(g){ return g>=0 ? '#1b3a5b' : '#b06a43'; }
+
+  renderVals(){
+    const f=this.forward(); const back=this.state.mode==='backward';
+    const {w,x,b,y}=this.state;
+    const gradTxt=(g)=> '∂'+this.num(g).trim();
+
+    // node layout (canvas 980x440)
+    const N=[
+      {id:'w', title:'w · belajar', cx:80, cy:75,  val:w,   grad:f.dL_w, learn:true},
+      {id:'x', title:'x · data',    cx:80, cy:175, val:x,   grad:f.dL_x, data:true},
+      {id:'b', title:'b · belajar', cx:80, cy:285, val:b,   grad:f.dL_b, learn:true},
+      {id:'y', title:'y · data',    cx:80, cy:385, val:y,   grad:f.dL_y, data:true},
+      {id:'z', title:'×  (w·x)',    cx:255,cy:125, val:f.z, grad:f.dL_z},
+      {id:'a', title:'+  (z+b)',    cx:430,cy:205, val:f.a, grad:f.dL_a},
+      {id:'h', title:'ReLU',        cx:595,cy:205, val:f.h, grad:f.dL_h},
+      {id:'d', title:'−  (h−y)',    cx:760,cy:300, val:f.d, grad:f.dL_d},
+      {id:'L', title:'(  )²  loss', cx:905,cy:300, val:f.L, grad:1}
+    ];
+    const pos={}; N.forEach(n=>pos[n.id]={x:n.cx,y:n.cy});
+    const nodes=N.map(n=>{
+      const isL=n.id==='L';
+      return { leftPct:n.cx/980*100, topPct:n.cy/440*100,
+        title:n.title, val:n.val.toFixed(2),
+        grad: isL?'∂1.00':gradTxt(n.grad),
+        gradColor:this.gcol(n.grad), gradOp: back?1:0,
+        bg: n.learn?'#f3f6ec':(n.data?'#f7f8f5':(isL?'#eef2f6':'#ffffff')),
+        border: isL?'#14304d':(n.learn?'#5b6b3a':'#d8ddd2'),
+        titleColor: n.learn?'#46582b':(n.data?'#7d857a':'#8a9285') };
+    });
+
+    const E=[['w','z'],['x','z'],['z','a'],['b','a'],['a','h'],['h','d'],['y','d'],['d','L']];
+    const grads={'w-z':f.dL_z,'x-z':f.dL_z,'z-a':f.dL_a,'b-a':f.dL_a,'a-h':f.dL_h,'h-d':f.dL_d,'y-d':f.dL_d,'d-L':f.dL_d};
+    const edges=E.map(([s,t])=>{
+      const g=Math.abs(grads[s+'-'+t]||0);
+      return { x1:pos[s].x, y1:pos[s].y, x2:pos[t].x, y2:pos[t].y,
+        stroke: back?'#5b6b3a':'#c2c9bb',
+        sw: back? Math.max(1.4, Math.min(6, 1.4+g*0.9)) : 1.6,
+        markerEnd: back?'none':'url(#fwd)',
+        markerStart: back?'url(#bwd)':'none',
+        op: back?0.92:0.85 };
+    });
+
+    const mk=(key,label,color)=>({ label, color, val:this.state[key].toFixed(1), raw:this.state[key],
+      onInput:e=>this.setState({ [key]:parseFloat(e.target.value), mode:'forward' }) });
+    const sliders=[ mk('w','w (bobot)','#46582b'), mk('x','x (input)','#7d857a'), mk('b','b (bias)','#46582b'), mk('y','y (target)','#7d857a') ];
+
+    const maxL=Math.max(...this.state.hist,f.L,0.0001);
+    const lossBars=(this.state.hist.length?this.state.hist:[f.L]).map(L=>({ pct:Math.max(2,Math.round(L/maxL*100)), bg:'#5b6b3a' }));
+
+    return {
+      sliders, nodes, edges,
+      lossTxt:f.L.toFixed(3),
+      stepNote: this.state.hist.length? (this.state.hist.length+' langkah belajar') : 'geser slider untuk mengubah',
+      lossBars,
+      fwdBg: back?'transparent':'#14304d', fwdColor: back?'#6d756c':'#fff',
+      bwdBg: back?'#14304d':'transparent', bwdColor: back?'#fff':'#6d756c',
+      setFwd:()=>this.setState({mode:'forward'}), setBwd:()=>this.setState({mode:'backward'}),
+      learnStep:()=>this.learnStep(), reset:()=>this.reset()
+    };
+  }
+}
+</script>
+</body>
+</html>
