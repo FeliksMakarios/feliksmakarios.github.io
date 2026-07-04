@@ -6,6 +6,7 @@ backend:
   repo: FeliksMakarios/feliksmakarios.github.io
   branch: main
   base_url: https://decap-oauth-vercel-ten.vercel.app
+  auth_type: implicit
 
 publish_mode: simple
 
