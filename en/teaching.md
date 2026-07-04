@@ -7,37 +7,18 @@ title: Teaching
 subtitle: "Courses at UPH Informatics"
 ---
 
-As a full-time lecturer in the Faculty of AI and Data Science, I teach across the
-undergraduate curriculum — from introductory computing to advanced machine learning and
-NLP. I'm also involved in campus and faculty task forces on academic quality assurance
-and curriculum development.
+{{ site.data.teaching.intro.en }}
 
 ## Courses
 
-### Foundational
+{% for group in site.data.teaching.groups %}
+### {{ group.label.en }}
 
-- **Introduction to Informatics &amp; Computing** : first-year survey course covering
-  computational thinking, basic programming, and the landscape of the discipline.
-- **Object-Oriented Modeling** : OOP principles and UML-based modeling.
-- **Database Systems** : relational modeling, SQL, and normalization.
-
-### Data science &amp; machine learning
-
-- **Introduction to Data Science** : the data-science pipeline, exploratory analysis, and
-  basic machine learning modeling (supervised and unsupervised learning)
-- **Advanced Machine Learning** : deep learning foundations, representation learning, and
-  selected contemporary architectures.
-- **Data Science Application Development Studio** : capstone-style project course where
-  students build and deploy end-to-end data applications.
-
-### Specialized
-
-- **Natural Language Processing** : classical and neural approaches, with a hands-on focus
-  on Indonesian-language applications using Hugging Face Transformers.
+{% for course in group.courses %}
+- **{{ course.name }}** : {{ course.desc.en }}
+{% endfor %}
+{% endfor %}
 
 ## Supervision
 
-I mentor undergraduate research projects in Transformer-based question answering, text
-classification, text summarization, aspect-based sentiment analysis, and bias / fairness studies in Indonesian
-NLP. If you're looking for a thesis advisor, see <a href="/en/research/">research areas</a>
-for open topics.
+{{ site.data.teaching.supervision.en }}

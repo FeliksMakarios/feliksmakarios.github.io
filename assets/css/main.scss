@@ -904,3 +904,126 @@ a.tag:hover {
   margin: 1.5rem 0;
 }
 .callout p:last-child { margin-bottom: 0; }
+
+/* ---------- Blog post layout ---------- */
+.blog-post-content {
+  max-width: 46rem;
+}
+.blog-post-content .page-header {
+  margin-bottom: 2rem;
+}
+.blog-post-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  font-size: 0.88rem;
+  color: var(--color-muted);
+}
+.blog-prose {
+  line-height: 1.78;
+  font-size: 1.05rem;
+}
+.blog-prose h2 {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+.blog-prose h3 {
+  margin-top: 2rem;
+}
+.blog-prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  margin: 1rem 0;
+}
+.blog-prose video {
+  max-width: 100%;
+  border-radius: var(--radius);
+  margin: 1rem 0;
+}
+.blog-prose .video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  margin: 1rem 0;
+}
+.blog-prose .video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.blog-post-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+/* ---------- Code blocks & syntax highlighting ---------- */
+.blog-prose pre,
+.prose pre {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  margin: 1.2rem 0;
+}
+.blog-prose code,
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+.blog-prose p code,
+.prose p code,
+.blog-prose li code,
+.prose li code {
+  background: var(--color-accent-soft);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+.blog-prose pre code,
+.prose pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+/* ---------- Google Translate widget ---------- */
+.gt-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+.gt-switch:hover { opacity: 1; }
+#google_translate_element {
+  display: none;
+}
+#google_translate_element.goog-te-gadget {
+  font-size: 0.75rem !important;
+}
+.goog-te-gadget .goog-te-combo {
+  margin: 0 !important;
+}
+body { top: 0 !important; }
+.goog-te-banner-frame { display: none !important; }
+.goog-tooltip { display: none !important; }
+.goog-tooltip:hover { display: none !important; }
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}

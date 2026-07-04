@@ -1,0 +1,59 @@
+# Teaching: courses taught at UPH Informatics.
+# Fields:
+#   group (foundational | data-science-ml | specialized),
+#   name, description (bilingual)
+
+intro:
+  en: "As a full-time lecturer in the Faculty of AI and Data Science, I teach across the undergraduate curriculum — from introductory computing to advanced machine learning and NLP. I'm also involved in campus and faculty task forces on academic quality assurance and curriculum development."
+  id: "Sebagai dosen tetap di Fakultas AI dan Data Science, saya mengajar berbagai mata kuliah di kurikulum S1 mulai dari pengantar komputasi hingga machine learning lanjut dan NLP. Saya juga terlibat dalam task force kampus dan fakultas untuk quality assurance akademik dan pengembangan kurikulum."
+
+groups:
+  - id: foundational
+    label:
+      en: "Foundational"
+      id: "Dasar"
+    courses:
+      - name: "Introduction to Informatics & Computing"
+        desc:
+          en: "First-year survey course covering computational thinking, basic programming, and the landscape of the discipline."
+          id: "Mata kuliah tahun pertama yang mencakup computational thinking, dasar pemrograman, dan lanskap disiplin ini."
+      - name: "Object-Oriented Modeling"
+        desc:
+          en: "OOP principles and UML-based modeling."
+          id: "Prinsip OOP dan pemodelan berbasis UML."
+      - name: "Database Systems"
+        desc:
+          en: "Relational modeling, SQL, and normalization."
+          id: "Pemodelan relasional, SQL, dan normalisasi."
+
+  - id: data-science-ml
+    label:
+      en: "Data science & machine learning"
+      id: "Data science & machine learning"
+    courses:
+      - name: "Introduction to Data Science"
+        desc:
+          en: "The data-science pipeline, exploratory analysis, and basic machine learning modeling (supervised and unsupervised learning)."
+          id: "Pipeline data science, exploratory analysis, dan pemodelan dasar machine learning (supervised dan unsupervised learning)."
+      - name: "Advanced Machine Learning"
+        desc:
+          en: "Deep learning foundations, representation learning, and selected contemporary architectures."
+          id: "Fondasi deep learning, representation learning, dan arsitektur kontemporer terpilih."
+      - name: "Data Science Application Development Studio"
+        desc:
+          en: "Capstone-style project course where students build and deploy end-to-end data applications."
+          id: "Mata kuliah bergaya capstone di mana mahasiswa membangun dan men-deploy aplikasi data end-to-end."
+
+  - id: specialized
+    label:
+      en: "Specialized"
+      id: "Spesialisasi"
+    courses:
+      - name: "Natural Language Processing"
+        desc:
+          en: "Classical and neural approaches, with a hands-on focus on Indonesian-language applications using Hugging Face Transformers."
+          id: "Pendekatan klasik dan neural, dengan fokus praktis pada aplikasi bahasa Indonesia menggunakan Hugging Face Transformers."
+
+supervision:
+  en: "I mentor undergraduate research projects in Transformer-based question answering, text classification, text summarization, aspect-based sentiment analysis, and bias / fairness studies in Indonesian NLP. If you're looking for a thesis advisor, see <a href=\"/en/research/\">research areas</a> for open topics."
+  id: "Saya membimbing riset mahasiswa S1 di topik question answering berbasis Transformer, teks klasifikasi, peringkasan teks, aspect-based sentiment analysis, dan studi bias / fairness pada NLP Indonesia. Kalau kamu sedang mencari dosen pembimbing, silakan lihat <a href=\"/id/research/\">bidang riset</a> untuk topik yang terbuka."

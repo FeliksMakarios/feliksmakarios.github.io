@@ -40,7 +40,7 @@ My research studies what breaks when mainstream NLP and machine learning systems
   <p><strong>Looking for a thesis supervisor?</strong> Each research area's detail page lists open topics. Send me an email with your CV, transcript, and a short paragraph on why a particular topic appeals to you.</p>
 </div>
 
-<h2>Community Engagement</h2>
+<h2 id="community-engagement">Community Engagement</h2>
 
 <p>
 Community engagement and outreach work, the third pillar of Tridharma Perguruan Tinggi

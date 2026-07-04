@@ -40,7 +40,7 @@ Riset saya mempelajari apa yang patah ketika sistem NLP dan machine learning mai
   <p><strong>Mencari dosen pembimbing TA?</strong> Tiap halaman detail bidang riset mencantumkan topik yang terbuka. Kirim email dengan CV, transkrip, dan paragraf singkat tentang alasan suatu topik menarik buat kamu.</p>
 </div>
 
-<h2>Pengabdian Masyarakat</h2>
+<h2 id="community-engagement">Pengabdian Masyarakat</h2>
 
 <p>
 Kegiatan pengabdian dan outreach, pilar ketiga Tridharma Perguruan Tinggi bersama

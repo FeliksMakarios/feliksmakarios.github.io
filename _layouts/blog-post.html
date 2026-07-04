@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: 'id' }}">
+{% include head.html %}
+<body>
+  {% include nav.html %}
+  <main class="content blog-post-content">
+    <header class="page-header">
+      <h1>{{ page.title }}</h1>
+      {% if page.subtitle %}<p class="subtitle">{{ page.subtitle }}</p>{% endif %}
+      <div class="blog-post-meta">
+        {% if page.type == 'translation' %}
+        <span class="blog-type-badge blog-type-translation">Terjemahan</span>
+        {% else %}
+        <span class="blog-type-badge blog-type-original">Asli</span>
+        {% endif %}
+        <span class="blog-date">{{ page.date | date: "%d-%m-%Y" }}</span>
+      </div>
+      {% if page.type == 'translation' %}
+      <p class="blog-attribution">
+        Terjemahan dari <a href="{{ page.original_url }}" target="_blank" rel="noopener external">"{{ page.original_title }}"</a>
+        oleh {{ page.original_author }} ({{ page.original_date | slice: 0, 4 }}).
+      </p>
+      {% elsif page.inspirations %}
+      <p class="blog-attribution">
+        Tulisan asli, terinspirasi dari:
+        {% for src in page.inspirations %}<a href="{{ src.url }}" target="_blank" rel="noopener external">{{ src.author }} ({{ src.year }})</a>{% unless forloop.last %}, {% endunless %}{% endfor %}.
+      </p>
+      {% endif %}
+    </header>
+
+    <article class="prose blog-prose">
+      {{ content }}
+    </article>
+
+    {% if page.tags %}
+    <footer class="blog-post-footer">
+      <div class="blog-meta">
+        {% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+      </div>
+      <p><a href="/id/blog/">← Kembali ke daftar tulisan</a></p>
+    </footer>
+    {% endif %}
+  </main>
+  {% include footer.html %}
+
+  {% if page.mathjax != false %}
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]'], ['$$', '$$']]
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  {% endif %}
+</body>
+</html>

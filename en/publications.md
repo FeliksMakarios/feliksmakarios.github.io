@@ -9,7 +9,7 @@ subtitle: "Peer-reviewed research output"
 
 <p class="lead">
 Publications in journals and international conferences. For community-service
-publications (pengabdian masyarakat), see <a href="/en/community-service/">Community Service</a>.
+publications (pengabdian masyarakat), see <a href="/en/research/#community-engagement">Community Engagement</a>.
 </p>
 
 <div class="pub-filter" role="group" aria-label="Filter by area">

@@ -32,6 +32,9 @@ permalink: /:path/
 sass:
   style: compressed
 
+plugins:
+  - jekyll-sitemap
+
 # Jekyll ignore
 exclude:
   - README.md

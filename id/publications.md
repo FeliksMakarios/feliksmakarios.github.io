@@ -9,7 +9,7 @@ subtitle: "Karya riset peer-reviewed"
 
 <p class="lead">
 Publikasi di jurnal dan konferensi internasional. Untuk publikasi pengabdian kepada
-masyarakat, lihat <a href="/id/community-service/">Pengabdian</a>.
+masyarakat, lihat <a href="/id/research/#community-engagement">Pengabdian Masyarakat</a>.
 </p>
 
 <div class="pub-filter" role="group" aria-label="Filter by area">
