@@ -5,8 +5,7 @@ backend:
   name: github
   repo: FeliksMakarios/feliksmakarios.github.io
   branch: main
-  # base_url: set after OAuth provider setup (see admin/SETUP-OAUTH.md)
-  base_url: https://decap-oauth.feliksmakarios.workers.dev
+  base_url: https://decap-oauth-vercel-ten.vercel.app
   auth_type: implicit
 
 publish_mode: simple
