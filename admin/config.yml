@@ -6,7 +6,6 @@ backend:
   repo: FeliksMakarios/feliksmakarios.github.io
   branch: main
   base_url: https://decap-oauth-vercel-ten.vercel.app
-  auth_type: implicit
 
 publish_mode: simple
 
@@ -19,198 +18,155 @@ collections:
   # ==================== NEWS ====================
   - name: "news"
     label: "News"
-    files:
-      - label: "News items"
-        name: "news"
-        file: "_data/news.yml"
-        description: "Homepage news highlights. Newest first."
-        editor:
-          preview: false
+    label_singular: "News item"
+    folder: "_news"
+    create: true
+    delete: true
+    slug: "{{date}}-news-{{slug}}"
+    summary: "{{title.en}}"
+    description: "Homepage news highlights."
+    editor:
+      preview: false
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "object"
         fields:
-          - label: "News items"
-            name: "news_list"
-            widget: "list"
-            allow_add: true
-            add_to_top: true
-            summary: "{{fields.title.en}}"
-            label_singular: "item"
-            fields:
-              - label: "Title"
-                name: "title"
-                widget: "object"
-                fields:
-                  - { label: "EN", name: "en", widget: "string" }
-                  - { label: "ID", name: "id", widget: "string" }
-              - { label: "Date", name: "date", widget: "string", hint: "YYYY-MM-DD or YYYY-MM" }
-              - label: "Body"
-                name: "body"
-                widget: "object"
-                fields:
-                  - { label: "EN", name: "en", widget: "text" }
-                  - { label: "ID", name: "id", widget: "text" }
+          - { label: "EN", name: "en", widget: "string" }
+          - { label: "ID", name: "id", widget: "string" }
+      - { label: "Date", name: "date_str", widget: "string", hint: "YYYY-MM-DD or YYYY-MM" }
+      - label: "Body"
+        name: "body"
+        widget: "object"
+        fields:
+          - { label: "EN", name: "en", widget: "text" }
+          - { label: "ID", name: "id", widget: "text" }
 
   # ==================== PUBLICATIONS ====================
   - name: "publications"
     label: "Publications"
-    files:
-      - label: "Publications"
-        name: "pubs"
-        file: "_data/publications.yml"
-        description: "Academic publications."
-        editor:
-          preview: false
-        fields:
-          - label: "Publications"
-            name: "pubs_list"
-            widget: "list"
-            allow_add: true
-            add_to_top: true
-            summary: "{{fields.title}}"
-            label_singular: "publication"
-            fields:
-              - { label: "ID (slug)", name: "id", widget: "string" }
-              - { label: "Title", name: "title", widget: "string" }
-              - { label: "Authors", name: "authors", widget: "list", allow_add: true }
-              - { label: "Venue", name: "venue", widget: "string" }
-              - label: "Venue type"
-                name: "venue_type"
-                widget: "select"
-                options: ["journal", "conference", "seminar"]
-                default: "conference"
-              - { label: "Year", name: "year", widget: "number", value_type: "int" }
-              - { label: "URL", name: "url", widget: "string" }
-              - label: "Research area"
-                name: "area"
-                widget: "select"
-                options:
-                  - { label: "Domain-Specific NLP", value: "domain-specific-nlp" }
-                  - { label: "Low-Resource Languages", value: "low-resource-languages" }
-                  - { label: "Bias & Fairness", value: "bias-fairness" }
-                  - { label: "Applied ML", value: "applied-ml" }
-              - { label: "Sub-area", name: "sub_area", widget: "string" }
+    label_singular: "Publication"
+    folder: "_publications"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    description: "Academic publications."
+    editor:
+      preview: false
+    fields:
+      - { label: "Slug (ID)", name: "slug", widget: "string", hint: "Unique identifier, e.g. biomind-bert-2026" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Authors", name: "authors", widget: "list", allow_add: true }
+      - { label: "Venue", name: "venue", widget: "string" }
+      - label: "Venue type"
+        name: "venue_type"
+        widget: "select"
+        options: ["journal", "conference", "seminar"]
+        default: "conference"
+      - { label: "Year", name: "year", widget: "number", value_type: "int" }
+      - { label: "URL", name: "url", widget: "string" }
+      - label: "Research area"
+        name: "area"
+        widget: "select"
+        options:
+          - { label: "Domain-Specific NLP", value: "domain-specific-nlp" }
+          - { label: "Low-Resource Languages", value: "low-resource-languages" }
+          - { label: "Bias & Fairness", value: "bias-fairness" }
+          - { label: "Applied ML", value: "applied-ml" }
+      - { label: "Sub-area", name: "sub_area", widget: "string" }
 
   # ==================== STUDENTS ====================
   - name: "students"
     label: "Students"
-    files:
-      - label: "Students"
-        name: "students"
-        file: "_data/students.yml"
-        description: "Current and alumni thesis students."
-        editor:
-          preview: false
+    label_singular: "Student"
+    folder: "_students"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    summary: "{{name}} ({{status}})"
+    description: "Current and alumni thesis students."
+    editor:
+      preview: false
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options: ["current", "alumni"]
+        default: "alumni"
+      - { label: "Cohort / Year", name: "cohort", widget: "string", required: false }
+      - { label: "Year graduated", name: "year_graduated", widget: "number", value_type: "int", required: false }
+      - label: "Thesis title"
+        name: "title"
+        widget: "object"
+        required: false
         fields:
-          - label: "Current students"
-            name: "current"
-            widget: "list"
-            required: false
-            allow_add: true
-            add_to_top: true
-            summary: "{{fields.name}}"
-            label_singular: "student"
-            fields:
-              - { label: "Name", name: "name", widget: "string" }
-              - { label: "Cohort / Year", name: "cohort", widget: "string", required: false }
-              - label: "Thesis title"
-                name: "title"
-                widget: "object"
-                required: false
-                fields:
-                  - { label: "EN", name: "en", widget: "string" }
-                  - { label: "ID", name: "id", widget: "string" }
-              - label: "Research area"
-                name: "area"
-                widget: "select"
-                options:
-                  - { label: "Domain-Specific NLP", value: "domain-specific-nlp" }
-                  - { label: "Low-Resource Languages", value: "low-resource-languages" }
-                  - { label: "Bias & Fairness", value: "bias-fairness" }
-                  - { label: "Applied ML", value: "applied-ml" }
-              - label: "Status"
-                name: "status"
-                widget: "select"
-                options: ["proposal", "progress", "defense", "graduated"]
-          - label: "Alumni"
-            name: "alumni"
-            widget: "list"
-            required: false
-            allow_add: true
-            add_to_top: true
-            summary: "{{fields.name}}"
-            label_singular: "student"
-            fields:
-              - { label: "Name", name: "name", widget: "string" }
-              - { label: "Year graduated", name: "year_graduated", widget: "number", value_type: "int" }
-              - label: "Thesis title"
-                name: "title"
-                widget: "object"
-                required: false
-                fields:
-                  - { label: "EN", name: "en", widget: "string" }
-                  - { label: "ID", name: "id", widget: "string" }
-              - label: "Research area"
-                name: "area"
-                widget: "select"
-                options:
-                  - { label: "Domain-Specific NLP", value: "domain-specific-nlp" }
-                  - { label: "Low-Resource Languages", value: "low-resource-languages" }
-                  - { label: "Bias & Fairness", value: "bias-fairness" }
-                  - { label: "Applied ML", value: "applied-ml" }
-              - { label: "Thesis URL", name: "thesis_url", widget: "string", required: false }
-              - { label: "Linked publication ID", name: "publication", widget: "string", required: false }
+          - { label: "EN", name: "en", widget: "string" }
+          - { label: "ID", name: "id", widget: "string" }
+      - label: "Research area"
+        name: "area"
+        widget: "select"
+        options:
+          - { label: "Domain-Specific NLP", value: "domain-specific-nlp" }
+          - { label: "Low-Resource Languages", value: "low-resource-languages" }
+          - { label: "Bias & Fairness", value: "bias-fairness" }
+          - { label: "Applied ML", value: "applied-ml" }
+      - label: "Mentee status (current only)"
+        name: "mentee_status"
+        widget: "select"
+        required: false
+        options: ["proposal", "progress", "defense", "graduated"]
+      - { label: "Thesis URL", name: "thesis_url", widget: "string", required: false }
+      - { label: "Linked publication slug", name: "publication", widget: "string", required: false }
+      - { label: "Current role", name: "current_role", widget: "string", required: false }
 
   # ==================== DEMOS ====================
   - name: "demos"
     label: "Demos"
-    files:
-      - label: "Demos"
-        name: "demos"
-        file: "_data/demos.yml"
-        description: "Interactive prototypes."
-        editor:
-          preview: false
+    label_singular: "Demo"
+    folder: "_demos"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    description: "Interactive prototypes."
+    editor:
+      preview: false
+    fields:
+      - { label: "Slug (ID)", name: "slug", widget: "string" }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "My Project", value: "my-project" }
+          - { label: "Student Project", value: "student-project" }
+          - { label: "Outreach", value: "outreach" }
+      - { label: "Icon (emoji)", name: "icon", widget: "string" }
+      - { label: "Title", name: "title", widget: "string" }
+      - label: "Meta"
+        name: "meta"
+        widget: "object"
         fields:
-          - label: "Demos"
-            name: "demos_list"
-            widget: "list"
-            allow_add: true
-            add_to_top: true
-            summary: "{{fields.title}}"
-            label_singular: "demo"
-            fields:
-              - { label: "ID (slug)", name: "id", widget: "string" }
-              - label: "Category"
-                name: "category"
-                widget: "select"
-                options:
-                  - { label: "My Project", value: "my-project" }
-                  - { label: "Student Project", value: "student-project" }
-                  - { label: "Outreach", value: "outreach" }
-              - { label: "Icon (emoji)", name: "icon", widget: "string" }
-              - { label: "Title", name: "title", widget: "string" }
-              - label: "Meta"
-                name: "meta"
-                widget: "object"
-                fields:
-                  - { label: "EN", name: "en", widget: "string" }
-                  - { label: "ID", name: "id", widget: "string" }
-              - label: "Description"
-                name: "description"
-                widget: "object"
-                fields:
-                  - { label: "EN", name: "en", widget: "text" }
-                  - { label: "ID", name: "id", widget: "text" }
-              - { label: "URL", name: "url", widget: "string" }
-              - { label: "Internal link?", name: "url_is_internal", widget: "boolean", default: false }
+          - { label: "EN", name: "en", widget: "string" }
+          - { label: "ID", name: "id", widget: "string" }
+      - label: "Description"
+        name: "description"
+        widget: "object"
+        fields:
+          - { label: "EN", name: "en", widget: "text" }
+          - { label: "ID", name: "id", widget: "text" }
+      - { label: "URL", name: "url", widget: "string" }
+      - { label: "Internal link?", name: "url_is_internal", widget: "boolean", default: false }
 
   # ==================== TEACHING ====================
   - name: "teaching"
     label: "Teaching"
     files:
-      - label: "Teaching"
+      - label: "Teaching content"
         name: "teaching"
         file: "_data/teaching.yml"
-        description: "Course list."
+        description: "Courses and supervision info."
         editor:
           preview: false
         fields:
@@ -230,35 +186,29 @@ collections:
   # ==================== COMMUNITY SERVICE ====================
   - name: "community-service"
     label: "Community Service"
-    files:
-      - label: "Community Service"
-        name: "cs"
-        file: "_data/community_service.yml"
-        description: "Pengabdian masyarakat."
-        editor:
-          preview: false
-        fields:
-          - label: "Items"
-            name: "cs_list"
-            widget: "list"
-            allow_add: true
-            add_to_top: true
-            summary: "{{fields.title}}"
-            label_singular: "item"
-            fields:
-              - { label: "ID (slug)", name: "id", widget: "string" }
-              - { label: "Title", name: "title", widget: "string" }
-              - { label: "Authors", name: "authors", widget: "list", allow_add: true }
-              - { label: "Venue", name: "venue", widget: "string" }
-              - label: "Venue type"
-                name: "venue_type"
-                widget: "select"
-                options: ["journal", "conference", "seminar"]
-              - { label: "Year", name: "year", widget: "number", value_type: "int" }
-              - { label: "Target (EN)", name: "target_en", widget: "string" }
-              - { label: "Target (ID)", name: "target_id", widget: "string" }
-              - { label: "Description (EN)", name: "description_en", widget: "text" }
-              - { label: "Description (ID)", name: "description_id", widget: "text" }
+    label_singular: "Community service item"
+    folder: "_community_service"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    description: "Pengabdian masyarakat."
+    editor:
+      preview: false
+    fields:
+      - { label: "Slug (ID)", name: "slug", widget: "string" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Authors", name: "authors", widget: "list", allow_add: true }
+      - { label: "Venue", name: "venue", widget: "string" }
+      - label: "Venue type"
+        name: "venue_type"
+        widget: "select"
+        options: ["journal", "conference", "seminar"]
+      - { label: "Year", name: "year", widget: "number", value_type: "int" }
+      - { label: "Target (EN)", name: "target_en", widget: "string" }
+      - { label: "Target (ID)", name: "target_id", widget: "string" }
+      - { label: "Description (EN)", name: "description_en", widget: "text" }
+      - { label: "Description (ID)", name: "description_id", widget: "text" }
 
   # ==================== BLOG POSTS ====================
   - name: "blog"
@@ -268,7 +218,7 @@ collections:
     create: true
     delete: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    summary: "{{title}} ({{date}})"
+    summary: "{{title}}"
     description: "Blog articles. Written in Bahasa Indonesia by default."
     fields:
       - { label: "Title", name: "title", widget: "string" }

@@ -35,6 +35,48 @@ sass:
 plugins:
   - jekyll-sitemap
 
+# Jekyll collections
+collections:
+  publications:
+    output: false
+    sort_by: year
+  news:
+    output: false
+  students:
+    output: false
+  demos:
+    output: false
+  community_service:
+    output: false
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: publications
+    values:
+      layout: null
+  - scope:
+      path: ""
+      type: news
+    values:
+      layout: null
+  - scope:
+      path: ""
+      type: students
+    values:
+      layout: null
+  - scope:
+      path: ""
+      type: demos
+    values:
+      layout: null
+  - scope:
+      path: ""
+      type: community_service
+    values:
+      layout: null
+
 # Jekyll ignore
 exclude:
   - README.md
@@ -42,6 +84,7 @@ exclude:
   - Gemfile.lock
   - vendor
   - node_modules
+  - decap-oauth-vercel
 
 # Keep demos folder as-is (not processed by Jekyll)
 keep_files:

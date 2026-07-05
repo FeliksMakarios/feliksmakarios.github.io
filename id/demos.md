@@ -20,7 +20,7 @@ untuk demo yang saya bangun dari riset saya sendiri dan side project,
   <button data-tab="outreach" type="button">Outreach</button>
 </div>
 
-{% assign demos = site.data.demos %}
+{% assign demos = site.demos %}
 {% assign categories = "my-project,student-project,outreach" | split: "," %}
 {% for cat in categories %}
 <section id="{{ cat }}" class="demo-section"{% unless cat == "my-project" %} hidden{% endunless %}>

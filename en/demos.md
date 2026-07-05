@@ -20,7 +20,7 @@ demos used at open-house events with high-school students.
   <button data-tab="outreach" type="button">Outreach</button>
 </div>
 
-{% assign demos = site.data.demos %}
+{% assign demos = site.demos %}
 {% assign categories = "my-project,student-project,outreach" | split: "," %}
 {% for cat in categories %}
 <section id="{{ cat }}" class="demo-section"{% unless cat == "my-project" %} hidden{% endunless %}>

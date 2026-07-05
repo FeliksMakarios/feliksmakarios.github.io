@@ -38,14 +38,14 @@ I earned my M.Kom. from <a href="https://www.maranatha.edu/">Universitas Kristen
 
 ## Recent news
 
-{% assign news = site.data.news | sort: "date" | reverse %}
+{% assign news = site.news | sort: "date_str" | reverse %}
 {% if news and news.size > 0 %}
 {% assign first_news = news[0] %}
-{% assign latest_year = first_news.date | slice: 0, 4 %}
-{% assign news_by_year = news | group_by_exp: "item", "item.date | slice: 0, 4" %}
+{% assign latest_year = first_news.date_str | slice: 0, 4 %}
+{% assign news_by_year = news | group_by_exp: "item", "item.date_str | slice: 0, 4" %}
 
 <div class="news-timeline">
-{% for year_group in news_by_year %}{% if year_group.name == latest_year %}<details class="year-group" open>{% else %}<details class="year-group">{% endif %}<summary class="year-summary"><span class="year-label">{{ year_group.name }}</span><span class="year-count">{{ year_group.items.size }} {% if year_group.items.size == 1 %}entry{% else %}entries{% endif %}</span></summary><ul class="news-list">{% for item in year_group.items %}<li class="news-item"><span class="news-date">{{ item.date }}</span><div class="news-body"><strong>{{ item.title.en }}</strong><p>{{ item.body.en }}</p></div></li>{% endfor %}</ul></details>{% endfor %}
+{% for year_group in news_by_year %}{% if year_group.name == latest_year %}<details class="year-group" open>{% else %}<details class="year-group">{% endif %}<summary class="year-summary"><span class="year-label">{{ year_group.name }}</span><span class="year-count">{{ year_group.items.size }} {% if year_group.items.size == 1 %}entry{% else %}entries{% endif %}</span></summary><ul class="news-list">{% for item in year_group.items %}<li class="news-item"><span class="news-date">{{ item.date_str }}</span><div class="news-body"><strong>{{ item.title.en }}</strong><p>{{ item.body.en }}</p></div></li>{% endfor %}</ul></details>{% endfor %}
 </div>
 {% else %}
 <p class="muted-note">No recent news.</p>

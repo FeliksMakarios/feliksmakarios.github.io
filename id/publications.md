@@ -20,7 +20,7 @@ masyarakat, lihat <a href="/id/research/#community-engagement">Pengabdian Masyar
   <button data-filter="applied-ml" type="button">Applied ML</button>
 </div>
 
-{% assign pubs = site.data.publications | sort: "year" | reverse %}
+{% assign pubs = site.publications | sort: "year" | reverse %}
 {% assign years = pubs | map: "year" | uniq %}
 
 <div class="pub-timeline">

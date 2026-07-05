@@ -48,7 +48,7 @@ alongside teaching and research. These are collaborative projects with schools a
 community organizations, focused on basic digital literacy and educational technology.
 </p>
 
-{% assign items = site.data.community_service | sort: "year" | reverse %}
+{% assign items = site.community_service | sort: "year" | reverse %}
 {% assign years = items | map: "year" | uniq %}
 
 <div class="pub-timeline">

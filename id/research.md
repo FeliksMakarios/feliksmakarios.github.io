@@ -48,7 +48,7 @@ pengajaran dan riset. Ini proyek kolaboratif dengan sekolah dan organisasi komun
 berfokus pada literasi digital dasar dan teknologi pendidikan.
 </p>
 
-{% assign items = site.data.community_service | sort: "year" | reverse %}
+{% assign items = site.community_service | sort: "year" | reverse %}
 {% assign years = items | map: "year" | uniq %}
 
 <div class="pub-timeline">
