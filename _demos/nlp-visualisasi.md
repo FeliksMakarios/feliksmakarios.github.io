@@ -15,6 +15,6 @@ description:
     kuliah Natural Language Processing. Mencakup tokenisasi, embedding, attention,
     komputasi sekuensial dan paralel, computational graph, serta beberapa ide inti
     lain dalam visualisasi yang berjalan di browser.
-url: /demos/visualisasi-interaktif-nlp/
+demo_url: /demos/visualisasi-interaktif-nlp/
 url_is_internal: true
 ---

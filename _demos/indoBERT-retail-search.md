@@ -11,6 +11,6 @@ description:
     a product description in natural language and retrieve relevant matches.
   id: Prototipe pencarian semantik berbasis IndoBERT untuk produk ritel Indonesia.
     Ketik deskripsi produk dengan bahasa natural dan temukan match yang relevan.
-url: https://huggingface.co/spaces/Folma/IndoBERT-Retail-Search
+demo_url: https://huggingface.co/spaces/Folma/IndoBERT-Retail-Search
 url_is_internal: false
 ---

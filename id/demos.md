@@ -31,7 +31,7 @@ untuk demo yang saya bangun dari riset saya sendiri dan side project,
     <h3>{{ demo.title }}</h3>
     <p class="meta">{{ demo.meta.id }}</p>
     <p>{{ demo.description.id }}</p>
-    <p><a href="{{ demo.url }}"{% unless demo.url_is_internal %} target="_blank" rel="noopener external"{% endunless %}>Jalankan demo →</a></p>
+    <p><a href="{{ demo.demo_url }}"{% unless demo.url_is_internal %} target="_blank" rel="noopener external"{% endunless %}>Jalankan demo →</a></p>
   </div>
 </div>
 {% endif %}{% endfor %}

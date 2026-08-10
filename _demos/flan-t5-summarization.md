@@ -11,6 +11,6 @@ description:
     using Flan-T5. Paste any news article and see both approaches side by side.
   id: Perbandingan peringkasan abstraktif dan ekstraktif pada teks berita Indonesia
     menggunakan Flan-T5. Tempelkan artikel apa saja dan lihat kedua pendekatan berdampingan.
-url: https://abstractivesumm-audreyy.streamlit.app/
+demo_url: https://abstractivesumm-audreyy.streamlit.app/
 url_is_internal: false
 ---

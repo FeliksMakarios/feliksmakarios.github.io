@@ -31,7 +31,7 @@ demos used at open-house events with high-school students.
     <h3>{{ demo.title }}</h3>
     <p class="meta">{{ demo.meta.en }}</p>
     <p>{{ demo.description.en }}</p>
-    <p><a href="{{ demo.url }}"{% unless demo.url_is_internal %} target="_blank" rel="noopener external"{% endunless %}>Launch demo →</a></p>
+    <p><a href="{{ demo.demo_url }}"{% unless demo.url_is_internal %} target="_blank" rel="noopener external"{% endunless %}>Launch demo →</a></p>
   </div>
 </div>
 {% endif %}{% endfor %}

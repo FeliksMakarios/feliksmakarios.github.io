@@ -11,6 +11,6 @@ description:
     transformer model. Query by meaning rather than keyword matching.
   id: Sistem pencarian semantik untuk terjemahan Al-Qur'an Bahasa Indonesia, dibangun
     dari model transformer hasil fine-tuning. Cari berdasarkan makna, bukan keyword.
-url: https://huggingface.co/spaces/erwiyonoyusuf/Semantic-Search-Alquran-terjemahan-Indonesia
+demo_url: https://huggingface.co/spaces/erwiyonoyusuf/Semantic-Search-Alquran-terjemahan-Indonesia
 url_is_internal: false
 ---

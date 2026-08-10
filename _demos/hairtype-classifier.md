@@ -12,6 +12,6 @@ description:
   id: Mengklasifikasikan jenis rambut dari feed webcam. Contoh yang sengaja dipilih
     agar relatable, untuk menunjukkan bagaimana model ML bergeneralisasi (dan gagal)
     pada variasi visual dunia nyata.
-url: /demos/hairtype/
+demo_url: /demos/hairtype/
 url_is_internal: true
 ---

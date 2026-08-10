@@ -13,6 +13,6 @@ description:
   id: Model extractive summarization untuk artikel ilmiah, menggabungkan embedding
     BERT dan K-Means clustering untuk memilih kalimat representatif. Tempelkan abstrak
     atau paragraf dan lihat hasil ringkasannya.
-url: https://huggingface.co/spaces/makarios19/BESKlus
+demo_url: https://huggingface.co/spaces/makarios19/BESKlus
 url_is_internal: false
 ---
