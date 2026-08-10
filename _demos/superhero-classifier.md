@@ -13,6 +13,6 @@ description:
   id: Mengenali beberapa kostum superhero dari feed webcam. Dipakai di open house
     untuk memantik diskusi tentang data pelatihan, ketidakseimbangan kelas, dan apa
     arti "belajar" untuk sebuah model.
-url: /demos/superheroes/
+demo_url: /demos/superheroes/
 url_is_internal: true
 ---
