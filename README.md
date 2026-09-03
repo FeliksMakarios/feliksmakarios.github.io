@@ -1,6 +1,6 @@
 # feliksmakarios.github.io
 
-Personal academic site for **Feliks Victor Parningotan Samosir** — Department Chair of Informatics, Faculty of AI and Data Science, Universitas Pelita Harapan.
+Personal academic site for **Feliks Victor Parningotan Samosir** — Fulltime Lecturer of Informatics, Faculty of AI and Data Science, Universitas Pelita Harapan.
 
 Built with Jekyll, hosted on GitHub Pages, bilingual (EN / ID).
 
