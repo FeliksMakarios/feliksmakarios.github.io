@@ -37,15 +37,6 @@
     </nav>
 
     <div class="site-controls">
-      <div id="google_translate_element" style="display:none;"></div>
-      <button class="gt-switch" id="gt-toggle" type="button" title="Google Translate" aria-label="Translate">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M4 5h7M9 3v2c0 4.418-2.239 8-5 8"/>
-          <path d="M5 9c0 2.144 2.952 3.908 6.7 4"/>
-          <path d="M12 20l4-9 5 9"/>
-          <path d="M19.1 18h-6.2"/>
-        </svg>
-      </button>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-label="{{ toggle_label }}" title="{{ toggle_label }}">
         <svg class="icon icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="12" cy="12" r="4"/>
@@ -64,38 +55,3 @@
     </div>
   </div>
 </header>
-
-<script>
-  (function() {
-    var gtToggle = document.getElementById('gt-toggle');
-    var gtElement = document.getElementById('google_translate_element');
-    if (!gtToggle || !gtElement) return;
-
-    function initTranslate() {
-      if (window.google && google.translate) {
-        new google.translate.TranslateElement({
-          pageLanguage: '{{ lang }}',
-          includedLanguages: 'en,id',
-          layout: google.translate.TranslateElement.InlineLayout.VERTICAL,
-          autoDisplay: false
-        }, 'google_translate_element');
-        gtElement.style.display = 'inline-block';
-      }
-    }
-
-    var loaded = false;
-    gtToggle.addEventListener('click', function() {
-      if (!loaded) {
-        loaded = true;
-        var s = document.createElement('script');
-        s.type = 'text/javascript';
-        s.src = '//translate.google.com/translate_a/element.js?cb=gtInit';
-        document.head.appendChild(s);
-        window.gtInit = initTranslate;
-      } else {
-        var el = gtElement;
-        el.style.display = (el.style.display === 'none' || el.style.display === '') ? 'inline-block' : 'none';
-      }
-    });
-  })();
-</script>

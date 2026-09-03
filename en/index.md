@@ -19,6 +19,7 @@ description: "Feliks Samosir — Lecturer and researcher in Natural Language Pro
     </p>
     <div class="hero-links">
       <a href="mailto:feliksmakarios19@gmail.com">Email</a>
+      <a href="/assets/cv/CV_Feliks_VP_Samosir.pdf" target="_blank" rel="noopener">CV (PDF)</a>
       <a href="https://scholar.google.com/citations?user=JGC7RIoAAAAJ&hl">Google Scholar</a>
       <a href="https://github.com/FeliksMakarios">GitHub</a>
       <a href="https://linkedin.com/in/feliksmakarios">LinkedIn</a>
