@@ -9,8 +9,8 @@ subtitle: "Tulisan teknis dengan notasi matematis"
 
 <div class="callout">
   <p><strong>Catatan:</strong> Blog ini berisi tulisan dalam Bahasa Indonesia.
-  Audiens utama adalah mahasiswa dan peneliti di Indonesia. Tombol Google Translate
-  tersedia di navigation bar jika pembaca membutuhkan terjemahan Bahasa Inggris.</p>
+  Audiens utama adalah mahasiswa dan peneliti di Indonesia. Pembaca yang membutuhkan
+  terjemahan Bahasa Inggris dapat memakai fitur terjemahan bawaan peramban.</p>
 </div>
 
 <p class="lead">

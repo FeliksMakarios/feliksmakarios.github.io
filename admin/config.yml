@@ -65,7 +65,7 @@ collections:
         options: ["journal", "conference", "seminar"]
         default: "conference"
       - { label: "Year", name: "year", widget: "number", value_type: "int" }
-      - { label: "URL", name: "url", widget: "string" }
+      - { label: "Link (DOI or publisher URL)", name: "link", widget: "string", required: false }
       - label: "Research area"
         name: "area"
         widget: "select"
@@ -156,7 +156,7 @@ collections:
         fields:
           - { label: "EN", name: "en", widget: "text" }
           - { label: "ID", name: "id", widget: "text" }
-      - { label: "URL", name: "url", widget: "string" }
+      - { label: "Demo URL", name: "demo_url", widget: "string" }
       - { label: "Internal link?", name: "url_is_internal", widget: "boolean", default: false }
 
   # ==================== TEACHING ====================
@@ -170,18 +170,18 @@ collections:
         editor:
           preview: false
         fields:
-          - label: "Intro (EN)"
-            name: "intro_en"
-            widget: "text"
-          - label: "Intro (ID)"
-            name: "intro_id"
-            widget: "text"
-          - label: "Supervision (EN)"
-            name: "supervision_en"
-            widget: "text"
-          - label: "Supervision (ID)"
-            name: "supervision_id"
-            widget: "text"
+          - label: "Intro"
+            name: "intro"
+            widget: "object"
+            fields:
+              - { label: "EN", name: "en", widget: "text" }
+              - { label: "ID", name: "id", widget: "text" }
+          - label: "Supervision"
+            name: "supervision"
+            widget: "object"
+            fields:
+              - { label: "EN", name: "en", widget: "text" }
+              - { label: "ID", name: "id", widget: "text" }
 
   # ==================== COMMUNITY SERVICE ====================
   - name: "community-service"

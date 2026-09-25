@@ -9,7 +9,7 @@ venue: 2026 International Conference on Current Research in Artificial Intellige
   and Data Science (ICCRAIDS), Purwokerto, April 2026
 venue_type: conference
 year: 2026
-url: https://doi.org/10.1109/ICCRAIDS67816.2026.11519649
+link: https://doi.org/10.1109/ICCRAIDS67816.2026.11519649
 area: domain-specific-nlp
 sub_area: educational-content
 ---
