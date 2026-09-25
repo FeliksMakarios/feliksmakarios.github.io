@@ -1,10 +1,27 @@
+---
+layout: null
+title: "Memvisualisasikan Model Neural Machine Translation (Mekanika Seq2seq dengan Attention)"
+description: "Terjemahan Bahasa Indonesia dari tulisan visual Jay Alammar tentang model seq2seq dan attention pada neural machine translation."
+permalink: /blog/seq2seq-attention-terjemahan/
+lang: id
+switch_slug: blog
+type: translation
+image: /blog/seq2seq-attention-terjemahan/img/attention_sentence.png
+excerpt_separator: ""
+original_title: "Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)"
+original_author: "Jay Alammar"
+original_url: "https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/"
+original_date: "2018-05-09"
+summary_id: "Terjemahan Bahasa Indonesia dari tulisan visual Jay Alammar tentang model seq2seq dan attention pada neural machine translation. Lengkap dengan animasi asli yang menjelaskan alur encoder-decoder dan mekanisme attention langkah demi langkah."
+tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan", "Attention"]
+---
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Memvisualisasikan Model Neural Machine Translation (Mekanika Seq2seq dengan Attention)</title>
-<meta name="description" content="Terjemahan Bahasa Indonesia dari tulisan visual Jay Alammar tentang model seq2seq dan attention pada neural machine translation.">
+<title>{{ page.title }} — {{ site.author.short_name }}</title>
+{% include head-meta.html %}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,33 +59,12 @@
   .lic img{width:88px;height:31px;flex:none}
   @media (max-width:560px){body{font-size:17.5px}h1{font-size:1.7rem}h2{font-size:1.32rem}header.page{padding:44px 0 22px}}
 </style>
+<link rel="stylesheet" href="/assets/css/article.css">
 </head>
 <body>
+{% include nav.html %}
+{% raw %}
 
-<style>
-  .site-bar {
-    max-width: var(--maxw, 760px);
-    margin: 0 auto;
-    padding: 18px 24px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
-    letter-spacing: 0.04em;
-  }
-  .site-bar a {
-    color: var(--muted, #6b7280);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-  .site-bar a:hover { color: var(--accent, #2d54a8); }
-  .site-bar-brand { font-weight: 500; }
-</style>
-<div class="site-bar">
-  <a href="/id/" class="site-bar-brand">Feliks Samosir</a>
-  <a href="/id/blog/" class="site-bar-back">← Kembali ke Blog</a>
-</div>
 <div class="wrap">
 
 <header class="page">
@@ -94,14 +90,14 @@
 <p>Model sequence-to-sequence menerima sebuah barisan item (kata, huruf, fitur citra, dan sebagainya) lalu mengeluarkan barisan item lain. Model yang sudah terlatih bekerja seperti ini:</p>
 
 <figure>
-  <video src="img/seq2seq_1.mp4" controls loop muted playsinline preload="metadata" width="700"></video>
+  <video data-src="img/seq2seq_1.mp4" controls loop muted playsinline preload="none" width="1440" height="432"></video>
   <figcaption>Animasi oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
 <p>Pada neural machine translation, sebuah barisan adalah deretan kata yang diproses satu demi satu. Keluarannya juga berupa deretan kata:</p>
 
 <figure>
-  <video src="img/seq2seq_2.mp4" controls loop muted playsinline preload="metadata" width="700"></video>
+  <video data-src="img/seq2seq_2.mp4" controls loop muted playsinline preload="none" width="1440" height="432"></video>
   <figcaption>Animasi oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
@@ -112,35 +108,35 @@
 <p>Encoder memproses setiap item pada barisan masukan, lalu memadatkan informasi yang ditangkapnya menjadi sebuah vektor yang disebut <span class="term">context</span> (konteks). Setelah selesai memproses seluruh barisan masukan, encoder mengirimkan context tersebut ke decoder, yang kemudian mulai menghasilkan barisan keluaran item demi item.</p>
 
 <figure>
-  <video src="img/seq2seq_3.mp4" controls loop muted playsinline preload="metadata" width="700"></video>
+  <video data-src="img/seq2seq_3.mp4" controls loop muted playsinline preload="none" width="1440" height="385"></video>
   <figcaption>Animasi oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
 <p>Hal yang sama berlaku pada penerjemahan mesin.</p>
 
 <figure>
-  <video src="img/seq2seq_4.mp4" controls loop muted playsinline preload="metadata" width="700"></video>
+  <video data-src="img/seq2seq_4.mp4" controls loop muted playsinline preload="none" width="1440" height="385"></video>
   <figcaption>Animasi oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
 <p>Pada kasus penerjemahan mesin, context berupa sebuah vektor (pada dasarnya sebuah deret angka). Encoder dan decoder umumnya sama-sama berupa recurrent neural network (RNN), yaitu jaringan saraf yang memproses barisan secara berurutan.</p>
 
 <figure>
-  <img src="img/context.png" alt="Vektor context berupa deretan bilangan pecahan" width="700">
+  <img loading="lazy" decoding="async" src="img/context.png" alt="Vektor context berupa deretan bilangan pecahan" width="700">
   <figcaption>Context adalah vektor berisi bilangan pecahan (float). Nanti vektor akan divisualisasikan dengan warna: sel bernilai lebih tinggi diberi warna lebih terang. Ukuran vektor context dapat ditentukan saat menyiapkan model, yang pada dasarnya sama dengan jumlah unit tersembunyi (hidden unit) pada RNN encoder. Visualisasi ini menampilkan vektor berukuran 4, tetapi pada aplikasi nyata ukurannya bisa 256, 512, atau 1024. Gambar oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
 <p>Secara rancangan, RNN menerima dua masukan pada setiap langkah waktu: sebuah input (pada encoder, satu kata dari kalimat masukan) dan sebuah <span class="term">hidden state</span> (keadaan tersembunyi, yaitu vektor keadaan internal yang dibawa RNN dari satu langkah ke langkah berikutnya). Kata itu sendiri perlu diwakili sebagai vektor. Untuk mengubah kata menjadi vektor, kita memakai kelas metode bernama <span class="term">word embedding</span>. Metode ini mengubah kata menjadi vektor di sebuah ruang yang menangkap banyak informasi makna dan semantik kata tersebut (misalnya hubungan <em>raja - pria + wanita = ratu</em>).</p>
 
 <figure>
-  <img src="img/embedding.png" alt="Mengubah kata menjadi vektor lewat word embedding" width="700">
+  <img loading="lazy" decoding="async" src="img/embedding.png" alt="Mengubah kata menjadi vektor lewat word embedding" width="700">
   <figcaption>Kita perlu mengubah kata masukan menjadi vektor sebelum memprosesnya, dilakukan dengan algoritma word embedding. Kita bisa memakai embedding terlatih (pre-trained) atau melatih embedding sendiri pada data kita. Vektor embedding berukuran 200 atau 300 adalah hal yang lazim, di sini ditampilkan ukuran empat untuk kesederhanaan. Gambar oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
 <p>Setelah berkenalan dengan vektor utama, mari kita lihat kembali mekanika RNN dan tetapkan ilustrasi visual untuk menggambarkan model ini:</p>
 
 <figure>
-  <video src="img/RNN_1.mp4" controls loop muted playsinline preload="metadata" width="700"></video>
+  <video data-src="img/RNN_1.mp4" controls loop muted playsinline preload="none" width="1016" height="615"></video>
   <figcaption>Animasi oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
@@ -151,7 +147,7 @@
 <p>Mari amati hidden state pada encoder. Perhatikan bahwa hidden state terakhir sebenarnya adalah context yang diteruskan ke decoder.</p>
 
 <figure>
-  <video src="img/seq2seq_5.mp4" controls loop muted playsinline preload="metadata" width="700"></video>
+  <video data-src="img/seq2seq_5.mp4" controls loop muted playsinline preload="none" width="1440" height="617"></video>
   <figcaption>Animasi oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
@@ -160,7 +156,7 @@
 <p>Sekarang mari lihat cara lain memvisualisasikan model <em>sequence-to-sequence</em>. Animasi ini akan memudahkan pemahaman atas gambar statis yang menggambarkan model semacam ini. Cara pandang ini disebut tampilan "terurai" (unrolled): alih-alih menampilkan satu decoder, kita menampilkan satu salinan decoder untuk tiap langkah waktu. Dengan begitu kita bisa mengamati masukan dan keluaran pada setiap langkah waktu.</p>
 
 <figure>
-  <video src="img/seq2seq_6.mp4" controls loop muted playsinline preload="metadata" width="700"></video>
+  <video data-src="img/seq2seq_6.mp4" controls loop muted playsinline preload="none" width="1440" height="636"></video>
   <figcaption>Animasi oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
@@ -169,7 +165,7 @@
 <p>Vektor context ternyata menjadi sumbatan (bottleneck) bagi model jenis ini. Ia menyulitkan model dalam menangani kalimat panjang. Solusinya diusulkan pada <a href="https://arxiv.org/abs/1409.0473" target="_blank" rel="noopener">Bahdanau dkk., 2014</a> dan <a href="https://arxiv.org/abs/1508.04025" target="_blank" rel="noopener">Luong dkk., 2015</a>. Kedua makalah ini memperkenalkan dan menyempurnakan teknik bernama <span class="term">attention</span>, yang sangat meningkatkan kualitas sistem penerjemahan mesin. Attention memungkinkan model memusatkan perhatian pada bagian-bagian masukan yang relevan sesuai kebutuhan.</p>
 
 <figure>
-  <img src="img/attention.png" alt="Mekanisme attention berfokus pada kata yang relevan" width="700">
+  <img loading="lazy" decoding="async" src="img/attention.png" alt="Mekanisme attention berfokus pada kata yang relevan" width="700">
   <figcaption>Pada langkah waktu ke-7, mekanisme attention memungkinkan decoder berfokus pada kata "étudiant" ("student" dalam bahasa Inggris, "pelajar" dalam bahasa Indonesia) sebelum menghasilkan terjemahannya. Kemampuan memperkuat sinyal dari bagian masukan yang relevan inilah yang membuat model dengan attention memberikan hasil lebih baik daripada model tanpa attention. Gambar oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
@@ -178,7 +174,7 @@
 <p>Pertama, encoder meneruskan jauh lebih banyak data ke decoder. Alih-alih hanya meneruskan hidden state terakhir dari tahap penyandian, encoder meneruskan <em>seluruh</em> hidden state ke decoder:</p>
 
 <figure>
-  <video src="img/seq2seq_7.mp4" controls loop muted playsinline preload="metadata" width="700"></video>
+  <video data-src="img/seq2seq_7.mp4" controls loop muted playsinline preload="none" width="1433" height="628"></video>
   <figcaption>Animasi oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
@@ -191,7 +187,7 @@
 </ol>
 
 <figure>
-  <video src="img/attention_process.mp4" controls loop muted playsinline preload="metadata" width="700"></video>
+  <video data-src="img/attention_process.mp4" controls loop muted playsinline preload="none" width="1440" height="785"></video>
   <figcaption>Animasi oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
@@ -210,21 +206,21 @@
 </ol>
 
 <figure>
-  <video src="img/attention_tensor_dance.mp4" controls loop muted playsinline preload="metadata" width="700"></video>
+  <video data-src="img/attention_tensor_dance.mp4" controls loop muted playsinline preload="none" width="1440" height="793"></video>
   <figcaption>Animasi oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
 <p>Berikut cara lain mengamati bagian kalimat masukan mana yang kita perhatikan pada tiap langkah penyahsandian:</p>
 
 <figure>
-  <video src="img/seq2seq_9.mp4" controls loop muted playsinline preload="metadata" width="700"></video>
+  <video data-src="img/seq2seq_9.mp4" controls loop muted playsinline preload="none" width="1021" height="444"></video>
   <figcaption>Animasi oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
 <p>Perhatikan bahwa model tidak sekadar menyelaraskan kata pertama keluaran dengan kata pertama masukan secara membabi buta. Model justru belajar dari tahap pelatihan tentang cara menyelaraskan kata pada pasangan bahasa tersebut (Prancis dan Inggris pada contoh kita). Contoh seberapa presisi mekanisme ini dapat dilihat dari makalah attention yang disebutkan di atas:</p>
 
 <figure>
-  <img src="img/attention_sentence.png" alt="Contoh penyelarasan attention pada frasa European Economic Area" width="600">
+  <img loading="lazy" decoding="async" src="img/attention_sentence.png" alt="Contoh penyelarasan attention pada frasa European Economic Area" width="600">
   <figcaption>Terlihat bagaimana model memberi perhatian dengan benar saat menghasilkan "European Economic Area". Dalam bahasa Prancis, urutan kata ini terbalik ("européenne économique zone") dibandingkan bahasa Inggris, sedangkan kata-kata lain pada kalimat itu mengikuti urutan yang serupa. Gambar oleh Jay Alammar (CC BY-NC-SA 4.0).</figcaption>
 </figure>
 
@@ -246,5 +242,31 @@
 </footer>
 
 </div>
+<script>
+  // Load each animation only when it nears the viewport, play it while visible
+  // and pause it once scrolled away (the page carries ~7 MB of video).
+  (function() {
+    var videos = document.querySelectorAll('video[data-src]');
+    function load(v) {
+      if (!v.getAttribute('src')) { v.src = v.getAttribute('data-src'); v.preload = 'auto'; }
+    }
+    if (!('IntersectionObserver' in window)) { videos.forEach(load); return; }
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        var v = e.target;
+        if (e.isIntersecting) {
+          load(v);
+          var p = v.play();
+          if (p && p.catch) p.catch(function() {});
+        } else if (!v.paused) {
+          v.pause();
+        }
+      });
+    }, { rootMargin: '200px 0px' });
+    videos.forEach(function(v) { io.observe(v); });
+  })();
+</script>
+{% endraw %}
+{% include footer.html %}
 </body>
 </html>

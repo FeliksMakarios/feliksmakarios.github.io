@@ -1,0 +1,71 @@
+---
+# Loaded by the standalone blog articles (see _includes/article-head.html).
+# Brings in the site header/footer and a dark theme for the article palette.
+---
+
+@import "tokens";
+@import "chrome";
+
+/* The articles set serif body text and bare element rules (p, li, ul, a);
+   reset them inside the site chrome so header and footer match other pages. */
+.site-header, .site-footer {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.65;
+  font-feature-settings: normal;
+  -webkit-font-smoothing: antialiased;
+}
+.site-header a, .site-footer a { border-bottom: none; }
+.site-footer p { margin: 0; }
+.site-footer .footer-name { margin: 0 0 0.2rem; }
+.site-footer .footer-role, .site-footer .footer-heading { margin: 0 0 0.6rem; }
+.site-footer li { margin: 0; }
+.site-footer { margin-top: 0; }
+body { transition: background-color 0.2s ease, color 0.2s ease; }
+/* Keep in-page anchors (table of contents) clear of the sticky header. */
+html { scroll-padding-top: 5rem; }
+
+/* ---------- Dark theme for the article palettes ---------- */
+:root[data-theme="dark"] {
+  /* Palette shared by most articles */
+  --bg: #121212;
+  --surface: #1a1a1a;
+  --ink: #e6e6e6;
+  --muted: #a3a3a3;
+  --hair: #2e2e2e;
+  --accent: #7ab8e0;
+  --warm: #e58ac0;
+  --green: #6fcf9f;
+  --enc: #9bc55a;
+  --dec: #e58ac0;
+  --code-bg: #1f1f1f;
+
+  /* Palette of "Memahami Jaringan LSTM" */
+  --ink-soft: #b9b3a8;
+  --paper: #121212;
+  --paper-warm: #1c1a17;
+  --rule: #3a352d;
+  --link: #eb9b73;
+  --accent-soft: #c97a55;
+}
+:root[data-theme="dark"] .article-lstm { --accent: #e08a62; }
+
+/* Diagrams are drawn on white; keep them on a light card in dark mode. */
+[data-theme="dark"] figure img,
+[data-theme="dark"] figure video {
+  background: #fff;
+  border-radius: 10px;
+}
+
+/* Text and callout colours the articles hard-code for the light theme. */
+[data-theme="dark"] .lede,
+[data-theme="dark"] .meta,
+[data-theme="dark"] ol.refs { color: #c9c9c9; }
+[data-theme="dark"] blockquote { color: #b8b8b8; }
+[data-theme="dark"] pre { color: #dcdcdc; }
+[data-theme="dark"] .read,
+[data-theme="dark"] .note { background: #172030; border-color: #2b3a55; color: #c9d6f0; }
+[data-theme="dark"] .read dd { color: #c9d6f0; }
+[data-theme="dark"] .key { background: #2a1a24; border-color: #4a2a3d; color: #f0c6dd; }
+[data-theme="dark"] .nlp { background: #14261f; border-color: #244a3c; color: #bfe6d6; }
+[data-theme="dark"] body.article-lstm { background: var(--paper); }

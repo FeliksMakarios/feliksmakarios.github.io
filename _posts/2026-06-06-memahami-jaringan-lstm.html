@@ -1,9 +1,27 @@
+---
+layout: null
+title: "Memahami Jaringan LSTM"
+description: "Terjemahan Bahasa Indonesia dari artikel klasik Christopher Olah yang menjelaskan jaringan LSTM, recurrent neural networks, masalah vanishing gradient, dan arsitektur LSTM langkah demi langkah."
+permalink: /blog/memahami-jaringan-lstm/
+lang: id
+switch_slug: blog
+type: translation
+image: /blog/memahami-jaringan-lstm/img/LSTM3-chain.png
+excerpt_separator: ""
+original_title: "Understanding LSTM Networks"
+original_author: "Christopher Olah"
+original_url: "https://colah.github.io/posts/2015-08-Understanding-LSTMs/"
+original_date: "2015-08-27"
+summary_id: "Terjemahan Bahasa Indonesia dari artikel klasik Christopher Olah yang menjelaskan jaringan LSTM, recurrent neural networks, masalah vanishing gradient, dan arsitektur LSTM langkah demi langkah."
+tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan"]
+---
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Memahami Jaringan LSTM</title>
+<title>{{ page.title }} — {{ site.author.short_name }}</title>
+{% include head-meta.html %}
 
 <!-- MathJax untuk merender notasi LaTeX di browser -->
 <script>
@@ -15,7 +33,6 @@
     options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
   };
 </script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <!-- Tipografi -->
@@ -206,34 +223,12 @@
     figure.framed img { padding: 6px; }
   }
 </style>
+<link rel="stylesheet" href="/assets/css/article.css">
 </head>
-<body>
+<body class="article-lstm">
+{% include nav.html %}
+{% raw %}
 
-<!-- Site bar (added for integration with main site) -->
-<style>
-  .site-bar {
-    max-width: var(--maxw);
-    margin: 0 auto;
-    padding: 18px 24px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
-    letter-spacing: 0.04em;
-  }
-  .site-bar a {
-    color: var(--ink-soft);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-  .site-bar a:hover { color: var(--accent); }
-  .site-bar-brand { font-weight: 500; }
-</style>
-<div class="site-bar">
-  <a href="/id/" class="site-bar-brand">Feliks Samosir</a>
-  <a href="/id/blog/" class="site-bar-back">← Kembali ke Blog</a>
-</div>
 
 
 <header class="masthead">
@@ -265,7 +260,7 @@
   <p>Jaringan saraf berulang (<em>recurrent neural networks</em>, RNN) menjawab persoalan ini. Jaringan ini memiliki gelung (<em>loop</em>) di dalamnya, yang memungkinkan informasi untuk bertahan.</p>
 
   <figure class="framed">
-    <img src="img/RNN-rolled.png" alt="Sebuah RNN dengan gelung">
+    <img loading="lazy" decoding="async" src="img/RNN-rolled.png" alt="Sebuah RNN dengan gelung">
     <figcaption class="bold">Jaringan saraf berulang memiliki gelung.</figcaption>
   </figure>
 
@@ -274,7 +269,7 @@
   <p>Gelung-gelung ini membuat jaringan saraf berulang terasa agak misterius. Namun, jika Anda berpikir sedikit lebih jauh, ternyata jaringan ini tidak terlalu berbeda dengan jaringan saraf biasa. Sebuah RNN dapat dibayangkan sebagai banyak salinan dari jaringan yang sama, masing-masing meneruskan sebuah pesan kepada penerusnya. Mari kita amati apa yang terjadi jika kita membentangkan gelung tersebut:</p>
 
   <figure class="framed">
-    <img src="img/RNN-unrolled.png" alt="Sebuah RNN yang dibentangkan">
+    <img loading="lazy" decoding="async" src="img/RNN-unrolled.png" alt="Sebuah RNN yang dibentangkan">
     <figcaption class="bold">Sebuah jaringan saraf berulang yang dibentangkan.</figcaption>
   </figure>
 
@@ -292,7 +287,7 @@
   <p>Terkadang, kita hanya perlu melihat informasi terkini untuk mengerjakan tugas saat ini. Sebagai contoh, perhatikan sebuah model bahasa yang berusaha menebak kata berikutnya berdasarkan kata-kata sebelumnya. Jika kita berusaha menebak kata terakhir dalam &ldquo;awan-awan ada di <em>langit</em>,&rdquo; kita tidak memerlukan konteks tambahan apa pun. Sudah cukup jelas bahwa kata berikutnya adalah langit. Dalam kasus seperti ini, ketika jarak antara informasi yang relevan dan tempat informasi itu dibutuhkan masih kecil, RNN dapat belajar untuk menggunakan informasi masa lalu.</p>
 
   <figure class="framed">
-    <img src="img/RNN-shorttermdepdencies.png" alt="Ketergantungan jangka pendek">
+    <img loading="lazy" decoding="async" src="img/RNN-shorttermdepdencies.png" alt="Ketergantungan jangka pendek">
   </figure>
 
   <p>Tetapi ada juga kasus-kasus yang menuntut konteks lebih banyak. Perhatikan upaya menebak kata terakhir dalam teks &ldquo;Saya tumbuh besar di Prancis... saya berbicara <em>bahasa Prancis</em> dengan lancar.&rdquo; Informasi terkini menunjukkan bahwa kata berikutnya kemungkinan adalah nama sebuah bahasa, tetapi jika kita ingin mempersempit bahasa mana, kita memerlukan konteks tentang Prancis, dari bagian yang jauh lebih ke belakang. Sangat mungkin jarak antara informasi yang relevan dan titik tempat informasi itu dibutuhkan menjadi sangat besar.</p>
@@ -300,7 +295,7 @@
   <p>Sayangnya, seiring jarak itu membesar, RNN menjadi tidak mampu belajar untuk menghubungkan informasi tersebut.</p>
 
   <figure class="framed">
-    <img src="img/RNN-longtermdependencies.png" alt="Kesulitan dengan ketergantungan jangka panjang">
+    <img loading="lazy" decoding="async" src="img/RNN-longtermdependencies.png" alt="Kesulitan dengan ketergantungan jangka panjang">
     <figcaption>Jaringan saraf kesulitan menghadapi ketergantungan jangka panjang.</figcaption>
   </figure>
 
@@ -318,21 +313,21 @@
   <p>Semua jaringan saraf berulang memiliki bentuk berupa rantai dari modul-modul jaringan saraf yang berulang. Pada RNN standar, modul yang berulang ini memiliki struktur yang sangat sederhana, misalnya hanya satu lapisan tanh.</p>
 
   <figure class="framed">
-    <img src="img/LSTM3-SimpleRNN.png" alt="Modul berulang pada RNN standar">
+    <img loading="lazy" decoding="async" src="img/LSTM3-SimpleRNN.png" alt="Modul berulang pada RNN standar">
     <figcaption class="bold">Modul yang berulang pada RNN standar berisi satu lapisan.</figcaption>
   </figure>
 
   <p>LSTM juga memiliki struktur menyerupai rantai ini, tetapi modul yang berulangnya memiliki struktur yang berbeda. Alih-alih satu lapisan jaringan saraf, terdapat empat lapisan yang saling berinteraksi dengan cara yang sangat istimewa.</p>
 
   <figure class="framed">
-    <img src="img/LSTM3-chain.png" alt="Jaringan saraf LSTM">
+    <img loading="lazy" decoding="async" src="img/LSTM3-chain.png" alt="Jaringan saraf LSTM">
     <figcaption class="bold">Modul yang berulang pada LSTM berisi empat lapisan yang saling berinteraksi.</figcaption>
   </figure>
 
   <p>Jangan khawatir tentang rincian apa yang sedang terjadi. Kita akan menelusuri diagram LSTM ini langkah demi langkah nanti. Untuk sekarang, mari kita coba membiasakan diri dengan notasi yang akan kita gunakan.</p>
 
   <figure class="framed">
-    <img src="img/LSTM2-notation.png" alt="Notasi pada diagram LSTM">
+    <img loading="lazy" decoding="async" src="img/LSTM2-notation.png" alt="Notasi pada diagram LSTM">
   </figure>
 
   <p>Pada diagram di atas, setiap garis membawa satu vektor utuh, dari keluaran satu simpul menuju masukan simpul-simpul lain. Lingkaran merah muda melambangkan operasi titik demi titik (<em>pointwise</em>), seperti penjumlahan vektor, sedangkan kotak kuning adalah lapisan jaringan saraf yang dipelajari. Garis yang bergabung menandakan penggabungan (<em>concatenation</em>), sedangkan garis yang bercabang menandakan isinya disalin dan salinan-salinannya menuju ke lokasi yang berbeda.</p>
@@ -345,7 +340,7 @@
   <p>Cell state itu mirip seperti ban berjalan. Ia berjalan lurus menyusuri seluruh rantai, hanya dengan sedikit interaksi linear. Sangat mudah bagi informasi untuk mengalir begitu saja di atasnya tanpa berubah.</p>
 
   <figure class="framed">
-    <img src="img/LSTM3-C-line.png" alt="Garis cell state">
+    <img loading="lazy" decoding="async" src="img/LSTM3-C-line.png" alt="Garis cell state">
   </figure>
 
   <p>LSTM memang memiliki kemampuan untuk membuang atau menambahkan informasi ke cell state, yang diatur dengan saksama oleh struktur bernama <span class="term">gate</span> (gerbang).</p>
@@ -353,7 +348,7 @@
   <p>Gate adalah cara untuk secara opsional meloloskan informasi. Gate tersusun dari satu lapisan jaringan saraf sigmoid dan satu operasi perkalian titik demi titik.</p>
 
   <figure class="framed">
-    <img src="img/LSTM3-gate.png" alt="Sebuah gate">
+    <img loading="lazy" decoding="async" src="img/LSTM3-gate.png" alt="Sebuah gate">
   </figure>
 
   <p>Lapisan sigmoid menghasilkan angka antara nol dan satu, yang menggambarkan seberapa banyak dari setiap komponen yang boleh diloloskan. Nilai nol berarti &ldquo;jangan loloskan apa pun,&rdquo; sedangkan nilai satu berarti &ldquo;loloskan semuanya!&rdquo;</p>
@@ -368,7 +363,7 @@
   <p>Mari kita kembali ke contoh model bahasa yang berusaha menebak kata berikutnya berdasarkan semua kata sebelumnya. Dalam persoalan semacam itu, cell state mungkin menyimpan jenis kelamin subjek yang sedang dibahas, agar kata ganti yang benar dapat digunakan. Ketika kita melihat subjek baru, kita ingin melupakan jenis kelamin subjek yang lama.</p>
 
   <figure class="framed">
-    <img src="img/LSTM3-focus-f.png" alt="Forget gate">
+    <img loading="lazy" decoding="async" src="img/LSTM3-focus-f.png" alt="Forget gate">
   </figure>
 
   <p>Langkah berikutnya adalah memutuskan informasi baru apa yang akan kita simpan dalam cell state. Ini terdiri dari dua bagian. Pertama, sebuah lapisan sigmoid yang disebut &ldquo;<span class="term">input gate layer</span>&rdquo; (lapisan gerbang masukan) memutuskan nilai-nilai mana yang akan kita perbarui. Kemudian, sebuah lapisan tanh membuat sebuah vektor berisi nilai-nilai kandidat baru, \(\tilde{C}_t\), yang dapat ditambahkan ke status. Pada langkah selanjutnya, kita akan menggabungkan keduanya untuk membuat pembaruan terhadap status.</p>
@@ -376,7 +371,7 @@
   <p>Dalam contoh model bahasa kita, di sinilah kita ingin menambahkan jenis kelamin subjek yang baru ke dalam cell state, untuk menggantikan jenis kelamin lama yang sedang kita lupakan.</p>
 
   <figure class="framed">
-    <img src="img/LSTM3-focus-i.png" alt="Input gate">
+    <img loading="lazy" decoding="async" src="img/LSTM3-focus-i.png" alt="Input gate">
   </figure>
 
   <p>Sekarang tiba waktunya untuk memperbarui cell state lama, \(C_{t-1}\), menjadi cell state baru \(C_t\). Langkah-langkah sebelumnya sudah memutuskan apa yang harus dilakukan, kita tinggal benar-benar melakukannya.</p>
@@ -386,7 +381,7 @@
   <p>Pada kasus model bahasa, di sinilah kita benar-benar membuang informasi tentang jenis kelamin subjek lama dan menambahkan informasi baru, sebagaimana kita putuskan pada langkah-langkah sebelumnya.</p>
 
   <figure class="framed">
-    <img src="img/LSTM3-focus-C.png" alt="Pembaruan cell state">
+    <img loading="lazy" decoding="async" src="img/LSTM3-focus-C.png" alt="Pembaruan cell state">
   </figure>
 
   <p>Akhirnya, kita perlu memutuskan apa yang akan kita keluarkan. Keluaran ini akan didasarkan pada cell state kita, tetapi merupakan versi yang telah disaring. Pertama, kita menjalankan sebuah lapisan sigmoid yang memutuskan bagian mana dari cell state yang akan kita keluarkan. Kemudian, kita melewatkan cell state melalui \(\tanh\) (untuk mendorong nilai-nilainya agar berada di antara \(-1\) dan \(1\)) lalu mengalikannya dengan keluaran dari gate sigmoid, sehingga kita hanya mengeluarkan bagian-bagian yang kita putuskan untuk dikeluarkan.</p>
@@ -394,7 +389,7 @@
   <p>Untuk contoh model bahasa, karena ia baru saja melihat sebuah subjek, ia mungkin ingin mengeluarkan informasi yang relevan dengan sebuah kata kerja, untuk berjaga-jaga seandainya itulah yang akan muncul berikutnya. Sebagai contoh, ia mungkin mengeluarkan informasi apakah subjeknya tunggal atau jamak, sehingga kita tahu bentuk kata kerja seperti apa yang harus dikonjugasikan seandainya itulah yang menyusul.</p>
 
   <figure class="framed">
-    <img src="img/LSTM3-focus-o.png" alt="Output gate">
+    <img loading="lazy" decoding="async" src="img/LSTM3-focus-o.png" alt="Output gate">
   </figure>
 
   <!-- ============ Variants ============ -->
@@ -405,7 +400,7 @@
   <p>Satu variasi LSTM yang populer, diperkenalkan oleh <a href="https://doi.org/10.1109/IJCNN.2000.861302" target="_blank" rel="noopener">Gers &amp; Schmidhuber (2000)</a>, adalah penambahan &ldquo;<em>peephole connections</em>&rdquo; (sambungan lubang intip). Ini berarti kita membiarkan lapisan-lapisan gate ikut melihat cell state.</p>
 
   <figure class="framed">
-    <img src="img/LSTM3-var-peepholes.png" alt="Peephole connections">
+    <img loading="lazy" decoding="async" src="img/LSTM3-var-peepholes.png" alt="Peephole connections">
   </figure>
 
   <p>Diagram di atas menambahkan peephole ke semua gate, tetapi banyak makalah hanya memberikan peephole pada sebagian gate dan tidak pada yang lain.</p>
@@ -413,13 +408,13 @@
   <p>Variasi lain adalah menggunakan gate lupa dan gate masukan yang dipasangkan (<em>coupled</em>). Alih-alih memutuskan secara terpisah apa yang harus dilupakan dan informasi baru apa yang harus ditambahkan, kita membuat kedua keputusan itu secara bersamaan. Kita hanya melupakan ketika kita akan memasukkan sesuatu sebagai penggantinya. Kita hanya memasukkan nilai-nilai baru ke status ketika kita melupakan sesuatu yang lebih lama.</p>
 
   <figure class="framed">
-    <img src="img/LSTM3-var-tied.png" alt="Coupled forget dan input gate">
+    <img loading="lazy" decoding="async" src="img/LSTM3-var-tied.png" alt="Coupled forget dan input gate">
   </figure>
 
   <p>Variasi yang sedikit lebih dramatis pada LSTM adalah Gated Recurrent Unit, atau GRU, yang diperkenalkan oleh <a href="http://arxiv.org/pdf/1406.1078v3.pdf" target="_blank" rel="noopener">Cho, dkk. (2014)</a>. GRU menggabungkan gate lupa dan gate masukan menjadi satu &ldquo;<em>update gate</em>&rdquo; (gerbang pembaruan) tunggal. GRU juga menyatukan cell state dan hidden state, serta membuat beberapa perubahan lain. Model yang dihasilkan lebih sederhana daripada model LSTM standar, dan kepopulerannya terus meningkat.</p>
 
   <figure class="framed">
-    <img src="img/LSTM3-var-GRU.png" alt="Gated Recurrent Unit">
+    <img loading="lazy" decoding="async" src="img/LSTM3-var-GRU.png" alt="Gated Recurrent Unit">
   </figure>
 
   <p>Ini hanyalah beberapa dari variasi LSTM yang paling menonjol. Masih banyak yang lain, seperti Depth Gated RNN oleh <a href="http://arxiv.org/pdf/1508.03790v2.pdf" target="_blank" rel="noopener">Yao, dkk. (2015)</a>. Ada juga pendekatan yang sepenuhnya berbeda untuk menangani ketergantungan jangka panjang, seperti Clockwork RNN oleh <a href="http://arxiv.org/pdf/1402.3511v1.pdf" target="_blank" rel="noopener">Koutnik, dkk. (2014)</a>.</p>
@@ -460,5 +455,7 @@
 
 </div>
 
+{% endraw %}
+{% include footer.html %}
 </body>
 </html>

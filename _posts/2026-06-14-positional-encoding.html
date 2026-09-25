@@ -1,10 +1,32 @@
+---
+layout: null
+title: "Positional Encoding pada Transformer"
+description: "Penjelasan berbahasa Indonesia tentang positional encoding sinusoidal pada Transformer, lengkap dengan cara membaca notasi matematisnya."
+permalink: /blog/positional-encoding/
+lang: id
+switch_slug: blog
+type: original
+image: /blog/positional-encoding/img/pe_heatmap.png
+excerpt_separator: ""
+inspirations:
+  - title: "Transformer Architecture: The Positional Encoding"
+    author: "Amirhossein Kazemnejad"
+    url: "https://kazemnejad.com/blog/transformer_architecture_positional_encoding/"
+    year: 2019
+  - title: "Attention Is All You Need"
+    author: "Vaswani dkk."
+    url: "https://arxiv.org/abs/1706.03762"
+    year: 2017
+summary_id: "Artikel asli berbahasa Indonesia yang menjelaskan positional encoding sinusoidal pada Transformer. Membahas intuisi, notasi matematis, sifat mirip rotasi, sampai cara membaca rumus sinus-kosinus pada makalah asli."
+tags: ["NLP", "Transformer", "Tutorial", "Matematika"]
+---
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Positional Encoding pada Transformer</title>
-<meta name="description" content="Penjelasan berbahasa Indonesia tentang positional encoding sinusoidal pada Transformer, lengkap dengan cara membaca notasi matematisnya.">
+<title>{{ page.title }} — {{ site.author.short_name }}</title>
+{% include head-meta.html %}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -107,33 +129,12 @@ window.MathJax = {
     header.page{padding:44px 0 22px}
   }
 </style>
+<link rel="stylesheet" href="/assets/css/article.css">
 </head>
 <body>
+{% include nav.html %}
+{% raw %}
 
-<style>
-  .site-bar {
-    max-width: var(--maxw, 760px);
-    margin: 0 auto;
-    padding: 18px 24px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
-    letter-spacing: 0.04em;
-  }
-  .site-bar a {
-    color: var(--muted, #6b7280);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-  .site-bar a:hover { color: var(--accent, #2d54a8); }
-  .site-bar-brand { font-weight: 500; }
-</style>
-<div class="site-bar">
-  <a href="/id/" class="site-bar-brand">Feliks Samosir</a>
-  <a href="/id/blog/" class="site-bar-back">← Kembali ke Blog</a>
-</div>
 <div class="wrap">
 
 <header class="page">
@@ -307,14 +308,14 @@ window.MathJax = {
 <p>Cara terbaik memahami positional encoding adalah melihatnya langsung. Diagram berikut menampilkan vektor encoding untuk 50 posisi pertama, masing-masing berdimensi 128. Setiap baris adalah satu vektor \(\vec{p_t}\) untuk satu posisi.</p>
 
 <figure>
-  <img src="img/pe_heatmap.png" alt="Heatmap positional encoding 128 dimensi untuk 50 posisi">
+  <img loading="lazy" decoding="async" src="img/pe_heatmap.png" alt="Heatmap positional encoding 128 dimensi untuk 50 posisi">
   <figcaption>Positional encoding sinusoidal. Dimensi rendah (kiri) berganti warna dengan cepat seiring posisi, dimensi tinggi (kanan) berubah sangat lambat. Diagram dibuat sendiri dari rumus standar.</figcaption>
 </figure>
 
 <p>Perhatikan sisi kiri yang bergaris-garis rapat: itu dimensi berfrekuensi tinggi yang nilainya cepat berubah dari posisi ke posisi. Makin ke kanan, perubahannya makin lambat sampai hampir konstan. Inilah wujud "jam dengan kecepatan berbeda" tadi. Hubungan dengan frekuensi terlihat lebih jelas bila kita gambar beberapa gelombangnya saja:</p>
 
 <figure>
-  <img src="img/pe_frequencies.png" alt="Beberapa gelombang sinus pada frekuensi menurun">
+  <img loading="lazy" decoding="async" src="img/pe_frequencies.png" alt="Beberapa gelombang sinus pada frekuensi menurun">
   <figcaption>Beberapa dimensi positional encoding sebagai gelombang sinus. Dimensi awal berosilasi cepat, dimensi belakang berosilasi sangat lambat. Diagram dibuat sendiri.</figcaption>
 </figure>
 
@@ -359,7 +360,7 @@ M_{\phi,k} =
 <p>Sifat tambahan lainnya, hasil kali titik (dot product) antara dua vektor posisi memuncak ketika kedua posisi sama, lalu meluruh dengan mulus dan simetris seiring jarak bertambah. Ini membuat ukuran kemiripan posisi berperilaku wajar.</p>
 
 <figure>
-  <img src="img/pe_dotproduct.png" alt="Hasil kali titik antar posisi yang meluruh simetris">
+  <img loading="lazy" decoding="async" src="img/pe_dotproduct.png" alt="Hasil kali titik antar posisi yang meluruh simetris">
   <figcaption>Hasil kali titik antara vektor posisi acuan (\(t=50\)) dan posisi lain. Nilainya memuncak di posisi yang sama lalu meluruh simetris. Diagram dibuat sendiri.</figcaption>
 </figure>
 
@@ -394,5 +395,7 @@ M_{\phi,k} =
 </footer>
 
 </div>
+{% endraw %}
+{% include footer.html %}
 </body>
 </html>

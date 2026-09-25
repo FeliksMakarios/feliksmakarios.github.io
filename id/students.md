@@ -33,7 +33,11 @@ alumni dan ingin dimasukkan (atau dikoreksi), silakan email saya.
   {% endfor %}
 </ul>
 {% else %}
-<p class="muted-note">Belum ada bimbingan saat ini.</p>
+<div class="callout">
+  <p>Saat ini belum ada mahasiswa bimbingan aktif karena angkatan terakhir sudah sidang pada 2026.
+  Saya sedang menerima mahasiswa skripsi baru. Silakan lihat topik yang terbuka di tiap halaman
+  <a href="/id/research/">bidang riset</a>, lalu kirim email kalau ada yang menarik buat kamu.</p>
+</div>
 {% endif %}
 
 <h2>Alumni</h2>

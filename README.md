@@ -1,177 +1,114 @@
 # feliksmakarios.github.io
 
-Personal academic site for **Feliks Victor Parningotan Samosir** — Fulltime Lecturer of Informatics, Faculty of AI and Data Science, Universitas Pelita Harapan.
+Personal academic site of **Feliks Victor Parningotan Samosir**, Full-time Lecturer of Informatics, Faculty of AI and Data Science, Universitas Pelita Harapan.
 
-Built with Jekyll, hosted on GitHub Pages, bilingual (EN / ID).
-
----
+Live at <https://feliksmakarios.github.io>. Built with Jekyll and served by GitHub Pages; bilingual (English / Bahasa Indonesia); content editable through Decap CMS at `/admin/`.
 
 ## Stack
 
-- **Jekyll** (via `github-pages` gem — no custom build needed)
-- **Custom layout** (no external theme; ~15 files total)
-- **System fonts** (no external font requests; fast load)
-- **Auto dark mode** via `prefers-color-scheme`
-- **Responsive** down to ~360px
-
-No JavaScript framework. No build step beyond what GitHub Pages runs automatically on push.
+- **Jekyll** via the `github-pages` gem. GitHub Pages builds on every push to `main`; there is no CI or custom build step.
+- **Custom layout**, no external theme. System fonts on the main pages, light/dark theme toggle, responsive down to ~360px with a collapsible menu on phones.
+- **Decap CMS** (`admin/`) for editing news, publications, students, demos, community service, teaching and blog posts from the browser.
+- **Plugins:** `jekyll-sitemap` only.
 
 ## Structure
 
 ```
 .
-├── _config.yml              # site metadata, languages, author info
-├── Gemfile                  # github-pages gem
-├── .gitignore
-├── index.html               # root → redirects to /en/ or /id/ based on browser
+├── _config.yml            # site metadata, author links (email, ORCID, Scholar, CV...), collections
 ├── _layouts/
-│   └── default.html         # single layout used by all pages
+│   ├── default.html       # all regular pages
+│   ├── research-area.html # the four research-area detail pages
+│   └── blog-post.html     # Markdown blog posts written in the CMS
 ├── _includes/
-│   ├── head.html            # <head> + meta + hreflang
-│   ├── nav.html             # nav bar + EN/ID switcher
+│   ├── head.html          # <head> for regular pages (wraps head-meta.html + main.css)
+│   ├── head-meta.html     # shared meta: description, Open Graph, hreflang, favicons, theme init
+│   ├── person-jsonld.html # schema.org Person data on the home pages
+│   ├── pubs-jsonld.html   # schema.org ScholarlyArticle data on the publications pages
+│   ├── pub-extras.html    # BibTeX / PDF / Open Access row under each publication
+│   ├── hero-links.html    # contact links on the home pages (read from _config.yml)
+│   ├── nav.html           # header, menu, theme toggle, EN/ID switch
 │   └── footer.html
-├── assets/
-│   ├── css/
-│   │   └── main.scss        # all styles (compiled to main.css by Jekyll)
-│   └── img/
-│       └── feliks.jpg       # profile photo (add this yourself)
-├── en/                      # English pages
-│   ├── index.md             # Home + About
-│   ├── research.md          # Research areas, projects, open thesis topics
-│   ├── teaching.md          # Courses
-│   └── demos.md             # Outreach demos
-├── id/                      # Indonesian mirror
-│   ├── index.md
-│   ├── research.md
-│   ├── teaching.md
-│   └── demos.md
-└── demos/                   # static web apps (Teachable Machine exports)
-    ├── superheroes/
-    └── hairtype/
+├── _sass/
+│   ├── _tokens.scss       # colour, font and spacing variables (light + dark)
+│   └── _chrome.scss       # header, navigation, mobile menu, footer
+├── assets/css/
+│   ├── main.scss          # styles for regular pages
+│   └── article.scss       # site chrome + dark theme for the hand-built blog articles
+├── _news/  _publications/  _students/  _demos/  _community_service/   # collections (one file per item)
+├── _data/
+│   ├── research.yml       # research areas, sub-areas, projects, open thesis topics
+│   └── teaching.yml       # courses and supervision text
+├── _posts/                # every blog article (see "Blog" below)
+├── blog/<slug>/img/       # images and videos used by the blog articles
+├── en/  id/               # page sources, one per language
+├── demos/                 # static demo apps (Teachable Machine, NLP visualisations)
+└── admin/                 # Decap CMS (config.yml) and an optional OAuth worker
 ```
-
-## Setup (one-time)
-
-### 1. Backup the existing repo
-
-Before nuking the current `main`, archive it:
-
-```bash
-cd feliksmakarios.github.io
-git checkout -b legacy
-git push origin legacy
-git checkout main
-```
-
-You can always view the old site by checking out the `legacy` branch.
-
-### 2. Preserve the existing demo apps
-
-```bash
-mv superheroes /tmp/superheroes-backup
-mv hairtype   /tmp/hairtype-backup
-```
-
-### 3. Wipe the current `main` and drop in this scaffold
-
-```bash
-git rm -rf .
-# copy this scaffold's files into the repo root
-mkdir -p demos
-mv /tmp/superheroes-backup demos/superheroes
-mv /tmp/hairtype-backup    demos/hairtype
-```
-
-### 4. Add your profile photo
-
-Drop a square photo (~400×400px is fine) at:
-
-```
-assets/img/feliks.jpg
-```
-
-If you skip this, the photo `<img>` is set to hide on error — the page will still render cleanly without it.
-
-### 5. Local preview (recommended before pushing)
-
-You need Ruby (3.0+) and Bundler installed.
-
-```bash
-bundle install
-bundle exec jekyll serve
-```
-
-Open `http://localhost:4000` — the root will redirect to `/en/` (or `/id/` if your browser is set to Indonesian).
-
-### 6. Push to GitHub
-
-```bash
-git add .
-git commit -m "Rebuild site: bilingual academic template"
-git push origin main
-```
-
-GitHub Pages will rebuild automatically. Live in ~1–2 minutes at `https://feliksmakarios.github.io`.
 
 ## Editing content
 
-### Update text content
+The easiest route is the CMS at <https://feliksmakarios.github.io/admin/>. Every change it saves is a commit on `main`.
 
-All page text lives in `en/*.md` and `id/*.md`. Plain Markdown — edit and push.
+You can also edit the files directly:
 
-### Update site-wide info
+| What | Where |
+| --- | --- |
+| Name, title, email, social links, CV path | `_config.yml` → `author` |
+| About text, home page | `en/index.md`, `id/index.md` |
+| News | `_news/*.md` (`date_str`, bilingual `title` and `body`) |
+| Publications | `_publications/*.md` (see fields below) |
+| Students | `_students/*.md` (`status: current` or `alumni`) |
+| Research areas and open thesis topics | `_data/research.yml` |
+| Courses | `_data/teaching.yml` |
+| Demos | `_demos/*.md` |
 
-Edit `_config.yml`. Things to fill in / verify:
+### Publication fields
 
-- `author.orcid` — currently empty
-- `author.scholar` — verify the URL
-- Any other social profiles you want added (just append to the YAML and update `_includes/footer.html` to render them)
+```yaml
+slug: absa-ecom-2026          # also the BibTeX key
+title: ...
+authors: [F.V.P. Samosir, G.L. Tumanggor]
+venue: Journal of Soft Computing Exploration, Vol. 7 No. 1, pp. 147-156
+venue_type: journal           # journal | conference | seminar
+year: 2026
+link: https://doi.org/...     # DOI or publisher page (a doi.org link also fills the BibTeX doi field)
+pdf: /assets/papers/...pdf    # optional: author copy
+open_access: true             # optional: shows an "Open Access" badge
+area: domain-specific-nlp
+sub_area: ecommerce-reviews
+```
 
-### Add a new open thesis topic
+Use `link`, not `url`. Jekyll reserves `url` on collection items, so a `url` field is silently replaced by an internal path. For the same reason, demos use `demo_url`.
 
-In `en/research.md` and `id/research.md`, find the **Open thesis topics** section. Each topic is one `<div class="card">…</div>`. Copy an existing card, edit, done. Three statuses to use as the `<span class="tag">`:
+## Blog
 
-- `Open` / `Terbuka`
-- `In discussion` / `Dalam diskusi`
-- `Taken` / `Diambil`
+All articles live in `_posts/` and appear on `/en/blog/` and `/id/blog/`, newest first. There are two kinds:
 
-### Add a new section (e.g., Publications, Students)
+1. **Markdown posts** written in the CMS (`layout: blog-post`). They support LaTeX through MathJax, code blocks and embedded video.
+2. **Hand-built HTML articles** (`_posts/*.html`, `layout: null`). Each one is a full HTML document with its own typography. It pulls in the shared `<head>` (`head-meta.html`), the site header and footer, and `assets/css/article.css` for the dark theme. The article body is wrapped in `{% raw %}` so that LaTeX such as `{{NLP}}` is not treated as Liquid. Their images stay in `blog/<slug>/img/`.
 
-1. Create `en/publications.md` and `id/publications.md` with the same front-matter pattern as existing pages (set `permalink`, `lang`, `slug`, `title`).
-2. Add a nav link in `_includes/nav.html` (the EN/ID label block at the top, plus a new `<a>` in `<nav class="site-nav">`).
+Useful front matter for both: `title`, `description`, `image` (social preview), `type` (`original` or `translation`), `original_title` / `original_author` / `original_url` / `original_date` for translations, `inspirations` for original work, `summary_id`, and `tags`. Posts are published at `/blog/<slug>/`.
 
-That's it. No theme override or plugin to wrestle with.
+## Bilingual pages
 
-## Bilingual: how it works
+There is no i18n plugin. Each page exists twice, in `en/` and `id/`, with the same `slug:` in its front matter. The EN/ID switch uses `slug` to jump between the two, and `head-meta.html` uses it for the `hreflang` tags. When you add a page, add it in both folders. Blog articles are only in Indonesian; they set `switch_slug: blog`, so the switch opens the blog index instead.
 
-There's no i18n plugin. Each page exists twice — once in `en/`, once in `id/` — with matching `slug:` front-matter. The language switcher in the navbar uses `page.slug` to jump between the two. When you add a new page, **add it in both `en/` and `id/`** so the switcher works.
+## Local preview
 
-This is intentional: zero plugins, fully transparent, easy for any future maintainer (or template-fork by other UPH faculty) to understand.
+You need Ruby 3.x and Bundler.
+
+```bash
+bundle install
+LANG=C.UTF-8 bundle exec jekyll serve
+```
+
+Open <http://localhost:4000>. Without a UTF-8 locale, Sass may fail with `Invalid US-ASCII character`.
+
+## CMS login
+
+`admin/config.yml` signs in through the OAuth provider at `base_url` (a Vercel deployment) and asks for the `public_repo` scope, which is enough for a public repository. `admin/worker.js` is an alternative provider for Cloudflare Workers; see `admin/SETUP-OAUTH.md`. That file is excluded from the published site.
 
 ## Design tokens
 
-All colors, fonts, spacing live as CSS variables at the top of `assets/css/main.scss`. To rebrand for the prodi-wide template later:
-
-- Change `--color-accent` (currently `#0f4c75` deep blue)
-- Change `--font-serif` if you want a different heading typeface
-- Change `--measure` (reading column width)
-
-Everything else cascades.
-
-## License & reuse
-
-If you want to release this as a template for the UPH Informatics prodi site or for other faculty, consider adding an MIT or CC-BY license file. The structure is small enough to fork cleanly — content sits in `_config.yml` + `*.md`, layout in `_includes/` + `_layouts/`.
-
-## Roadmap
-
-Phase 1 (this scaffold): Home + About, Research, Teaching, Demos.
-
-Phase 2 (next):
-- **Publications** page generated from a `_data/publications.yml` (or BibTeX with a small Liquid loop)
-- **News / blog** section with `_posts/`
-- **Students/Mentees** page with current and alumni thesis advisees
-- **CV PDF** linked from header
-
-Phase 3 (eventual prodi site):
-- Extract `_layouts/`, `_includes/`, `assets/css/` as a shared template repo
-- Each faculty member's content lives in their own repo, builds against the shared template
+Colours, fonts and widths are CSS variables in `_sass/_tokens.scss`, with a dark-theme set underneath. To rebrand, change `--color-accent`, `--font-serif` or `--measure`; everything else follows.

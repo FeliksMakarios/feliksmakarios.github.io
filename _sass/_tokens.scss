@@ -1,0 +1,78 @@
+/* ---------- Design tokens ---------- */
+:root {
+  --color-bg: #fdfdfc;
+  --color-surface: #ffffff;
+  --color-text: #1a1a1a;
+  --color-muted: #5a5a5a;
+  --color-subtle: #8a8a8a;
+  --color-border: #e5e3df;
+  --color-accent: #0f4c75;
+  --color-accent-soft: #eaf1f7;
+
+  --color-journal: #0f4c75;
+  --color-journal-soft: #eaf1f7;
+  --color-conference: #2d6a4f;
+  --color-conference-soft: #e4f1ea;
+  --color-seminar: #7a5c38;
+  --color-seminar-soft: #f3ede2;
+
+  --color-status-open: #2d6a4f;
+  --color-status-open-soft: #e4f1ea;
+  --color-status-progress: #b8860b;
+  --color-status-progress-soft: #fbf3d9;
+  --color-status-proposal: #6c5ce7;
+  --color-status-proposal-soft: #ece9ff;
+  --color-status-discussion: #7a5c38;
+  --color-status-discussion-soft: #f3ede2;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Iowan Old Style", "Charter", "Source Serif Pro", Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --measure: 56rem;
+  --measure-narrow: 40rem;
+  --radius: 6px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+[data-theme="dark"] {
+  --color-bg: #121212;
+  --color-surface: #1a1a1a;
+  --color-text: #ececec;
+  --color-muted: #a8a8a8;
+  --color-subtle: #7a7a7a;
+  --color-border: #2a2a2a;
+  --color-accent: #7ab8e0;
+  --color-accent-soft: #1e2a35;
+
+  --color-journal: #7ab8e0;
+  --color-journal-soft: #1e2a35;
+  --color-conference: #7fc49b;
+  --color-conference-soft: #1c2a22;
+  --color-seminar: #c9a97a;
+  --color-seminar-soft: #2a251c;
+
+  --color-status-open: #7fc49b;
+  --color-status-open-soft: #1c2a22;
+  --color-status-progress: #d4a843;
+  --color-status-progress-soft: #2b2413;
+  --color-status-proposal: #a8a0f0;
+  --color-status-proposal-soft: #20212e;
+  --color-status-discussion: #c9a97a;
+  --color-status-discussion-soft: #2a251c;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-bg: #121212;
+    --color-surface: #1a1a1a;
+    --color-text: #ececec;
+    --color-muted: #a8a8a8;
+    --color-subtle: #7a7a7a;
+    --color-border: #2a2a2a;
+    --color-accent: #7ab8e0;
+    --color-accent-soft: #1e2a35;
+  }
+}

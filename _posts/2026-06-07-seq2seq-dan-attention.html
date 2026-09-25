@@ -1,10 +1,32 @@
+---
+layout: null
+title: "Seq2seq dan Attention"
+description: "Artikel pengantar berbahasa Indonesia tentang model sequence-to-sequence, mekanisme attention, dan Transformer."
+permalink: /blog/seq2seq-dan-attention/
+lang: id
+switch_slug: blog
+type: original
+image: /blog/seq2seq-dan-attention/img/enc_dec.png
+excerpt_separator: ""
+inspirations:
+  - title: "NLP Course | For You"
+    author: "Elena Voita"
+    url: "https://lena-voita.github.io/nlp_course.html"
+    year: 2020
+  - title: "Attention Is All You Need"
+    author: "Vaswani dkk."
+    url: "https://arxiv.org/abs/1706.03762"
+    year: 2017
+summary_id: "Artikel asli berbahasa Indonesia tentang model sequence-to-sequence, mekanisme attention, dan Transformer. Membahas alur dari encoder-decoder berbasis RNN, kebutuhan attention untuk mengatasi bottleneck, sampai self-attention pada Transformer."
+tags: ["NLP", "Deep Learning", "Tutorial", "Transformer"]
+---
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Seq2seq dan Attention</title>
-<meta name="description" content="Artikel pengantar berbahasa Indonesia tentang model sequence-to-sequence, mekanisme attention, dan Transformer.">
+<title>{{ page.title }} — {{ site.author.short_name }}</title>
+{% include head-meta.html %}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -162,33 +184,12 @@ window.MathJax = {
     header.page{padding:44px 0 22px}
   }
 </style>
+<link rel="stylesheet" href="/assets/css/article.css">
 </head>
 <body>
+{% include nav.html %}
+{% raw %}
 
-<style>
-  .site-bar {
-    max-width: var(--maxw, 760px);
-    margin: 0 auto;
-    padding: 18px 24px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
-    letter-spacing: 0.04em;
-  }
-  .site-bar a {
-    color: var(--muted, #6b7280);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-  .site-bar a:hover { color: var(--accent, #2d54a8); }
-  .site-bar-brand { font-weight: 500; }
-</style>
-<div class="site-bar">
-  <a href="/id/" class="site-bar-brand">Feliks Samosir</a>
-  <a href="/id/blog/" class="site-bar-back">← Kembali ke Blog</a>
-</div>
 
 <div class="wrap">
 
@@ -259,7 +260,7 @@ window.MathJax = {
 <h2 id="enc-dec"><span class="num">02</span>Kerangka Encoder-Decoder</h2>
 
 <figure>
-  <img src="img/enc_dec.png" alt="Skema kerangka encoder-decoder">
+  <img loading="lazy" decoding="async" src="img/enc_dec.png" alt="Skema kerangka encoder-decoder">
   <figcaption>Kerangka encoder-decoder. Diagram diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -270,7 +271,7 @@ window.MathJax = {
 <p>Sebuah <em>language model</em> biasa menaksir probabilitas tak bersyarat \(p(y)\) dari sebuah barisan token \(y = (y_1, \dots, y_n)\). Model seq2seq harus menaksir sesuatu yang sedikit berbeda, yaitu probabilitas bersyarat \(p(y|x)\), yakni peluang barisan \(y\) diberikan sumber \(x\). Karena itu tugas seq2seq dapat dipandang sebagai <em>conditional language model</em> (CLM), yaitu model bahasa yang bekerja seperti biasa tetapi tambahan menerima informasi sumber \(x\).</p>
 
 <figure>
-  <img src="img/lm_clm.png" alt="Perbandingan language model dan conditional language model">
+  <img loading="lazy" decoding="async" src="img/lm_clm.png" alt="Perbandingan language model dan conditional language model">
   <figcaption>Language model menaksir \(p(y)\); conditional language model menaksir \(p(y\mid x)\). Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -282,7 +283,7 @@ window.MathJax = {
 <p>Karena satu-satunya perbedaan dengan language model biasa adalah kehadiran sumber \(x\), proses pemodelan dan pelatihannya pun mirip. Alur tingkat tingginya seperti berikut. Pertama, sumber dan token sasaran yang sudah dibangkitkan sebelumnya dimasukkan ke jaringan. Kedua, dari decoder kita memperoleh representasi vektor dari konteks, yang mencakup baik sumber maupun token sasaran sebelumnya. Ketiga, dari representasi vektor itu kita memprediksi distribusi probabilitas untuk token berikutnya.</p>
 
 <figure>
-  <img src="img/enc_dec_linear_out.png" alt="Lapisan linear dan softmax untuk menghasilkan probabilitas token">
+  <img loading="lazy" decoding="async" src="img/enc_dec_linear_out.png" alt="Lapisan linear dan softmax untuk menghasilkan probabilitas token">
   <figcaption>Dari representasi vektor menuju distribusi probabilitas token. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -291,7 +292,7 @@ window.MathJax = {
 <h2 id="rnn"><span class="num">04</span>Model Paling Sederhana: Dua RNN</h2>
 
 <figure>
-  <img src="img/enc_dec_simple_rnn.png" alt="Encoder-decoder dengan dua RNN">
+  <img loading="lazy" decoding="async" src="img/enc_dec_simple_rnn.png" alt="Encoder-decoder dengan dua RNN">
   <figcaption>Model seq2seq paling sederhana: satu RNN untuk encoder, satu RNN untuk decoder. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -314,7 +315,7 @@ window.MathJax = {
 <div class="mathblock">\[ Loss(p^{\ast}, p) = -\log(p_{y_t}) = -\log\, p(y_t \mid y_{<t}, x). \]</div>
 
 <figure>
-  <img src="img/one_step_loss.png" alt="Intuisi loss pada satu langkah waktu">
+  <img loading="lazy" decoding="async" src="img/one_step_loss.png" alt="Intuisi loss pada satu langkah waktu">
   <figcaption>Intuisi cross-entropy loss untuk satu langkah waktu: maksimalkan probabilitas token yang benar. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -337,7 +338,7 @@ window.MathJax = {
 <h2 id="bottleneck"><span class="num">07</span>Masalah Representasi Tetap</h2>
 
 <figure>
-  <img src="img/bottleneck.png" alt="Masalah bottleneck representasi sumber yang tetap">
+  <img loading="lazy" decoding="async" src="img/bottleneck.png" alt="Masalah bottleneck representasi sumber yang tetap">
   <figcaption>Memampatkan seluruh kalimat sumber menjadi satu vektor tetap menciptakan bottleneck. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -352,7 +353,7 @@ window.MathJax = {
 <p>Attention adalah bagian dari jaringan saraf. Pada setiap langkah decoder, ia memutuskan bagian sumber mana yang lebih penting. Dengan begitu, encoder tidak perlu lagi memampatkan seluruh sumber menjadi satu vektor; ia cukup memberikan representasi untuk semua token sumber, misalnya seluruh state RNN dan bukan hanya yang terakhir.</p>
 
 <figure>
-  <img src="img/attn_general_scheme.png" alt="Skema umum mekanisme attention">
+  <img loading="lazy" decoding="async" src="img/attn_general_scheme.png" alt="Skema umum mekanisme attention">
   <figcaption>Skema umum: decoder melihat seluruh state encoder, bukan satu vektor tunggal. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -361,7 +362,7 @@ window.MathJax = {
 <p>Selanjutnya attention menghitung <strong>attention weights</strong>, yaitu distribusi probabilitas yang diperoleh dengan menerapkan softmax pada skor-skor tadi. Terakhir ia menghitung <strong>attention output</strong>, yaitu jumlah berbobot dari seluruh state encoder, dengan bobot berupa attention weights tersebut. Output inilah ringkasan sumber yang relevan khusus untuk langkah \(t\).</p>
 
 <figure>
-  <img src="img/attn_computation_scheme.png" alt="Skema komputasi attention">
+  <img loading="lazy" decoding="async" src="img/attn_computation_scheme.png" alt="Skema komputasi attention">
   <figcaption>Alur komputasi: score, kemudian softmax menjadi weights, lalu jumlah berbobot menjadi output. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -377,7 +378,7 @@ window.MathJax = {
 <div class="mathblock">\[ \text{score}(\color{#b01277}{h_t}\color{black}{,}\,\color{#4f7d12}{s_k}\color{black}{)} = \begin{cases} \color{#4f7d12}{s_k}^{\!\top} \color{#b01277}{h_t} & \text{dot-product} \\[4pt] \color{#4f7d12}{s_k}^{\!\top} W\, \color{#b01277}{h_t} & \text{bilinear (Luong)} \\[4pt] w_2^{\top} \tanh\!\big(W_1 [\color{#4f7d12}{s_k}\color{black}{;}\,\color{#b01277}{h_t}\color{black}{]}\big) & \text{multi-layer perceptron (Bahdanau)} \end{cases} \]</div>
 
 <figure>
-  <img src="img/score_functions.png" alt="Tiga fungsi attention score">
+  <img loading="lazy" decoding="async" src="img/score_functions.png" alt="Tiga fungsi attention score">
   <figcaption>Tiga cara populer menghitung attention score. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -396,7 +397,7 @@ window.MathJax = {
 </ul>
 
 <figure>
-  <img src="img/bahdanau_model.png" alt="Model Bahdanau">
+  <img loading="lazy" decoding="async" src="img/bahdanau_model.png" alt="Model Bahdanau">
   <figcaption>Model Bahdanau dengan encoder BiRNN. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -409,7 +410,7 @@ window.MathJax = {
 </ul>
 
 <figure>
-  <img src="img/luong_model.png" alt="Model Luong">
+  <img loading="lazy" decoding="async" src="img/luong_model.png" alt="Model Luong">
   <figcaption>Model Luong: attention dipakai setelah state decoder, sebelum prediksi. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -418,7 +419,7 @@ window.MathJax = {
 <p>Ingat kembali motivasi attention: pada langkah yang berbeda, decoder mungkin perlu fokus pada token sumber yang berbeda, yaitu token yang paling relevan saat itu. Jika kita amati attention weights, kita bisa melihat kata sumber mana yang dipakai decoder pada tiap langkah.</p>
 
 <figure>
-  <img src="img/bahdanau_examples.png" alt="Contoh alignment dari attention weights">
+  <img loading="lazy" decoding="async" src="img/bahdanau_examples.png" alt="Contoh alignment dari attention weights">
   <figcaption>Attention weights membentuk alignment lunak antara kata sumber dan kata sasaran. Contoh dari makalah Bahdanau dkk., diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -429,7 +430,7 @@ window.MathJax = {
 <p>Transformer adalah model yang diperkenalkan pada makalah <a href="https://papers.nips.cc/paper/7181-attention-is-all-you-need.pdf" target="_blank" rel="noopener">Attention is All You Need</a> tahun 2017. Model ini bersandar sepenuhnya pada mekanisme attention, tanpa rekurensi (recurrence) maupun konvolusi. Selain menghasilkan kualitas terjemahan yang lebih tinggi, model ini juga jauh lebih cepat dilatih. Saat ini Transformer beserta variasinya sudah menjadi model standar de facto, bukan hanya untuk tugas seq2seq tetapi juga untuk language modeling dan pra-pelatihan (pretraining).</p>
 
 <figure>
-  <img src="img/transformer_original.gif" alt="Animasi Transformer" class="bare">
+  <img loading="lazy" decoding="async" src="img/transformer_original.gif" alt="Animasi Transformer" class="bare">
   <figcaption>Animasi alur kerja Transformer dari Google AI blog, sebagaimana ditampilkan pada NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -442,7 +443,7 @@ window.MathJax = {
 <p>Self-attention adalah salah satu komponen kunci Transformer. Perbedaannya dengan attention biasa: <em>self-attention</em> bekerja antarrepresentasi yang sejenis, misalnya seluruh state encoder pada suatu lapisan. Di sinilah token-token saling berinteraksi. Setiap token "memandang" token lain dalam kalimat lewat mekanisme attention, mengumpulkan konteks, lalu memperbarui representasi dirinya sendiri. Pada praktiknya, ini terjadi secara paralel untuk semua token sekaligus.</p>
 
 <figure>
-  <img src="img/decenc_vs_self.png" alt="Perbedaan attention decoder-encoder dengan self-attention">
+  <img loading="lazy" decoding="async" src="img/decenc_vs_self.png" alt="Perbedaan attention decoder-encoder dengan self-attention">
   <figcaption>Attention biasa beroperasi antara dua himpunan representasi berbeda; self-attention beroperasi dalam satu himpunan yang sama. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -450,7 +451,7 @@ window.MathJax = {
 <p>Secara formal, intuisi tadi diwujudkan dengan attention bergaya <em>query-key-value</em>. Setiap token masukan menerima tiga representasi sesuai peran yang dapat ia mainkan. <strong>Query</strong> (kueri, "permintaan") dipakai saat sebuah token memandang token lain, yaitu mencari informasi untuk memahami dirinya lebih baik. <strong>Key</strong> (kunci) menanggapi permintaan query dan dipakai untuk menghitung attention weights. <strong>Value</strong> (nilai) dipakai untuk menghitung attention output, yaitu memberikan informasi kepada token yang "berkata" membutuhkannya, yakni token yang memberi bobot besar padanya.</p>
 
 <figure>
-  <img src="img/qkv_explained.png" alt="Penjelasan query, key, value">
+  <img loading="lazy" decoding="async" src="img/qkv_explained.png" alt="Penjelasan query, key, value">
   <figcaption>Peran query, key, dan value dalam self-attention. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -475,7 +476,7 @@ window.MathJax = {
 <p>Karena itu kita perlu membiarkan model fokus pada beberapa hal sekaligus. Inilah motivasi <em>multi-head attention</em>. Alih-alih satu mekanisme attention tunggal, multi-head attention punya beberapa "kepala" (head) yang bekerja secara mandiri, masing-masing bisa memperhatikan pola relasi yang berbeda.</p>
 
 <figure>
-  <img src="img/qkv_for_heads.png" alt="Query, key, value untuk beberapa head">
+  <img loading="lazy" decoding="async" src="img/qkv_for_heads.png" alt="Query, key, value untuk beberapa head">
   <figcaption>Query, key, dan value dipecah menjadi beberapa head yang bekerja mandiri. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -491,7 +492,7 @@ window.MathJax = {
 <p>Setelah memahami komponen utama dan gagasan umumnya, mari lihat keseluruhan model. Secara intuitif, model melakukan persis yang sudah dibahas: di encoder, token saling berkomunikasi dan memperbarui representasinya; di decoder, sebuah token sasaran mula-mula memandang token sasaran yang sudah dibangkitkan sebelumnya, lalu memandang sumber, dan akhirnya memperbarui representasinya. Semua ini terjadi dalam beberapa lapis, biasanya enam.</p>
 
 <figure>
-  <img src="img/transformer_model.png" alt="Arsitektur model Transformer">
+  <img loading="lazy" decoding="async" src="img/transformer_model.png" alt="Arsitektur model Transformer">
   <figcaption>Arsitektur Transformer dari makalah aslinya. Diadaptasi dari NLP Course | For You (Voita, 2020).</figcaption>
 </figure>
 
@@ -532,5 +533,7 @@ window.MathJax = {
 </footer>
 
 </div>
+{% endraw %}
+{% include footer.html %}
 </body>
 </html>
