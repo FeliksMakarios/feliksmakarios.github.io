@@ -1,0 +1,29 @@
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": {{ site.author.name | jsonify }},
+    "alternateName": {{ site.author.short_name | jsonify }},
+    "jobTitle": {{ site.author.title | jsonify }},
+    "url": {{ site.url | append: "/" | jsonify }},
+    "image": {{ site.url | append: "/assets/img/feliks.jpg" | jsonify }},
+    "email": {{ site.author.email | prepend: "mailto:" | jsonify }},
+    "worksFor": {
+      "@type": "CollegeOrUniversity",
+      "name": {{ site.author.institution | jsonify }},
+      "url": {{ site.author.institution_url | jsonify }}
+    },
+    "alumniOf": [
+      { "@type": "CollegeOrUniversity", "name": "Universitas Kristen Maranatha" },
+      { "@type": "CollegeOrUniversity", "name": "Universitas Negeri Malang" }
+    ],
+    "knowsAbout": ["Natural Language Processing", "Low-resource languages", "Indonesian NLP", "Bias and fairness in NLP", "Machine learning"],
+    "sameAs": [
+      "https://github.com/{{ site.author.github }}",
+      "https://www.linkedin.com/in/{{ site.author.linkedin }}",
+      {{ site.author.scholar | jsonify }},
+      {{ site.author.orcid | jsonify }}{% if site.author.medium %},
+      {{ site.author.medium | jsonify }}{% endif %}
+    ]
+  }
+  </script>

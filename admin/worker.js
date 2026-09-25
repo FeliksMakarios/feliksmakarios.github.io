@@ -4,7 +4,7 @@
 // Env vars needed: OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, REDIRECT_URL, GATEWAY_ORIGIN
 
 const oauthProvider = "github";
-const oauthScopes = "repo,user";
+const oauthScopes = "public_repo,read:user"; // public repo: no need for full "repo" access
 
 export default {
   async fetch(request, env) {

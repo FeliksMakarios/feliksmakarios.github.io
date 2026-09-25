@@ -24,10 +24,28 @@ publications (pengabdian masyarakat), see <a href="/en/research/#community-engag
 {% assign years = pubs | map: "year" | uniq %}
 
 <div class="pub-timeline">
-{% for year in years %}{% assign year_pubs = pubs | where: "year", year %}<details class="year-group"{% if forloop.first %} open{% endif %}><summary class="year-summary"><span class="year-label">{{ year }}</span><span class="year-count">{{ year_pubs.size }} {% if year_pubs.size == 1 %}publication{% else %}publications{% endif %}</span></summary><ul class="pub-list">{% for pub in year_pubs %}<li class="pub-item" data-area="{{ pub.area }}"><div class="pub-title">{% if pub.link and pub.link != "" %}<a href="{{ pub.link }}" target="_blank" rel="noopener external">{{ pub.title }}</a>{% else %}{{ pub.title }}{% endif %}</div><div class="pub-authors">{{ pub.authors | join: ", " }}</div><div class="pub-meta"><span class="venue-badge venue-{{ pub.venue_type }}">{{ pub.venue_type | capitalize }}</span><span class="pub-venue">{{ pub.venue }}</span></div></li>{% endfor %}</ul></details>{% endfor %}
+{% for year in years %}{% assign year_pubs = pubs | where: "year", year %}<details class="year-group"{% if forloop.first %} open{% endif %}><summary class="year-summary"><span class="year-label">{{ year }}</span><span class="year-count">{{ year_pubs.size }} {% if year_pubs.size == 1 %}publication{% else %}publications{% endif %}</span></summary><ul class="pub-list">{% for pub in year_pubs %}<li class="pub-item" data-area="{{ pub.area }}"><div class="pub-title">{% if pub.link and pub.link != "" %}<a href="{{ pub.link }}" target="_blank" rel="noopener external">{{ pub.title }}</a>{% else %}{{ pub.title }}{% endif %}</div><div class="pub-authors">{{ pub.authors | join: ", " }}</div><div class="pub-meta"><span class="venue-badge venue-{{ pub.venue_type }}">{{ pub.venue_type | capitalize }}</span><span class="pub-venue">{{ pub.venue }}</span></div>{% include pub-extras.html pub=pub lang="en" %}</li>{% endfor %}</ul></details>{% endfor %}
 </div>
 
+{% include pubs-jsonld.html pubs=pubs %}
+
 <script>
+  (function() {
+    document.querySelectorAll('.copy-bib').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var text = btn.parentNode.querySelector('code').textContent;
+        var label = btn.textContent;
+        function done() {
+          btn.textContent = btn.getAttribute('data-done');
+          setTimeout(function() { btn.textContent = label; }, 1500);
+        }
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(done, function() {});
+        }
+      });
+    });
+  })();
+
   (function() {
     var buttons = document.querySelectorAll('.pub-filter button');
     var items = document.querySelectorAll('.pub-item');

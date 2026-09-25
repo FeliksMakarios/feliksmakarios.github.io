@@ -6,6 +6,8 @@ backend:
   repo: FeliksMakarios/feliksmakarios.github.io
   branch: main
   base_url: https://decap-oauth-vercel-ten.vercel.app
+  # The repository is public, so a public_repo token is enough to commit.
+  auth_scope: public_repo
 
 publish_mode: simple
 
@@ -66,6 +68,8 @@ collections:
         default: "conference"
       - { label: "Year", name: "year", widget: "number", value_type: "int" }
       - { label: "Link (DOI or publisher URL)", name: "link", widget: "string", required: false }
+      - { label: "PDF (optional, e.g. author copy)", name: "pdf", widget: "string", required: false }
+      - { label: "Open access?", name: "open_access", widget: "boolean", default: false, required: false }
       - label: "Research area"
         name: "area"
         widget: "select"
@@ -221,6 +225,7 @@ collections:
     summary: "{{title}}"
     description: "Blog articles. Written in Bahasa Indonesia by default."
     fields:
+      - { label: "Layout", name: "layout", widget: "hidden", default: "blog-post" }
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish date", name: "date", widget: "datetime" }
       - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
@@ -240,3 +245,13 @@ collections:
       - { label: "Original URL", name: "original_url", widget: "string", required: false }
       - { label: "Original title", name: "original_title", widget: "string", required: false }
       - { label: "Original author", name: "original_author", widget: "string", required: false }
+      - { label: "Original date (YYYY-MM-DD)", name: "original_date", widget: "string", required: false }
+      - label: "Inspirations (original articles only)"
+        name: "inspirations"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Author", name: "author", widget: "string" }
+          - { label: "URL", name: "url", widget: "string" }
+          - { label: "Year", name: "year", widget: "number", value_type: "int" }

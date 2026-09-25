@@ -1,10 +1,32 @@
+---
+layout: null
+title: "Representasi Data pada Deep Learning: Manifold ke Contextual Embedding"
+description: "Mengapa jaringan saraf bekerja, dilihat dari sudut pandang representasi: dari geometri manifold, word embedding, sampai contextual embedding."
+permalink: /blog/representasi-data-deep-learning/
+lang: id
+switch_slug: blog
+type: original
+image: /blog/representasi-data-deep-learning/img/wordvec.png
+excerpt_separator: ""
+inspirations:
+  - title: "Neural Networks, Manifolds, and Topology"
+    author: "Christopher Olah"
+    url: "https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/"
+    year: 2014
+  - title: "Deep Learning, NLP, and Representations"
+    author: "Christopher Olah"
+    url: "https://colah.github.io/posts/2014-07-NLP-RNNs-Representations/"
+    year: 2014
+summary_id: "Mengapa jaringan saraf bekerja, dilihat dari sudut pandang representasi. Dari geometri manifold dan tangle data, ke word embedding, sampai contextual embedding modern."
+tags: ["NLP", "Deep Learning", "Tutorial", "Representasi"]
+---
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Representasi Data pada Deep Learning: Manifold ke Contextual Embedding</title>
-<meta name="description" content="Mengapa jaringan saraf bekerja, dilihat dari sudut pandang representasi: dari geometri manifold, word embedding, sampai contextual embedding.">
+<title>{{ page.title }} — {{ site.author.short_name }}</title>
+{% include head-meta.html %}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,33 +79,12 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
   ol.refs a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,84,168,.28)}
   @media (max-width:560px){body{font-size:17.5px}h1{font-size:1.9rem}h2{font-size:1.36rem}header.page{padding:44px 0 22px}}
 </style>
+<link rel="stylesheet" href="/assets/css/article.css">
 </head>
 <body>
+{% include nav.html %}
+{% raw %}
 
-<style>
-  .site-bar {
-    max-width: var(--maxw, 760px);
-    margin: 0 auto;
-    padding: 18px 24px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
-    letter-spacing: 0.04em;
-  }
-  .site-bar a {
-    color: var(--muted, #6b7280);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-  .site-bar a:hover { color: var(--accent, #2d54a8); }
-  .site-bar-brand { font-weight: 500; }
-</style>
-<div class="site-bar">
-  <a href="/id/" class="site-bar-brand">Feliks Samosir</a>
-  <a href="/id/blog/" class="site-bar-back">← Kembali ke Blog</a>
-</div>
 <div class="wrap">
 
 <header class="page">
@@ -129,7 +130,7 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
 <h2 id="geometri"><span class="num">03</span>Geometri Tiap Lapisan</h2>
 <p>Mari mulai dari kasus yang bisa digambar, yaitu data dua dimensi dengan dua kelas. Tugas klasifikasi sama dengan mencari batas yang memisahkan kedua kelas. Persoalan muncul saat kedua kelas saling terjalin sehingga tidak ada garis lurus yang bisa memisahkannya.</p>
 <figure>
-  <img src="img/linsep.png" alt="Dua kelas yang saling terjalin tidak dapat dipisah garis lurus">
+  <img loading="lazy" decoding="async" src="img/linsep.png" alt="Dua kelas yang saling terjalin tidak dapat dipisah garis lurus">
   <figcaption>Dua kelas yang saling terjalin. Tidak ada satu garis lurus pun yang memisahkan keduanya dengan benar. Diagram dibuat sendiri.</figcaption>
 </figure>
 <p>Apa yang dikerjakan satu lapisan jaringan saraf? Sebuah lapisan penuh (fully connected) dengan aktivasi \(\tanh\) melakukan transformasi:</p>
@@ -145,7 +146,7 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
 </div>
 <p>Jadi satu lapisan adalah transformasi afin (linear plus geseran) yang dilanjutkan pelengkungan halus. Bila kita gambarkan efeknya pada kisi-kisi (grid), terlihat jelas bahwa ruang diregang, diputar, lalu dilipat:</p>
 <figure>
-  <img src="img/warp.png" alt="Kisi-kisi ruang sebelum dan sesudah transformasi tanh(Wx+b)">
+  <img loading="lazy" decoding="async" src="img/warp.png" alt="Kisi-kisi ruang sebelum dan sesudah transformasi tanh(Wx+b)">
   <figcaption>Efek satu lapisan terhadap kisi-kisi ruang. Garis lurus menjadi melengkung, jarak meregang di sebagian tempat dan memampat di tempat lain. Diagram dibuat sendiri.</figcaption>
 </figure>
 <p>Jaringan dalam menumpuk banyak transformasi seperti ini. Setiap lapisan menata ulang ruang sedikit demi sedikit. Yang dilakukan jaringan, secara geometris, adalah <strong>mengubah sistem koordinat</strong> tempat data berada, sampai pada koordinat terakhir kedua kelas cukup terpisah untuk dibelah satu bidang datar.</p>
@@ -154,7 +155,7 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
 <p>Ada cara pandang yang lebih dalam. <strong>Hipotesis manifold</strong> menyatakan bahwa data alami berdimensi tinggi sebenarnya terletak pada manifold berdimensi rendah yang melengkung di dalam ruang itu. Istilah <em>manifold</em> dipertahankan dalam bahasa Inggris; secara bebas ia berarti permukaan mulus yang, bila diamati dari dekat, tampak seperti ruang datar biasa. Citra wajah, misalnya, tidak tersebar acak di seluruh ruang piksel, melainkan menempati manifold tipis di dalamnya.</p>
 <p>Dengan sudut pandang ini, tugas klasifikasi menjadi soal geometri: dua kelas adalah dua manifold yang terjalin, dan jaringan harus <strong>menguraikannya</strong> sampai keduanya terpisah.</p>
 <figure>
-  <img src="img/untangle.png" alt="Manifold yang terjalin diuraikan menjadi terpisah">
+  <img loading="lazy" decoding="async" src="img/untangle.png" alt="Manifold yang terjalin diuraikan menjadi terpisah">
   <figcaption>Tugas tiap lapisan: secara bertahap mengurai manifold yang terjalin sampai sebuah bidang datar bisa memisahkannya. Diagram dibuat sendiri.</figcaption>
 </figure>
 <p>Di sinilah topologi masuk. Sebuah lapisan dengan matriks bobot \(W\) yang dapat dibalik (invertible), yaitu determinannya tidak nol, bersama aktivasi yang monoton dan kontinu, merupakan sebuah <strong>homeomorfisme</strong>, yaitu deformasi kontinu yang tidak merobek atau merekatkan ruang. Ini punya konsekuensi penting.</p>
@@ -190,7 +191,7 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
 <p>Word embedding menunjukkan sifat yang lebih menakjubkan lagi: analogi antarkata tampak tersandi sebagai <strong>selisih vektor</strong>. Ada arah yang kira-kira tetap untuk "pria ke wanita", arah lain untuk "tunggal ke jamak", dan seterusnya.</p>
 <div class="mathblock">\[ W(\text{"wanita"}) - W(\text{"pria"}) \;\approx\; W(\text{"ratu"}) - W(\text{"raja"}). \]</div>
 <figure>
-  <img src="img/wordvec.png" alt="Analogi tersimpan sebagai selisih vektor yang sejajar">
+  <img loading="lazy" decoding="async" src="img/wordvec.png" alt="Analogi tersimpan sebagai selisih vektor yang sejajar">
   <figcaption>Selisih vektor "pria ke wanita" kira-kira sejajar dengan "raja ke ratu". Hubungan makna tersimpan sebagai arah di ruang embedding. Diagram dibuat sendiri.</figcaption>
 </figure>
 <p>Yang penting disadari, semua sifat ini adalah <strong>efek samping</strong>. Kita tidak pernah menyuruh model membuat kata mirip berdekatan, atau menyimpan analogi sebagai selisih vektor. Kita hanya memintanya mengerjakan tugas sederhana, dan sifat-sifat itu muncul sendiri dari proses optimasi. Inilah kekuatan jaringan saraf: ia belajar cara yang lebih baik untuk merepresentasikan data, secara otomatis.</p>
@@ -246,5 +247,7 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
 </footer>
 
 </div>
+{% endraw %}
+{% include footer.html %}
 </body>
 </html>

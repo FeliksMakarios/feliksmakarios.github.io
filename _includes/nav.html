@@ -8,6 +8,7 @@
   {% assign nav_demos = 'Demo' %}
   {% assign nav_blog = 'Blog' %}
   {% assign toggle_label = 'Ganti tema' %}
+  {% assign menu_label = 'Menu' %}
 {% else %}
   {% assign nav_home = 'About' %}
   {% assign nav_teaching = 'Teaching' %}
@@ -17,7 +18,10 @@
   {% assign nav_demos = 'Demos' %}
   {% assign nav_blog = 'Blog' %}
   {% assign toggle_label = 'Toggle theme' %}
+  {% assign menu_label = 'Menu' %}
 {% endif %}
+{% comment %} Pages without a counterpart in the other language (blog articles) set switch_slug to the page the EN/ID switch should open. {% endcomment %}
+{% assign switch_slug = page.switch_slug | default: page.slug %}
 
 <header class="site-header">
   <div class="site-header-inner">
@@ -26,7 +30,7 @@
       <span class="brand-role">{{ site.tagline }}</span>
     </a>
 
-    <nav class="site-nav" aria-label="Primary">
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
       <a href="/{{ lang }}/" {% if page.url == '/en/' or page.url == '/id/' %}aria-current="page"{% endif %}>{{ nav_home }}</a>
       <a href="/{{ lang }}/teaching/" {% if page.url contains '/teaching' %}aria-current="page"{% endif %}>{{ nav_teaching }}</a>
       <a href="/{{ lang }}/research/" {% if page.url contains '/research' %}aria-current="page"{% endif %}>{{ nav_research }}</a>
@@ -48,10 +52,19 @@
       </button>
 
       <div class="lang-switch" aria-label="Language">
-        <a href="/en/{{ page.slug }}{% if page.slug %}/{% endif %}" {% if lang == 'en' %}aria-current="true"{% endif %}>EN</a>
+        <a href="/en/{{ switch_slug }}{% if switch_slug %}/{% endif %}" hreflang="en" {% if lang == 'en' %}aria-current="true"{% endif %}>EN</a>
         <span aria-hidden="true">·</span>
-        <a href="/id/{{ page.slug }}{% if page.slug %}/{% endif %}" {% if lang == 'id' %}aria-current="true"{% endif %}>ID</a>
+        <a href="/id/{{ switch_slug }}{% if switch_slug %}/{% endif %}" hreflang="id" {% if lang == 'id' %}aria-current="true"{% endif %}>ID</a>
       </div>
+
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="{{ menu_label }}" title="{{ menu_label }}">
+        <svg class="icon icon-menu" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg class="icon icon-close" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18"/>
+        </svg>
+      </button>
     </div>
   </div>
 </header>

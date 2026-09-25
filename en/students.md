@@ -34,7 +34,11 @@ exist, are linked separately. If you are a past student and want to be listed
   {% endfor %}
 </ul>
 {% else %}
-<p class="muted-note">No current mentees listed.</p>
+<div class="callout">
+  <p>No active mentees at the moment: the most recent cohort defended in 2026. I am taking on new
+  thesis students. See the open topics on each <a href="/en/research/">research area</a> page and
+  email me if one of them interests you.</p>
+</div>
 {% endif %}
 
 <h2>Alumni</h2>

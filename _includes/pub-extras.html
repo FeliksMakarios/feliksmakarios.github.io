@@ -1,0 +1,21 @@
+{%- comment -%}
+  Cite / PDF / Open Access row for one publication.
+  Usage: {% include pub-extras.html pub=pub lang="en" %}
+  Kept free of blank lines so kramdown leaves the surrounding HTML block alone.
+{%- endcomment -%}
+{%- assign pub = include.pub -%}
+{%- assign lb = '{' -%}{%- assign rb = '}' -%}
+{%- if pub.venue_type == 'journal' -%}{%- assign bib_type = 'article' -%}{%- assign venue_field = 'journal  ' -%}{%- else -%}{%- assign bib_type = 'inproceedings' -%}{%- assign venue_field = 'booktitle' -%}{%- endif -%}
+{%- assign doi = false -%}{%- if pub.link contains 'doi.org/' -%}{%- assign doi = pub.link | split: 'doi.org/' | last -%}{%- endif -%}
+<div class="pub-actions">
+{%- if pub.open_access %}<span class="oa-badge">Open Access</span>{% endif -%}
+{%- if pub.pdf and pub.pdf != "" %}<a class="pub-action" href="{{ pub.pdf }}" target="_blank" rel="noopener">PDF</a>{% endif -%}
+<details class="pub-cite"><summary>{% if include.lang == 'id' %}Kutip (BibTeX){% else %}Cite (BibTeX){% endif %}</summary><div class="bibtex-wrap"><pre class="bibtex"><code>@{{ bib_type }}{{ lb }}{{ pub.slug }},
+  title     = {{ lb }}{{ pub.title | replace: "&", "\&" | escape }}{{ rb }},
+  author    = {{ lb }}{{ pub.authors | join: " and " | escape }}{{ rb }},
+  {{ venue_field }} = {{ lb }}{{ pub.venue | replace: "&", "\&" | escape }}{{ rb }},
+  year      = {{ lb }}{{ pub.year }}{{ rb }}{% if doi %},
+  doi       = {{ lb }}{{ doi }}{{ rb }}{% endif %}{% if pub.link and pub.link != "" %},
+  url       = {{ lb }}{{ pub.link }}{{ rb }}{% endif %}
+{{ rb }}</code></pre><button type="button" class="copy-bib" data-done="{% if include.lang == 'id' %}Tersalin{% else %}Copied{% endif %}">{% if include.lang == 'id' %}Salin{% else %}Copy{% endif %}</button></div></details>
+</div>
