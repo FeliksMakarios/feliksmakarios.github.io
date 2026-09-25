@@ -76,6 +76,11 @@ defaults:
       type: community_service
     values:
       layout: null
+  # Keep the CMS admin panel out of the sitemap
+  - scope:
+      path: "admin"
+    values:
+      sitemap: false
 
 # Jekyll ignore
 exclude:
@@ -85,6 +90,7 @@ exclude:
   - vendor
   - node_modules
   - decap-oauth-vercel
+  - admin/SETUP-OAUTH.md
 
 # Keep demos folder as-is (not processed by Jekyll)
 keep_files:

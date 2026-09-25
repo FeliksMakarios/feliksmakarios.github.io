@@ -9,7 +9,7 @@ authors:
 venue: Jurnal Teknik Informatika dan Sistem Informasi, Vol. 8 No. 1, pp. 202-217
 venue_type: journal
 year: 2022
-url: https://doi.org/10.28932/jutisi.v8i1.4474
+link: https://doi.org/10.28932/jutisi.v8i1.4474
 area: domain-specific-nlp
 sub_area: educational-content
 ---

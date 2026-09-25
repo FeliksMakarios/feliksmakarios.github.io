@@ -9,7 +9,7 @@ venue: 2025 22nd International Conference on Electrical Engineering/Electronics,
   Telecommunications and Information Technology (ECTI-CON)
 venue_type: conference
 year: 2025
-url: https://ieeexplore.ieee.org/document/11100895
+link: https://ieeexplore.ieee.org/document/11100895
 area: applied-ml
 sub_area: predictive-analytics
 ---

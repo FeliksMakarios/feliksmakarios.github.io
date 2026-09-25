@@ -23,8 +23,12 @@
   <meta name="twitter:image" content="{{ site.url }}/assets/img/feliks.jpg">
 
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
-  <link rel="alternate" hreflang="en" href="{{ site.url }}/en/">
-  <link rel="alternate" hreflang="id" href="{{ site.url }}/id/">
+  {%- if page.lang %}
+  {%- capture alt_path %}{% if page.slug %}{{ page.slug }}/{% endif %}{% endcapture %}
+  <link rel="alternate" hreflang="en" href="{{ site.url }}/en/{{ alt_path }}">
+  <link rel="alternate" hreflang="id" href="{{ site.url }}/id/{{ alt_path }}">
+  <link rel="alternate" hreflang="x-default" href="{{ site.url }}/en/{{ alt_path }}">
+  {%- endif %}
 
   <!-- Favicons -->
   <link rel="icon" href="/favicon.ico" sizes="any">

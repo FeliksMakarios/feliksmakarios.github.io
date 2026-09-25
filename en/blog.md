@@ -10,7 +10,7 @@ subtitle: "Technical writing with mathematical notation"
 <div class="callout">
   <p><strong>Note:</strong> Articles in this blog are written in Bahasa Indonesia.
   The primary audience is Indonesian-speaking students and researchers.
-  A Google Translate widget is available in the navigation bar if you need English.</p>
+  Your browser's built-in translation feature works well if you need English.</p>
 </div>
 
 <p class="lead">

@@ -10,7 +10,7 @@ authors:
 venue: 'Ultimatics: Jurnal Teknik Informatika, Vol. 17 No. 2, pp. 150-158'
 venue_type: journal
 year: 2025
-url: https://doi.org/10.31937/ti.v17i2.4034
+link: https://doi.org/10.31937/ti.v17i2.4034
 area: domain-specific-nlp
 sub_area: educational-content
 ---

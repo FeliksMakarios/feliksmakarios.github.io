@@ -9,7 +9,7 @@ authors:
 venue: 'Ultima InfoSys: Jurnal Ilmu Sistem Informasi, Vol. 14 No. 2, pp. 71-78'
 venue_type: journal
 year: 2023
-url: https://doi.org/10.31937/si.v14i2.3432
+link: https://doi.org/10.31937/si.v14i2.3432
 area: domain-specific-nlp
 sub_area: educational-content
 ---
