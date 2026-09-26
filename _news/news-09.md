@@ -1,9 +1,9 @@
 ---
-date_str: 2026-08
+date_str: '2026-08-01'
 title:
   en: 'Role update: full-time lecturer'
   id: 'Pembaruan peran: dosen tetap'
-body:
+text:
   en: After serving as Head of the Undergraduate Informatics Study Program from April 2024 to July
     2026, I continue as a full-time lecturer in the Faculty of AI and Data Science, UPH, starting
     August 2026, focusing on teaching, thesis supervision, and research on Indonesian and
