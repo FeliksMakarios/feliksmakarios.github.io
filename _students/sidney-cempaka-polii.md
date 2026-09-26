@@ -1,12 +1,13 @@
 ---
 name: Sidney Cempaka Polii
+status: alumni
+cohort: "2021"
 year_graduated: 2024
 title:
-  en: 'Multi-faceted Analysis of Missile Attacks in Ukraine with Machine Learning:
-    Trends, Impacts, and Future Risks'
-  id: 'Analisis Multi-faset Serangan Rudal di Ukraina dengan Machine Learning: Tren,
-    Dampak, dan Risiko di Masa Depan'
+  en: "Multi-faceted Analysis of Missile Attacks in Ukraine with Machine Learning:
+    Trends, Impacts, and Future Risks"
+  id: "Analisis Multi-faset Serangan Rudal di Ukraina dengan Machine Learning:
+    Tren, Dampak, dan Risiko di Masa Depan"
 area: applied-ml
 thesis_url: https://repository.uph.edu/id/eprint/70417/
-status: alumni
 ---
