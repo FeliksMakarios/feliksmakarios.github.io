@@ -30,6 +30,8 @@ collections:
     sortable_fields:
       - { field: "date_str", default_sort: "desc" }
       - "title.en"
+    view_groups:
+      - { label: "Year", field: "date_str", pattern: '\d{4}' }
     editor:
       preview: false
     fields:
@@ -61,11 +63,23 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
-    summary: "{{title}}"
+    summary: "{{year}}  ·  {{venue_type}}  ·  {{title | truncate(90, '…')}}"
     description: "Academic publications."
     sortable_fields:
       - { field: "year", default_sort: "desc" }
       - "title"
+    view_filters:
+      - { label: "Area: Domain-Specific NLP", field: "area", pattern: "domain-specific-nlp" }
+      - { label: "Area: Low-Resource Languages", field: "area", pattern: "low-resource-languages" }
+      - { label: "Area: Bias & Fairness", field: "area", pattern: "bias-fairness" }
+      - { label: "Area: Applied ML", field: "area", pattern: "applied-ml" }
+      - { label: "Journal", field: "venue_type", pattern: "journal" }
+      - { label: "Conference", field: "venue_type", pattern: "conference" }
+      - { label: "Open access", field: "open_access", pattern: true }
+    view_groups:
+      - { label: "Year", field: "year" }
+      - { label: "Research area", field: "area" }
+      - { label: "Venue type", field: "venue_type" }
     editor:
       preview: false
     fields:
@@ -113,11 +127,25 @@ collections:
     # File name from the student's name (the title field is an EN/ID object).
     identifier_field: "name"
     slug: "{{slug}}"
-    summary: "{{name}} ({{status}})"
+    summary: "{{name}}  ·  {{status}} {{year_graduated}} {{mentee_status}}  ·  {{title.id | truncate(80, '…')}}"
     description: "Current and alumni thesis students."
     sortable_fields:
-      - "name"
+      - { field: "status", default_sort: "desc" }
       - "year_graduated"
+      - "name"
+    # List view mirrors the Students page: filter current/alumni,
+    # group alumni by graduation year ("Group by" menu next to "Sort by").
+    view_filters:
+      - { label: "Current mentees", field: "status", pattern: "current" }
+      - { label: "Alumni", field: "status", pattern: "alumni" }
+      - { label: "Area: Domain-Specific NLP", field: "area", pattern: "domain-specific-nlp" }
+      - { label: "Area: Low-Resource Languages", field: "area", pattern: "low-resource-languages" }
+      - { label: "Area: Bias & Fairness", field: "area", pattern: "bias-fairness" }
+      - { label: "Area: Applied ML", field: "area", pattern: "applied-ml" }
+    view_groups:
+      - { label: "Status (current / alumni)", field: "status" }
+      - { label: "Graduation year", field: "year_graduated", pattern: '\d{4}' }
+      - { label: "Research area", field: "area" }
     editor:
       preview: false
     fields:
@@ -167,8 +195,14 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
-    summary: "{{title}}"
+    summary: "{{category}}  ·  {{title}}"
     description: "Interactive prototypes."
+    view_filters:
+      - { label: "My Project", field: "category", pattern: "my-project" }
+      - { label: "Student Project", field: "category", pattern: "student-project" }
+      - { label: "Outreach", field: "category", pattern: "outreach" }
+    view_groups:
+      - { label: "Category", field: "category" }
     editor:
       preview: false
     fields:
@@ -229,8 +263,13 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
-    summary: "{{title}}"
+    summary: "{{year}}  ·  {{title | truncate(90, '…')}}"
     description: "Pengabdian masyarakat."
+    sortable_fields:
+      - { field: "year", default_sort: "desc" }
+      - "title"
+    view_groups:
+      - { label: "Year", field: "year" }
     editor:
       preview: false
     fields:
@@ -256,7 +295,7 @@ collections:
     create: true
     delete: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    summary: "{{title}}"
+    summary: "{{date | date('YYYY-MM-DD')}}  ·  {{title}}"
     description: "Blog articles. Written in Bahasa Indonesia by default."
     fields:
       - { label: "Layout", name: "layout", widget: "hidden", default: "blog-post" }
