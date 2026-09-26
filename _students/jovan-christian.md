@@ -1,5 +1,7 @@
 ---
 name: Jovan Christian
+status: alumni
+cohort: "2022"
 year_graduated: 2026
 title:
   en: Bias and Fairness Analysis of Indonesian-Language Datasets for Generative AI
@@ -8,5 +10,4 @@ title:
     Generative Artificial Intelligence Model
 area: bias-fairness
 thesis_url: https://repository.uph.edu/id/eprint/73904/
-status: alumni
 ---
