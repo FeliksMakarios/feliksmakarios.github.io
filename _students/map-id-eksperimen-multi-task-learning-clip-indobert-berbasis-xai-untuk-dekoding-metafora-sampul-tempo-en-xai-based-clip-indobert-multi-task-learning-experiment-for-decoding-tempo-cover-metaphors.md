@@ -1,7 +1,8 @@
 ---
 name: Joy Eau Dia
 status: current
-cohort: ""
+cohort: "2023"
+year_graduated: ""
 title:
   id: Eksperimen Multi-task Learning CLIP-IndoBERT  Berbasis XAI untuk Dekoding
     Metafora Sampul Tempo
