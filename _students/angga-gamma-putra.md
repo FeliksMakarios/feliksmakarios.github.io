@@ -1,7 +1,7 @@
 ---
 name: Angga Gamma Putra
 status: alumni
-cohort: "2021"
+cohort: "2020"
 year_graduated: 2024
 title:
   en: "Development of a Sentiment Analysis Model on Twitter for the
