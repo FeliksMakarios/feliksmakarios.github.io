@@ -110,6 +110,8 @@ collections:
     folder: "_students"
     create: true
     delete: true
+    # File name from the student's name (the title field is an EN/ID object).
+    identifier_field: "name"
     slug: "{{slug}}"
     summary: "{{name}} ({{status}})"
     description: "Current and alumni thesis students."
@@ -147,6 +149,7 @@ collections:
         widget: "select"
         required: false
         options: ["proposal", "progress", "defense", "graduated"]
+        hint: "Shown as a tag on the Students page: proposal, progress (in progress), defense, or graduated."
       - { label: "Thesis URL", name: "thesis_url", widget: "string", required: false }
       - label: "Linked publications"
         name: "publications"

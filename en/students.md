@@ -23,12 +23,12 @@ exist, are linked separately. If you are a past student and want to be listed
     <li class="student-item">
       <div class="student-header">
         <span class="student-name">{{ s.name }}</span>
-        <span class="student-cohort">Cohort {{ s.cohort }}</span>
+        {% if s.cohort and s.cohort != "" %}<span class="student-cohort">Cohort {{ s.cohort }}</span>{% endif %}
       </div>
       <p class="student-title">{{ s.title.en }}</p>
       <div class="student-meta">
         <span class="tag tag-area">{% case s.area %}{% when 'domain-specific-nlp' %}Domain-Specific NLP{% when 'low-resource-languages' %}Low-Resource Languages{% when 'bias-fairness' %}Bias &amp; Fairness{% when 'applied-ml' %}Applied ML{% else %}{{ s.area | replace: '-', ' ' | capitalize }}{% endcase %}</span>
-        <span class="tag tag-{{ s.status }}">{{ s.status | capitalize }}</span>
+        {% case s.mentee_status %}{% when "proposal" %}<span class="tag tag-proposal">Proposal</span>{% when "progress" %}<span class="tag tag-progress">In progress</span>{% when "defense" %}<span class="tag tag-progress">Defense</span>{% when "graduated" %}<span class="tag tag-open">Graduated</span>{% else %}<span class="tag tag-{{ s.status }}">Current</span>{% endcase %}
       </div>
     </li>
   {% endfor %}
