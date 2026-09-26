@@ -39,9 +39,15 @@ collections:
         fields:
           - { label: "EN", name: "en", widget: "string" }
           - { label: "ID", name: "id", widget: "string" }
-      - { label: "Date", name: "date_str", widget: "string", hint: "YYYY-MM-DD or YYYY-MM" }
+      - label: "Date"
+        name: "date_str"
+        widget: "string"
+        hint: "YYYY-MM-DD or YYYY-MM"
+        pattern: ['^\d{4}-\d{2}(-\d{2})?$', "Use YYYY-MM-DD or YYYY-MM, e.g. 2026-08-01"]
+      # Not named "body": Decap treats a field called body as the file's
+      # Markdown content (a plain string), so an EN/ID object there fails to save.
       - label: "Body"
-        name: "body"
+        name: "text"
         widget: "object"
         fields:
           - { label: "EN", name: "en", widget: "text" }
