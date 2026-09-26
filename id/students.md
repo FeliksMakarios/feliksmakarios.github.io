@@ -22,12 +22,12 @@ alumni dan ingin dimasukkan (atau dikoreksi), silakan email saya.
     <li class="student-item">
       <div class="student-header">
         <span class="student-name">{{ s.name }}</span>
-        <span class="student-cohort">Angkatan {{ s.cohort }}</span>
+        {% if s.cohort and s.cohort != "" %}<span class="student-cohort">Angkatan {{ s.cohort }}</span>{% endif %}
       </div>
       <p class="student-title">{{ s.title.id }}</p>
       <div class="student-meta">
         <span class="tag tag-area">{% case s.area %}{% when 'domain-specific-nlp' %}Domain-Specific NLP{% when 'low-resource-languages' %}Low-Resource Languages{% when 'bias-fairness' %}Bias &amp; Fairness{% when 'applied-ml' %}Applied ML{% else %}{{ s.area | replace: '-', ' ' | capitalize }}{% endcase %}</span>
-        <span class="tag tag-{{ s.status }}">{{ s.status | capitalize }}</span>
+        {% case s.mentee_status %}{% when "proposal" %}<span class="tag tag-proposal">Proposal</span>{% when "progress" %}<span class="tag tag-progress">Sedang dikerjakan</span>{% when "defense" %}<span class="tag tag-progress">Sidang</span>{% when "graduated" %}<span class="tag tag-open">Lulus</span>{% else %}<span class="tag tag-{{ s.status }}">Aktif</span>{% endcase %}
       </div>
     </li>
   {% endfor %}
