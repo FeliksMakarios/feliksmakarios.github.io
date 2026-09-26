@@ -1,13 +1,15 @@
 ---
 name: Gavrila Louise Tumanggor
+status: alumni
+cohort: "2021"
 year_graduated: 2024
 title:
-  en: 'Aspect-Based Sentiment Analysis: Classifying Beauty Product Reviews with IndoBERT'
-  id: 'Analisis Sentimen Berbasis Aspek: Klasifikasi Ulasan Produk Kecantikan dengan
-    IndoBERT'
+  en: "Aspect-Based Sentiment Analysis: Classifying Beauty Product Reviews with
+    IndoBERT"
+  id: "Analisis Sentimen Berbasis Aspek: Klasifikasi Ulasan Produk Kecantikan
+    dengan IndoBERT"
 area: domain-specific-nlp
-publications:
-- absa-ecom-2026
 thesis_url: https://repository.uph.edu/id/eprint/68409/
-status: alumni
+publications:
+  - absa-ecom-2026
 ---
