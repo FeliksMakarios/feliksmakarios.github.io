@@ -9,6 +9,7 @@ venue: Jurnal Teknik Informatika dan Sistem Informasi, Vol. 10 No. 2, pp. 334-34
 venue_type: journal
 year: 2024
 link: https://journal.maranatha.edu/index.php/jutisi/article/view/8897
+open_access: true
 area: applied-ml
 sub_area: predictive-analytics
 ---

@@ -9,6 +9,7 @@ venue: Journal of Soft Computing Exploration, Vol. 7 No. 1, pp. 147-156
 venue_type: journal
 year: 2026
 link: https://doi.org/10.52465/joscex.v7i1.26
+open_access: true
 area: domain-specific-nlp
 sub_area: ecommerce-reviews
 ---

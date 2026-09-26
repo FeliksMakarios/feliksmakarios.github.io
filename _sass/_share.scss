@@ -1,0 +1,76 @@
+/* ---------- Share menu (blog articles) ---------- */
+.share {
+  position: relative;
+  display: inline-block;
+  margin: 0.4rem 0 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.share-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.9rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.share-toggle:hover,
+.share-toggle[aria-expanded="true"] { border-color: var(--color-accent); color: var(--color-accent); }
+.share-toggle:focus-visible,
+.share-item:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.share-menu {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  min-width: 15rem;
+  padding: 0.35rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.25);
+}
+.share-menu[hidden] { display: none; }
+.share-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  padding: 0.55rem 0.6rem;
+  font: inherit;
+  color: var(--color-text);
+  text-align: left;
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.share-item:hover { background: var(--color-accent-soft); color: var(--color-text); text-decoration: none; }
+.share-item.is-done { color: var(--color-status-open); }
+.share-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.share-icon-link { background: var(--color-accent-soft); color: var(--color-accent); }
+.share-icon-linkedin { background: #0a66c2; }
+.share-icon-whatsapp { background: #25d366; }
+.share-icon-x { background: #000; }
+[data-theme="dark"] .share-icon-x { background: #fff; color: #000; }

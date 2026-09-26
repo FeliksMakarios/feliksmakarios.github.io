@@ -27,11 +27,13 @@ Live at <https://feliksmakarios.github.io>. Built with Jekyll and served by GitH
 │   ├── pubs-jsonld.html   # schema.org ScholarlyArticle data on the publications pages
 │   ├── pub-extras.html    # BibTeX / PDF / Open Access row under each publication
 │   ├── hero-links.html    # contact links on the home pages (read from _config.yml)
+│   ├── share.html         # "Bagikan" menu on blog articles (copy link, LinkedIn, WhatsApp, X)
 │   ├── nav.html           # header, menu, theme toggle, EN/ID switch
 │   └── footer.html
 ├── _sass/
 │   ├── _tokens.scss       # colour, font and spacing variables (light + dark)
-│   └── _chrome.scss       # header, navigation, mobile menu, footer
+│   ├── _chrome.scss       # header, navigation, mobile menu, footer
+│   └── _share.scss        # share menu
 ├── assets/css/
 │   ├── main.scss          # styles for regular pages
 │   └── article.scss       # site chrome + dark theme for the hand-built blog articles
@@ -73,11 +75,13 @@ venue: Journal of Soft Computing Exploration, Vol. 7 No. 1, pp. 147-156
 venue_type: journal           # journal | conference | seminar
 year: 2026
 link: https://doi.org/...     # DOI or publisher page (a doi.org link also fills the BibTeX doi field)
-pdf: /assets/papers/...pdf    # optional: author copy
-open_access: true             # optional: shows an "Open Access" badge
+pdf: /assets/papers/...pdf    # optional: upload in the CMS (saved to assets/papers/) or paste a direct .pdf link
+open_access: true             # optional: free to read on the publisher site; shows an "Open Access" badge
 area: domain-specific-nlp
 sub_area: ecommerce-reviews
 ```
+
+Only share PDFs you are allowed to: the published version of an open-access paper, or your accepted manuscript for IEEE papers (IEEE lets authors post that on a personal site, not the final publisher PDF).
 
 Use `link`, not `url`. Jekyll reserves `url` on collection items, so a `url` field is silently replaced by an internal path. For the same reason, demos use `demo_url`.
 

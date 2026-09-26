@@ -24,9 +24,12 @@ collections:
     folder: "_news"
     create: true
     delete: true
-    slug: "{{date}}-news-{{slug}}"
-    summary: "{{title.en}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{date_str}} · {{title.en}}"
     description: "Homepage news highlights."
+    sortable_fields:
+      - { field: "date_str", default_sort: "desc" }
+      - "title.en"
     editor:
       preview: false
     fields:
@@ -54,6 +57,9 @@ collections:
     slug: "{{slug}}"
     summary: "{{title}}"
     description: "Academic publications."
+    sortable_fields:
+      - { field: "year", default_sort: "desc" }
+      - "title"
     editor:
       preview: false
     fields:
@@ -68,8 +74,19 @@ collections:
         default: "conference"
       - { label: "Year", name: "year", widget: "number", value_type: "int" }
       - { label: "Link (DOI or publisher URL)", name: "link", widget: "string", required: false }
-      - { label: "PDF (optional, e.g. author copy)", name: "pdf", widget: "string", required: false }
-      - { label: "Open access?", name: "open_access", widget: "boolean", default: false, required: false }
+      - label: "PDF"
+        name: "pdf"
+        widget: "file"
+        required: false
+        media_folder: "/assets/papers"
+        public_folder: "/assets/papers"
+        hint: "Upload a PDF you are allowed to share (open-access version, or your accepted manuscript for IEEE papers). You can also paste a direct link ending in .pdf. Shows a PDF button under the publication."
+      - label: "Open access?"
+        name: "open_access"
+        widget: "boolean"
+        default: false
+        required: false
+        hint: "Turn on if anyone can read the full paper for free on the publisher's site (most Indonesian SINTA journals). Leave off for paywalled papers such as most IEEE conference papers. Shows a green Open Access badge."
       - label: "Research area"
         name: "area"
         widget: "select"
@@ -90,6 +107,9 @@ collections:
     slug: "{{slug}}"
     summary: "{{name}} ({{status}})"
     description: "Current and alumni thesis students."
+    sortable_fields:
+      - "name"
+      - "year_graduated"
     editor:
       preview: false
     fields:
