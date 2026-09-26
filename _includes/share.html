@@ -1,0 +1,93 @@
+{%- comment -%}
+  Share menu for blog articles: copy link, LinkedIn, WhatsApp, X.
+  Styles live in _sass/_share.scss (loaded by both main.css and article.css).
+{%- endcomment -%}
+{%- assign share_url = page.url | absolute_url -%}
+{%- assign share_url_enc = share_url | url_encode | replace: '+', '%20' -%}
+{%- assign share_title_enc = page.title | url_encode | replace: '+', '%20' -%}
+{%- if page.lang == 'en' -%}
+  {%- assign t_share = 'Share' -%}{%- assign t_copy = 'Copy link' -%}{%- assign t_copied = 'Link copied' -%}{%- assign t_to = 'Share on' -%}
+{%- else -%}
+  {%- assign t_share = 'Bagikan' -%}{%- assign t_copy = 'Salin tautan' -%}{%- assign t_copied = 'Tautan tersalin' -%}{%- assign t_to = 'Bagikan ke' -%}
+{%- endif -%}
+<div class="share" data-share>
+  <button type="button" class="share-toggle" aria-expanded="false" aria-controls="share-menu" aria-haspopup="true">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+    <span>{{ t_share }}</span>
+  </button>
+  <div class="share-menu" id="share-menu" hidden>
+    <button type="button" class="share-item" data-share-copy="{{ share_url }}" data-done="{{ t_copied }}">
+      <span class="share-icon share-icon-link" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg></span>
+      <span class="share-label">{{ t_copy }}</span>
+    </button>
+    <a class="share-item" href="https://www.linkedin.com/sharing/share-offsite/?url={{ share_url_enc }}" target="_blank" rel="noopener">
+      <span class="share-icon share-icon-linkedin" aria-hidden="true">in</span>
+      <span class="share-label">{{ t_to }} LinkedIn</span>
+    </a>
+    <a class="share-item" href="https://wa.me/?text={{ share_title_enc }}%20{{ share_url_enc }}" target="_blank" rel="noopener">
+      <span class="share-icon share-icon-whatsapp" aria-hidden="true">WA</span>
+      <span class="share-label">{{ t_to }} WhatsApp</span>
+    </a>
+    <a class="share-item" href="https://x.com/intent/post?text={{ share_title_enc }}&amp;url={{ share_url_enc }}" target="_blank" rel="noopener">
+      <span class="share-icon share-icon-x" aria-hidden="true">X</span>
+      <span class="share-label">{{ t_to }} X</span>
+    </a>
+  </div>
+</div>
+<script>
+  (function() {
+    var root = document.querySelector('[data-share]');
+    if (!root) return;
+    var toggle = root.querySelector('.share-toggle');
+    var menu = root.querySelector('.share-menu');
+    function setOpen(open) {
+      menu.hidden = !open;
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    toggle.addEventListener('click', function(e) {
+      e.stopPropagation();
+      setOpen(menu.hidden);
+    });
+    document.addEventListener('click', function(e) {
+      if (!root.contains(e.target)) setOpen(false);
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && !menu.hidden) { setOpen(false); toggle.focus(); }
+    });
+    menu.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() { setOpen(false); });
+    });
+
+    var copyBtn = root.querySelector('[data-share-copy]');
+    var label = copyBtn.querySelector('.share-label');
+    var original = label.textContent;
+    function copied() {
+      label.textContent = copyBtn.getAttribute('data-done');
+      copyBtn.classList.add('is-done');
+      setTimeout(function() {
+        label.textContent = original;
+        copyBtn.classList.remove('is-done');
+        setOpen(false);
+      }, 1400);
+    }
+    function fallbackCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); copied(); } catch (err) {}
+      document.body.removeChild(ta);
+    }
+    copyBtn.addEventListener('click', function() {
+      var text = copyBtn.getAttribute('data-share-copy');
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(copied, function() { fallbackCopy(text); });
+      } else {
+        fallbackCopy(text);
+      }
+    });
+  })();
+</script>

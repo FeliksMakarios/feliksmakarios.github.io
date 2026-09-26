@@ -11,6 +11,7 @@ venue: 'JOIV: International Journal on Informatics Visualization, Vol. 10 No. 3,
 venue_type: journal
 year: 2026
 link: https://doi.org/10.62527/joiv.10.3.4122
+open_access: true
 area: bias-fairness
 sub_area: dataset-bias-auditing
 ---

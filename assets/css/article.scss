@@ -5,6 +5,7 @@
 
 @import "tokens";
 @import "chrome";
+@import "share";
 
 /* The articles set serif body text and bare element rules (p, li, ul, a);
    reset them inside the site chrome so header and footer match other pages. */
@@ -69,3 +70,7 @@ html { scroll-padding-top: 5rem; }
 [data-theme="dark"] .key { background: #2a1a24; border-color: #4a2a3d; color: #f0c6dd; }
 [data-theme="dark"] .nlp { background: #14261f; border-color: #244a3c; color: #bfe6d6; }
 [data-theme="dark"] body.article-lstm { background: var(--paper); }
+
+/* The articles style bare <a> and <button>; keep the share menu on site tokens. */
+.share a, .share button { border-bottom: 0; }
+.share-menu a.share-item { color: var(--color-text); }

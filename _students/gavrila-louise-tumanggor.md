@@ -6,7 +6,8 @@ title:
   id: 'Analisis Sentimen Berbasis Aspek: Klasifikasi Ulasan Produk Kecantikan dengan
     IndoBERT'
 area: domain-specific-nlp
-publication: absa-ecom-2026
+publications:
+- absa-ecom-2026
 thesis_url: https://repository.uph.edu/id/eprint/68409/
 status: alumni
 ---

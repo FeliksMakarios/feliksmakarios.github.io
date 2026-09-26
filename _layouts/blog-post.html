@@ -26,6 +26,7 @@
         {% for src in page.inspirations %}<a href="{{ src.url }}" target="_blank" rel="noopener external">{{ src.author }} ({{ src.year }})</a>{% unless forloop.last %}, {% endunless %}{% endfor %}.
       </p>
       {% endif %}
+      {% include share.html %}
     </header>
 
     <article class="prose blog-prose">

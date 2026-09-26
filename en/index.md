@@ -23,7 +23,7 @@ description: "Feliks Samosir — Lecturer and researcher in Natural Language Pro
 
 ## About
 
-I am a full-time lecturer in the Faculty of AI and Data Science, Universitas Pelita Harapan (UPH), Tangerang, Indonesia. I teach courses across the undergraduate Informatics curriculum, including Introduction to Informatics and Computing, Object-Oriented Modeling, Database Systems, Introduction to Data Science, Advanced Machine Learning, Natural Language Processing, and Data Science Application Development Studio.
+I am a full-time lecturer in the Faculty of AI and Data Science, Universitas Pelita Harapan (UPH), Tangerang, Indonesia. From April 2024 to July 2026 I served as Head of the Undergraduate Informatics Study Program (Department Chair). I teach courses across the undergraduate Informatics curriculum, including Introduction to Informatics and Computing, Object-Oriented Modeling, Database Systems, Introduction to Data Science, Advanced Machine Learning, Natural Language Processing, and Data Science Application Development Studio.
 
 My research investigates what fails when mainstream NLP and machine learning systems encounter underrepresented Indonesian contexts. The work is organized around four areas: domain-specific NLP for specialized Indonesian text, low-resource Indonesian local languages, bias and fairness in Indonesian NLP datasets and models, and applied machine learning for Indonesian data. I lead a UPH-funded project building a multi-domain Batak Toba language corpus, and I am part of the SEACrowd Apprentice 2026 program co-developing CoRaL, a multi-dimensional data curation framework for low-resource language training corpora, with collaborators at <a href="https://seacrowd.org/apprenticeship">SEACrowd</a>.
 

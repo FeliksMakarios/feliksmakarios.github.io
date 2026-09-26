@@ -8,6 +8,7 @@ venue: 'Ultimatics: Jurnal Teknik Informatika, Vol. 16 No. 2, pp. 108-116'
 venue_type: journal
 year: 2024
 link: https://doi.org/10.31937/ti.v16i2.3708
+open_access: true
 area: domain-specific-nlp
 sub_area: ecommerce-reviews
 ---
