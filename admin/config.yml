@@ -142,7 +142,12 @@ collections:
         required: false
         options: ["proposal", "progress", "defense", "graduated"]
       - { label: "Thesis URL", name: "thesis_url", widget: "string", required: false }
-      - { label: "Linked publication slug", name: "publication", widget: "string", required: false }
+      - label: "Linked publications"
+        name: "publications"
+        widget: "list"
+        required: false
+        hint: "Slug of each publication that came out of this thesis (e.g. aqi-socioeconomic-comtech-2026). Add one row per paper."
+        field: { label: "Publication slug", name: "slug", widget: "string" }
       - { label: "Current role", name: "current_role", widget: "string", required: false }
 
   # ==================== DEMOS ====================

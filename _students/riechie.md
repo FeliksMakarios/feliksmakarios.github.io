@@ -7,7 +7,9 @@ title:
   id: 'Analisis Perbandingan Metode Tree-based Ensemble Learning: Studi Empiris pada
     Kualitas Udara di Singapura Berdasarkan Aspek Sosioekonomi'
 area: applied-ml
-publication: aqi-socioeconomic-comtech-2026
+publications:
+- air-quality-ensemble-2025
+- aqi-socioeconomic-comtech-2026
 thesis_url: https://repository.uph.edu/id/eprint/71127/
 status: alumni
 ---

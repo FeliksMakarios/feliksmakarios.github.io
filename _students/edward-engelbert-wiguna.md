@@ -7,7 +7,8 @@ title:
   id: Pembangkitan Peta Pikiran Menggunakan Metode Hierarchical Clustering dan Transformer
     untuk Artikel Ilmiah
 area: domain-specific-nlp
-publication: biomind-bert-2026
+publications:
+- biomind-bert-2026
 thesis_url: http://repository.uph.edu/id/eprint/69104/
 status: alumni
 ---
