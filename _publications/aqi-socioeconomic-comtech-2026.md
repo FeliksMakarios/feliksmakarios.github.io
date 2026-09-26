@@ -2,6 +2,7 @@
 slug: aqi-socioeconomic-comtech-2026
 title: Evaluation of Tree-Based Ensemble Models Using Socioeconomic Data
 authors:
+- Riechie
 - F.V. Ferdinand
 - F.V.P. Samosir
 venue: 'ComTech: Computer, Mathematics and Engineering Applications, Vol. 17 No. 2'
