@@ -23,7 +23,7 @@ description: "Feliks Samosir — Dosen dan peneliti Natural Language Processing 
 
 ## Tentang saya
 
-Saya dosen tetap di Fakultas AI dan Data Science, Universitas Pelita Harapan (UPH), Tangerang. Saya mengajar mata kuliah lintas kurikulum Informatika S1, antara lain Introduction to Informatics and Computing, Object-Oriented Modeling, Database Systems, Introduction to Data Science, Advanced Machine Learning, Natural Language Processing, dan Data Science Application Development Studio.
+Saya dosen tetap di Fakultas AI dan Data Science, Universitas Pelita Harapan (UPH), Tangerang. Sebelumnya, saya menjabat sebagai Ketua Program Studi S1 Informatika pada April 2024 sampai Juli 2026. Saya mengajar mata kuliah lintas kurikulum Informatika S1, antara lain Introduction to Informatics and Computing, Object-Oriented Modeling, Database Systems, Introduction to Data Science, Advanced Machine Learning, Natural Language Processing, dan Data Science Application Development Studio.
 
 Riset saya mempelajari apa yang patah ketika sistem NLP dan machine learning mainstream bertemu dengan konteks Indonesia yang kurang terwakili. Pekerjaan ini terbagi dalam empat area: NLP spesifik domain untuk teks Indonesia khusus, bahasa-bahasa lokal Indonesia low-resource, bias dan fairness pada dataset serta model NLP Indonesia, dan applied machine learning untuk data Indonesia. Saya memimpin proyek pendanaan UPH untuk membangun korpus multi-domain Bahasa Batak Toba, dan saya juga bagian dari program SEACrowd Apprentice 2026 yang sedang mengembangkan CoRaL, framework kurasi data multi-dimensi untuk korpus pelatihan bahasa low-resource, bersama kolaborator di <a href="https://seacrowd.org/apprenticeship">SEACrowd</a>.
 
