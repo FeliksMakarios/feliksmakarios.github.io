@@ -14,14 +14,14 @@ subtitle: "Courses at UPH Informatics"
 <h2 id="now">Teaching this semester</h2>
 
 <div class="area-grid">
-{% for group in site.data.teaching.groups %}{% for course in group.courses %}{% if course.teaching_now %}
+{% for group in site.data.teaching.groups %}{% for course in group.courses %}{% assign running = course.offerings | where: "current", true %}{% if running.size > 0 %}
   {% include course-card.html course=course group=group lang="en" %}
 {% endif %}{% endfor %}{% endfor %}
 </div>
 
 <h2 id="courses">Courses</h2>
 
-<p>Each course has its own page with the syllabus (RPS), lecture slides, assignments, quizzes and exams, references, and a per-semester archive.</p>
+<p>Each course has its own page, organised by semester: syllabus (RPS), lecture slides, quizzes and exams, student assignments and projects, and photos.</p>
 
 {% for group in site.data.teaching.groups %}
 <h3>{{ group.label.en }}</h3>

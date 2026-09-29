@@ -3,17 +3,21 @@
 # (small stub files in en/teaching/ and id/teaching/, layout: course).
 #
 # Course fields:
-#   slug          URL name, also the course_id of the stub pages
-#   name          course name (English)
-#   name_id       Indonesian name (optional; shown on the Indonesian pages)
-#   teaching_now  true while the course runs this semester
-#   current_term  e.g. "Ganjil 2026/2027" (shown with teaching_now)
-#   desc          bilingual short description
-#   rps, slides, assignments, exams, references
-#                 lists of materials: { title, file, note }. "file" is a path
-#                 such as /assets/teaching/ci-rps.pdf (CMS uploads land in assets/teaching/) or a full URL.
-#                 An empty list shows "Akan segera diisi" / "Coming soon".
-#   offerings     past and current classes: { term, note }
+#   slug        URL name, also the course_id of the stub pages
+#   name        course name (English)
+#   name_id     Indonesian name (optional; shown on the Indonesian pages)
+#   code        course code (optional)
+#   desc        bilingual short description
+#   offerings   one entry per semester the course ran, newest first:
+#     term        e.g. "Ganjil 2026/2027"
+#     current     true for the semester running now (shown under "This semester"
+#                 and on the Teaching page)
+#     rps, slides, exams, assignments
+#                 lists of { title, file, note }. "file" is a path such as
+#                 /assets/teaching/ci-rps.pdf (CMS uploads land in
+#                 assets/teaching/) or a full URL. An empty list shows
+#                 "Akan segera diisi" / "Coming soon".
+#     photos      list of { image, caption }
 
 intro:
   en: "As a full-time lecturer in the Faculty of AI and Data Science, I teach across the undergraduate curriculum — from introductory computing to advanced machine learning and NLP. I'm also involved in campus and faculty task forces on academic quality assurance and curriculum development."
@@ -64,13 +68,12 @@ groups:
       - slug: computational-intelligence
         name: "Computational Intelligence"
         name_id: "Kecerdasan Komputasional"
-        teaching_now: true
-        current_term: "Ganjil 2026/2027"
         desc:
           en: "Nature-inspired methods for problems that are hard to solve exactly: fuzzy logic and fuzzy inference, artificial neural networks, evolutionary algorithms, and swarm intelligence."
           id: "Metode yang terinspirasi dari alam untuk masalah yang sulit diselesaikan secara eksak: logika fuzzy dan inferensi fuzzy, jaringan saraf tiruan, algoritma evolusioner, dan swarm intelligence."
         offerings:
           - term: "Ganjil 2026/2027"
+            current: true
 
   - id: specialized
     label:

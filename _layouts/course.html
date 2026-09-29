@@ -2,9 +2,10 @@
 layout: default
 ---
 {%- comment -%}
-  Course page, modelled on a classic lecturer course page: syllabus (RPS),
-  slides, assignments, exams, references and a per-semester archive.
-  Data comes from _data/teaching.yml (course with slug == page.course_id).
+  Course page, modelled on a classic lecturer course page: the semester
+  running now first, then previous semesters (collapsible), each with its
+  own RPS, slides, quizzes and exams, student work and photos.
+  Data: _data/teaching.yml, course with slug == page.course_id.
 {%- endcomment -%}
 {%- assign lang = page.lang | default: 'en' -%}
 {%- assign course = nil -%}
@@ -13,67 +14,69 @@ layout: default
     {%- if c.slug == page.course_id -%}{%- assign course = c -%}{%- assign course_group = g -%}{%- endif -%}
   {%- endfor -%}
 {%- endfor -%}
+{%- assign offerings = course.offerings -%}
+{%- assign current = offerings | where: "current", true -%}
+{%- assign past = offerings | where_exp: "o", "o.current != true" -%}
 {%- if lang == 'id' -%}
-  {%- assign t_soon = 'Akan segera diisi.' -%}
+  {%- assign t_now = 'Semester ini' -%}{%- assign t_past = 'Semester sebelumnya' -%}
+  {%- assign t_no_now = 'Mata kuliah ini tidak berjalan semester ini.' -%}
+  {%- assign t_no_past = 'Belum ada arsip semester sebelumnya.' -%}
   {%- assign t_back = '← Kembali ke daftar mata kuliah' -%}
-  {%- assign t_now = 'Diajarkan semester ini' -%}
-  {%- assign t_contents = 'Isi halaman' -%}
 {%- else -%}
-  {%- assign t_soon = 'Coming soon.' -%}
+  {%- assign t_now = 'This semester' -%}{%- assign t_past = 'Previous semesters' -%}
+  {%- assign t_no_now = 'This course is not running this semester.' -%}
+  {%- assign t_no_past = 'No previous semesters archived yet.' -%}
   {%- assign t_back = '← Back to all courses' -%}
-  {%- assign t_now = 'Taught this semester' -%}
-  {%- assign t_contents = 'On this page' -%}
 {%- endif -%}
 
 <p class="course-meta">
   <span class="tag tag-area">{{ course_group.label[lang] }}</span>
-  {% if lang == 'id' and course.name_id %}<span class="course-alt-name">{{ course.name }}</span>{% endif %}
-  {% if course.teaching_now %}<span class="tag tag-open">{{ t_now }}{% if course.current_term %} · {{ course.current_term }}{% endif %}</span>{% endif %}
+  {% if course.code %}<span class="tag">{{ course.code }}</span>{% endif %}
+  {% if lang == 'id' and course.name_id %}<span class="course-alt-name">{{ course.name }}</span>{% elsif lang == 'en' and course.name_id %}<span class="course-alt-name">{{ course.name_id }}</span>{% endif %}
 </p>
 
 {% if course.desc %}<p class="lead">{{ course.desc[lang] }}</p>{% endif %}
 
-{%- capture sections -%}
-rps|{% if lang == 'id' %}Rencana Pembelajaran Semester (RPS){% else %}Course Syllabus (RPS){% endif %}
-slides|{% if lang == 'id' %}Slide Kuliah{% else %}Lecture Slides{% endif %}
-assignments|{% if lang == 'id' %}Tugas dan Proyek{% else %}Assignments and Projects{% endif %}
-exams|{% if lang == 'id' %}Kuis dan Ujian{% else %}Quizzes and Exams{% endif %}
-references|{% if lang == 'id' %}Buku dan Referensi{% else %}Books and References{% endif %}
-offerings|{% if lang == 'id' %}Arsip Per Semester{% else %}Semester Archive{% endif %}
-{%- endcapture -%}
-{%- assign section_rows = sections | strip | newline_to_br | split: '<br />' -%}
+<h2 id="now">{{ t_now }}</h2>
+{% if current.size > 0 %}
+  {% for o in current %}
+  <div class="offering offering-current" id="{{ o.term | slugify }}">
+    <p class="offering-term"><span class="tag tag-open">Semester {{ o.term }}</span></p>
+    {% include course-offering.html o=o lang=lang %}
+  </div>
+  {% endfor %}
+{% else %}
+  <p class="coming-soon">{{ t_no_now }}</p>
+{% endif %}
 
-<nav class="course-toc" aria-label="{{ t_contents }}">
-  {%- for row in section_rows -%}{%- assign parts = row | strip | split: '|' -%}
-  <a href="#{{ parts[0] }}">{{ parts[1] }}</a>
-  {%- endfor -%}
-</nav>
-
-{% for row in section_rows %}{% assign parts = row | strip | split: '|' %}{% assign key = parts[0] %}{% assign items = course[key] %}
-<section class="course-section" id="{{ key }}">
-  <h2>{{ parts[1] }}</h2>
-  {% if items and items.size > 0 %}
-  <ul class="material-list">
-    {% for item in items %}
-    <li class="material-item">
-      {% if key == 'offerings' %}
-        <span class="material-title">{{ item.term }}</span>
-        {% if item.note %}<span class="material-note">{{ item.note }}</span>{% else %}<span class="material-note">{{ t_soon }}</span>{% endif %}
-      {% else %}
-        {% assign href = item.file | default: item.url %}
-        {% if href %}<a class="material-title" href="{{ href }}"{% unless href contains '/assets/' %} target="_blank" rel="noopener external"{% endunless %}>{{ item.title }}</a>{% else %}<span class="material-title">{{ item.title }}</span>{% endif %}
-        {% if href %}{% assign ext = href | split: '.' | last | downcase %}{% if ext == 'pdf' or ext == 'pptx' or ext == 'ppt' or ext == 'docx' or ext == 'zip' or ext == 'ipynb' %}<span class="material-type">{{ ext | upcase }}</span>{% endif %}{% endif %}
-        {% if item.note %}<span class="material-note">{{ item.note }}</span>{% endif %}
-      {% endif %}
-    </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <p class="coming-soon">{{ t_soon }}</p>
-  {% endif %}
-</section>
-{% endfor %}
+<h2 id="archive">{{ t_past }}</h2>
+{% if past.size > 0 %}
+  {% for o in past %}
+  <details class="offering offering-past year-group" id="{{ o.term | slugify }}">
+    <summary class="year-summary"><span class="year-label">Semester {{ o.term }}</span></summary>
+    <div class="offering-body">
+      {% include course-offering.html o=o lang=lang %}
+    </div>
+  </details>
+  {% endfor %}
+{% else %}
+  <p class="coming-soon">{{ t_no_past }}</p>
+{% endif %}
 
 <p class="course-back"><a href="/{{ lang }}/teaching/">{{ t_back }}</a></p>
+
+<script>
+  // Open a past semester when its link (#term or #term-section) is visited.
+  (function() {
+    function openFromHash() {
+      if (!location.hash) return;
+      var el = document.getElementById(location.hash.slice(1));
+      var d = el && el.closest('details');
+      if (d) { d.open = true; el.scrollIntoView(); }
+    }
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
+  })();
+</script>
 
 {{ content }}

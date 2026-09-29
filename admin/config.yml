@@ -259,7 +259,7 @@ collections:
             widget: "list"
             collapsed: true
             summary: "{{fields.label.en}}"
-            hint: "A new course also needs two small page files (en/teaching/<slug>.md and id/teaching/<slug>.md); copy an existing pair and change slug, course_id and title."
+            hint: "A new course also needs two small page files (en/teaching/<slug>.md and id/teaching/<slug>.md); copy an existing pair and change permalink, slug, course_id and title. New semesters need no extra files."
             fields:
               - { label: "Group ID", name: "id", widget: "string" }
               - label: "Group name"
@@ -277,78 +277,76 @@ collections:
                   - { label: "Slug (URL name)", name: "slug", widget: "string", hint: "e.g. computational-intelligence; must match the course page files" }
                   - { label: "Course name (English)", name: "name", widget: "string" }
                   - { label: "Course name (Indonesian, optional)", name: "name_id", widget: "string", required: false }
-                  - { label: "Teaching it this semester?", name: "teaching_now", widget: "boolean", default: false, required: false }
-                  - { label: "Current term", name: "current_term", widget: "string", required: false, hint: "e.g. Ganjil 2026/2027" }
+                  - { label: "Course code (optional)", name: "code", widget: "string", required: false }
                   - label: "Description"
                     name: "desc"
                     widget: "object"
                     fields:
                       - { label: "EN", name: "en", widget: "text" }
                       - { label: "ID", name: "id", widget: "text" }
-                  - label: "RPS (syllabus)"
-                    name: "rps"
-                    widget: "list"
-                    required: false
-                    collapsed: true
-                    summary: "{{fields.title}}"
-                    hint: "Rencana Pembelajaran Semester. Upload the PDF."
-                    fields:
-                      - { label: "Title", name: "title", widget: "string" }
-                      - { label: "File (upload, or paste a link)", name: "file", widget: "file", required: false, media_folder: "/assets/teaching", public_folder: "/assets/teaching" }
-                      - { label: "Note (optional)", name: "note", widget: "string", required: false }
-                  - label: "Lecture slides"
-                    name: "slides"
-                    widget: "list"
-                    required: false
-                    collapsed: true
-                    summary: "{{fields.title}}"
-                    hint: "One row per lecture or topic, in teaching order."
-                    fields:
-                      - { label: "Title", name: "title", widget: "string" }
-                      - { label: "File (upload, or paste a link)", name: "file", widget: "file", required: false, media_folder: "/assets/teaching", public_folder: "/assets/teaching" }
-                      - { label: "Note (optional)", name: "note", widget: "string", required: false }
-                  - label: "Assignments and projects"
-                    name: "assignments"
-                    widget: "list"
-                    required: false
-                    collapsed: true
-                    summary: "{{fields.title}}"
-                    hint: "Assignment sheets, project briefs, datasets."
-                    fields:
-                      - { label: "Title", name: "title", widget: "string" }
-                      - { label: "File (upload, or paste a link)", name: "file", widget: "file", required: false, media_folder: "/assets/teaching", public_folder: "/assets/teaching" }
-                      - { label: "Note (optional)", name: "note", widget: "string", required: false }
-                  - label: "Quizzes and exams"
-                    name: "exams"
-                    widget: "list"
-                    required: false
-                    collapsed: true
-                    summary: "{{fields.title}}"
-                    hint: "Past quizzes, midterms (UTS) and finals (UAS), with solutions if you share them."
-                    fields:
-                      - { label: "Title", name: "title", widget: "string" }
-                      - { label: "File (upload, or paste a link)", name: "file", widget: "file", required: false, media_folder: "/assets/teaching", public_folder: "/assets/teaching" }
-                      - { label: "Note (optional)", name: "note", widget: "string", required: false }
-                  - label: "Books and references"
-                    name: "references"
-                    widget: "list"
-                    required: false
-                    collapsed: true
-                    summary: "{{fields.title}}"
-                    hint: "Textbooks, papers or links. A link can be pasted instead of a file."
-                    fields:
-                      - { label: "Title", name: "title", widget: "string" }
-                      - { label: "File (upload, or paste a link)", name: "file", widget: "file", required: false, media_folder: "/assets/teaching", public_folder: "/assets/teaching" }
-                      - { label: "Note (optional)", name: "note", widget: "string", required: false }
-                  - label: "Semester archive"
+                  - label: "Semesters"
                     name: "offerings"
                     widget: "list"
                     required: false
                     collapsed: true
                     summary: "{{fields.term}}"
+                    hint: "One entry per semester, newest first. Tick 'Running now' for the current semester; the others appear under Previous semesters."
                     fields:
                       - { label: "Term", name: "term", widget: "string", hint: "e.g. Ganjil 2026/2027" }
-                      - { label: "Note (optional)", name: "note", widget: "string", required: false }
+                      - { label: "Running now?", name: "current", widget: "boolean", default: false, required: false }
+                      - label: "1. RPS (syllabus)"
+                        name: "rps"
+                        widget: "list"
+                        required: false
+                        collapsed: true
+                        summary: "{{fields.title}}"
+                        hint: "Rencana Pembelajaran Semester, including the course information. Upload the PDF."
+                        fields:
+                          - { label: "Title", name: "title", widget: "string" }
+                          - { label: "File (upload, or paste a link)", name: "file", widget: "file", required: false, media_folder: "/assets/teaching", public_folder: "/assets/teaching" }
+                          - { label: "Note (optional)", name: "note", widget: "string", required: false }
+                      - label: "2. Lecture slides"
+                        name: "slides"
+                        widget: "list"
+                        required: false
+                        collapsed: true
+                        summary: "{{fields.title}}"
+                        hint: "One row per lecture or topic, in teaching order."
+                        fields:
+                          - { label: "Title", name: "title", widget: "string" }
+                          - { label: "File (upload, or paste a link)", name: "file", widget: "file", required: false, media_folder: "/assets/teaching", public_folder: "/assets/teaching" }
+                          - { label: "Note (optional)", name: "note", widget: "string", required: false }
+                      - label: "3. Quizzes and exams"
+                        name: "exams"
+                        widget: "list"
+                        required: false
+                        collapsed: true
+                        summary: "{{fields.title}}"
+                        hint: "Quizzes, midterm (UTS) and final (UAS), each followed by its solution if you share it."
+                        fields:
+                          - { label: "Title", name: "title", widget: "string" }
+                          - { label: "File (upload, or paste a link)", name: "file", widget: "file", required: false, media_folder: "/assets/teaching", public_folder: "/assets/teaching" }
+                          - { label: "Note (optional)", name: "note", widget: "string", required: false }
+                      - label: "4. Student assignments and projects"
+                        name: "assignments"
+                        widget: "list"
+                        required: false
+                        collapsed: true
+                        summary: "{{fields.title}}"
+                        hint: "Assignment or project brief, templates, and the list of student work."
+                        fields:
+                          - { label: "Title", name: "title", widget: "string" }
+                          - { label: "File (upload, or paste a link)", name: "file", widget: "file", required: false, media_folder: "/assets/teaching", public_folder: "/assets/teaching" }
+                          - { label: "Note (optional)", name: "note", widget: "string", required: false }
+                      - label: "5. Photos"
+                        name: "photos"
+                        widget: "list"
+                        required: false
+                        collapsed: true
+                        summary: "{{fields.caption}}"
+                        fields:
+                          - { label: "Photo", name: "image", widget: "image", media_folder: "/assets/teaching/photos", public_folder: "/assets/teaching/photos" }
+                          - { label: "Caption (optional)", name: "caption", widget: "string", required: false }
 
   # ==================== COMMUNITY SERVICE ====================
   - name: "community-service"

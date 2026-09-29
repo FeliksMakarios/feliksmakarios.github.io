@@ -855,32 +855,29 @@ a.tag:hover {
 .course-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: -1rem 0 1.2rem; }
 .course-meta .course-alt-name { margin: 0; }
 .course-toc {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 1.2rem 0 0.5rem;
-}
-.course-toc a {
-  font-size: 0.82rem;
-  padding: 0.3rem 0.8rem;
+  margin: 0.4rem 0 1rem;
+  padding: 0.9rem 1rem 0.9rem 2.4rem;
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 999px;
-  color: var(--color-muted);
-  text-decoration: none;
+  border-radius: var(--radius);
+  columns: 2 16rem;
+  column-gap: 2rem;
 }
-.course-toc a:hover { color: var(--color-text); border-color: var(--color-accent); }
+.course-toc li { margin: 0 0 0.3rem; break-inside: avoid; }
+.course-toc a { text-decoration: none; }
+.course-toc a:hover { text-decoration: underline; }
+.offering-term { margin: 0 0 0.6rem; }
+.offering-past { margin-bottom: 0.8rem; }
+.offering-past .offering-body { padding: 0 1.25rem 1rem; }
+.course-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: 0.8rem; }
+.course-photos figure { margin: 0; }
+.course-photos img { width: 100%; border-radius: var(--radius); border: 1px solid var(--color-border); }
+.course-photos figcaption { font-size: 0.85rem; color: var(--color-muted); margin-top: 0.3rem; }
 .course-section { scroll-margin-top: 5rem; }
-.course-section h2 { border-top: 1px solid var(--color-border); padding-top: 1.6rem; }
-.material-list { list-style: none; padding: 0; margin: 0; }
-.material-item {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.35rem 0.6rem;
-  padding: 0.55rem 0;
-  border-bottom: 1px solid var(--color-border);
-}
-.material-item:last-child { border-bottom: none; }
+.course-section h3 { border-top: 1px solid var(--color-border); padding-top: 1.2rem; margin-top: 1.4rem; }
+.material-list { padding-left: 1.4rem; margin: 0; }
+.material-item { padding: 0.3rem 0; }
+.material-item > * { margin-right: 0.4rem; }
 .material-title { font-weight: 600; }
 .material-type {
   font-size: 0.7rem;
@@ -891,7 +888,7 @@ a.tag:hover {
   background: var(--color-accent-soft);
   color: var(--color-accent);
 }
-.material-note { color: var(--color-muted); font-size: 0.9rem; flex-basis: 100%; }
+.material-note { color: var(--color-muted); font-size: 0.9rem; }
 .coming-soon {
   color: var(--color-muted);
   font-style: italic;

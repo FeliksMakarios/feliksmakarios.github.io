@@ -87,10 +87,16 @@ Use `link`, not `url`. Jekyll reserves `url` on collection items, so a `url` fie
 
 ## Teaching
 
-`/en/teaching/` and `/id/teaching/` list every course from `_data/teaching.yml`, with the courses marked `teaching_now: true` shown first. Each course has its own page (`_layouts/course.html`) with six sections: syllabus (RPS), lecture slides, assignments and projects, quizzes and exams, references, and a per-semester archive. An empty section shows "Akan segera diisi" / "Coming soon".
+`/en/teaching/` and `/id/teaching/` list every course from `_data/teaching.yml`. Courses with a semester marked `current: true` appear first, under "This semester". Each course has its own page (`_layouts/course.html`), modelled on a classic lecturer course page:
 
-- **Add materials:** in the CMS, open Teaching → Course groups → the course, then add rows under RPS, Lecture slides, and so on. Each row has a title, a file (uploads go to `assets/teaching/`, or paste a link) and an optional note.
-- **Add a course:** add it in the CMS (or `_data/teaching.yml`) with a `slug`, then create its two page files by copying an existing pair in `en/teaching/` and `id/teaching/` and changing `permalink`, `slug`, `course_id` and `title`.
+- **This semester:** the running semester, fully expanded.
+- **Previous semesters:** one collapsible block per past semester. Each semester has its own link, e.g. `/id/teaching/computational-intelligence/#ganjil-2026-2027`.
+
+Every semester has five numbered sections: (1) RPS, which also carries the course information, (2) lecture slides, (3) quizzes and exams, (4) student assignments and projects, and (5) photos. An empty section shows "Akan segera diisi" / "Coming soon".
+
+- **Add materials:** in the CMS, open Teaching → Course groups → the course → Semesters → the semester, then add rows. Each row has a title, a file (uploads go to `assets/teaching/`, or paste a link) and an optional note. Photos go to `assets/teaching/photos/`.
+- **New semester:** add it at the top of Semesters and tick "Running now?". Untick it on the previous one. No new files are needed.
+- **New course:** add it in the CMS (or `_data/teaching.yml`) with a `slug`. Then create its two page files by copying an existing pair in `en/teaching/` and `id/teaching/` and changing `permalink`, `slug`, `course_id` and `title`.
 
 ## Blog
 
