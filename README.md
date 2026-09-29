@@ -95,7 +95,7 @@ Use `link`, not `url`. Jekyll reserves `url` on collection items, so a `url` fie
 Every semester has five numbered sections: (1) RPS, which also carries the course information, (2) lecture slides, (3) quizzes and exams, (4) student assignments and projects, and (5) photos. An empty section shows "Akan segera diisi" / "Coming soon".
 
 - **Add materials:** in the CMS, open Teaching → Course groups → the course → Semesters → the semester, then add rows. Each row has a title, a file (uploads go to `assets/teaching/`, or paste a link) and an optional note. Photos go to `assets/teaching/photos/`.
-- **New semester:** add it at the top of Semesters and tick "Running now?". Untick it on the previous one. No new files are needed.
+- **New semester:** add it at the top of Semesters and tick "Running now?". Untick it on the previous one. No new files are needed. Regular and employee classes of the same course in one term are a single semester entry. Each semester stores its own course code, since codes change with the curriculum.
 - **New course:** add it in the CMS (or `_data/teaching.yml`) with a `slug`. Then create its two page files by copying an existing pair in `en/teaching/` and `id/teaching/` and changing `permalink`, `slug`, `course_id` and `title`.
 
 ## Blog

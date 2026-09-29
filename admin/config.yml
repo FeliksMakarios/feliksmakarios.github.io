@@ -277,7 +277,6 @@ collections:
                   - { label: "Slug (URL name)", name: "slug", widget: "string", hint: "e.g. computational-intelligence; must match the course page files" }
                   - { label: "Course name (English)", name: "name", widget: "string" }
                   - { label: "Course name (Indonesian, optional)", name: "name_id", widget: "string", required: false }
-                  - { label: "Course code (optional)", name: "code", widget: "string", required: false }
                   - label: "Description"
                     name: "desc"
                     widget: "object"
@@ -289,10 +288,11 @@ collections:
                     widget: "list"
                     required: false
                     collapsed: true
-                    summary: "{{fields.term}}"
-                    hint: "One entry per semester, newest first. Tick 'Running now' for the current semester; the others appear under Previous semesters."
+                    summary: "{{fields.term}}  ·  {{fields.code}}"
+                    hint: "One entry per semester, newest first; regular and employee classes of the same course count as one. Tick 'Running now' for the current semester; the others appear under Previous semesters."
                     fields:
                       - { label: "Term", name: "term", widget: "string", hint: "e.g. Ganjil 2026/2027" }
+                      - { label: "Course code", name: "code", widget: "string", required: false, hint: "Code used that semester, e.g. INF20161" }
                       - { label: "Running now?", name: "current", widget: "boolean", default: false, required: false }
                       - label: "1. RPS (syllabus)"
                         name: "rps"

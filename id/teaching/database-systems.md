@@ -4,6 +4,6 @@ permalink: /id/teaching/database-systems/
 lang: id
 slug: teaching/database-systems
 course_id: database-systems
-title: "Database Systems"
+title: "Sistem Basis Data"
 description: "Pemodelan relasional, SQL, dan normalisasi."
 ---
