@@ -22,6 +22,7 @@
       "https://github.com/{{ site.author.github }}",
       "https://www.linkedin.com/in/{{ site.author.linkedin }}",
       {{ site.author.scholar | jsonify }},
+      {{ site.author.pddikti | jsonify }},
       {{ site.author.orcid | jsonify }}{% if site.author.medium %},
       {{ site.author.medium | jsonify }}{% endif %}
     ]
