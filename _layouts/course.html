@@ -1,0 +1,82 @@
+---
+layout: default
+---
+{%- comment -%}
+  Course page, modelled on a classic lecturer course page: the semester
+  running now first, then previous semesters (collapsible), each with its
+  own RPS, slides, quizzes and exams, student work and photos.
+  Data: _data/teaching.yml, course with slug == page.course_id.
+{%- endcomment -%}
+{%- assign lang = page.lang | default: 'en' -%}
+{%- assign course = nil -%}
+{%- for g in site.data.teaching.groups -%}
+  {%- for c in g.courses -%}
+    {%- if c.slug == page.course_id -%}{%- assign course = c -%}{%- assign course_group = g -%}{%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- assign offerings = course.offerings -%}
+{%- assign current = offerings | where: "current", true -%}
+{%- assign past = offerings | where_exp: "o", "o.current != true" -%}
+{%- if lang == 'id' -%}
+  {%- assign t_now = 'Semester ini' -%}{%- assign t_past = 'Semester sebelumnya' -%}
+  {%- assign t_no_now = 'Mata kuliah ini tidak berjalan semester ini.' -%}
+  {%- assign t_no_past = 'Belum ada arsip semester sebelumnya.' -%}
+  {%- assign t_back = '← Kembali ke daftar mata kuliah' -%}
+{%- else -%}
+  {%- assign t_now = 'This semester' -%}{%- assign t_past = 'Previous semesters' -%}
+  {%- assign t_no_now = 'This course is not running this semester.' -%}
+  {%- assign t_no_past = 'No previous semesters archived yet.' -%}
+  {%- assign t_back = '← Back to all courses' -%}
+{%- endif -%}
+
+<p class="course-meta">
+  <span class="tag tag-area">{{ course_group.label[lang] }}</span>
+  {% assign shown_code = course.code | default: offerings.first.code %}{% if shown_code %}<span class="tag">{{ shown_code }}</span>{% endif %}
+  {% if lang == 'id' and course.name_id %}<span class="course-alt-name">{{ course.name }}</span>{% elsif lang == 'en' and course.name_id %}<span class="course-alt-name">{{ course.name_id }}</span>{% endif %}
+</p>
+
+{% if course.desc %}<p class="lead">{{ course.desc[lang] }}</p>{% endif %}
+
+<h2 id="now">{{ t_now }}</h2>
+{% if current.size > 0 %}
+  {% for o in current %}
+  <div class="offering offering-current" id="{{ o.term | slugify }}">
+    <p class="offering-term"><span class="tag tag-open">Semester {{ o.term }}{% if o.code %} · {{ o.code }}{% endif %}</span></p>
+    {% include course-offering.html o=o lang=lang %}
+  </div>
+  {% endfor %}
+{% else %}
+  <p class="coming-soon">{{ t_no_now }}</p>
+{% endif %}
+
+<h2 id="archive">{{ t_past }}</h2>
+{% if past.size > 0 %}
+  {% for o in past %}
+  <details class="offering offering-past year-group" id="{{ o.term | slugify }}">
+    <summary class="year-summary"><span class="year-label">Semester {{ o.term }}</span>{% if o.code %}<span class="year-count">{{ o.code }}</span>{% endif %}</summary>
+    <div class="offering-body">
+      {% include course-offering.html o=o lang=lang %}
+    </div>
+  </details>
+  {% endfor %}
+{% else %}
+  <p class="coming-soon">{{ t_no_past }}</p>
+{% endif %}
+
+<p class="course-back"><a href="/{{ lang }}/teaching/">{{ t_back }}</a></p>
+
+<script>
+  // Open a past semester when its link (#term or #term-section) is visited.
+  (function() {
+    function openFromHash() {
+      if (!location.hash) return;
+      var el = document.getElementById(location.hash.slice(1));
+      var d = el && el.closest('details');
+      if (d) { d.open = true; el.scrollIntoView(); }
+    }
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
+  })();
+</script>
+
+{{ content }}

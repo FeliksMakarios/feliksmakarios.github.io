@@ -1,0 +1,58 @@
+{%- comment -%}
+  One semester of a course: numbered contents, then RPS, slides, quizzes
+  and exams, student assignments/projects and photos (order follows a
+  classic lecturer course page). include.o = offering, include.c = course.
+{%- endcomment -%}
+{%- assign o = include.o -%}
+{%- assign lang = include.lang -%}
+{%- assign oid = o.term | slugify -%}
+{%- if lang == 'id' -%}
+  {%- assign t_soon = 'Akan segera diisi.' -%}
+  {%- capture sections -%}
+rps|Rencana Pembelajaran Semester (RPS)
+slides|Slide Bahan Kuliah
+exams|Kuis dan Ujian
+assignments|Tugas dan Proyek Mahasiswa
+photos|Foto-foto
+  {%- endcapture -%}
+{%- else -%}
+  {%- assign t_soon = 'Coming soon.' -%}
+  {%- capture sections -%}
+rps|Course Syllabus (RPS)
+slides|Lecture Slides
+exams|Quizzes and Exams
+assignments|Student Assignments and Projects
+photos|Photos
+  {%- endcapture -%}
+{%- endif -%}
+{%- assign section_rows = sections | strip | newline_to_br | split: '<br />' -%}
+<ol class="course-toc">
+  {%- for row in section_rows -%}{%- assign parts = row | strip | split: '|' -%}
+  <li><a href="#{{ oid }}-{{ parts[0] }}">{{ parts[1] }}</a></li>
+  {%- endfor -%}
+</ol>
+{% for row in section_rows %}{% assign parts = row | strip | split: '|' %}{% assign key = parts[0] %}{% assign items = o[key] %}
+<section class="course-section" id="{{ oid }}-{{ key }}">
+  <h3>{{ forloop.index }}. {{ parts[1] }}</h3>
+  {% if items and items.size > 0 %}
+    {% if key == 'photos' %}
+    <div class="course-photos">
+      {% for ph in items %}<figure><img src="{{ ph.image }}" alt="{{ ph.caption | default: o.term | escape }}" loading="lazy">{% if ph.caption %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}</figure>{% endfor %}
+    </div>
+    {% else %}
+    <ol class="material-list">
+      {% for item in items %}
+      <li class="material-item">
+        {% assign href = item.file | default: item.url %}
+        {% if href %}<a class="material-title" href="{{ href }}"{% unless href contains '/assets/' %} target="_blank" rel="noopener external"{% endunless %}>{{ item.title }}</a>{% else %}<span class="material-title">{{ item.title }}</span>{% endif %}
+        {% if href %}{% assign ext = href | split: '.' | last | downcase %}{% if ext == 'pdf' or ext == 'pptx' or ext == 'ppt' or ext == 'docx' or ext == 'zip' or ext == 'ipynb' %}<span class="material-type">{{ ext | upcase }}</span>{% endif %}{% endif %}
+        {% if item.note %}<span class="material-note">{{ item.note }}</span>{% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+    {% endif %}
+  {% else %}
+  <p class="coming-soon">{{ t_soon }}</p>
+  {% endif %}
+</section>
+{% endfor %}

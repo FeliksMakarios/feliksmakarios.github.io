@@ -40,7 +40,7 @@ Live at <https://feliksmakarios.github.io>. Built with Jekyll and served by GitH
 ├── _news/  _publications/  _students/  _demos/  _community_service/   # collections (one file per item)
 ├── _data/
 │   ├── research.yml       # research areas, sub-areas, projects, open thesis topics
-│   └── teaching.yml       # courses and supervision text
+│   └── teaching.yml       # courses (with RPS, slides, assignments, exams, references) and supervision text
 ├── _posts/                # every blog article (see "Blog" below)
 ├── blog/<slug>/img/       # images and videos used by the blog articles
 ├── en/  id/               # page sources, one per language
@@ -62,7 +62,7 @@ You can also edit the files directly:
 | Publications | `_publications/*.md` (see fields below) |
 | Students | `_students/*.md` (`status: current` or `alumni`) |
 | Research areas and open thesis topics | `_data/research.yml` |
-| Courses | `_data/teaching.yml` |
+| Courses and course materials | `_data/teaching.yml` (CMS: Teaching) |
 | Demos | `_demos/*.md` |
 
 ### Publication fields
@@ -84,6 +84,19 @@ sub_area: ecommerce-reviews
 Only share PDFs you are allowed to: the published version of an open-access paper, or your accepted manuscript for IEEE papers (IEEE lets authors post that on a personal site, not the final publisher PDF).
 
 Use `link`, not `url`. Jekyll reserves `url` on collection items, so a `url` field is silently replaced by an internal path. For the same reason, demos use `demo_url`.
+
+## Teaching
+
+`/en/teaching/` and `/id/teaching/` list every course from `_data/teaching.yml`. Courses with a semester marked `current: true` appear first, under "This semester". Each course has its own page (`_layouts/course.html`), modelled on a classic lecturer course page:
+
+- **This semester:** the running semester, fully expanded.
+- **Previous semesters:** one collapsible block per past semester. Each semester has its own link, e.g. `/id/teaching/computational-intelligence/#ganjil-2026-2027`.
+
+Every semester has five numbered sections: (1) RPS, which also carries the course information, (2) lecture slides, (3) quizzes and exams, (4) student assignments and projects, and (5) photos. An empty section shows "Akan segera diisi" / "Coming soon".
+
+- **Add materials:** in the CMS, open Teaching → Course groups → the course → Semesters → the semester, then add rows. Each row has a title, a file (uploads go to `assets/teaching/`, or paste a link) and an optional note. Photos go to `assets/teaching/photos/`.
+- **New semester:** add it at the top of Semesters and tick "Running now?". Untick it on the previous one. No new files are needed. Regular and employee classes of the same course in one term are a single semester entry. Each semester stores its own course code, since codes change with the curriculum.
+- **New course:** add it in the CMS (or `_data/teaching.yml`) with a `slug`. Then create its two page files by copying an existing pair in `en/teaching/` and `id/teaching/` and changing `permalink`, `slug`, `course_id` and `title`.
 
 ## Blog
 

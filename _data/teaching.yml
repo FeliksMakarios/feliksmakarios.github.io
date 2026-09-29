@@ -1,59 +1,175 @@
 # Teaching: courses taught at UPH Informatics.
-# Fields:
-#   group (foundational | data-science-ml | specialized),
-#   name, description (bilingual)
+# Each course gets a page at /en/teaching/<slug>/ and /id/teaching/<slug>/
+# (small stub files in en/teaching/ and id/teaching/, layout: course).
+#
+# Course fields:
+#   slug        URL name, also the course_id of the stub pages
+#   name        course name (English)
+#   name_id     Indonesian name (optional; shown on the Indonesian pages)
+#   desc        bilingual short description
+#   offerings   one entry per semester the course ran, newest first
+#               (parallel regular and employee classes count as one):
+#     term        e.g. "Ganjil 2026/2027"
+#     code        course code in that semester (optional; codes change with
+#                 the curriculum, e.g. INF20151 -> INF24141)
+#     current     true for the semester running now (shown under "This semester"
+#                 and on the Teaching page)
+#     rps, slides, exams, assignments
+#                 lists of { title, file, note }. "file" is a path such as
+#                 /assets/teaching/ci-rps.pdf (CMS uploads land in
+#                 assets/teaching/) or a full URL. An empty list shows
+#                 "Akan segera diisi" / "Coming soon".
+#     photos      list of { image, caption }
 
 intro:
-  en: "As a full-time lecturer in the Faculty of AI and Data Science, I teach across the undergraduate curriculum — from introductory computing to advanced machine learning and NLP. I'm also involved in campus and faculty task forces on academic quality assurance and curriculum development."
-  id: "Sebagai dosen tetap di Fakultas AI dan Data Science, saya mengajar berbagai mata kuliah di kurikulum S1 mulai dari pengantar komputasi hingga machine learning lanjut dan NLP. Saya juga terlibat dalam task force kampus dan fakultas untuk quality assurance akademik dan pengembangan kurikulum."
-
+  en: As a full-time lecturer in the Faculty of AI and Data Science, I teach across the undergraduate curriculum — from introductory computing to advanced machine learning and NLP. I'm also involved in campus and faculty task forces on academic quality assurance and curriculum development.
+  id: Sebagai dosen tetap di Fakultas AI dan Data Science, saya mengajar berbagai mata kuliah di kurikulum S1 mulai dari pengantar komputasi hingga machine learning lanjut dan NLP. Saya juga terlibat dalam task force kampus dan fakultas untuk quality assurance akademik dan pengembangan kurikulum.
 groups:
-  - id: foundational
-    label:
-      en: "Foundational"
-      id: "Dasar"
-    courses:
-      - name: "Introduction to Informatics & Computing"
-        desc:
-          en: "First-year survey course covering computational thinking, basic programming, and the landscape of the discipline."
-          id: "Mata kuliah tahun pertama yang mencakup computational thinking, dasar pemrograman, dan lanskap disiplin ini."
-      - name: "Object-Oriented Modeling"
-        desc:
-          en: "OOP principles and UML-based modeling."
-          id: "Prinsip OOP dan pemodelan berbasis UML."
-      - name: "Database Systems"
-        desc:
-          en: "Relational modeling, SQL, and normalization."
-          id: "Pemodelan relasional, SQL, dan normalisasi."
-
-  - id: data-science-ml
-    label:
-      en: "Data science & machine learning"
-      id: "Data science & machine learning"
-    courses:
-      - name: "Introduction to Data Science"
-        desc:
-          en: "The data-science pipeline, exploratory analysis, and basic machine learning modeling (supervised and unsupervised learning)."
-          id: "Pipeline data science, exploratory analysis, dan pemodelan dasar machine learning (supervised dan unsupervised learning)."
-      - name: "Advanced Machine Learning"
-        desc:
-          en: "Deep learning foundations, representation learning, and selected contemporary architectures."
-          id: "Fondasi deep learning, representation learning, dan arsitektur kontemporer terpilih."
-      - name: "Data Science Application Development Studio"
-        desc:
-          en: "Capstone-style project course where students build and deploy end-to-end data applications."
-          id: "Mata kuliah bergaya capstone di mana mahasiswa membangun dan men-deploy aplikasi data end-to-end."
-
-  - id: specialized
-    label:
-      en: "Specialized"
-      id: "Spesialisasi"
-    courses:
-      - name: "Natural Language Processing"
-        desc:
-          en: "Classical and neural approaches, with a hands-on focus on Indonesian-language applications using Hugging Face Transformers."
-          id: "Pendekatan klasik dan neural, dengan fokus praktis pada aplikasi bahasa Indonesia menggunakan Hugging Face Transformers."
-
+- id: foundational
+  label:
+    en: Foundational
+    id: Dasar
+  courses:
+  - slug: intro-informatics-computing
+    name: Introduction to Informatics & Computing
+    name_id: Pengantar Informatika & Komputasi
+    desc:
+      en: First-year survey course covering computational thinking, basic programming, and the landscape of the discipline.
+      id: Mata kuliah tahun pertama yang mencakup computational thinking, dasar pemrograman, dan lanskap disiplin ini.
+    offerings:
+    - term: Ganjil 2025/2026
+      code: INF20013
+    - term: Ganjil 2024/2025
+      code: INF20013
+    - term: Ganjil 2023/2024
+      code: INF20013
+  - slug: computer-organization-architecture
+    name: Computer Organization & Architecture
+    name_id: Organisasi & Arsitektur Komputer
+    desc:
+      en: 'How computers work beneath the software: data representation, digital logic, the CPU and its instruction set, the memory hierarchy, and input/output.'
+      id: 'Cara kerja komputer di balik perangkat lunak: representasi data, logika digital, CPU dan set instruksinya, hierarki memori, serta input/output.'
+    offerings:
+    - term: Genap 2022/2023
+      code: INF20025
+  - slug: object-oriented-modeling
+    name: Object-Oriented Modeling
+    name_id: Pemodelan Berorientasi Objek
+    desc:
+      en: OOP principles and UML-based modeling.
+      id: Prinsip OOP dan pemodelan berbasis UML.
+    offerings:
+    - term: Genap 2023/2024
+      code: INF20042
+    - term: Genap 2022/2023
+      code: INF20042
+  - slug: database-systems
+    name: Database Systems
+    name_id: Sistem Basis Data
+    desc:
+      en: Relational modeling, SQL, and normalization.
+      id: Pemodelan relasional, SQL, dan normalisasi.
+    offerings:
+    - term: Ganjil 2023/2024
+      code: INF20033
+  - slug: software-development
+    name: Software Development
+    name_id: Pengembangan Piranti Lunak
+    desc:
+      en: 'Building software as a team across the development life cycle: requirements, design, implementation, testing, and version control.'
+      id: 'Membangun perangkat lunak secara tim sepanjang siklus hidup pengembangan: kebutuhan, perancangan, implementasi, pengujian, dan version control.'
+    offerings:
+    - term: Genap 2023/2024
+      code: INF20041
+- id: data-science-ml
+  label:
+    en: Data science & machine learning
+    id: Data science & machine learning
+  courses:
+  - slug: intro-data-science
+    name: Introduction to Data Science
+    name_id: Pengantar Data Science
+    desc:
+      en: The data-science pipeline, exploratory analysis, and basic machine learning modeling (supervised and unsupervised learning).
+      id: Pipeline data science, exploratory analysis, dan pemodelan dasar machine learning (supervised dan unsupervised learning).
+    offerings:
+    - term: Ganjil 2024/2025
+      code: INF20035
+  - slug: intro-artificial-intelligence
+    name: Introduction to Artificial Intelligence
+    name_id: Pengantar Kecerdasan Buatan
+    desc:
+      en: 'Foundations of artificial intelligence: intelligent agents, search, knowledge representation and reasoning, and an overview of machine learning.'
+      id: 'Dasar-dasar kecerdasan buatan: agen cerdas, pencarian, representasi pengetahuan dan penalaran, serta gambaran umum machine learning.'
+    offerings:
+    - term: Ganjil 2025/2026
+      code: FAI24014
+  - slug: intro-machine-learning
+    name: Introduction to Machine Learning
+    name_id: Pengantar Pemelajaran Mesin
+    desc:
+      en: Core supervised and unsupervised learning methods, model evaluation, and a practical machine learning workflow in Python.
+      id: Metode inti supervised dan unsupervised learning, evaluasi model, serta alur kerja machine learning yang praktis dengan Python.
+    offerings:
+    - term: Ganjil 2025/2026
+      code: INF24042
+  - slug: advanced-machine-learning
+    name: Advanced Machine Learning
+    name_id: Pemelajaran Mesin Lanjut
+    desc:
+      en: Deep learning foundations, representation learning, and selected contemporary architectures.
+      id: Fondasi deep learning, representation learning, dan arsitektur kontemporer terpilih.
+    offerings:
+    - term: Genap 2025/2026
+      code: INF24141
+    - term: Ganjil 2025/2026
+      code: INF20151
+    - term: Ganjil 2024/2025
+      code: INF20151
+    - term: Ganjil 2023/2024
+      code: INF20151
+  - slug: data-science-app-studio
+    name: Data Science Application Development Studio
+    name_id: Studio Pengembangan Aplikasi Data Science
+    desc:
+      en: Capstone-style project course where students build and deploy end-to-end data applications.
+      id: Mata kuliah bergaya capstone di mana mahasiswa membangun dan men-deploy aplikasi data end-to-end.
+    offerings:
+    - term: Genap 2025/2026
+      code: INF20163
+    - term: Genap 2024/2025
+      code: INF20163
+    - term: Genap 2023/2024
+      code: INF20163
+  - slug: computational-intelligence
+    name: Computational Intelligence
+    name_id: Kecerdasan Komputasional
+    desc:
+      en: 'Nature-inspired methods for problems that are hard to solve exactly: fuzzy logic and fuzzy inference, artificial neural networks, evolutionary algorithms, and swarm intelligence.'
+      id: 'Metode yang terinspirasi dari alam untuk masalah yang sulit diselesaikan secara eksak: logika fuzzy dan inferensi fuzzy, jaringan saraf tiruan, algoritma evolusioner, dan swarm intelligence.'
+    offerings:
+    - term: Ganjil 2026/2027
+      current: true
+- id: specialized
+  label:
+    en: Specialized
+    id: Spesialisasi
+  courses:
+  - slug: natural-language-processing
+    name: Natural Language Processing
+    name_id: Pemrosesan Bahasa Alami
+    desc:
+      en: Classical and neural approaches, with a hands-on focus on Indonesian-language applications using Hugging Face Transformers.
+      id: Pendekatan klasik dan neural, dengan fokus praktis pada aplikasi bahasa Indonesia menggunakan Hugging Face Transformers.
+    offerings:
+    - term: Genap 2025/2026
+      code: INF20161
+    - term: Genap 2024/2025
+      code: INF20161
+    - term: Genap 2023/2024
+      code: INF20161
+    - term: Genap 2022/2023
+      code: INF20161
 supervision:
-  en: "I mentor undergraduate research projects in Transformer-based question answering, text classification, text summarization, aspect-based sentiment analysis, and bias / fairness studies in Indonesian NLP. If you're looking for a thesis advisor, see <a href=\"/en/research/\">research areas</a> for open topics."
-  id: "Saya membimbing riset mahasiswa S1 di topik question answering berbasis Transformer, teks klasifikasi, peringkasan teks, aspect-based sentiment analysis, dan studi bias / fairness pada NLP Indonesia. Kalau kamu sedang mencari dosen pembimbing, silakan lihat <a href=\"/id/research/\">bidang riset</a> untuk topik yang terbuka."
+  en: I mentor undergraduate research projects in Transformer-based question answering, text classification, text summarization, aspect-based sentiment analysis, and bias / fairness studies in Indonesian NLP. If you're looking for a thesis advisor, see <a href="/en/research/">research areas</a> for open topics.
+  id: Saya membimbing riset mahasiswa S1 di topik question answering berbasis Transformer, teks klasifikasi, peringkasan teks, aspect-based sentiment analysis, dan studi bias / fairness pada NLP Indonesia. Kalau kamu sedang mencari dosen pembimbing, silakan lihat <a href="/id/research/">bidang riset</a> untuk topik yang terbuka.
