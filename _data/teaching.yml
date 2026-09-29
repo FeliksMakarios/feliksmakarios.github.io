@@ -13,7 +13,7 @@
 #     code        course code in that semester (optional; codes change with
 #                 the curriculum, e.g. INF20151 -> INF24141)
 #     current     true for the semester running now (shown under "This semester"
-#                 and on the Teaching page)
+#                 on the course page and as a badge on the Teaching page)
 #     rps, slides, exams, assignments
 #                 lists of { title, file, note }. "file" is a path such as
 #                 /assets/teaching/ci-rps.pdf (CMS uploads land in
