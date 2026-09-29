@@ -1,0 +1,10 @@
+{%- assign c = include.course -%}
+{%- assign lang = include.lang -%}
+{%- if lang == 'id' and c.name_id -%}{%- assign c_title = c.name_id -%}{%- else -%}{%- assign c_title = c.name -%}{%- endif -%}
+<article class="area-card course-card">
+    <h3><a href="/{{ lang }}/teaching/{{ c.slug }}/">{{ c_title }}</a></h3>
+    {% if lang == 'id' and c.name_id %}<p class="course-alt-name">{{ c.name }}</p>{% elsif lang == 'en' and c.name_id %}<p class="course-alt-name">{{ c.name_id }}</p>{% endif %}
+    {% if c.teaching_now %}<p class="course-badge"><span class="tag tag-open">{% if lang == 'id' %}Semester ini{% else %}This semester{% endif %}{% if c.current_term %} · {{ c.current_term }}{% endif %}</span></p>{% endif %}
+    <p class="area-definition">{{ c.desc[lang] }}</p>
+    <a href="/{{ lang }}/teaching/{{ c.slug }}/" class="btn-detail">{% if lang == 'id' %}Materi kuliah →{% else %}Course materials →{% endif %}</a>
+</article>

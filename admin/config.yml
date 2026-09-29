@@ -238,7 +238,7 @@ collections:
       - label: "Teaching content"
         name: "teaching"
         file: "_data/teaching.yml"
-        description: "Courses and supervision info."
+        description: "Intro text, courses (with RPS, slides, assignments, exams, references) and supervision."
         editor:
           preview: false
         fields:
@@ -254,6 +254,101 @@ collections:
             fields:
               - { label: "EN", name: "en", widget: "text" }
               - { label: "ID", name: "id", widget: "text" }
+          - label: "Course groups"
+            name: "groups"
+            widget: "list"
+            collapsed: true
+            summary: "{{fields.label.en}}"
+            hint: "A new course also needs two small page files (en/teaching/<slug>.md and id/teaching/<slug>.md); copy an existing pair and change slug, course_id and title."
+            fields:
+              - { label: "Group ID", name: "id", widget: "string" }
+              - label: "Group name"
+                name: "label"
+                widget: "object"
+                fields:
+                  - { label: "EN", name: "en", widget: "string" }
+                  - { label: "ID", name: "id", widget: "string" }
+              - label: "Courses"
+                name: "courses"
+                widget: "list"
+                collapsed: true
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: "Slug (URL name)", name: "slug", widget: "string", hint: "e.g. computational-intelligence; must match the course page files" }
+                  - { label: "Course name (English)", name: "name", widget: "string" }
+                  - { label: "Course name (Indonesian, optional)", name: "name_id", widget: "string", required: false }
+                  - { label: "Teaching it this semester?", name: "teaching_now", widget: "boolean", default: false, required: false }
+                  - { label: "Current term", name: "current_term", widget: "string", required: false, hint: "e.g. Ganjil 2026/2027" }
+                  - label: "Description"
+                    name: "desc"
+                    widget: "object"
+                    fields:
+                      - { label: "EN", name: "en", widget: "text" }
+                      - { label: "ID", name: "id", widget: "text" }
+                  - label: "RPS (syllabus)"
+                    name: "rps"
+                    widget: "list"
+                    required: false
+                    collapsed: true
+                    summary: "{{fields.title}}"
+                    hint: "Rencana Pembelajaran Semester. Upload the PDF."
+                    fields:
+                      - { label: "Title", name: "title", widget: "string" }
+                      - { label: "File (upload, or paste a link)", name: "file", widget: "file", required: false, media_folder: "/assets/teaching", public_folder: "/assets/teaching" }
+                      - { label: "Note (optional)", name: "note", widget: "string", required: false }
+                  - label: "Lecture slides"
+                    name: "slides"
+                    widget: "list"
+                    required: false
+                    collapsed: true
+                    summary: "{{fields.title}}"
+                    hint: "One row per lecture or topic, in teaching order."
+                    fields:
+                      - { label: "Title", name: "title", widget: "string" }
+                      - { label: "File (upload, or paste a link)", name: "file", widget: "file", required: false, media_folder: "/assets/teaching", public_folder: "/assets/teaching" }
+                      - { label: "Note (optional)", name: "note", widget: "string", required: false }
+                  - label: "Assignments and projects"
+                    name: "assignments"
+                    widget: "list"
+                    required: false
+                    collapsed: true
+                    summary: "{{fields.title}}"
+                    hint: "Assignment sheets, project briefs, datasets."
+                    fields:
+                      - { label: "Title", name: "title", widget: "string" }
+                      - { label: "File (upload, or paste a link)", name: "file", widget: "file", required: false, media_folder: "/assets/teaching", public_folder: "/assets/teaching" }
+                      - { label: "Note (optional)", name: "note", widget: "string", required: false }
+                  - label: "Quizzes and exams"
+                    name: "exams"
+                    widget: "list"
+                    required: false
+                    collapsed: true
+                    summary: "{{fields.title}}"
+                    hint: "Past quizzes, midterms (UTS) and finals (UAS), with solutions if you share them."
+                    fields:
+                      - { label: "Title", name: "title", widget: "string" }
+                      - { label: "File (upload, or paste a link)", name: "file", widget: "file", required: false, media_folder: "/assets/teaching", public_folder: "/assets/teaching" }
+                      - { label: "Note (optional)", name: "note", widget: "string", required: false }
+                  - label: "Books and references"
+                    name: "references"
+                    widget: "list"
+                    required: false
+                    collapsed: true
+                    summary: "{{fields.title}}"
+                    hint: "Textbooks, papers or links. A link can be pasted instead of a file."
+                    fields:
+                      - { label: "Title", name: "title", widget: "string" }
+                      - { label: "File (upload, or paste a link)", name: "file", widget: "file", required: false, media_folder: "/assets/teaching", public_folder: "/assets/teaching" }
+                      - { label: "Note (optional)", name: "note", widget: "string", required: false }
+                  - label: "Semester archive"
+                    name: "offerings"
+                    widget: "list"
+                    required: false
+                    collapsed: true
+                    summary: "{{fields.term}}"
+                    fields:
+                      - { label: "Term", name: "term", widget: "string", hint: "e.g. Ganjil 2026/2027" }
+                      - { label: "Note (optional)", name: "note", widget: "string", required: false }
 
   # ==================== COMMUNITY SERVICE ====================
   - name: "community-service"

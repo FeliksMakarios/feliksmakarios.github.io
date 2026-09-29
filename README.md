@@ -40,7 +40,7 @@ Live at <https://feliksmakarios.github.io>. Built with Jekyll and served by GitH
 ├── _news/  _publications/  _students/  _demos/  _community_service/   # collections (one file per item)
 ├── _data/
 │   ├── research.yml       # research areas, sub-areas, projects, open thesis topics
-│   └── teaching.yml       # courses and supervision text
+│   └── teaching.yml       # courses (with RPS, slides, assignments, exams, references) and supervision text
 ├── _posts/                # every blog article (see "Blog" below)
 ├── blog/<slug>/img/       # images and videos used by the blog articles
 ├── en/  id/               # page sources, one per language
@@ -62,7 +62,7 @@ You can also edit the files directly:
 | Publications | `_publications/*.md` (see fields below) |
 | Students | `_students/*.md` (`status: current` or `alumni`) |
 | Research areas and open thesis topics | `_data/research.yml` |
-| Courses | `_data/teaching.yml` |
+| Courses and course materials | `_data/teaching.yml` (CMS: Teaching) |
 | Demos | `_demos/*.md` |
 
 ### Publication fields
@@ -84,6 +84,13 @@ sub_area: ecommerce-reviews
 Only share PDFs you are allowed to: the published version of an open-access paper, or your accepted manuscript for IEEE papers (IEEE lets authors post that on a personal site, not the final publisher PDF).
 
 Use `link`, not `url`. Jekyll reserves `url` on collection items, so a `url` field is silently replaced by an internal path. For the same reason, demos use `demo_url`.
+
+## Teaching
+
+`/en/teaching/` and `/id/teaching/` list every course from `_data/teaching.yml`, with the courses marked `teaching_now: true` shown first. Each course has its own page (`_layouts/course.html`) with six sections: syllabus (RPS), lecture slides, assignments and projects, quizzes and exams, references, and a per-semester archive. An empty section shows "Akan segera diisi" / "Coming soon".
+
+- **Add materials:** in the CMS, open Teaching → Course groups → the course, then add rows under RPS, Lecture slides, and so on. Each row has a title, a file (uploads go to `assets/teaching/`, or paste a link) and an optional note.
+- **Add a course:** add it in the CMS (or `_data/teaching.yml`) with a `slug`, then create its two page files by copying an existing pair in `en/teaching/` and `id/teaching/` and changing `permalink`, `slug`, `course_id` and `title`.
 
 ## Blog
 

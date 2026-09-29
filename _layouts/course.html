@@ -1,0 +1,79 @@
+---
+layout: default
+---
+{%- comment -%}
+  Course page, modelled on a classic lecturer course page: syllabus (RPS),
+  slides, assignments, exams, references and a per-semester archive.
+  Data comes from _data/teaching.yml (course with slug == page.course_id).
+{%- endcomment -%}
+{%- assign lang = page.lang | default: 'en' -%}
+{%- assign course = nil -%}
+{%- for g in site.data.teaching.groups -%}
+  {%- for c in g.courses -%}
+    {%- if c.slug == page.course_id -%}{%- assign course = c -%}{%- assign course_group = g -%}{%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- if lang == 'id' -%}
+  {%- assign t_soon = 'Akan segera diisi.' -%}
+  {%- assign t_back = '← Kembali ke daftar mata kuliah' -%}
+  {%- assign t_now = 'Diajarkan semester ini' -%}
+  {%- assign t_contents = 'Isi halaman' -%}
+{%- else -%}
+  {%- assign t_soon = 'Coming soon.' -%}
+  {%- assign t_back = '← Back to all courses' -%}
+  {%- assign t_now = 'Taught this semester' -%}
+  {%- assign t_contents = 'On this page' -%}
+{%- endif -%}
+
+<p class="course-meta">
+  <span class="tag tag-area">{{ course_group.label[lang] }}</span>
+  {% if lang == 'id' and course.name_id %}<span class="course-alt-name">{{ course.name }}</span>{% endif %}
+  {% if course.teaching_now %}<span class="tag tag-open">{{ t_now }}{% if course.current_term %} · {{ course.current_term }}{% endif %}</span>{% endif %}
+</p>
+
+{% if course.desc %}<p class="lead">{{ course.desc[lang] }}</p>{% endif %}
+
+{%- capture sections -%}
+rps|{% if lang == 'id' %}Rencana Pembelajaran Semester (RPS){% else %}Course Syllabus (RPS){% endif %}
+slides|{% if lang == 'id' %}Slide Kuliah{% else %}Lecture Slides{% endif %}
+assignments|{% if lang == 'id' %}Tugas dan Proyek{% else %}Assignments and Projects{% endif %}
+exams|{% if lang == 'id' %}Kuis dan Ujian{% else %}Quizzes and Exams{% endif %}
+references|{% if lang == 'id' %}Buku dan Referensi{% else %}Books and References{% endif %}
+offerings|{% if lang == 'id' %}Arsip Per Semester{% else %}Semester Archive{% endif %}
+{%- endcapture -%}
+{%- assign section_rows = sections | strip | newline_to_br | split: '<br />' -%}
+
+<nav class="course-toc" aria-label="{{ t_contents }}">
+  {%- for row in section_rows -%}{%- assign parts = row | strip | split: '|' -%}
+  <a href="#{{ parts[0] }}">{{ parts[1] }}</a>
+  {%- endfor -%}
+</nav>
+
+{% for row in section_rows %}{% assign parts = row | strip | split: '|' %}{% assign key = parts[0] %}{% assign items = course[key] %}
+<section class="course-section" id="{{ key }}">
+  <h2>{{ parts[1] }}</h2>
+  {% if items and items.size > 0 %}
+  <ul class="material-list">
+    {% for item in items %}
+    <li class="material-item">
+      {% if key == 'offerings' %}
+        <span class="material-title">{{ item.term }}</span>
+        {% if item.note %}<span class="material-note">{{ item.note }}</span>{% else %}<span class="material-note">{{ t_soon }}</span>{% endif %}
+      {% else %}
+        {% assign href = item.file | default: item.url %}
+        {% if href %}<a class="material-title" href="{{ href }}"{% unless href contains '/assets/' %} target="_blank" rel="noopener external"{% endunless %}>{{ item.title }}</a>{% else %}<span class="material-title">{{ item.title }}</span>{% endif %}
+        {% if href %}{% assign ext = href | split: '.' | last | downcase %}{% if ext == 'pdf' or ext == 'pptx' or ext == 'ppt' or ext == 'docx' or ext == 'zip' or ext == 'ipynb' %}<span class="material-type">{{ ext | upcase }}</span>{% endif %}{% endif %}
+        {% if item.note %}<span class="material-note">{{ item.note }}</span>{% endif %}
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="coming-soon">{{ t_soon }}</p>
+  {% endif %}
+</section>
+{% endfor %}
+
+<p class="course-back"><a href="/{{ lang }}/teaching/">{{ t_back }}</a></p>
+
+{{ content }}
