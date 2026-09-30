@@ -11,14 +11,6 @@ subtitle: "Mata kuliah di UPH Informatika"
 
 {% comment %} Course cards link to /id/teaching/<slug>/ (layout: course). {% endcomment %}
 
-<h2 id="now">Diajarkan semester ini</h2>
-
-<div class="area-grid">
-{% for group in site.data.teaching.groups %}{% for course in group.courses %}{% assign running = course.offerings | where: "current", true %}{% if running.size > 0 %}
-  {% include course-card.html course=course group=group lang="id" %}
-{% endif %}{% endfor %}{% endfor %}
-</div>
-
 <h2 id="courses">Mata kuliah</h2>
 
 <p>Setiap mata kuliah punya halaman sendiri. Materinya disusun per semester: RPS, slide bahan kuliah, kuis dan ujian, tugas dan proyek mahasiswa, serta foto-foto.</p>

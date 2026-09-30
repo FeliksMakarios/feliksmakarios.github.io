@@ -87,7 +87,7 @@ Use `link`, not `url`. Jekyll reserves `url` on collection items, so a `url` fie
 
 ## Teaching
 
-`/en/teaching/` and `/id/teaching/` list every course from `_data/teaching.yml`. Courses with a semester marked `current: true` appear first, under "This semester". Each course has its own page (`_layouts/course.html`), modelled on a classic lecturer course page:
+`/en/teaching/` and `/id/teaching/` list every course from `_data/teaching.yml`. Courses with a semester marked `current: true` get a "This semester" badge on their card. Each course has its own page (`_layouts/course.html`), modelled on a classic lecturer course page:
 
 - **This semester:** the running semester, fully expanded.
 - **Previous semesters:** one collapsible block per past semester. Each semester has its own link, e.g. `/id/teaching/computational-intelligence/#ganjil-2026-2027`.
