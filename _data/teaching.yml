@@ -109,6 +109,8 @@ groups:
       en: Core supervised and unsupervised learning methods, model evaluation, and a practical machine learning workflow in Python.
       id: Metode inti supervised dan unsupervised learning, evaluasi model, serta alur kerja machine learning yang praktis dengan Python.
     offerings:
+    - term: Ganjil 2026/2027
+      current: true
     - term: Ganjil 2025/2026
       code: INF24042
   - slug: advanced-machine-learning
@@ -160,6 +162,8 @@ groups:
       en: Classical and neural approaches, with a hands-on focus on Indonesian-language applications using Hugging Face Transformers.
       id: Pendekatan klasik dan neural, dengan fokus praktis pada aplikasi bahasa Indonesia menggunakan Hugging Face Transformers.
     offerings:
+    - term: Ganjil 2026/2027
+      current: true
     - term: Genap 2025/2026
       code: INF20161
     - term: Genap 2024/2025
