@@ -15,7 +15,8 @@ demos used at open-house events with high-school students.
 </p>
 
 <div class="demo-tabs" role="group" aria-label="Demo categories">
-  <button data-tab="my-project" class="active" type="button">My Project</button>
+  <button data-tab="all" class="active" type="button">All</button>
+  <button data-tab="my-project" type="button">My Project</button>
   <button data-tab="student-project" type="button">Student Project</button>
   <button data-tab="outreach" type="button">Outreach</button>
 </div>
@@ -23,7 +24,7 @@ demos used at open-house events with high-school students.
 {% assign demos = site.demos %}
 {% assign categories = "my-project,student-project,outreach" | split: "," %}
 {% for cat in categories %}
-<section id="{{ cat }}" class="demo-section"{% unless cat == "my-project" %} hidden{% endunless %}>
+<section id="{{ cat }}" class="demo-section">
 {% for demo in demos %}{% if demo.category == cat %}
 <div class="card-demo">
   <div class="thumb" aria-hidden="true">{{ demo.icon }}</div>
@@ -48,7 +49,7 @@ demos used at open-house events with high-school students.
         buttons.forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
         sections.forEach(function(s) {
-          s.hidden = (s.id !== tab);
+          s.hidden = (tab !== 'all' && s.id !== tab);
         });
       });
     });

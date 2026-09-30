@@ -15,7 +15,8 @@ untuk demo yang saya bangun dari riset saya sendiri dan side project,
 </p>
 
 <div class="demo-tabs" role="group" aria-label="Kategori demo">
-  <button data-tab="my-project" class="active" type="button">My Project</button>
+  <button data-tab="all" class="active" type="button">Semua</button>
+  <button data-tab="my-project" type="button">My Project</button>
   <button data-tab="student-project" type="button">Student Project</button>
   <button data-tab="outreach" type="button">Outreach</button>
 </div>
@@ -23,7 +24,7 @@ untuk demo yang saya bangun dari riset saya sendiri dan side project,
 {% assign demos = site.demos %}
 {% assign categories = "my-project,student-project,outreach" | split: "," %}
 {% for cat in categories %}
-<section id="{{ cat }}" class="demo-section"{% unless cat == "my-project" %} hidden{% endunless %}>
+<section id="{{ cat }}" class="demo-section">
 {% for demo in demos %}{% if demo.category == cat %}
 <div class="card-demo">
   <div class="thumb" aria-hidden="true">{{ demo.icon }}</div>
@@ -48,7 +49,7 @@ untuk demo yang saya bangun dari riset saya sendiri dan side project,
         buttons.forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
         sections.forEach(function(s) {
-          s.hidden = (s.id !== tab);
+          s.hidden = (tab !== 'all' && s.id !== tab);
         });
       });
     });
