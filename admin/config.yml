@@ -238,16 +238,10 @@ collections:
       - label: "Teaching content"
         name: "teaching"
         file: "_data/teaching.yml"
-        description: "Intro text, courses (with RPS, slides, assignments, exams, references) and supervision."
+        description: "Courses (with RPS, slides, assignments, exams, references) and supervision."
         editor:
           preview: false
         fields:
-          - label: "Intro"
-            name: "intro"
-            widget: "object"
-            fields:
-              - { label: "EN", name: "en", widget: "text" }
-              - { label: "ID", name: "id", widget: "text" }
           - label: "Supervision"
             name: "supervision"
             widget: "object"

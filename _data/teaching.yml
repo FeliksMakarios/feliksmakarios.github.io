@@ -13,7 +13,8 @@
 #     code        course code in that semester (optional; codes change with
 #                 the curriculum, e.g. INF20151 -> INF24141)
 #     current     true for the semester running now (shown under "This semester"
-#                 on the course page and as a badge on the Teaching page)
+#                 on the course page and as a badge on the Teaching page;
+#                 several courses can be current at once)
 #     rps, slides, exams, assignments
 #                 lists of { title, file, note }. "file" is a path such as
 #                 /assets/teaching/ci-rps.pdf (CMS uploads land in
@@ -21,9 +22,6 @@
 #                 "Akan segera diisi" / "Coming soon".
 #     photos      list of { image, caption }
 
-intro:
-  en: As a full-time lecturer in the Faculty of AI and Data Science, I teach across the undergraduate curriculum — from introductory computing to advanced machine learning and NLP. I'm also involved in campus and faculty task forces on academic quality assurance and curriculum development.
-  id: Sebagai dosen tetap di Fakultas AI dan Data Science, saya mengajar berbagai mata kuliah di kurikulum S1 mulai dari pengantar komputasi hingga machine learning lanjut dan NLP. Saya juga terlibat dalam task force kampus dan fakultas untuk quality assurance akademik dan pengembangan kurikulum.
 groups:
 - id: foundational
   label:

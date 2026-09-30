@@ -7,8 +7,6 @@ title: Pengajaran
 subtitle: "Mata kuliah di UPH Informatika"
 ---
 
-{{ site.data.teaching.intro.id }}
-
 {% comment %} Course cards link to /id/teaching/<slug>/ (layout: course). {% endcomment %}
 
 <h2 id="courses">Mata kuliah</h2>

@@ -7,8 +7,6 @@ title: Teaching
 subtitle: "Courses at UPH Informatics"
 ---
 
-{{ site.data.teaching.intro.en }}
-
 {% comment %} Course cards link to /en/teaching/<slug>/ (layout: course). {% endcomment %}
 
 <h2 id="courses">Courses</h2>
