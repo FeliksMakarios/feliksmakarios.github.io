@@ -85,7 +85,7 @@ collections:
     fields:
       - { label: "Slug (ID)", name: "slug", widget: "string", hint: "Unique identifier, e.g. biomind-bert-2026" }
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Authors", name: "authors", widget: "list", allow_add: true }
+      - { label: "Authors", name: "authors", widget: "list", allow_add: true, hint: "One author per row, in paper order, e.g. F.V.P. Samosir. If the full list is not known yet, end with a row that says: et al." }
       - { label: "Venue", name: "venue", widget: "string" }
       - label: "Venue type"
         name: "venue_type"
@@ -115,7 +115,10 @@ collections:
           - { label: "Low-Resource Languages", value: "low-resource-languages" }
           - { label: "Bias & Fairness", value: "bias-fairness" }
           - { label: "Applied ML", value: "applied-ml" }
-      - { label: "Sub-area", name: "sub_area", widget: "string" }
+      - label: "Sub-area"
+        name: "sub_area"
+        widget: "string"
+        hint: "Must match a sub-area id in _data/research.yml. Domain-Specific NLP: theological-text, ecommerce-reviews, educational-content, political-discourse, speech-multimodal. Low-Resource Languages: corpus-construction, typological-transfer, data-curation-frameworks, syntactic-annotation. Bias & Fairness: dataset-bias-auditing, fairness-metrics, error-analysis-mitigation. Applied ML: health, computer-vision, predictive-analytics, exploratory-data-analysis, ensemble-methods."
 
   # ==================== STUDENTS ====================
   - name: "students"

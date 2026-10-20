@@ -27,6 +27,8 @@ My research studies what breaks when mainstream NLP and machine learning systems
       <h3>{{ area.name.en }}</h3>
       <p class="area-definition">{{ area.definition.en }}</p>
       <p class="area-subareas"><strong>Covers:</strong> {{ sub_names }}.</p>
+      {% assign n_pubs = site.publications | where: "area", area.id %}{% assign n_topics = area.open_topics | where: "status", "open" %}{% assign n_students = site.students | where: "area", area.id %}
+      <p class="area-stats"><a href="/en/research/{{ area.id }}/#subareas">{{ n_pubs.size }} {% if n_pubs.size == 1 %}publication{% else %}publications{% endif %}</a> · <a href="/en/research/{{ area.id }}/#topics">{{ n_topics.size }} open topics</a> · <a href="/en/research/{{ area.id }}/#students">{{ n_students.size }} {% if n_students.size == 1 %}student{% else %}students{% endif %}</a></p>
       <a href="/en/research/{{ area.id }}/" class="btn-detail">Detail →</a>
     </article>
   {% endfor %}

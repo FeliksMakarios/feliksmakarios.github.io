@@ -8,18 +8,19 @@ layout: default
 
 <p><a href="/{{ lang }}/research/">← {% if lang == 'id' %}Kembali ke semua bidang riset{% else %}Back to all research areas{% endif %}</a></p>
 
-{% if area.ongoing_projects %}
+{% if area.projects %}
 <h2>{% if lang == 'id' %}Proyek{% else %}Projects{% endif %}</h2>
-{% for project in area.ongoing_projects %}
-  <div class="project-block">
+{% for project in area.projects %}
+  <div class="project-block project-{{ project.status | default: 'ongoing' }}">
     <h3>{{ project.title[lang] }}</h3>
-    <p class="project-meta">{{ project.funding }} · {{ project.period }} · <em>{{ project.role[lang] }}</em></p>
+    <p class="project-meta">{% if project.status == 'completed' %}<span class="tag tag-completed">{% if lang == 'id' %}Selesai{% else %}Completed{% endif %}</span>{% else %}<span class="tag tag-ongoing">{% if lang == 'id' %}Berjalan{% else %}Ongoing{% endif %}</span>{% endif %}{% if project.funding %}{{ project.funding }} · {% endif %}{{ project.period }} · <em>{{ project.role[lang] }}</em></p>
     <p>{{ project.description[lang] }}</p>
+    {% if project.links %}<p class="project-links">{% for l in project.links %}<a href="{{ l.url }}" target="_blank" rel="noopener external">{{ l.label[lang] }} ↗</a>{% endfor %}</p>{% endif %}
   </div>
 {% endfor %}
 {% endif %}
 
-<h2>{% if lang == 'id' %}Sub-bidang & Publikasi{% else %}Sub-areas & Publications{% endif %}</h2>
+<h2 id="subareas">{% if lang == 'id' %}Sub-bidang & Publikasi{% else %}Sub-areas & Publications{% endif %}</h2>
 
 <ul class="subarea-list">
 {% for sub in area.sub_areas %}
@@ -28,12 +29,35 @@ layout: default
 {% endfor %}
 </ul>
 
+{% assign area_students = site.students | where: "area", page.area_id %}
+{% if area_students.size > 0 %}
+{% assign current_students = area_students | where: "status", "current" | sort: "name" %}
+{% assign alumni_students = area_students | where: "status", "alumni" | sort: "year_graduated" | reverse %}
+<h2 id="students">{% if lang == 'id' %}Mahasiswa bimbingan{% else %}Supervised students{% endif %}</h2>
+<ul class="area-students">
+{% for s in current_students %}<li><span class="tag tag-ongoing">{% if lang == 'id' %}Aktif{% else %}Current{% endif %}</span><span class="area-student-name">{{ s.name }}</span><span class="area-student-title">{{ s.title[lang] | default: s.title.id | default: s.title.en }}</span></li>
+{% endfor %}{% for s in alumni_students %}<li><span class="tag tag-completed">{% if lang == 'id' %}Lulus{% else %}Graduated{% endif %} {{ s.year_graduated }}</span><span class="area-student-name">{{ s.name }}</span><span class="area-student-title">{% if s.thesis_url and s.thesis_url != "" %}<a href="{{ s.thesis_url }}" target="_blank" rel="noopener external">{{ s.title[lang] | default: s.title.id | default: s.title.en }}</a>{% else %}{{ s.title[lang] | default: s.title.id | default: s.title.en }}{% endif %}</span></li>
+{% endfor %}
+</ul>
+<p class="muted-note"><a href="/{{ lang }}/students/">{% if lang == 'id' %}Semua mahasiswa bimbingan →{% else %}All supervised students →{% endif %}</a></p>
+{% endif %}
+
 {% if area.open_topics %}
-<h2>{% if lang == 'id' %}Topik TA yang terbuka{% else %}Open thesis topics{% endif %}</h2>
+{% assign topics_open = area.open_topics | where: "status", "open" %}
+{% assign topics_discussion = area.open_topics | where: "status", "in-discussion" %}
+{% assign topics_taken = area.open_topics | where: "status", "taken" %}
+<h2 id="topics">{% if lang == 'id' %}Topik TA{% else %}Thesis topics{% endif %}</h2>
+
+<div class="pub-filter topic-filter" role="group" aria-label="{% if lang == 'id' %}Saring menurut status{% else %}Filter by status{% endif %}">
+  <button data-filter="all" class="active" type="button">{% if lang == 'id' %}Semua{% else %}All{% endif %} ({{ area.open_topics.size }})</button>
+  {% if topics_open.size > 0 %}<button data-filter="open" type="button">{% if lang == 'id' %}Terbuka{% else %}Open{% endif %} ({{ topics_open.size }})</button>{% endif %}
+  {% if topics_discussion.size > 0 %}<button data-filter="in-discussion" type="button">{% if lang == 'id' %}Dalam diskusi{% else %}In discussion{% endif %} ({{ topics_discussion.size }})</button>{% endif %}
+  {% if topics_taken.size > 0 %}<button data-filter="taken" type="button">{% if lang == 'id' %}Diambil{% else %}Taken{% endif %} ({{ topics_taken.size }})</button>{% endif %}
+</div>
 
 <ul class="topic-list">
   {% for topic in area.open_topics %}
-    <li class="topic-item">
+    <li class="topic-item" data-status="{{ topic.status }}">
       <details>
         <summary>
           <span class="tag tag-{{ topic.status }}">
@@ -55,8 +79,25 @@ layout: default
 </ul>
 
 <div class="callout">
-  <p>{% if lang == 'id' %}Tertarik? Kirim email dengan berisi paragraf singkat tentang alasan topik itu menarik buat kamu.{% else %}Interested? Send an email with a short paragraph on why the topic appeals to you.{% endif %}</p>
+  <p>{% if lang == 'id' %}Tertarik? Kirim email berisi paragraf singkat tentang alasan topik itu menarik buat kamu.{% else %}Interested? Send an email with a short paragraph on why the topic appeals to you.{% endif %}</p>
 </div>
+
+<script>
+  (function() {
+    var buttons = document.querySelectorAll('.topic-filter button');
+    var items = document.querySelectorAll('.topic-item');
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        buttons.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var filter = btn.getAttribute('data-filter');
+        items.forEach(function(item) {
+          item.style.display = (filter === 'all' || item.getAttribute('data-status') === filter) ? '' : 'none';
+        });
+      });
+    });
+  })();
+</script>
 {% endif %}
 
 {{ content }}

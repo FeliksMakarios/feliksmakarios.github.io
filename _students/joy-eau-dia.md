@@ -8,6 +8,6 @@ title:
     Metafora Sampul Tempo
   en: XAI-based CLIP-IndoBERT Multi-task Learning Experiment for Decoding Tempo
     Cover Metaphors
-area: applied-ml
+area: domain-specific-nlp
 mentee_status: progress
 ---

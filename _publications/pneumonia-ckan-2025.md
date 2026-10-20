@@ -14,5 +14,5 @@ year: 2025
 link: https://doi.org/10.35882/ijeeemi.v7i3.106
 open_access: true
 area: applied-ml
-sub_area: computer-vision
+sub_area: health
 ---

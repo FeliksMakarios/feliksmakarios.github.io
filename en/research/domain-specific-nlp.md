@@ -5,5 +5,5 @@ lang: en
 slug: research/domain-specific-nlp
 area_id: domain-specific-nlp
 title: Domain-Specific NLP for Indonesian Contexts
-subtitle: "NLP for specialized Indonesian domains"
+subtitle: "NLP for specialized Indonesian domains, from text to speech and images"
 ---
