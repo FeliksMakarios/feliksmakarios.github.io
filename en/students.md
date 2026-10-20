@@ -29,6 +29,7 @@ exist, are linked separately. If you are a past student and want to be listed
       <div class="student-meta">
         <span class="tag tag-area">{% case s.area %}{% when 'domain-specific-nlp' %}Domain-Specific NLP{% when 'low-resource-languages' %}Low-Resource Languages{% when 'bias-fairness' %}Bias &amp; Fairness{% when 'applied-ml' %}Applied ML{% else %}{{ s.area | replace: '-', ' ' | capitalize }}{% endcase %}</span>
         {% case s.mentee_status %}{% when "proposal" %}<span class="tag tag-proposal">Proposal</span>{% when "progress" %}<span class="tag tag-progress">In progress</span>{% when "defense" %}<span class="tag tag-progress">Defense</span>{% when "graduated" %}<span class="tag tag-open">Graduated</span>{% else %}<span class="tag tag-{{ s.status }}">Current</span>{% endcase %}
+        {% for pub_slug in s.publications %}{% assign pub = site.publications | where: "slug", pub_slug | first %}{% if pub %}{% if pub.link and pub.link != "" %}<a href="{{ pub.link }}" target="_blank" rel="noopener external" class="tag tag-pub" title="{{ pub.title | escape }}">Published · {{ pub.year }} ↗</a>{% else %}<span class="tag tag-pub" title="{{ pub.title | escape }}">Published · {{ pub.year }}</span>{% endif %}{% endif %}{% endfor %}
       </div>
     </li>
   {% endfor %}

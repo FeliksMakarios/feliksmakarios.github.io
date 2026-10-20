@@ -4,7 +4,10 @@ title: IndoBERT-Based Extractive Summarization with K-Means Clustering and TextR
   for Indonesian Academic Lecture Transcripts
 authors:
 - S. Alvan
-- et al.
+- K.A. Herfery
+- J.E. Dia
+- F.C. Putri
+- F.V.P. Samosir
 venue: 2026 IEEE 3rd International Conference on Technology Innovation and Its Applications
   (ICTIIA)
 venue_type: conference

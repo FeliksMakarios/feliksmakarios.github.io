@@ -10,4 +10,6 @@ title:
     Cover Metaphors
 area: domain-specific-nlp
 mentee_status: progress
+publications:
+- lecture-summarization-2026
 ---

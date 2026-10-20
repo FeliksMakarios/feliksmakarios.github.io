@@ -9,4 +9,6 @@ title:
     Political Comments Using IndoBERTweet
 area: domain-specific-nlp
 mentee_status: proposal
+publications:
+- disease-indobert-2026
 ---
