@@ -27,6 +27,8 @@ Riset saya mempelajari apa yang patah ketika sistem NLP dan machine learning mai
       <h3>{{ area.name.id }}</h3>
       <p class="area-definition">{{ area.definition.id }}</p>
       <p class="area-subareas"><strong>Mencakup:</strong> {{ sub_names }}.</p>
+      {% assign n_pubs = site.publications | where: "area", area.id %}{% assign n_topics = area.open_topics | where: "status", "open" %}{% assign n_students = site.students | where: "area", area.id %}
+      <p class="area-stats"><a href="/id/research/{{ area.id }}/#subareas">{{ n_pubs.size }} {% if n_pubs.size == 1 %}publikasi{% else %}publikasi{% endif %}</a> · <a href="/id/research/{{ area.id }}/#topics">{{ n_topics.size }} topik terbuka</a> · <a href="/id/research/{{ area.id }}/#students">{{ n_students.size }} {% if n_students.size == 1 %}mahasiswa{% else %}mahasiswa{% endif %}</a></p>
       <a href="/id/research/{{ area.id }}/" class="btn-detail">Detail →</a>
     </article>
   {% endfor %}

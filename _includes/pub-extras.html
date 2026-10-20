@@ -12,7 +12,7 @@
 {%- if pub.pdf and pub.pdf != "" %}<a class="pub-action" href="{{ pub.pdf }}" target="_blank" rel="noopener">PDF</a>{% endif -%}
 <details class="pub-cite"><summary>{% if include.lang == 'id' %}Kutip (BibTeX){% else %}Cite (BibTeX){% endif %}</summary><div class="bibtex-wrap"><pre class="bibtex"><code>@{{ bib_type }}{{ lb }}{{ pub.slug }},
   title     = {{ lb }}{{ pub.title | replace: "&", "\&" | escape }}{{ rb }},
-  author    = {{ lb }}{{ pub.authors | join: " and " | escape }}{{ rb }},
+  author    = {{ lb }}{{ pub.authors | join: " and " | replace: "et al.", "others" | escape }}{{ rb }},
   {{ venue_field }} = {{ lb }}{{ pub.venue | replace: "&", "\&" | escape }}{{ rb }},
   year      = {{ lb }}{{ pub.year }}{{ rb }}{% if doi %},
   doi       = {{ lb }}{{ doi }}{{ rb }}{% endif %}{% if pub.link and pub.link != "" %},

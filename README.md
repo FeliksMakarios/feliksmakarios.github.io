@@ -83,7 +83,19 @@ sub_area: ecommerce-reviews
 
 Only share PDFs you are allowed to: the published version of an open-access paper, or your accepted manuscript for IEEE papers (IEEE lets authors post that on a personal site, not the final publisher PDF).
 
+If the full author list is not known yet, end `authors` with `et al.`. It shows as written on the page, becomes `others` in BibTeX, and is left out of the structured data.
+
 Use `link`, not `url`. Jekyll reserves `url` on collection items, so a `url` field is silently replaced by an internal path. For the same reason, demos use `demo_url`.
+
+## Research areas
+
+`_data/research.yml` drives `/en/research/`, `/id/research/` and the four area pages (`_layouts/research-area.html`). It is edited in the file, not in the CMS. Each area has:
+
+- `sub_areas`: a publication or student appears under a sub-area when its `area` and `sub_area` match these ids.
+- `projects`: each with `status: ongoing` or `completed`, which shows a badge; an optional `funding`; and optional `links` (`label` in en/id, `url`) for outputs such as papers, code or corpora.
+- `open_topics`: thesis topics with `status: open`, `in-discussion` or `taken`. The area page can filter them by status, and the overview card counts the open ones.
+
+Area pages also list the students whose `area` matches, and the overview cards show counts of publications, open topics and students.
 
 ## Teaching
 
