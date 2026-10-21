@@ -117,6 +117,8 @@ All articles live in `_posts/` and appear on `/en/blog/` and `/id/blog/`, newest
 1. **Markdown posts** written in the CMS (`layout: blog-post`). They support LaTeX through MathJax, code blocks and embedded video.
 2. **Hand-built HTML articles** (`_posts/*.html`, `layout: null`). Each one is a full HTML document with its own typography. It pulls in the shared `<head>` (`head-meta.html`), the site header and footer, and `assets/css/article.css` for the dark theme. The article body is wrapped in `{% raw %}` so that LaTeX such as `{{NLP}}` is not treated as Liquid. Their images stay in `blog/<slug>/img/`.
 
+Both kinds show a byline with the date and reading time (`_includes/post-byline.html`), links to the previous and next article (`_includes/post-nav.html`) and schema.org `BlogPosting` data (`_includes/post-jsonld.html`, via `head-meta.html`). A hand-built article places `{% include post-byline.html %}` before `share.html` and `{% include post-nav.html %}` before `footer.html`. The blog also has an Atom feed at `/blog/feed.xml` (jekyll-feed), which lists each post's `description` as its summary.
+
 Useful front matter for both: `title`, `description`, `image` (social preview), `type` (`original` or `translation`), `original_title` / `original_author` / `original_url` / `original_date` for translations, `inspirations` for original work, `summary_id`, and `tags`. Posts are published at `/blog/<slug>/`.
 
 ## Bilingual pages

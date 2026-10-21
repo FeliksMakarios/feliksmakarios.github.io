@@ -1,0 +1,40 @@
+/* Byline and end-of-article navigation for blog posts (post-byline.html,
+   post-nav.html). Loaded by main.css and article.css. */
+.post-byline {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-muted);
+  margin: 0 0 14px;
+}
+.post-byline a { color: inherit; border-bottom: 1px solid var(--color-border); text-decoration: none; }
+.post-byline a:hover { color: var(--color-accent); }
+
+.post-nav {
+  font-family: var(--font-sans);
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 8px 22px 48px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.post-nav-inner { display: grid; gap: 12px; }
+@media (min-width: 640px) { .post-nav-inner { grid-template-columns: 1fr 1fr; } }
+.post-nav-link {
+  display: block;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-border);
+}
+.post-nav-link:hover { border-color: var(--color-accent); }
+.post-nav-next { text-align: right; grid-column: 2; }
+.post-nav-prev { grid-column: 1; }
+@media (max-width: 639px) { .post-nav-next, .post-nav-prev { grid-column: auto; } }
+.post-nav-label { display: block; font-size: 0.8rem; color: var(--color-muted); margin-bottom: 4px; }
+.post-nav-title { display: block; font-weight: 600; }
+.post-nav-all { margin: 18px 0 0; color: var(--color-muted); font-size: 0.9rem; }
+.post-nav-all a { color: var(--color-accent); border-bottom: 0; }

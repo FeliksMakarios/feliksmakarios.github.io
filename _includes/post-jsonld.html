@@ -1,0 +1,33 @@
+{%- comment -%}
+  schema.org BlogPosting for a blog article. For translations the original
+  author is the author and the site owner is the translator.
+{%- endcomment -%}
+{%- assign img = page.image | default: '/assets/img/feliks.jpg' -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ page.title | jsonify }},
+  "description": {{ page.description | jsonify }},
+  "url": {{ page.url | absolute_url | jsonify }},
+  "mainEntityOfPage": {{ page.url | absolute_url | jsonify }},
+  "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
+  "inLanguage": "id",
+  "image": {{ img | absolute_url | jsonify }},
+  "keywords": {{ page.tags | join: ", " | jsonify }},
+  {%- if page.type == 'translation' %}
+  "author": { "@type": "Person", "name": {{ page.original_author | jsonify }} },
+  "translator": { "@type": "Person", "name": {{ site.author.name | jsonify }}, "url": {{ '/id/' | absolute_url | jsonify }} },
+  "isBasedOn": {
+    "@type": "CreativeWork",
+    "name": {{ page.original_title | jsonify }},
+    "url": {{ page.original_url | jsonify }},
+    "datePublished": {{ page.original_date | jsonify }},
+    "author": { "@type": "Person", "name": {{ page.original_author | jsonify }} }
+  },
+  {%- else %}
+  "author": { "@type": "Person", "name": {{ site.author.name | jsonify }}, "url": {{ '/id/' | absolute_url | jsonify }} },
+  {%- endif %}
+  "publisher": { "@type": "Person", "name": {{ site.author.name | jsonify }} }
+}
+</script>

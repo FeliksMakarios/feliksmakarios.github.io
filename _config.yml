@@ -38,6 +38,13 @@ sass:
 
 plugins:
   - jekyll-sitemap
+  - jekyll-feed
+
+# Blog feed (Atom). The articles are full HTML documents, so the feed
+# carries each post's description as its summary instead of the whole page.
+feed:
+  path: blog/feed.xml
+  excerpt_only: true
 
 # Jekyll collections
 collections:

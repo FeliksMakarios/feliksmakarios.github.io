@@ -13,8 +13,8 @@
         {% else %}
         <span class="blog-type-badge blog-type-original">Asli</span>
         {% endif %}
-        <span class="blog-date">{{ page.date | date: "%d-%m-%Y" }}</span>
       </div>
+      {% include post-byline.html %}
       {% if page.type == 'translation' %}
       <p class="blog-attribution">
         Terjemahan dari <a href="{{ page.original_url }}" target="_blank" rel="noopener external">"{{ page.original_title }}"</a>
@@ -38,10 +38,10 @@
       <div class="blog-meta">
         {% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
       </div>
-      <p><a href="/id/blog/">← Kembali ke daftar tulisan</a></p>
     </footer>
     {% endif %}
   </main>
+  {% include post-nav.html %}
   {% include footer.html %}
 
   {% if page.mathjax != false %}

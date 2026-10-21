@@ -21,6 +21,8 @@ saya cantumkan, dan <strong>terjemahan</strong> Bahasa Indonesia dari artikel ya
 saya berharga, dengan atribusi penuh ke versi aslinya.
 </p>
 
+<p class="muted-note">Tulisan baru juga bisa diikuti lewat <a href="/blog/feed.xml">feed RSS/Atom</a>.</p>
+
 {% comment %}
   All articles live in _posts/: Markdown posts written through the CMS and the
   hand-built HTML articles (layout: null) alike. site.posts is newest first.
