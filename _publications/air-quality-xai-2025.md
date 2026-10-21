@@ -11,5 +11,5 @@ venue_type: conference
 year: 2025
 link: https://ieeexplore.ieee.org/document/11100895
 area: applied-ml
-sub_area: predictive-analytics
+sub_area: environment
 ---

@@ -15,5 +15,5 @@ venue_type: conference
 year: 2026
 link: https://doi.org/10.1109/ICCRAIDS67816.2026.11519675
 area: applied-ml
-sub_area: predictive-analytics
+sub_area: environment
 ---

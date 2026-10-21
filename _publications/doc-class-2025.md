@@ -15,5 +15,5 @@ venue_type: conference
 year: 2025
 link: https://doi.org/10.1109/ICIC68054.2025.11309527
 area: applied-ml
-sub_area: computer-vision
+sub_area: social-public-services
 ---

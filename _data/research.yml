@@ -540,44 +540,37 @@ areas:
       en: "Applied ML for Real-World Data"
       id: "Applied ML untuk Data Dunia Nyata"
     definition:
-      en: "Practical machine learning on real-world vision, tabular, and health data, with attention to settings where standard assumptions (abundant data, clean labels, representative distributions) do not hold, mostly in Indonesian and Southeast Asian contexts."
-      id: "Machine learning praktis pada data dunia nyata (citra, tabular, dan kesehatan), dengan perhatian pada situasi di mana asumsi standar (data berlimpah, label bersih, distribusi representatif) tidak berlaku, terutama di konteks Indonesia dan Asia Tenggara."
+      en: "Practical machine learning on real-world data from health, the environment, business, and public services, using image, tabular, and text models, with attention to settings where standard assumptions (abundant data, clean labels, representative distributions) do not hold, mostly in Indonesian and Southeast Asian contexts."
+      id: "Machine learning praktis pada data dunia nyata dari bidang kesehatan, lingkungan, bisnis, dan layanan publik, dengan model citra, tabular, dan teks, serta perhatian pada situasi di mana asumsi standar (data berlimpah, label bersih, distribusi representatif) tidak berlaku, terutama di konteks Indonesia dan Asia Tenggara."
     sub_areas:
       - id: health
         name:
           en: "Health"
           id: "Kesehatan"
         definition:
-          en: "Machine learning for medical images and clinical data, such as pneumonia detection from chest X-rays and disease classification from patient symptoms, with attention to how models generalize to Indonesian patients."
-          id: "Machine learning untuk citra medis dan data klinis, seperti deteksi pneumonia dari citra rontgen dada dan klasifikasi penyakit dari gejala pasien, dengan perhatian pada seberapa baik model berlaku untuk pasien Indonesia."
-      - id: computer-vision
+          en: "Medical images and clinical data, such as pneumonia detection from chest X-rays and disease classification from patient symptoms, with attention to how models generalize to Indonesian patients."
+          id: "Citra medis dan data klinis, seperti deteksi pneumonia dari citra rontgen dada dan klasifikasi penyakit dari gejala pasien, dengan perhatian pada seberapa baik model berlaku untuk pasien Indonesia."
+      - id: environment
         name:
-          en: "Computer vision"
-          id: "Computer vision"
+          en: "Environment and disasters"
+          id: "Lingkungan dan kebencanaan"
         definition:
-          en: "Image classification using CNN, Vision Transformers, and hybrid architectures, for example for personal documents."
-          id: "Klasifikasi citra menggunakan CNN, Vision Transformers, dan arsitektur hybrid, misalnya untuk dokumen pribadi."
-      - id: predictive-analytics
+          en: "Air quality and flood prediction from environmental and socioeconomic data, using tree-based ensembles and explainable AI."
+          id: "Prediksi kualitas udara dan banjir dari data lingkungan dan sosioekonomi, dengan ensemble berbasis tree dan explainable AI."
+      - id: business-consumer
         name:
-          en: "Predictive analytics"
-          id: "Predictive analytics"
+          en: "Business and consumers"
+          id: "Bisnis dan konsumen"
         definition:
-          en: "Regression and classification on tabular data, often with explainable AI methods."
-          id: "Regresi dan klasifikasi pada data tabular, seringkali dengan metode explainable AI."
-      - id: exploratory-data-analysis
+          en: "Purchase behavior, transactions, and other commercial data, for example the key factors behind laptop purchases."
+          id: "Perilaku pembelian, transaksi, dan data komersial lainnya, misalnya faktor utama di balik pembelian laptop."
+      - id: social-public-services
         name:
-          en: "Exploratory data analysis"
-          id: "Analisis data eksploratori"
+          en: "Social and public services"
+          id: "Sosial dan layanan publik"
         definition:
-          en: "Statistical exploration and pattern discovery in Indonesian transportation, demographic, and behavioral data."
-          id: "Eksplorasi statistik dan penemuan pola pada data transportasi, demografi, dan perilaku Indonesia."
-      - id: ensemble-methods
-        name:
-          en: "Ensemble methods"
-          id: "Metode ensemble"
-        definition:
-          en: "Tree-based ensembles and model combinations for tabular prediction tasks."
-          id: "Ensemble berbasis tree dan kombinasi model untuk tugas prediksi tabular."
+          en: "Public transport, administrative documents, and other data about how people use public services, such as commuter rail crowding and classification of personal documents."
+          id: "Transportasi umum, dokumen administrasi, dan data lain tentang cara masyarakat memakai layanan publik, seperti kepadatan penumpang KRL dan klasifikasi dokumen pribadi."
     open_topics:
       - title:
           en: "Applied CV for local Indonesian use cases"

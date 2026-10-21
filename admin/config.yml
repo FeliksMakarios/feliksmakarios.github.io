@@ -118,7 +118,7 @@ collections:
       - label: "Sub-area"
         name: "sub_area"
         widget: "string"
-        hint: "Must match a sub-area id in _data/research.yml. Domain-Specific NLP: theological-text, ecommerce-reviews, educational-content, political-discourse, speech-multimodal. Low-Resource Languages: corpus-construction, typological-transfer, data-curation-frameworks, syntactic-annotation. Bias & Fairness: dataset-bias-auditing, fairness-metrics, error-analysis-mitigation. Applied ML: health, computer-vision, predictive-analytics, exploratory-data-analysis, ensemble-methods."
+        hint: "Must match a sub-area id in _data/research.yml. Domain-Specific NLP: theological-text, ecommerce-reviews, educational-content, political-discourse, speech-multimodal. Low-Resource Languages: corpus-construction, typological-transfer, data-curation-frameworks, syntactic-annotation. Bias & Fairness: dataset-bias-auditing, fairness-metrics, error-analysis-mitigation. Applied ML: health, environment, business-consumer, social-public-services."
 
   # ==================== STUDENTS ====================
   - name: "students"

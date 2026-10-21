@@ -12,4 +12,5 @@ area: domain-specific-nlp
 thesis_url: https://repository.uph.edu/id/eprint/68409/
 publications:
   - absa-ecom-2026
+  - beauty-2024
 ---

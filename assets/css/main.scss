@@ -235,7 +235,9 @@ a.tag:hover {
 .project-links { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; font-size: 0.88rem; }
 
 /* ---------- Students on a research-area page ---------- */
-.area-students { list-style: none; padding: 0; margin: 0 0 0.6rem; }
+.area-students { list-style: none; padding: 0; margin: 0; }
+.area-students li:last-child { border-bottom: 0; }
+.area-student-groups { margin-bottom: 0.6rem; }
 .area-students li {
   display: flex;
   flex-wrap: wrap;

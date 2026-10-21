@@ -12,5 +12,5 @@ link: https://doi.org/10.21512/comtech.v17i2.14076
 open_access: true
 pdf: https://journal.binus.ac.id/index.php/comtech/article/view/14076/5850
 area: applied-ml
-sub_area: ensemble-methods
+sub_area: environment
 ---

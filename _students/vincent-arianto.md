@@ -9,4 +9,6 @@ title:
   id: Pengembangan Dataset dan Deteksi Teks AI Berbasis Fitur Linguistik dan
     Transformer pada MKU
 area: domain-specific-nlp
+publications:
+- doc-class-2025
 ---
