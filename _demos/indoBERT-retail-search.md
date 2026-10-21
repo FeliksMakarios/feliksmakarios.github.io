@@ -1,6 +1,7 @@
 ---
 slug: indoBERT-retail-search
 category: student-project
+student: Christian Folma Dio
 icon: 🛍️
 title: IndoBERT Retail Semantic Search
 meta:

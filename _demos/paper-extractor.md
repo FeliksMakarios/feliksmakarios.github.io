@@ -12,6 +12,6 @@ description:
   id: Utilitas kecil untuk menarik field terstruktur (judul, penulis, abstrak, kata
     kunci) dari makalah PDF. Dibangun sebagai tool pribadi yang berkembang jadi demo
     iseng.
-demo_url: https://huggingface.co/spaces/makarios19/paperExtractor?logs=container
+demo_url: https://huggingface.co/spaces/makarios19/paperExtractor
 url_is_internal: false
 ---

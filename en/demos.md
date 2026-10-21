@@ -29,10 +29,13 @@ demos used at open-house events with high-school students.
 <div class="card-demo">
   <div class="thumb" aria-hidden="true">{{ demo.icon }}</div>
   <div>
+    <p class="demo-category"><span class="tag tag-area">{% case demo.category %}{% when "my-project" %}My Project{% when "student-project" %}Student Project{% else %}Outreach{% endcase %}</span></p>
     <h3>{{ demo.title }}</h3>
     <p class="meta">{{ demo.meta.en }}</p>
     <p>{{ demo.description.en }}</p>
-    <p><a href="{{ demo.demo_url }}"{% unless demo.url_is_internal %} target="_blank" rel="noopener external"{% endunless %}>Launch demo →</a></p>
+    {% if demo.student %}{% assign stu = site.students | where: "name", demo.student | first %}{% endif %}
+    <p class="demo-links"><a href="{{ demo.demo_url }}"{% unless demo.url_is_internal %} target="_blank" rel="noopener external"{% endunless %}>Launch demo →</a>{% if stu and stu.thesis_url and stu.thesis_url != "" %}<a href="{{ stu.thesis_url }}" target="_blank" rel="noopener external">Read the thesis ↗</a>{% endif %}</p>
+    {% assign stu = nil %}
   </div>
 </div>
 {% endif %}{% endfor %}

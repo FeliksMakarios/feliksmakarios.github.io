@@ -79,9 +79,12 @@
         h1 {
             margin-top: 20px;
         }
+        .back-to-site { position: fixed; top: 12px; left: 12px; z-index: 10; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,0.55); color: #fff; font: 14px/1.2 Arial, sans-serif; text-decoration: none; }
+        .back-to-site:hover { background: rgba(0,0,0,0.75); }
     </style>
 </head>
 <body>
+    <a class="back-to-site" href="/en/demos/" onclick="if (document.referrer.indexOf(location.host) > -1) { history.back(); return false; }">← Back to Demos</a>
     <h1>Superhero Pose Detection</h1>
     <button type="button" onclick="init()">Start</button>
     <div id="container">

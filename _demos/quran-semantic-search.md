@@ -1,6 +1,7 @@
 ---
 slug: quran-semantic-search
 category: student-project
+student: Erwiyono Yusuf
 icon: 📖
 title: Indonesian Qur'an Semantic Search
 meta:
