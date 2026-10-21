@@ -11,5 +11,5 @@ venue_type: conference
 year: 2025
 link: https://ieeexplore.ieee.org/document/11100717
 area: applied-ml
-sub_area: ensemble-methods
+sub_area: environment
 ---

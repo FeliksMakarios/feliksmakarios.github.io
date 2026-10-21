@@ -11,5 +11,5 @@ year: 2024
 link: https://journal.maranatha.edu/index.php/jutisi/article/view/8897
 open_access: true
 area: applied-ml
-sub_area: predictive-analytics
+sub_area: business-consumer
 ---

@@ -13,18 +13,18 @@ masyarakat, lihat <a href="/id/research/#community-engagement">Pengabdian Masyar
 </p>
 
 <div class="pub-filter" role="group" aria-label="Filter by area">
-  <button data-filter="all" class="active" type="button">Semua</button>
-  <button data-filter="domain-specific-nlp" type="button">NLP Spesifik Domain</button>
-  <button data-filter="low-resource-languages" type="button">Bahasa Low-Resource</button>
-  <button data-filter="bias-fairness" type="button">Bias & Fairness</button>
-  <button data-filter="applied-ml" type="button">Applied ML</button>
+  <button data-filter="all" class="active" type="button">Semua ({{ site.publications.size }})</button>
+  {% assign n = site.publications | where: "area", "domain-specific-nlp" %}{% if n.size > 0 %}<button data-filter="domain-specific-nlp" type="button">NLP Spesifik Domain ({{ n.size }})</button>{% endif %}
+  {% assign n = site.publications | where: "area", "low-resource-languages" %}{% if n.size > 0 %}<button data-filter="low-resource-languages" type="button">Bahasa Low-Resource ({{ n.size }})</button>{% endif %}
+  {% assign n = site.publications | where: "area", "bias-fairness" %}{% if n.size > 0 %}<button data-filter="bias-fairness" type="button">Bias & Fairness ({{ n.size }})</button>{% endif %}
+  {% assign n = site.publications | where: "area", "applied-ml" %}{% if n.size > 0 %}<button data-filter="applied-ml" type="button">Applied ML ({{ n.size }})</button>{% endif %}
 </div>
 
 {% assign pubs = site.publications | sort: "year" | reverse %}
 {% assign years = pubs | map: "year" | uniq %}
 
 <div class="pub-timeline">
-{% for year in years %}{% assign year_pubs = pubs | where: "year", year %}<details class="year-group"{% if forloop.first %} open{% endif %}><summary class="year-summary"><span class="year-label">{{ year }}</span><span class="year-count">{{ year_pubs.size }} publikasi</span></summary><ul class="pub-list">{% for pub in year_pubs %}<li class="pub-item" data-area="{{ pub.area }}"><div class="pub-title">{% if pub.link and pub.link != "" %}<a href="{{ pub.link }}" target="_blank" rel="noopener external">{{ pub.title }}</a>{% else %}{{ pub.title }}{% endif %}</div><div class="pub-authors">{{ pub.authors | join: ", " }}</div><div class="pub-meta"><span class="venue-badge venue-{{ pub.venue_type }}">{{ pub.venue_type | capitalize }}</span><span class="pub-venue">{{ pub.venue }}</span></div>{% include pub-extras.html pub=pub lang="id" %}</li>{% endfor %}</ul></details>{% endfor %}
+{% for year in years %}{% assign year_pubs = pubs | where: "year", year %}<details class="year-group"{% if forloop.first %} open{% endif %}><summary class="year-summary"><span class="year-label">{{ year }}</span><span class="year-count" data-one="publikasi" data-many="publikasi">{{ year_pubs.size }} publikasi</span></summary><ul class="pub-list">{% for pub in year_pubs %}<li class="pub-item" data-area="{{ pub.area }}"><div class="pub-title">{% if pub.link and pub.link != "" %}<a href="{{ pub.link }}" target="_blank" rel="noopener external">{{ pub.title }}</a>{% else %}{{ pub.title }}{% endif %}</div><div class="pub-authors">{{ pub.authors | join: ", " | replace: "F.V.P. Samosir", "<strong>F.V.P. Samosir</strong>" }}</div><div class="pub-meta"><span class="venue-badge venue-{{ pub.venue_type }}">{% case pub.venue_type %}{% when "journal" %}Jurnal{% when "conference" %}Konferensi{% when "seminar" %}Seminar{% else %}{{ pub.venue_type | capitalize }}{% endcase %}</span><span class="pub-venue">{{ pub.venue }}</span></div>{% include pub-extras.html pub=pub lang="id" %}</li>{% endfor %}</ul></details>{% endfor %}
 </div>
 
 {% include pubs-jsonld.html pubs=pubs %}
@@ -62,6 +62,8 @@ masyarakat, lihat <a href="/id/research/#community-engagement">Pengabdian Masyar
           var visible = g.querySelectorAll('.pub-item').length === 0 ? 0 :
             Array.from(g.querySelectorAll('.pub-item')).filter(function(i) { return i.style.display !== 'none'; }).length;
           g.style.display = visible > 0 ? '' : 'none';
+          var count = g.querySelector('.year-count');
+          if (count) count.textContent = visible + ' ' + count.getAttribute(visible === 1 ? 'data-one' : 'data-many');
         });
       });
     });

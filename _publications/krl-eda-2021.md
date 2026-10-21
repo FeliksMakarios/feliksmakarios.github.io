@@ -13,5 +13,5 @@ year: 2021
 link: https://journal.maranatha.edu/index.php/jutisi/article/view/3700
 open_access: true
 area: applied-ml
-sub_area: exploratory-data-analysis
+sub_area: social-public-services
 ---

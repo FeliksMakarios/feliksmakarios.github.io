@@ -10,4 +10,6 @@ title:
     Generative Artificial Intelligence Model
 area: bias-fairness
 thesis_url: https://repository.uph.edu/id/eprint/73904/
+publications:
+- doc-class-2025
 ---

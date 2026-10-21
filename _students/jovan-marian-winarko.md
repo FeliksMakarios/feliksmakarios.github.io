@@ -9,4 +9,6 @@ title:
   id: Analisis Perbandingan CNN dan Model Berbasis Transformer Untuk Klasifikasi
     Citra Tempat Wisata Asli dan Sintetis
 area: applied-ml
+publications:
+- doc-class-2025
 ---
