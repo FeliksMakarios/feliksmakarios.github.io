@@ -217,6 +217,15 @@ collections:
           - { label: "My Project", value: "my-project" }
           - { label: "Student Project", value: "student-project" }
           - { label: "Outreach", value: "outreach" }
+      - label: "Student (student projects only)"
+        name: "student"
+        widget: "relation"
+        collection: "students"
+        search_fields: ["name"]
+        value_field: "name"
+        display_fields: ["name"]
+        required: false
+        hint: "Pick the student who built it. The card then links to their thesis in the UPH repository."
       - { label: "Icon (emoji)", name: "icon", widget: "string" }
       - { label: "Title", name: "title", widget: "string" }
       - label: "Meta"

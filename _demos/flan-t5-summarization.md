@@ -1,6 +1,7 @@
 ---
 slug: flan-t5-summarization
 category: student-project
+student: Audrey Roselian
 icon: 📝
 title: Abstractive News Summarization with Flan-T5
 meta:

@@ -9,4 +9,5 @@ title:
   id: "Fine-tuning Model Pencarian Semantik berbasis Transformers: Studi Kasus
     Produk Ritel Berbahasa Indonesia"
 area: domain-specific-nlp
+thesis_url: https://repository.uph.edu/id/eprint/76849/
 ---

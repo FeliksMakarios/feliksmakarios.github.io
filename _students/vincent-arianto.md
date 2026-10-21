@@ -9,6 +9,7 @@ title:
   id: Pengembangan Dataset dan Deteksi Teks AI Berbasis Fitur Linguistik dan
     Transformer pada MKU
 area: domain-specific-nlp
+thesis_url: https://repository.uph.edu/id/eprint/76969/
 publications:
 - doc-class-2025
 ---

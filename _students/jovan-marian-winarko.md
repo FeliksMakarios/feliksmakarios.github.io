@@ -9,6 +9,7 @@ title:
   id: Analisis Perbandingan CNN dan Model Berbasis Transformer Untuk Klasifikasi
     Citra Tempat Wisata Asli dan Sintetis
 area: applied-ml
+thesis_url: https://repository.uph.edu/id/eprint/76945/
 publications:
 - doc-class-2025
 ---
