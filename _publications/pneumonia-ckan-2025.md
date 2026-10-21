@@ -3,7 +3,7 @@ slug: pneumonia-ckan-2025
 title: Convolutional Kolmogorov-Arnold Network for Pneumonia Detection in Medical
   Image Analysis
 authors:
-- R. Riechie
+- Riechie
 - V. Jessica
 - M. Kurniawan
 - F.V.P. Samosir
