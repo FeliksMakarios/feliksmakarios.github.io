@@ -13,4 +13,5 @@ thesis_url: https://repository.uph.edu/id/eprint/71127/
 publications:
   - air-quality-ensemble-2025
   - aqi-socioeconomic-comtech-2026
+  - pneumonia-ckan-2025
 ---
