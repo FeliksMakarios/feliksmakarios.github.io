@@ -41,6 +41,10 @@
   {%- if page.url == '/en/' or page.url == '/id/' %}
   {% include person-jsonld.html %}
   {%- endif %}
+  {%- if page.collection == 'posts' %}
+  {% include post-jsonld.html %}
+  {%- endif %}
+  <link rel="alternate" type="application/atom+xml" title="Blog {{ site.author.short_name }}" href="{{ '/blog/feed.xml' | absolute_url }}">
 
   <!-- Theme init: run synchronously before body paints to prevent flash -->
   <script>

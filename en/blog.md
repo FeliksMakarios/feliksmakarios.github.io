@@ -20,6 +20,8 @@ I wrote myself, and <strong>Indonesian translations</strong> of articles I find
 valuable, with full attribution to the originals.
 </p>
 
+<p class="muted-note">New articles are also available as an <a href="/blog/feed.xml">RSS/Atom feed</a>.</p>
+
 {% if site.posts.size > 0 %}
 <div class="pub-filter blog-filter" role="group" aria-label="Filter by type">
   <button data-filter="all" class="active" type="button">All</button>

@@ -1,0 +1,393 @@
+---
+layout: null
+title: "Apple Foundation Model di MacBook M1"
+description: "Catatan uji coba Apple Foundation Model on-device lewat fm serve di MacBook M1 8 GB: membangun GUI chat ChatAFM, cara menjalankannya, angka kinerja, kelebihan, dan keterbatasannya."
+permalink: /blog/apple-foundation-model-m1/
+lang: id
+switch_slug: blog
+type: original
+excerpt_separator: ""
+summary_id: "Catatan uji coba Apple Foundation Model on-device lewat fm serve di MacBook M1 8 GB. Membahas cara membangun dan menjalankan GUI chat ChatAFM, angka kinerja, serta kelebihan dan keterbatasannya, termasuk mengapa prompt sebaiknya ditulis dalam bahasa Inggris."
+tags: ["NLP", "LLM", "On-Device AI", "Apple", "Tutorial"]
+---
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page.title }} — {{ site.author.short_name }}</title>
+{% include head-meta.html %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#fbfaf6;
+    --surface:#ffffff;
+    --ink:#1f2328;
+    --muted:#6b7280;
+    --hair:#e6e1d6;
+    --accent:#2d54a8;
+    --warm:#b01277;
+    --green:#1f7a52;
+    --bad:#b3401f;
+    --tint-good:#eaf5ef;
+    --tint-bad:#fbefe9;
+    --code-bg:#f3f1ea;
+    --maxw:720px;
+  }
+  [data-theme="dark"]{
+    --green:#6fcf9f;
+    --bad:#f08a66;
+    --tint-good:#14261f;
+    --tint-bad:#2b1c16;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme]){
+      --bg:#121212;--surface:#1a1a1a;--ink:#e6e6e6;--muted:#a3a3a3;--hair:#2e2e2e;
+      --accent:#7ab8e0;--warm:#e58ac0;--green:#6fcf9f;--bad:#f08a66;
+      --tint-good:#14261f;--tint-bad:#2b1c16;--code-bg:#1f1f1f;
+    }
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size:19px;line-height:1.72;font-feature-settings:"liga" 1, "onum" 1;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+  header.page{padding:64px 0 30px}
+  .eyebrow{font-family:"Inter",system-ui,sans-serif;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 14px}
+  h1{font-family:"Inter",system-ui,sans-serif;font-weight:700;font-size:2.5rem;line-height:1.12;letter-spacing:-.02em;margin:0 0 18px;text-wrap:balance}
+  .lede{font-size:1.12rem;color:var(--muted);margin:0 0 28px}
+
+  .meta{border:1px solid var(--hair);background:var(--surface);border-radius:12px;padding:18px 20px;font-family:"Inter",system-ui,sans-serif;font-size:.92rem;line-height:1.6;color:var(--muted)}
+  .meta strong{color:var(--ink)}
+  .meta a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,84,168,.3)}
+  .meta .row + .row{margin-top:8px}
+
+  pre{background:var(--code-bg);border:1px solid var(--hair);border-radius:8px;padding:14px 16px;overflow:auto;font-family:"JetBrains Mono", ui-monospace, monospace;font-size:.82rem;line-height:1.55;color:var(--ink);margin:12px 0 0}
+  code{font-family:"JetBrains Mono", ui-monospace, monospace;font-size:.84em;background:var(--code-bg);border:1px solid var(--hair);border-radius:5px;padding:.05em .35em}
+  pre code{background:none;border:none;padding:0;font-size:1em}
+  /* Long identifiers and URLs may break so the page never scrolls sideways on phones */
+  code,ol.refs a{overflow-wrap:anywhere}
+
+  nav.toc{margin:34px 0 10px;padding:20px 22px;border:1px solid var(--hair);border-radius:12px;background:var(--surface);font-family:"Inter",system-ui,sans-serif;font-size:.95rem}
+  nav.toc p{margin:0 0 10px;font-weight:600;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  nav.toc ol{margin:0;padding-left:1.3em;line-height:1.95}
+  nav.toc a{color:var(--ink);text-decoration:none}
+  nav.toc a:hover{color:var(--accent)}
+
+  main{padding:18px 0 40px}
+  h2{font-family:"Inter",system-ui,sans-serif;font-weight:700;font-size:1.62rem;line-height:1.2;letter-spacing:-.015em;margin:62px 0 6px;padding-top:14px;border-top:2px solid var(--ink);text-wrap:balance}
+  h2 .num{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:.5em}
+  h3{font-family:"Inter",system-ui,sans-serif;font-weight:600;font-size:1.18rem;margin:38px 0 4px;letter-spacing:-.01em}
+  p{margin:18px 0}
+  a{color:var(--accent)}
+  ul,ol{margin:18px 0;padding-left:1.4em}
+  li{margin:8px 0}
+  strong{font-weight:600}
+
+  .note{margin:26px 0;padding:16px 20px;border-radius:10px;background:#fbf1f6;border:1px solid #efd3e3;font-size:.98rem;color:#5c2547}
+  .note .lbl{font-family:"Inter",sans-serif;font-weight:600;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--warm);display:block;margin-bottom:6px}
+
+  /* Pita angka penting, seperti label spesifikasi perangkat */
+  .specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--hair);border-radius:12px;overflow:hidden;background:var(--surface);margin:24px 0;font-family:"Inter",system-ui,sans-serif}
+  .spec{padding:16px 18px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);display:grid;gap:3px;align-content:start}
+  .spec:nth-child(3n){border-right:none}
+  .spec:nth-last-child(-n+3){border-bottom:none}
+  .spec .k{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .spec .v{font-size:1.3rem;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .spec .n{font-size:.82rem;line-height:1.45;color:var(--muted)}
+
+  /* Kelebihan dan keterbatasan berdampingan */
+  .proscons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:24px 0}
+  .proscons > div{border-radius:12px;padding:18px 20px;min-width:0}
+  .proscons .good{background:var(--tint-good)}
+  .proscons .bad{background:var(--tint-bad)}
+  .proscons h3{margin:0 0 6px;font-size:1.05rem}
+  .proscons .good h3{color:var(--green)}
+  .proscons .bad h3{color:var(--bad)}
+  .proscons ul{margin:0;padding-left:1.1em;font-size:.95rem;line-height:1.6}
+  .proscons li{margin:7px 0}
+
+  /* Tabel data */
+  .table-box{overflow-x:auto;border:1px solid var(--hair);border-radius:12px;background:var(--surface);margin:22px 0}
+  table.data{border-collapse:collapse;width:100%;min-width:540px;font-family:"Inter",system-ui,sans-serif;font-size:.88rem;line-height:1.5}
+  table.data th,table.data td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--hair);vertical-align:top}
+  table.data th{font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  table.data tr:last-child td{border-bottom:none}
+  table.data code{font-size:.9em}
+  .tag{display:inline-block;font-family:"Inter",system-ui,sans-serif;font-size:.7rem;font-weight:600;padding:3px 7px;border-radius:5px;white-space:nowrap;margin-right:4px}
+  .tag.ok{color:var(--green);background:var(--tint-good)}
+  .tag.no{color:var(--bad);background:var(--tint-bad)}
+
+  footer.page{border-top:1px solid var(--hair);margin-top:60px;padding:30px 0 70px;font-family:"Inter",system-ui,sans-serif;font-size:.9rem;color:var(--muted)}
+  footer.page a{color:var(--accent);text-decoration:none}
+  ol.refs{font-family:"Inter",system-ui,sans-serif;font-size:.92rem;line-height:1.6;color:var(--muted)}
+  ol.refs li{margin:12px 0}
+  ol.refs a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,84,168,.28)}
+
+  @media (max-width:560px){
+    body{font-size:17.5px}
+    h1{font-size:2rem}
+    h2{font-size:1.4rem}
+    header.page{padding:44px 0 22px}
+    .specs{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .spec:nth-child(3n){border-right:1px solid var(--hair)}
+    .spec:nth-child(2n){border-right:none}
+    .spec:nth-last-child(-n+3){border-bottom:1px solid var(--hair)}
+    .spec:nth-last-child(-n+2){border-bottom:none}
+    .proscons{grid-template-columns:1fr}
+  }
+</style>
+<link rel="stylesheet" href="/assets/css/article.css">
+</head>
+<body>
+{% include nav.html %}
+{% raw %}
+
+<div class="wrap">
+
+<header class="page">
+  <p class="eyebrow">Catatan NLP &middot; Bahasa Indonesia</p>
+  <h1>Apple Foundation Model di MacBook M1</h1>
+  <p class="lede">macOS 27 membawa model bahasa on-device milik Apple beserta perintah <code>fm serve</code> yang menyediakan API mirip OpenAI. Saya membuat GUI chat kecil bernama ChatAFM untuk mencobanya di MacBook M1, lalu mencatat apa saja yang bisa dan belum bisa diandalkan dari model ini.</p>
+{% endraw %}{% include post-byline.html %}{% include share.html %}{% raw %}
+
+  <div class="meta">
+    <div class="row">Ini <strong>artikel asli berbahasa Indonesia</strong> berdasarkan uji coba langsung. Semua angka dan contoh jawaban berasal dari perangkat saya sendiri.</div>
+    <div class="row">Ini <strong>observasi informal pada satu perangkat</strong>, bukan benchmark resmi. Hasil di Mac lain atau versi macOS lain bisa berbeda.</div>
+  </div>
+
+  <nav class="toc">
+    <p>Daftar Isi</p>
+    <ol>
+      <li><a href="#apa">Apa Itu Apple Foundation Model dan fm serve</a></li>
+      <li><a href="#angka">Lingkungan Uji dan Angka Penting</a></li>
+      <li><a href="#chatafm">Membangun ChatAFM</a></li>
+      <li><a href="#jalankan">Cara Menjalankan ChatAFM</a></li>
+      <li><a href="#plusminus">Kelebihan dan Keterbatasan</a></li>
+      <li><a href="#bahasa">Bahasa Menentukan Kualitas</a></li>
+      <li><a href="#developer">Catatan untuk Developer</a></li>
+      <li><a href="#tips">Tips dan Ringkasan</a></li>
+    </ol>
+  </nav>
+</header>
+
+<main>
+
+<h2 id="apa"><span class="num">01</span>Apa Itu Apple Foundation Model dan fm serve</h2>
+
+<p>Apple Foundation Model adalah model bahasa yang menjadi dasar Apple Intelligence. Model ini berjalan langsung di perangkat, jadi prompt dan jawabannya tidak dikirim ke server mana pun. Pengembang aplikasi biasanya mengaksesnya lewat framework <em>Foundation Models</em> di Swift.</p>
+
+<p>Di macOS 27, Apple juga menyertakan alat baris perintah <code>fm</code> di <code>/usr/bin/fm</code>. Salah satu subperintahnya, <code>fm serve</code>, menjalankan server lokal yang kompatibel dengan API Chat Completions milik OpenAI. Artinya, model on-device ini bisa dipanggil dengan cara yang sama seperti memanggil API model bahasa di cloud, cukup lewat HTTP ke <code>127.0.0.1</code>.</p>
+
+<p>Model yang tersedia lewat <code>fm serve</code> hanya satu, bernama <code>system</code>. Statusnya masih beta.</p>
+
+<h2 id="angka"><span class="num">02</span>Lingkungan Uji dan Angka Penting</h2>
+
+<p>Semua uji dilakukan di <strong>MacBook dengan Apple M1, RAM 8 GB, dan macOS 27.0.1</strong>. Angka kecepatan diukur dari tiga permintaan streaming dengan panjang jawaban sekitar 200 sampai 370 token.</p>
+
+<div class="specs">
+  <div class="spec"><span class="k">Biaya dan kuota</span><span class="v">Gratis</span><span class="n">Tanpa langganan, tanpa batas 5 jam atau mingguan</span></div>
+  <div class="spec"><span class="k">Internet</span><span class="v">Tidak perlu</span><span class="n">Semua proses berjalan di Mac</span></div>
+  <div class="spec"><span class="k">Jendela konteks</span><span class="v">8.192 token</span><span class="n">Per percakapan, lalu harus mulai baru</span></div>
+  <div class="spec"><span class="k">Jeda teks pertama</span><span class="v">7 sampai 12 dtk</span><span class="n">Dari permintaan dikirim sampai teks muncul</span></div>
+  <div class="spec"><span class="k">Kecepatan menulis</span><span class="v">33 sampai 43</span><span class="n">token per detik setelah teks mulai keluar</span></div>
+  <div class="spec"><span class="k">Bahasa resmi</span><span class="v">24</span><span class="n">Bahasa Indonesia tidak termasuk</span></div>
+</div>
+
+<p>Daftar bahasa resmi saya ambil langsung dari framework lewat <code>SystemLanguageModel.default.supportedLanguages</code>. Hasilnya 24 varian bahasa, antara lain Inggris, Jepang, Korea, Vietnam, Turki, dan Tionghoa. Pemeriksaan <code>supportsLocale(id_ID)</code> mengembalikan <code>false</code>.</p>
+
+<h2 id="chatafm"><span class="num">03</span>Membangun ChatAFM</h2>
+
+<p><code>fm</code> sebenarnya sudah punya mode chat di terminal (<code>fm chat</code>). Namun, saya ingin antarmuka yang lebih nyaman: riwayat percakapan, jawaban yang tampil bertahap, render Markdown, dan indikator sisa konteks. Hasilnya adalah ChatAFM, GUI chat berbasis browser yang hanya terdiri dari dua file:</p>
+
+<ul>
+  <li><code>fm_chat.py</code>, server kecil yang hanya memakai pustaka standar Python. Tugasnya menyajikan halaman dan meneruskan permintaan <code>/v1/*</code> ke <code>fm serve</code>, termasuk respons streaming.</li>
+  <li><code>index.html</code>, antarmuka chat dengan HTML, CSS, dan JavaScript dalam satu file. Tidak perlu build step dan tidak perlu internet.</li>
+</ul>
+
+<p>Fitur yang tersedia:</p>
+
+<ul>
+  <li>Percakapan multi-giliran dengan riwayat di sidebar dan tombol <strong>New chat</strong>.</li>
+  <li>Instruksi sistem yang bisa diubah per percakapan.</li>
+  <li>Jawaban tampil bertahap (streaming), dengan tombol <strong>Stop</strong> atau tombol Esc.</li>
+  <li>Render Markdown, termasuk tabel dan blok kode dengan tombol <strong>Copy</strong>.</li>
+  <li>Meteran pemakaian konteks terhadap batas 8.192 token, dengan peringatan di 75% dan 90%.</li>
+  <li>Riwayat tersimpan di browser (localStorage), plus ekspor ke Markdown atau JSON.</li>
+  <li>Pesan galat yang jelas jika <code>fm serve</code> belum berjalan atau port salah.</li>
+</ul>
+
+<div class="note">
+  <span class="lbl">Mengapa perlu proxy Python?</span>
+  Awalnya saya mengira cukup satu file HTML, karena <code>fm serve</code> mengirim header CORS. Ternyata header itu hanya berlaku untuk permintaan GET. Permintaan chat (POST) dari halaman yang berbeda origin, termasuk file yang dibuka langsung lewat <code>file://</code>, ditolak dengan status 403. Karena itu halaman harus disajikan dari origin yang sama dengan proxy, dan tugas itulah yang dikerjakan <code>fm_chat.py</code>.
+</div>
+
+<h2 id="jalankan"><span class="num">04</span>Cara Menjalankan ChatAFM</h2>
+
+<p>Kebutuhannya adalah Mac Apple Silicon dengan macOS 27 dan Apple Intelligence yang sudah aktif. Python bawaan macOS (versi 3.9) sudah cukup.</p>
+
+<ol>
+  <li>
+    <p>Buka Terminal pertama, lalu jalankan <code>fm serve</code> di foreground. Biarkan jendela ini tetap terbuka. Jangan jalankan di background dan jangan tekan Ctrl-Z.</p>
+<pre><code>fm serve --host 127.0.0.1 --port 8765</code></pre>
+  </li>
+  <li>
+    <p>Buka Terminal kedua, masuk ke folder ChatAFM, lalu jalankan servernya.</p>
+<pre><code>python3 fm_chat.py --open</code></pre>
+  </li>
+  <li><p>Browser akan terbuka di <code>http://localhost:8770</code>. Jika tidak terbuka otomatis, buka alamat itu secara manual.</p></li>
+  <li><p>Untuk berhenti, tekan Ctrl-C di Terminal ChatAFM, lalu di Terminal <code>fm serve</code>.</p></li>
+</ol>
+
+<p>Port bisa diatur lewat argumen berikut.</p>
+
+<div class="table-box">
+  <table class="data">
+    <thead><tr><th>Argumen</th><th>Bawaan</th><th>Fungsi</th></tr></thead>
+    <tbody>
+      <tr><td><code>--port</code></td><td>8770</td><td>Port ChatAFM</td></tr>
+      <tr><td><code>--fm-port</code></td><td>8765</td><td>Port <code>fm serve</code></td></tr>
+      <tr><td><code>--host</code></td><td>127.0.0.1</td><td>Alamat ChatAFM</td></tr>
+      <tr><td><code>--fm-host</code></td><td>127.0.0.1</td><td>Alamat <code>fm serve</code></td></tr>
+      <tr><td><code>--open</code></td><td>mati</td><td>Buka browser otomatis</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>Jika ada masalah</h3>
+
+<div class="table-box">
+  <table class="data">
+    <thead><tr><th>Gejala</th><th>Penyebab dan solusi</th></tr></thead>
+    <tbody>
+      <tr><td>Status <strong>Disconnected</strong></td><td><code>fm serve</code> belum berjalan atau portnya berbeda. Jalankan langkah 1, atau sesuaikan <code>--fm-port</code>.</td></tr>
+      <tr><td><strong>This page must be opened through fm_chat.py</strong></td><td>Halaman dibuka langsung dari file. Jalankan <code>python3 fm_chat.py</code>, lalu buka <code>http://localhost:8770</code>.</td></tr>
+      <tr><td><strong>Could not open port 8770</strong></td><td>Port sudah dipakai. Jalankan dengan port lain, misalnya <code>--port 8780</code>.</td></tr>
+      <tr><td><strong>This chat exceeds the model context limit</strong></td><td>Percakapan terlalu panjang. Mulai percakapan baru.</td></tr>
+      <tr><td><strong>Model unavailable</strong></td><td>Pastikan Apple Intelligence aktif dan model sudah selesai diunduh. Cek dengan <code>fm available</code>.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 id="plusminus"><span class="num">05</span>Kelebihan dan Keterbatasan</h2>
+
+<div class="proscons">
+  <div class="good">
+    <h3>Kelebihan</h3>
+    <ul>
+      <li><strong>Privat.</strong> Prompt dan jawaban tidak meninggalkan Mac.</li>
+      <li><strong>Gratis tanpa kuota.</strong> Tidak ada batas 5 jam atau batas mingguan seperti layanan chat berbayar.</li>
+      <li><strong>Jalan offline.</strong> Cocok saat koneksi buruk.</li>
+      <li><strong>Sudah terpasang.</strong> Tidak perlu mengunduh model sendiri.</li>
+      <li><strong>API kompatibel OpenAI.</strong> Mudah dihubungkan ke aplikasi atau skrip yang sudah ada.</li>
+      <li><strong>Cukup baik dalam bahasa Inggris</strong> untuk penjelasan umum, ringkasan, dan contoh kode pendek.</li>
+    </ul>
+  </div>
+  <div class="bad">
+    <h3>Keterbatasan</h3>
+    <ul>
+      <li><strong>Bahasa Indonesia lemah.</strong> Tidak didukung resmi, jawabannya cenderung terlalu umum dan sering keliru.</li>
+      <li><strong>Akurasi faktual terbatas</strong>, bahkan dalam bahasa Inggris.</li>
+      <li><strong>Konteks pendek.</strong> Sekitar 8.192 token, jadi percakapan panjang atau dokumen besar cepat penuh.</li>
+      <li><strong>Jeda awal terasa.</strong> Butuh 7 sampai 12 detik sebelum teks pertama muncul.</li>
+      <li><strong>Hanya satu model.</strong> Tidak ada pilihan model yang lebih besar.</li>
+      <li><strong>Berat di RAM 8 GB</strong> bila dipakai bersama banyak aplikasi dan tab browser.</li>
+    </ul>
+  </div>
+</div>
+
+<p>Soal kuota, yang ada hanyalah batas konteks per percakapan. Jika penuh, cukup mulai percakapan baru tanpa perlu menunggu. Kecepatan bisa menurun saat Mac sedang sibuk, tetapi pemakaian tidak pernah diblokir.</p>
+
+<p>Soal memori, saat tidak sedang menjawab, <code>fm serve</code> dan ChatAFM hampir tidak memakan RAM, masing-masing sekitar 2 MB. Namun saat saya memakainya bersama banyak tab browser, swap sempat terpakai sekitar 6 GB dan Mac terasa lambat. Di Mac 8 GB, sebaiknya tutup aplikasi yang tidak perlu sebelum memakai model ini.</p>
+
+<h2 id="bahasa"><span class="num">06</span>Bahasa Menentukan Kualitas</h2>
+
+<p>Temuan paling penting dari uji coba ini adalah pengaruh bahasa. Saya bertanya tentang arsitektur Transformer dengan salah ketik, yaitu <code>transformes</code>, lalu membandingkan hasilnya.</p>
+
+<div class="table-box">
+  <table class="data">
+    <thead><tr><th>Prompt</th><th>Jawaban diminta dalam</th><th>Hasil</th></tr></thead>
+    <tbody>
+      <tr><td><code>tell me about transformes architecture</code></td><td>Bahasa Inggris</td><td><span class="tag ok">Tepat</span> Mengenali Transformer, menyebut attention, multi-head attention, dan encoder-decoder</td></tr>
+      <tr><td><code>tell me about transformes architecture</code></td><td>Bahasa Indonesia</td><td><span class="tag no">Salah topik</span> Menjelaskan "arsitektur transformasi" dalam pengembangan perangkat lunak</td></tr>
+      <tr><td><code>jelaskan arsitektur transformes</code></td><td>Bahasa Inggris</td><td><span class="tag no">Salah topik</span> Instruksi bahasa Inggris diabaikan, model menjawab dalam Bahasa Indonesia dan tetap keliru</td></tr>
+      <tr><td><code>tell me about transformer architecture in deep learning</code></td><td>Bahasa Indonesia</td><td><span class="tag ok">Topik benar</span> Ejaan yang benar membantu, tetapi beberapa detail teknis kurang tepat</td></tr>
+      <tr><td><code>Sebutkan 2 kota di Sumatra.</code></td><td>Bahasa Indonesia</td><td><span class="tag no">Keliru</span> Menjawab "Medan dan Jakarta", padahal Jakarta ada di Pulau Jawa</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<p>Ada tiga pelajaran dari tabel ini. Pertama, bahasa jawaban jauh lebih berpengaruh daripada bahasa instruksi sistem. Mengganti instruksi sistem ke bahasa Inggris tidak membantu selama jawabannya tetap diminta dalam Bahasa Indonesia. Kedua, pertanyaan juga harus berbahasa Inggris. Pertanyaan berbahasa Indonesia membuat model mengabaikan instruksi untuk menjawab dalam bahasa Inggris. Ketiga, jawaban bahasa Inggris pun tetap perlu dicek. Dalam satu uji, model menyebut lapisan feedforward berfungsi menangkap ketergantungan jarak jauh, padahal itu tugas mekanisme attention.</p>
+
+<p>Jika hasil berbahasa Indonesia tetap dibutuhkan, cara terbaik yang saya temukan adalah dua langkah. Minta jawaban dalam bahasa Inggris terlebih dulu, lalu minta model menerjemahkannya. Hasil terjemahannya tepat topik dan cukup lengkap, meskipun beberapa istilah terdengar kaku, misalnya "memurnikan keluaran lapisan".</p>
+
+<p>Karena temuan ini, antarmuka ChatAFM sengaja saya buat berbahasa Inggris. Instruksi sistem bawaannya pun berbahasa Inggris, dan setiap percakapan baru menampilkan pengingat untuk menulis prompt dalam bahasa Inggris.</p>
+
+<h2 id="developer"><span class="num">07</span>Catatan untuk Developer</h2>
+
+<p>Sebelum menulis kode ChatAFM, saya memeriksa perilaku asli <code>fm serve</code> dengan <code>curl</code> dan browser. Ada beberapa perbedaan penting dibanding API OpenAI.</p>
+
+<div class="table-box">
+  <table class="data">
+    <thead><tr><th>Temuan</th><th>Dampak</th></tr></thead>
+    <tbody>
+      <tr><td>Tanpa field <code>stream</code>, respons tetap berupa streaming (SSE)</td><td>Kirim <code>"stream": false</code> secara eksplisit jika ingin JSON biasa</td></tr>
+      <tr><td>Galat saat streaming, misalnya konteks penuh, dikirim sebagai <code>event: error</code> dengan status HTTP 200</td><td>Klien harus membaca nama event SSE, bukan hanya status HTTP</td></tr>
+      <tr><td>GET mengirim header CORS untuk origin apa pun, tetapi POST ditolak jika <code>Origin: null</code> atau <code>Sec-Fetch-Site</code> bernilai <code>same-site</code> atau <code>cross-site</code></td><td>Halaman web perlu proxy kecil di origin yang sama</td></tr>
+      <tr><td><code>stream_options.include_usage</code> didukung</td><td>Pemakaian token bisa dibaca untuk indikator konteks</td></tr>
+      <tr><td>Ada endpoint <code>GET /health</code> yang melaporkan ketersediaan model</td><td>Berguna untuk menampilkan status koneksi</td></tr>
+      <tr><td><code>/v1/models</code> hanya berisi <code>system</code>, nama lain ditolak dengan galat 400</td><td>Belum ada pilihan model lain lewat server ini</td></tr>
+      <tr><td><code>fm count-tokens</code> akurat, tetapi butuh 1 sampai 5 detik per panggilan</td><td>Terlalu lambat untuk dihitung setiap kali mengetik, jadi ChatAFM memakai perkiraan berbasis jumlah karakter</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<p>Contoh permintaan non-streaming yang paling sederhana:</p>
+
+<pre><code>curl http://127.0.0.1:8765/v1/chat/completions \
+  -H 'Content-Type: application/json' \
+  -d '{"model": "system", "stream": false,
+       "messages": [{"role": "user", "content": "Name three primary colors."}]}'</code></pre>
+
+<p>Karena proxy ChatAFM ikut meneruskan permintaan chat, saya menambahkan perlindungan yang sama seperti <code>fm serve</code>. Proxy menolak permintaan POST dari situs lain dan hanya menerima header <code>Host</code> yang mengarah ke loopback. Dengan begitu, proxy tidak membuka celah yang sudah ditutup oleh <code>fm serve</code>.</p>
+
+<h2 id="tips"><span class="num">08</span>Tips dan Ringkasan</h2>
+
+<ol>
+  <li>Tulis prompt dan instruksi sistem dalam bahasa Inggris.</li>
+  <li>Pakai untuk tugas ringan, misalnya merangkum, menyusun ulang kalimat, membuat draf, atau menjelaskan konsep umum.</li>
+  <li>Periksa ulang fakta, angka, dan detail teknis sebelum dipakai.</li>
+  <li>Mulai percakapan baru saat topik berganti, supaya konteks 8.192 token tidak cepat penuh.</li>
+  <li>Di Mac dengan RAM 8 GB, tutup aplikasi dan tab yang tidak dipakai.</li>
+  <li>Jika butuh hasil berbahasa Indonesia, minta jawaban bahasa Inggris dulu, lalu minta terjemahannya.</li>
+</ol>
+
+<p>Secara keseluruhan, Apple Foundation Model di MacBook M1 cocok sebagai asisten ringan yang privat, gratis, dan bisa dipakai offline, asalkan dipakai dalam bahasa Inggris. Untuk riset, topik yang menuntut akurasi tinggi, atau pemakaian dalam Bahasa Indonesia, model ini belum bisa diandalkan.</p>
+
+<h2 id="referensi"><span class="num">09</span>Referensi</h2>
+
+<ol class="refs">
+  <li>Apple. <em>Foundation Models</em>. Dokumentasi pengembang Apple. <a href="https://developer.apple.com/documentation/foundationmodels" target="_blank" rel="noopener">developer.apple.com/documentation/foundationmodels</a></li>
+  <li>Bantuan bawaan alat baris perintah <code>fm</code> di macOS 27, yaitu <code>fm --help</code>, <code>fm serve --help</code>, dan <code>fm count-tokens --help</code>.</li>
+</ol>
+
+</main>
+
+<footer class="page">
+  <p>Artikel asli berbahasa Indonesia tentang uji coba Apple Foundation Model on-device melalui <code>fm serve</code> di MacBook M1 (RAM 8 GB, macOS 27.0.1). Angka dan contoh berasal dari pengujian pribadi pada Oktober 2026.</p>
+</footer>
+
+</div>
+{% endraw %}
+{% include post-nav.html %}
+{% include footer.html %}
+</body>
+</html>

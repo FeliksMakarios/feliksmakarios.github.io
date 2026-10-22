@@ -1,0 +1,9 @@
+{%- comment -%}
+  Author, date and reading time under a blog article's title.
+  Placed before share.html in each post. Reading time assumes ~200 words a minute.
+{%- endcomment -%}
+{%- assign words = page.content | strip_html | number_of_words -%}
+{%- assign minutes = words | divided_by: 200 | plus: 1 -%}
+{%- assign months = "Januari,Februari,Maret,April,Mei,Juni,Juli,Agustus,September,Oktober,November,Desember" | split: "," -%}
+{%- assign month_index = page.date | date: "%-m" | minus: 1 -%}
+<p class="post-byline">{% if page.type == 'translation' %}Diterjemahkan oleh{% else %}Ditulis oleh{% endif %} <a href="/id/">{{ site.author.short_name }}</a> <span aria-hidden="true">·</span> <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%-d" }} {{ months[month_index] }} {{ page.date | date: "%Y" }}</time> <span aria-hidden="true">·</span> {{ minutes }} menit baca</p>
