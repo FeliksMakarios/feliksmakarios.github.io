@@ -53,8 +53,11 @@ Riset saya mempelajari apa yang patah ketika sistem NLP dan machine learning mai
 Kalau kamu mahasiswa Informatika UPH yang tertarik di NLP atau applied ML, silakan lihat <a href="/id/research/">bidang riset saya</a>.
 Tiap halaman detail bidang mencantumkan topik TA yang terbuka; silakan email saya untuk diskusi ide.
 
+{% assign open_topics = 0 %}{% for a in site.data.research.areas %}{% assign o = a.open_topics | where: "status", "open" %}{% assign open_topics = open_topics | plus: o.size %}{% endfor %}
 <div class="callout">
-  <p><strong>Sedang terbuka untuk:</strong> bimbingan skripsi di bidang NLP low-resource
-  (Batak Toba), sentiment analysis Indonesia, audit fairness, dan applied computer vision.
-  Dasar Python dan Hugging Face Transformers akan sangat membantu.</p>
+  <p><strong>Sedang terbuka untuk:</strong> bimbingan skripsi di keempat bidang riset saya, dengan
+  {{ open_topics }} topik yang masih terbuka saat ini. Contohnya anotasi Universal Dependencies dan evaluasi LLM
+  untuk Bahasa Batak Toba serta bahasa daerah lain, NLP ucapan dan multimodal, bias pada model bahasa Indonesia,
+  serta machine learning untuk data kesehatan dan lingkungan. Dasar Python dan Hugging Face Transformers akan
+  sangat membantu.</p>
 </div>
