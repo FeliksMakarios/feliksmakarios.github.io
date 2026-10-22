@@ -8,6 +8,7 @@
 {%- assign oid = o.term | slugify -%}
 {%- if lang == 'id' -%}
   {%- assign t_soon = 'Akan segera diisi.' -%}
+  {%- assign t_all_soon = 'Materi semester ini akan segera diisi: RPS, slide bahan kuliah, kuis dan ujian, tugas dan proyek mahasiswa, serta foto-foto.' -%}
   {%- capture sections -%}
 rps|Rencana Pembelajaran Semester (RPS)
 slides|Slide Bahan Kuliah
@@ -17,6 +18,7 @@ photos|Foto-foto
   {%- endcapture -%}
 {%- else -%}
   {%- assign t_soon = 'Coming soon.' -%}
+  {%- assign t_all_soon = 'Materials for this semester are coming soon: syllabus (RPS), lecture slides, quizzes and exams, student assignments and projects, and photos.' -%}
   {%- capture sections -%}
 rps|Course Syllabus (RPS)
 slides|Lecture Slides
@@ -26,6 +28,12 @@ photos|Photos
   {%- endcapture -%}
 {%- endif -%}
 {%- assign section_rows = sections | strip | newline_to_br | split: '<br />' -%}
+{%- comment -%} A semester with no materials at all gets one line instead of five empty sections. {%- endcomment -%}
+{%- assign filled = 0 -%}
+{%- for row in section_rows -%}{%- assign parts = row | strip | split: '|' -%}{%- assign key = parts[0] -%}{%- assign items = o[key] -%}{%- if items and items.size > 0 -%}{%- assign filled = filled | plus: 1 -%}{%- endif -%}{%- endfor -%}
+{%- if filled == 0 %}
+<p class="coming-soon">{{ t_all_soon }}</p>
+{%- else %}
 <ol class="course-toc">
   {%- for row in section_rows -%}{%- assign parts = row | strip | split: '|' -%}
   <li><a href="#{{ oid }}-{{ parts[0] }}">{{ parts[1] }}</a></li>
@@ -56,3 +64,4 @@ photos|Photos
   {% endif %}
 </section>
 {% endfor %}
+{%- endif %}
