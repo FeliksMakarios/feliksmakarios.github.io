@@ -53,8 +53,12 @@ My research investigates what fails when mainstream NLP and machine learning sys
 If you are a UPH Informatics student interested in NLP or applied ML, take a look at my <a href="/en/research/">research areas</a>.
 Each area's detail page lists open thesis topics; feel free to email me to discuss ideas.
 
+{% assign open_topics = 0 %}{% for a in site.data.research.areas %}{% assign o = a.open_topics | where: "status", "open" %}{% assign open_topics = open_topics | plus: o.size %}{% endfor %}
 <div class="callout">
-  <p><strong>Currently open for:</strong> undergraduate thesis mentees in low-resource NLP (Batak Toba),
-  Indonesian sentiment analysis, fairness audits, and applied computer vision. Basic familiarity with
-  Python and Hugging Face Transformers is helpful.</p>
+  <p><strong>Currently open for:</strong> undergraduate thesis mentees in all four research areas, with
+  {{ open_topics }} open topics right now. Examples include NLP for any low-resource language,
+  including Indonesian regional languages such as Batak Toba, Javanese, or Sundanese (for instance Universal Dependencies
+  annotation, LLM evaluation, and cross-lingual transfer), speech and multimodal NLP, bias in Indonesian language models,
+  and machine learning for health and environmental data. Basic familiarity with Python and Hugging Face
+  Transformers is helpful.</p>
 </div>
