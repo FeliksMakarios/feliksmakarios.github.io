@@ -6,6 +6,8 @@
     <h3><a href="/{{ lang }}/teaching/{{ c.slug }}/">{{ c_title }}</a></h3>
     {% if lang == 'id' and c.name_id %}<p class="course-alt-name">{{ c.name }}</p>{% elsif lang == 'en' and c.name_id %}<p class="course-alt-name">{{ c.name_id }}</p>{% endif %}
     {% if c_now %}<p class="course-badge"><span class="tag tag-open">{% if lang == 'id' %}Semester ini{% else %}This semester{% endif %} · {{ c_now.term }}</span></p>{% endif %}
+    {%- assign n_terms = c.offerings.size -%}{%- assign first_term = c.offerings | last -%}
+    {% if n_terms > 0 %}<p class="course-history">{% if lang == 'id' %}Diampu {{ n_terms }} semester · sejak {{ first_term.term }}{% else %}Taught {{ n_terms }} semester{% if n_terms != 1 %}s{% endif %} · since {{ first_term.term }}{% endif %}</p>{% endif %}
     <p class="area-definition">{{ c.desc[lang] }}</p>
     <a href="/{{ lang }}/teaching/{{ c.slug }}/" class="btn-detail">{% if lang == 'id' %}Materi kuliah →{% else %}Course materials →{% endif %}</a>
 </article>
