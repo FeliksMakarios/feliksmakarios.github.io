@@ -56,8 +56,9 @@ Tiap halaman detail bidang mencantumkan topik TA yang terbuka; silakan email say
 {% assign open_topics = 0 %}{% for a in site.data.research.areas %}{% assign o = a.open_topics | where: "status", "open" %}{% assign open_topics = open_topics | plus: o.size %}{% endfor %}
 <div class="callout">
   <p><strong>Sedang terbuka untuk:</strong> bimbingan skripsi di keempat bidang riset saya, dengan
-  {{ open_topics }} topik yang masih terbuka saat ini. Contohnya anotasi Universal Dependencies dan evaluasi LLM
-  untuk Bahasa Batak Toba serta bahasa daerah lain, NLP ucapan dan multimodal, bias pada model bahasa Indonesia,
+  {{ open_topics }} topik yang masih terbuka saat ini. Contohnya NLP untuk bahasa low-resource apa pun, termasuk
+  bahasa daerah Indonesia seperti Batak Toba, Jawa, atau Sunda (misalnya anotasi Universal Dependencies, evaluasi LLM,
+  dan transfer lintas bahasa), NLP ucapan dan multimodal, bias pada model bahasa Indonesia,
   serta machine learning untuk data kesehatan dan lingkungan. Dasar Python dan Hugging Face Transformers akan
   sangat membantu.</p>
 </div>
