@@ -40,7 +40,7 @@ tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan", "Attention"]
   .lede{font-size:1.1rem;color:#3b4046;margin:0 0 28px}
   .meta{border:1px solid var(--hair);background:var(--surface);border-radius:12px;padding:18px 20px;font-family:"Inter",sans-serif;font-size:.92rem;line-height:1.6;color:#3b4046}
   .meta strong{color:var(--ink)} .meta a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,84,168,.3)} .meta .row+.row{margin-top:8px}
-  main{padding:18px 0 40px}
+  .main{padding:18px 0 40px}
   h2{font-family:"Inter",sans-serif;font-weight:700;font-size:1.5rem;line-height:1.2;letter-spacing:-.015em;margin:56px 0 6px;padding-top:14px;border-top:2px solid var(--ink)}
   p{margin:18px 0} a{color:var(--accent)} ul,ol{margin:18px 0;padding-left:1.4em} li{margin:8px 0} strong{font-weight:600}
   .term{font-style:italic}
@@ -54,7 +54,7 @@ tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan", "Attention"]
   ol.steps li{counter-increment:s;padding-left:2.4em;position:relative;margin:12px 0}
   ol.steps li::before{content:counter(s);position:absolute;left:0;top:.1em;width:1.7em;height:1.7em;background:var(--accent);color:#fff;border-radius:50%;font-family:"Inter",sans-serif;font-size:.82rem;font-weight:600;display:flex;align-items:center;justify-content:center}
   footer.page{border-top:1px solid var(--hair);margin-top:50px;padding:28px 0 70px;font-family:"Inter",sans-serif;font-size:.88rem;color:var(--muted);line-height:1.6}
-  footer.page a{color:var(--accent);text-decoration:none}
+  footer.page a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
   .lic{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--hair);background:var(--surface);border-radius:10px;padding:14px 16px;margin:18px 0}
   .lic img{width:88px;height:31px;flex:none}
   @media (max-width:560px){body{font-size:17.5px}h1{font-size:1.7rem}h2{font-size:1.32rem}header.page{padding:44px 0 22px}}
@@ -67,6 +67,7 @@ tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan", "Attention"]
 
 <div class="wrap">
 
+<main id="main" tabindex="-1">
 <header class="page">
   <p class="eyebrow">Terjemahan &middot; Bahasa Indonesia</p>
   <h1>Memvisualisasikan Model Neural Machine Translation (Mekanika Seq2seq dengan Attention)</h1>
@@ -82,7 +83,7 @@ tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan", "Attention"]
   </div>
 </header>
 
-<main>
+<div class="main">
 
 <p>Model sequence-to-sequence (seq2seq) adalah model deep learning yang meraih banyak keberhasilan pada tugas seperti penerjemahan mesin (machine translation), peringkasan teks, dan pemberian keterangan citra (image captioning). Google Translate mulai memakai model semacam ini secara produksi pada akhir 2016. Model ini dijelaskan pada dua makalah perintis, yaitu <a href="https://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf" target="_blank" rel="noopener">Sutskever dkk., 2014</a> dan <a href="http://emnlp2014.org/papers/pdf/EMNLP2014179.pdf" target="_blank" rel="noopener">Cho dkk., 2014</a>.</p>
 
@@ -232,15 +233,16 @@ tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan", "Attention"]
   Tulisan asli menyebut bahwa visual ini adalah bagian awal dari sebuah pelajaran tentang attention, dan menyinggung metode attention yang lebih baru seperti model Transformer dari makalah <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need</a>. Pembahasan Transformer dan self-attention tersedia pada artikel terpisah, <a href="https://feliksmakarios.github.io/blog/seq2seq-dan-attention/">Seq2seq dan Attention</a>.
 </div>
 
-</main>
+</div>
 
 <footer class="page">
   <p><strong>Atribusi.</strong> Tulisan asli: Alammar, J. (2018). <em>Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)</em> [Blog post]. Diakses dari <a href="https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/" target="_blank" rel="noopener">https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/</a></p>
   <div class="lic">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener"><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Lisensi Creative Commons BY-NC-SA 4.0"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener"><img width="88" height="31" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Lisensi Creative Commons BY-NC-SA 4.0"></a>
     <span>Tulisan asli berlisensi <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a>. Terjemahan Bahasa Indonesia ini dirilis dengan lisensi yang sama. Seluruh animasi dan gambar adalah karya Jay Alammar.</span>
   </div>
 </footer>
+</main>
 
 </div>
 <script>

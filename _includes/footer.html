@@ -3,7 +3,7 @@
   <div class="footer-inner">
     <div class="footer-col">
       <p class="footer-name">{{ site.author.name }}</p>
-      <p class="footer-role">{{ site.author.title }}<br>{{ site.author.affiliation }}</p>
+      <p class="footer-role">{% if lang == 'id' %}{{ site.author.title_id }}<br>{{ site.author.affiliation_id }}{% else %}{{ site.author.title }}<br>{{ site.author.affiliation }}{% endif %}</p>
     </div>
     <div class="footer-col">
       <p class="footer-heading">{% if lang == 'id' %}Kontak{% else %}Contact{% endif %}</p>
@@ -35,6 +35,20 @@
         try { localStorage.setItem('theme', next); } catch(e) {}
       });
     }
+
+    // Remember the language picked with the EN/ID switch; the root page reads it.
+    document.querySelectorAll('.lang-switch a[hreflang]').forEach(function(a) {
+      a.addEventListener('click', function() {
+        try { localStorage.setItem('lang', a.getAttribute('hreflang')); } catch(e) {}
+      });
+    });
+
+    // Let keyboard users scroll wide code blocks.
+    document.querySelectorAll('pre').forEach(function(pre) {
+      if (pre.scrollWidth > pre.clientWidth && !pre.hasAttribute('tabindex')) {
+        pre.setAttribute('tabindex', '0');
+      }
+    });
 
     var menuBtn = document.getElementById('nav-toggle');
     var header = document.querySelector('.site-header');

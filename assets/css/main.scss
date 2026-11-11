@@ -57,7 +57,8 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .prose h3 { font-size: 1.1rem; font-weight: 600; margin: 1.8rem 0 0.5rem; }
 .prose p { margin: 0 0 1.1rem; }
-.prose ul, .prose ol { padding-left: 1.3rem; margin: 0 0 1.1rem; }
+/* :where() keeps this at element specificity so list classes (.subarea-list, .student-list, ...) can reset it */
+:where(.prose) ul, :where(.prose) ol { padding-left: 1.3rem; margin: 0 0 1.1rem; }
 .prose li { margin-bottom: 0.3rem; }
 .prose strong { font-weight: 600; }
 .prose code {
@@ -931,3 +932,10 @@ a.tag:hover {
   border-radius: var(--radius);
 }
 .course-back { margin-top: 2.5rem; }
+
+/* Larger touch targets on touch screens */
+@media (pointer: coarse) {
+  .pub-filter button, .demo-tabs button { min-height: 40px; }
+  .copy-bib, .pub-action { min-height: 36px; display: inline-flex; align-items: center; }
+  details > summary { padding-top: 0.35rem; padding-bottom: 0.35rem; }
+}

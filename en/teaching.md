@@ -3,6 +3,7 @@ layout: default
 permalink: /en/teaching/
 lang: en
 slug: teaching
+description: "Courses taught by Feliks Samosir in the Informatics program at Universitas Pelita Harapan, from computing fundamentals to machine learning and NLP, with syllabi and materials."
 title: Teaching
 subtitle: "Courses at UPH Informatics"
 ---

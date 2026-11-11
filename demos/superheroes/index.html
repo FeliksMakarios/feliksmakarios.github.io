@@ -81,22 +81,34 @@
         }
         .back-to-site { position: fixed; top: 12px; left: 12px; z-index: 10; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,0.55); color: #fff; font: 14px/1.2 Arial, sans-serif; text-decoration: none; }
         .back-to-site:hover { background: rgba(0,0,0,0.75); }
+        main { display: flex; flex-direction: column; align-items: center; max-width: 100%; }
+        .label-section img { height: auto; }
+        .footer { box-sizing: border-box; }
+        @media (max-width: 700px) {
+            body { padding-top: 40px; }
+            #container { flex-wrap: wrap; gap: 0 16px; max-width: 100%; }
+            #canvas { order: -1; flex-basis: 100%; max-width: calc(100% - 4px); height: auto; margin: 12px 0; }
+            .label-section img { width: 130px; }
+            .progress-bar-container { width: 130px; }
+            .progress-label { font-size: 16px; }
+        }
     </style>
 </head>
 <body>
-    <a class="back-to-site" href="/en/demos/" onclick="if (document.referrer.indexOf(location.host) > -1) { history.back(); return false; }">← Back to Demos</a>
+    <nav aria-label="Site"><a class="back-to-site" href="/en/demos/" onclick="if (document.referrer.indexOf(location.host) > -1) { history.back(); return false; }">← Back to Demos</a></nav>
+    <main>
     <h1>Superhero Pose Detection</h1>
     <button type="button" onclick="init()">Start</button>
     <div id="container">
         <div class="label-section">
-            <img src="https://64.media.tumblr.com/edeadf19376326fd9d20fdf095dbfbe6/tumblr_mj79lmerD01rp0vkjo1_500.gif" data-fallback="img/iron-man-still.webp" onerror="if(this.dataset.fallback&amp;&amp;this.getAttribute('src')!==this.dataset.fallback){this.src=this.dataset.fallback;}" alt="Iron Man Pose">
+            <img src="https://64.media.tumblr.com/edeadf19376326fd9d20fdf095dbfbe6/tumblr_mj79lmerD01rp0vkjo1_500.gif" data-fallback="img/iron-man-still.webp" onerror="if(this.dataset.fallback&amp;&amp;this.getAttribute('src')!==this.dataset.fallback){this.src=this.dataset.fallback;}" alt="Iron Man Pose" width="150" height="64">
             <div class="progress-bar-container">
                 <div class="progress-label">Iron Man</div>
                 <div class="progress-bar">
                     <div class="progress" id="doctor-strange-progress" style="width: 0%; background-color: gray;"></div>
                 </div>
             </div>
-            <img src="https://d31xsmoz1lk3y3.cloudfront.net/games/imgur/5iT6PDD.gif?w=394&amp;h=270&amp;fit=crop&amp;crop=faces&amp;q=50&amp;dpr=2" data-fallback="img/wolverine-still.webp" onerror="if(this.dataset.fallback&amp;&amp;this.getAttribute('src')!==this.dataset.fallback){this.src=this.dataset.fallback;}" alt="Wolverine Pose">
+            <img src="https://d31xsmoz1lk3y3.cloudfront.net/games/imgur/5iT6PDD.gif?w=394&amp;h=270&amp;fit=crop&amp;crop=faces&amp;q=50&amp;dpr=2" data-fallback="img/wolverine-still.webp" onerror="if(this.dataset.fallback&amp;&amp;this.getAttribute('src')!==this.dataset.fallback){this.src=this.dataset.fallback;}" alt="Wolverine Pose" width="150" height="103">
             <div class="progress-bar-container">
                 <div class="progress-label">Wolverine</div>
                 <div class="progress-bar">
@@ -106,14 +118,14 @@
         </div>
         <canvas id="canvas"></canvas>
         <div class="label-section">
-            <img src="img/doctor-strange.gif" data-fallback="https://media.tenor.com/97kK4EJobgIAAAAM/doctor-strange-doctor-strange-twirl.gif" onerror="if(this.dataset.fallback&amp;&amp;this.getAttribute('src')!==this.dataset.fallback){this.src=this.dataset.fallback;}" alt="Doctor Strange Pose">
+            <img src="img/doctor-strange.gif" data-fallback="https://media.tenor.com/97kK4EJobgIAAAAM/doctor-strange-doctor-strange-twirl.gif" onerror="if(this.dataset.fallback&amp;&amp;this.getAttribute('src')!==this.dataset.fallback){this.src=this.dataset.fallback;}" alt="Doctor Strange Pose" width="150" height="84">
             <div class="progress-bar-container">
                 <div class="progress-label">Doctor Strange</div>
                 <div class="progress-bar">
                     <div class="progress" id="iron-man-progress" style="width: 0%; background-color: gray;"></div>
                 </div>
             </div>
-            <img src="https://i.makeagif.com/media/9-20-2016/IxIb_l.gif" data-fallback="img/goku-still.webp" onerror="if(this.dataset.fallback&amp;&amp;this.getAttribute('src')!==this.dataset.fallback){this.src=this.dataset.fallback;}" alt="Goku Pose">
+            <img src="https://i.makeagif.com/media/9-20-2016/IxIb_l.gif" data-fallback="img/goku-still.webp" onerror="if(this.dataset.fallback&amp;&amp;this.getAttribute('src')!==this.dataset.fallback){this.src=this.dataset.fallback;}" alt="Goku Pose" width="150" height="113">
             <div class="progress-bar-container">
                 <div class="progress-label">Goku</div>
                 <div class="progress-bar">
@@ -122,6 +134,7 @@
             </div>
         </div>
     </div>
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
@@ -185,8 +198,8 @@
             }
         }
     </script>
-    <div class="footer">
+    <footer class="footer">
         <p>Developed by Feliks Samosir with Teachable Machine and TensorFlow.js</p>
-    </div>
+    </footer>
 </body>
 </html>

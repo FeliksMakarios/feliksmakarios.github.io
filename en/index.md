@@ -9,7 +9,7 @@ description: "Feliks Samosir — Lecturer and researcher in Natural Language Pro
 ---
 
 <section class="hero">
-  <img src="/assets/img/feliks.jpg" alt="Feliks Samosir" class="hero-photo"
+  <img src="/assets/img/feliks.jpg" width="600" height="600" alt="Feliks Samosir" class="hero-photo"
        onerror="this.style.display='none'">
   <div class="hero-text">
     <h1>Feliks Victor Parningotan Samosir</h1>
@@ -42,7 +42,7 @@ My research investigates what fails when mainstream NLP and machine learning sys
 {% assign news_by_year = news | group_by_exp: "item", "item.date_str | append: '' | slice: 0, 4" %}
 
 <div class="news-timeline">
-{% for year_group in news_by_year %}{% if year_group.name == latest_year %}<details class="year-group" open>{% else %}<details class="year-group">{% endif %}<summary class="year-summary"><span class="year-label">{{ year_group.name }}</span><span class="year-count">{{ year_group.items.size }} {% if year_group.items.size == 1 %}entry{% else %}entries{% endif %}</span></summary><ul class="news-list">{% for item in year_group.items %}<li class="news-item"><span class="news-date">{{ item.date_str }}</span><div class="news-body"><strong>{{ item.title.en }}</strong><p>{{ item.text.en }}</p></div></li>{% endfor %}</ul></details>{% endfor %}
+{% for year_group in news_by_year %}{% if year_group.name == latest_year %}<details class="year-group" open>{% else %}<details class="year-group">{% endif %}<summary class="year-summary"><span class="year-label">{{ year_group.name }}</span><span class="year-count">{{ year_group.items.size }} {% if year_group.items.size == 1 %}entry{% else %}entries{% endif %}</span></summary><ul class="news-list">{% for item in year_group.items %}<li class="news-item"><span class="news-date">{% include date-label.html date=item.date_str lang="en" %}</span><div class="news-body"><strong>{{ item.title.en }}</strong><p>{{ item.text.en }}</p></div></li>{% endfor %}</ul></details>{% endfor %}
 </div>
 {% else %}
 <p class="muted-note">No recent news.</p>

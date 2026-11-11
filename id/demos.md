@@ -3,23 +3,26 @@ layout: default
 permalink: /id/demos/
 lang: id
 slug: demos
+description: "Prototipe interaktif dari riset Feliks Samosir, skripsi mahasiswa bimbingan, dan kegiatan sosialisasi untuk siswa SMA, bisa dijalankan langsung di peramban."
 title: Demo
-subtitle: "Prototipe interaktif dari riset, pengajaran, dan outreach"
+subtitle: "Prototipe interaktif dari riset, pengajaran, dan sosialisasi"
 ---
 
 <p class="lead">
-Prototipe yang bisa dijalankan, dibagi tiga kategori: <strong>My Project</strong>
+Prototipe yang bisa dijalankan, dibagi tiga kategori: <strong>Proyek Saya</strong>
 untuk demo yang saya bangun dari riset saya sendiri dan side project,
-<strong>Student Project</strong> dari skripsi atau capstone matkul yang saya bimbing, dan
-<strong>Outreach</strong> dari kegiatan open house untuk siswa SMA.
+<strong>Proyek Mahasiswa</strong> dari skripsi atau capstone matkul yang saya bimbing, dan
+<strong>Sosialisasi</strong> dari kegiatan open house untuk siswa SMA.
 </p>
 
 <div class="demo-tabs" role="group" aria-label="Kategori demo">
-  <button data-tab="all" class="active" type="button">Semua</button>
-  <button data-tab="my-project" type="button">My Project</button>
-  <button data-tab="student-project" type="button">Student Project</button>
-  <button data-tab="outreach" type="button">Outreach</button>
+  <button data-tab="all" class="active" type="button" aria-pressed="true">Semua</button>
+  <button data-tab="my-project" type="button" aria-pressed="false">Proyek Saya</button>
+  <button data-tab="student-project" type="button" aria-pressed="false">Proyek Mahasiswa</button>
+  <button data-tab="outreach" type="button" aria-pressed="false">Sosialisasi</button>
 </div>
+
+<h2 class="visually-hidden">Daftar demo</h2>
 
 {% assign demos = site.demos %}
 {% assign categories = "my-project,student-project,outreach" | split: "," %}
@@ -29,7 +32,7 @@ untuk demo yang saya bangun dari riset saya sendiri dan side project,
 <div class="card-demo">
   <div class="thumb" aria-hidden="true">{{ demo.icon }}</div>
   <div>
-    <p class="demo-category"><span class="tag tag-area">{% case demo.category %}{% when "my-project" %}My Project{% when "student-project" %}Student Project{% else %}Outreach{% endcase %}</span></p>
+    <p class="demo-category"><span class="tag tag-area">{% case demo.category %}{% when "my-project" %}Proyek Saya{% when "student-project" %}Proyek Mahasiswa{% else %}Sosialisasi{% endcase %}</span></p>
     <h3>{{ demo.title }}</h3>
     <p class="meta">{{ demo.meta.id }}</p>
     <p>{{ demo.description.id }}</p>
@@ -49,8 +52,9 @@ untuk demo yang saya bangun dari riset saya sendiri dan side project,
     buttons.forEach(function(btn) {
       btn.addEventListener('click', function() {
         var tab = btn.getAttribute('data-tab');
-        buttons.forEach(function(b) { b.classList.remove('active'); });
+        buttons.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
         sections.forEach(function(s) {
           s.hidden = (tab !== 'all' && s.id !== tab);
         });

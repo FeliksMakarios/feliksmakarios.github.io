@@ -3,6 +3,7 @@ layout: default
 permalink: /id/research/
 lang: id
 slug: research
+description: "Bidang riset, proyek berhibah, topik tugas akhir yang terbuka, dan pengabdian masyarakat di bidang NLP dan ML untuk konteks Indonesia di Universitas Pelita Harapan."
 title: Riset dan Pengabdian Masyarakat
 subtitle: "NLP dan ML untuk konteks Indonesia yang kurang terwakili"
 ---

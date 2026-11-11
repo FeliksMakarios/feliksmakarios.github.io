@@ -3,6 +3,7 @@ layout: default
 permalink: /id/publications/
 lang: id
 slug: publications
+description: "Publikasi jurnal dan konferensi Feliks Samosir tentang NLP untuk konteks Indonesia, bahasa low-resource, bias dan fairness, serta penerapan machine learning."
 title: Publikasi
 subtitle: "Karya riset peer-reviewed"
 ---
@@ -13,11 +14,11 @@ masyarakat, lihat <a href="/id/research/#community-engagement">Pengabdian Masyar
 </p>
 
 <div class="pub-filter" role="group" aria-label="Filter by area">
-  <button data-filter="all" class="active" type="button">Semua ({{ site.publications.size }})</button>
-  {% assign n = site.publications | where: "area", "domain-specific-nlp" %}{% if n.size > 0 %}<button data-filter="domain-specific-nlp" type="button">NLP Spesifik Domain ({{ n.size }})</button>{% endif %}
-  {% assign n = site.publications | where: "area", "low-resource-languages" %}{% if n.size > 0 %}<button data-filter="low-resource-languages" type="button">Bahasa Low-Resource ({{ n.size }})</button>{% endif %}
-  {% assign n = site.publications | where: "area", "bias-fairness" %}{% if n.size > 0 %}<button data-filter="bias-fairness" type="button">Bias & Fairness ({{ n.size }})</button>{% endif %}
-  {% assign n = site.publications | where: "area", "applied-ml" %}{% if n.size > 0 %}<button data-filter="applied-ml" type="button">Applied ML ({{ n.size }})</button>{% endif %}
+  <button data-filter="all" class="active" type="button" aria-pressed="true">Semua ({{ site.publications.size }})</button>
+  {% assign n = site.publications | where: "area", "domain-specific-nlp" %}{% if n.size > 0 %}<button data-filter="domain-specific-nlp" type="button" aria-pressed="false">NLP Spesifik Domain ({{ n.size }})</button>{% endif %}
+  {% assign n = site.publications | where: "area", "low-resource-languages" %}{% if n.size > 0 %}<button data-filter="low-resource-languages" type="button" aria-pressed="false">Bahasa Low-Resource ({{ n.size }})</button>{% endif %}
+  {% assign n = site.publications | where: "area", "bias-fairness" %}{% if n.size > 0 %}<button data-filter="bias-fairness" type="button" aria-pressed="false">Bias & Fairness ({{ n.size }})</button>{% endif %}
+  {% assign n = site.publications | where: "area", "applied-ml" %}{% if n.size > 0 %}<button data-filter="applied-ml" type="button" aria-pressed="false">Applied ML ({{ n.size }})</button>{% endif %}
 </div>
 
 {% assign pubs = site.publications | sort: "year" | reverse %}
@@ -51,8 +52,9 @@ masyarakat, lihat <a href="/id/research/#community-engagement">Pengabdian Masyar
     var items = document.querySelectorAll('.pub-item');
     buttons.forEach(function(btn) {
       btn.addEventListener('click', function() {
-        buttons.forEach(function(b) { b.classList.remove('active'); });
+        buttons.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
         var filter = btn.getAttribute('data-filter');
         items.forEach(function(item) {
           var area = item.getAttribute('data-area');

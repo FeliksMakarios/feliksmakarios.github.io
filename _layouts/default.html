@@ -3,7 +3,7 @@
 {% include head.html %}
 <body>
   {% include nav.html %}
-  <main class="content">
+  <main class="content" id="main" tabindex="-1">
     {% if page.title and page.show_title != false %}
       <header class="page-header">
         <h1>{{ page.title }}</h1>

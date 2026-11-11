@@ -81,7 +81,7 @@ window.MathJax = {
   nav.toc a{color:var(--ink);text-decoration:none}
   nav.toc a:hover{color:var(--accent)}
 
-  main{padding:18px 0 40px}
+  .main{padding:18px 0 40px}
   h2{font-family:"Inter",system-ui,sans-serif;font-weight:700;font-size:1.62rem;line-height:1.2;letter-spacing:-.015em;margin:62px 0 6px;padding-top:14px;border-top:2px solid var(--ink)}
   h2 .num{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:.5em}
   h3{font-family:"Inter",system-ui,sans-serif;font-weight:600;font-size:1.18rem;margin:38px 0 4px;letter-spacing:-.01em}
@@ -117,7 +117,7 @@ window.MathJax = {
   .mathblock{overflow-x:auto;margin:22px 0}
 
   footer.page{border-top:1px solid var(--hair);margin-top:60px;padding:30px 0 70px;font-family:"Inter",system-ui,sans-serif;font-size:.9rem;color:var(--muted)}
-  footer.page a{color:var(--accent);text-decoration:none}
+  footer.page a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
   ol.refs{font-family:"Inter",system-ui,sans-serif;font-size:.92rem;line-height:1.6;color:#3b4046}
   ol.refs li{margin:12px 0}
   ol.refs a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,84,168,.28)}
@@ -137,6 +137,7 @@ window.MathJax = {
 
 <div class="wrap">
 
+<main id="main" tabindex="-1">
 <header class="page">
   <p class="eyebrow">Catatan NLP &middot; Bahasa Indonesia</p>
   <h1>Positional Encoding pada Transformer</h1>
@@ -186,7 +187,7 @@ window.MathJax = {
   </nav>
 </header>
 
-<main>
+<div class="main">
 
 <h2 id="kenapa"><span class="num">01</span>Mengapa Transformer Butuh Informasi Posisi</h2>
 
@@ -309,14 +310,14 @@ window.MathJax = {
 <p>Cara terbaik memahami positional encoding adalah melihatnya langsung. Diagram berikut menampilkan vektor encoding untuk 50 posisi pertama, masing-masing berdimensi 128. Setiap baris adalah satu vektor \(\vec{p_t}\) untuk satu posisi.</p>
 
 <figure>
-  <img loading="lazy" decoding="async" src="img/pe_heatmap.png" alt="Heatmap positional encoding 128 dimensi untuk 50 posisi">
+  <img width="1058" height="610" loading="lazy" decoding="async" src="img/pe_heatmap.png" alt="Heatmap positional encoding 128 dimensi untuk 50 posisi">
   <figcaption>Positional encoding sinusoidal. Dimensi rendah (kiri) berganti warna dengan cepat seiring posisi, dimensi tinggi (kanan) berubah sangat lambat. Diagram dibuat sendiri dari rumus standar.</figcaption>
 </figure>
 
 <p>Perhatikan sisi kiri yang bergaris-garis rapat: itu dimensi berfrekuensi tinggi yang nilainya cepat berubah dari posisi ke posisi. Makin ke kanan, perubahannya makin lambat sampai hampir konstan. Inilah wujud "jam dengan kecepatan berbeda" tadi. Hubungan dengan frekuensi terlihat lebih jelas bila kita gambar beberapa gelombangnya saja:</p>
 
 <figure>
-  <img loading="lazy" decoding="async" src="img/pe_frequencies.png" alt="Beberapa gelombang sinus pada frekuensi menurun">
+  <img width="1060" height="580" loading="lazy" decoding="async" src="img/pe_frequencies.png" alt="Beberapa gelombang sinus pada frekuensi menurun">
   <figcaption>Beberapa dimensi positional encoding sebagai gelombang sinus. Dimensi awal berosilasi cepat, dimensi belakang berosilasi sangat lambat. Diagram dibuat sendiri.</figcaption>
 </figure>
 
@@ -361,7 +362,7 @@ M_{\phi,k} =
 <p>Sifat tambahan lainnya, hasil kali titik (dot product) antara dua vektor posisi memuncak ketika kedua posisi sama, lalu meluruh dengan mulus dan simetris seiring jarak bertambah. Ini membuat ukuran kemiripan posisi berperilaku wajar.</p>
 
 <figure>
-  <img loading="lazy" decoding="async" src="img/pe_dotproduct.png" alt="Hasil kali titik antar posisi yang meluruh simetris">
+  <img width="1060" height="550" loading="lazy" decoding="async" src="img/pe_dotproduct.png" alt="Hasil kali titik antar posisi yang meluruh simetris">
   <figcaption>Hasil kali titik antara vektor posisi acuan (\(t=50\)) dan posisi lain. Nilainya memuncak di posisi yang sama lalu meluruh simetris. Diagram dibuat sendiri.</figcaption>
 </figure>
 
@@ -389,11 +390,12 @@ M_{\phi,k} =
   <li>L. Voita, "NLP Course | For You," bagian Seq2seq and Attention, 2020. <a href="https://lena-voita.github.io/nlp_course/seq2seq_and_attention.html" target="_blank" rel="noopener">lena-voita.github.io</a></li>
 </ol>
 
-</main>
+</div>
 
 <footer class="page">
   <p>Artikel asli berbahasa Indonesia tentang positional encoding sinusoidal. Topik bersumber dari makalah Transformer (Vaswani dkk., 2017) dengan pembahasan intuitif yang terinspirasi sumber-sumber pada bagian Referensi. Seluruh diagram dibuat sendiri dari rumus standar. Rumus dirender dengan MathJax.</p>
 </footer>
+</main>
 
 </div>
 {% endraw %}
