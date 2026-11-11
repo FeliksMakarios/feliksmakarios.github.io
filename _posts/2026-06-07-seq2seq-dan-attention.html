@@ -28,9 +28,6 @@ tags: ["NLP", "Deep Learning", "Tutorial", "Transformer"]
 <title>{{ page.title }} — {{ site.author.short_name }}</title>
 {% include head-meta.html %}
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <script>
 window.MathJax = {
@@ -59,7 +56,7 @@ window.MathJax = {
     margin:0;
     background:var(--bg);
     color:var(--ink);
-    font-family:"Source Serif 4", Georgia, "Times New Roman", serif;
+    font-family:var(--font-sans);
     font-size:19px;
     line-height:1.72;
     font-feature-settings:"liga" 1, "onum" 1;
@@ -69,12 +66,12 @@ window.MathJax = {
   /* ---- Header ---- */
   header.page{padding:64px 0 30px}
   .eyebrow{
-    font-family:"Inter",system-ui,sans-serif;
+    font-family:var(--font-sans);
     font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
     color:var(--muted);font-weight:600;margin:0 0 14px
   }
   h1{
-    font-family:"Inter",system-ui,sans-serif;
+    font-family:var(--font-serif);
     font-weight:700;font-size:2.5rem;line-height:1.12;
     letter-spacing:-.02em;margin:0 0 18px
   }
@@ -85,7 +82,7 @@ window.MathJax = {
     background:var(--surface);
     border-radius:12px;
     padding:18px 20px;
-    font-family:"Inter",system-ui,sans-serif;
+    font-family:var(--font-sans);
     font-size:.92rem;line-height:1.6;color:#3b4046;
   }
   .meta strong{color:var(--ink)}
@@ -100,7 +97,7 @@ window.MathJax = {
     border-radius:8px;
     padding:14px 16px;
     overflow:auto;
-    font-family:"JetBrains Mono", ui-monospace, monospace;
+    font-family:var(--font-mono);
     font-size:.82rem;line-height:1.55;color:#33373d;
     margin:12px 0 0
   }
@@ -109,7 +106,7 @@ window.MathJax = {
   nav.toc{
     margin:34px 0 10px;padding:20px 22px;
     border:1px solid var(--hair);border-radius:12px;background:var(--surface);
-    font-family:"Inter",system-ui,sans-serif;font-size:.95rem
+    font-family:var(--font-sans);font-size:.95rem
   }
   nav.toc p{margin:0 0 10px;font-weight:600;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
   nav.toc ol{margin:0;padding-left:1.3em;line-height:1.95}
@@ -119,13 +116,13 @@ window.MathJax = {
   /* ---- Teks ---- */
   .main{padding:18px 0 40px}
   h2{
-    font-family:"Inter",system-ui,sans-serif;
+    font-family:var(--font-serif);
     font-weight:700;font-size:1.62rem;line-height:1.2;letter-spacing:-.015em;
     margin:62px 0 6px;padding-top:14px;border-top:2px solid var(--ink)
   }
   h2 .num{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:.5em}
   h3{
-    font-family:"Inter",system-ui,sans-serif;
+    font-family:var(--font-sans);
     font-weight:600;font-size:1.18rem;margin:38px 0 4px;letter-spacing:-.01em
   }
   p{margin:18px 0}
@@ -155,7 +152,7 @@ window.MathJax = {
   }
   figure img.bare{border:none;background:transparent}
   figcaption{
-    font-family:"Inter",system-ui,sans-serif;
+    font-family:var(--font-sans);
     font-size:.84rem;color:var(--muted);line-height:1.55;
     margin-top:12px;max-width:600px;margin-left:auto;margin-right:auto
   }
@@ -166,14 +163,14 @@ window.MathJax = {
     background:#f1f4fb;border:1px solid #d9e0f2;
     font-size:.98rem;color:#33405e
   }
-  .note .lbl{font-family:"Inter",sans-serif;font-weight:600;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:6px}
+  .note .lbl{font-family:var(--font-sans);font-weight:600;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:6px}
 
   .mathblock{overflow-x:auto;margin:22px 0}
 
   footer.page{
     border-top:1px solid var(--hair);
     margin-top:60px;padding:30px 0 70px;
-    font-family:"Inter",system-ui,sans-serif;font-size:.9rem;color:var(--muted)
+    font-family:var(--font-sans);font-size:.9rem;color:var(--muted)
   }
   footer.page a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 

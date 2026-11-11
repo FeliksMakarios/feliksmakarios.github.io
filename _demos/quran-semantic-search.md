@@ -3,6 +3,7 @@ slug: quran-semantic-search
 category: student-project
 student: Erwiyono Yusuf
 icon: 📖
+thumbnail: /assets/img/demos/quran-semantic-search.webp
 title: Indonesian Qur'an Semantic Search
 meta:
   en: By Erwiyono Yusuf · Thesis 2026 · Hugging Face Space

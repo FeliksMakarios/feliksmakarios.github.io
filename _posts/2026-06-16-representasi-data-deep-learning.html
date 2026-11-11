@@ -28,9 +28,6 @@ tags: ["NLP", "Deep Learning", "Tutorial", "Representasi"]
 <title>{{ page.title }} — {{ site.author.short_name }}</title>
 {% include head-meta.html %}
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <script>
 window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
@@ -43,39 +40,39 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
     --accent:#2d54a8;--warm:#b01277;--green:#17705b;--code-bg:#f3f1ea;--maxw:730px}
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Serif 4",Georgia,serif;font-size:19px;line-height:1.72;font-feature-settings:"liga" 1,"onum" 1}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-sans);font-size:19px;line-height:1.72;font-feature-settings:"liga" 1,"onum" 1}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
   header.page{padding:64px 0 30px}
-  .eyebrow{font-family:"Inter",sans-serif;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 14px}
-  h1{font-family:"Inter",sans-serif;font-weight:700;font-size:2.4rem;line-height:1.14;letter-spacing:-.02em;margin:0 0 18px}
+  .eyebrow{font-family:var(--font-sans);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 14px}
+  h1{font-family:var(--font-serif);font-weight:700;font-size:2.4rem;line-height:1.14;letter-spacing:-.02em;margin:0 0 18px}
   .lede{font-size:1.12rem;color:#3b4046;margin:0 0 28px}
-  .meta{border:1px solid var(--hair);background:var(--surface);border-radius:12px;padding:18px 20px;font-family:"Inter",sans-serif;font-size:.92rem;line-height:1.6;color:#3b4046}
+  .meta{border:1px solid var(--hair);background:var(--surface);border-radius:12px;padding:18px 20px;font-family:var(--font-sans);font-size:.92rem;line-height:1.6;color:#3b4046}
   .meta strong{color:var(--ink)} .meta a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,84,168,.3)}
-  nav.toc{margin:34px 0 10px;padding:20px 22px;border:1px solid var(--hair);border-radius:12px;background:var(--surface);font-family:"Inter",sans-serif;font-size:.95rem}
+  nav.toc{margin:34px 0 10px;padding:20px 22px;border:1px solid var(--hair);border-radius:12px;background:var(--surface);font-family:var(--font-sans);font-size:.95rem}
   nav.toc p{margin:0 0 10px;font-weight:600;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
   nav.toc ol{margin:0;padding-left:1.3em;line-height:1.95} nav.toc a{color:var(--ink);text-decoration:none} nav.toc a:hover{color:var(--accent)}
-  .act{font-family:"Inter",sans-serif;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--warm);font-weight:600;margin:60px 0 -6px}
+  .act{font-family:var(--font-sans);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--warm);font-weight:600;margin:60px 0 -6px}
   .main{padding:18px 0 40px}
-  h2{font-family:"Inter",sans-serif;font-weight:700;font-size:1.6rem;line-height:1.2;letter-spacing:-.015em;margin:14px 0 6px;padding-top:14px;border-top:2px solid var(--ink)}
+  h2{font-family:var(--font-serif);font-weight:700;font-size:1.6rem;line-height:1.2;letter-spacing:-.015em;margin:14px 0 6px;padding-top:14px;border-top:2px solid var(--ink)}
   h2 .num{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:.5em}
-  h3{font-family:"Inter",sans-serif;font-weight:600;font-size:1.18rem;margin:38px 0 4px;letter-spacing:-.01em}
+  h3{font-family:var(--font-sans);font-weight:600;font-size:1.18rem;margin:38px 0 4px;letter-spacing:-.01em}
   p{margin:18px 0} a{color:var(--accent)} ul,ol{margin:18px 0;padding-left:1.4em} li{margin:8px 0} strong{font-weight:600}
   .read{margin:22px 0;border:1px solid #d9e0f2;background:#f1f4fb;border-radius:10px;padding:16px 20px}
-  .read .lbl{font-family:"Inter",sans-serif;font-weight:600;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:8px}
-  .read dl{margin:0} .read dt{font-family:"JetBrains Mono",monospace;font-size:.88rem;color:var(--ink);margin-top:12px} .read dt:first-child{margin-top:0}
+  .read .lbl{font-family:var(--font-sans);font-weight:600;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:8px}
+  .read dl{margin:0} .read dt{font-family:var(--font-mono);font-size:.88rem;color:var(--ink);margin-top:12px} .read dt:first-child{margin-top:0}
   .read dd{margin:3px 0 0;font-size:.97rem;color:#33405e}
   .key{margin:26px 0;padding:16px 20px;border-radius:10px;background:#fbf1f6;border:1px solid #efd3e3;font-size:1.0rem;color:#5c2547}
-  .key .lbl{font-family:"Inter",sans-serif;font-weight:600;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--warm);display:block;margin-bottom:6px}
+  .key .lbl{font-family:var(--font-sans);font-weight:600;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--warm);display:block;margin-bottom:6px}
   .nlp{margin:26px 0;padding:16px 20px;border-radius:10px;background:#eef7f4;border:1px solid #cfe8e0;font-size:.98rem;color:#1c4a40}
-  .nlp .lbl{font-family:"Inter",sans-serif;font-weight:600;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);display:block;margin-bottom:6px}
+  .nlp .lbl{font-family:var(--font-sans);font-weight:600;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);display:block;margin-bottom:6px}
   blockquote{margin:26px 0;padding:4px 20px;border-left:3px solid var(--accent);color:#43484e;font-style:italic}
   figure{margin:34px 0;text-align:center}
   figure img{max-width:100%;height:auto;border-radius:10px;border:1px solid var(--hair);background:#fff}
-  figcaption{font-family:"Inter",sans-serif;font-size:.84rem;color:var(--muted);line-height:1.55;margin-top:12px;max-width:620px;margin-left:auto;margin-right:auto}
+  figcaption{font-family:var(--font-sans);font-size:.84rem;color:var(--muted);line-height:1.55;margin-top:12px;max-width:620px;margin-left:auto;margin-right:auto}
   .mathblock{overflow-x:auto;margin:22px 0}
-  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:var(--code-bg);padding:1px 5px;border-radius:4px}
-  footer.page{border-top:1px solid var(--hair);margin-top:60px;padding:30px 0 70px;font-family:"Inter",sans-serif;font-size:.9rem;color:var(--muted)}
-  ol.refs{font-family:"Inter",sans-serif;font-size:.9rem;line-height:1.6;color:#3b4046} ol.refs li{margin:10px 0}
+  code{font-family:var(--font-mono);font-size:.86em;background:var(--code-bg);padding:1px 5px;border-radius:4px}
+  footer.page{border-top:1px solid var(--hair);margin-top:60px;padding:30px 0 70px;font-family:var(--font-sans);font-size:.9rem;color:var(--muted)}
+  ol.refs{font-family:var(--font-sans);font-size:.9rem;line-height:1.6;color:#3b4046} ol.refs li{margin:10px 0}
   ol.refs a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,84,168,.28)}
   @media (max-width:560px){body{font-size:17.5px}h1{font-size:1.9rem}h2{font-size:1.36rem}header.page{padding:44px 0 22px}}
 </style>

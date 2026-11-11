@@ -3,6 +3,7 @@ slug: indoBERT-retail-search
 category: student-project
 student: Christian Folma Dio
 icon: 🛍️
+thumbnail: /assets/img/demos/indobert-retail-search.webp
 title: IndoBERT Retail Semantic Search
 meta:
   en: By Christian Folma Dio · Thesis 2026 · Hugging Face Space

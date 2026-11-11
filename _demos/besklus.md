@@ -2,6 +2,7 @@
 slug: besklus
 category: my-project
 icon: 📄
+thumbnail: /assets/img/demos/besklus.webp
 title: 'BESKlus: BERT Extractive Summarization with K-Means Clustering'
 meta:
   en: My M.Kom. thesis project · 2022 · Hugging Face Space

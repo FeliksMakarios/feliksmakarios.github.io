@@ -2,6 +2,7 @@
 slug: paper-extractor
 category: my-project
 icon: 🧾
+thumbnail: /assets/img/demos/paper-extractor.webp
 title: Paper Extractor
 meta:
   en: Side project · Hugging Face Space
