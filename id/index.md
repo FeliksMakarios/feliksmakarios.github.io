@@ -9,7 +9,7 @@ description: "Feliks Samosir — Dosen dan peneliti Natural Language Processing 
 ---
 
 <section class="hero">
-  <img src="/assets/img/feliks.jpg" alt="Feliks Samosir" class="hero-photo"
+  <img src="/assets/img/feliks.jpg" width="600" height="600" alt="Feliks Samosir" class="hero-photo"
        onerror="this.style.display='none'">
   <div class="hero-text">
     <h1>Feliks Victor Parningotan Samosir</h1>
@@ -42,7 +42,7 @@ Riset saya mempelajari apa yang patah ketika sistem NLP dan machine learning mai
 {% assign news_by_year = news | group_by_exp: "item", "item.date_str | append: '' | slice: 0, 4" %}
 
 <div class="news-timeline">
-{% for year_group in news_by_year %}{% if year_group.name == latest_year %}<details class="year-group" open>{% else %}<details class="year-group">{% endif %}<summary class="year-summary"><span class="year-label">{{ year_group.name }}</span><span class="year-count">{{ year_group.items.size }} entri</span></summary><ul class="news-list">{% for item in year_group.items %}<li class="news-item"><span class="news-date">{{ item.date_str }}</span><div class="news-body"><strong>{{ item.title.id }}</strong><p>{{ item.text.id }}</p></div></li>{% endfor %}</ul></details>{% endfor %}
+{% for year_group in news_by_year %}{% if year_group.name == latest_year %}<details class="year-group" open>{% else %}<details class="year-group">{% endif %}<summary class="year-summary"><span class="year-label">{{ year_group.name }}</span><span class="year-count">{{ year_group.items.size }} entri</span></summary><ul class="news-list">{% for item in year_group.items %}<li class="news-item"><span class="news-date">{% include date-label.html date=item.date_str lang="id" %}</span><div class="news-body"><strong>{{ item.title.id }}</strong><p>{{ item.text.id }}</p></div></li>{% endfor %}</ul></details>{% endfor %}
 </div>
 {% else %}
 <p class="muted-note">Belum ada kabar terbaru.</p>
@@ -53,8 +53,12 @@ Riset saya mempelajari apa yang patah ketika sistem NLP dan machine learning mai
 Kalau kamu mahasiswa Informatika UPH yang tertarik di NLP atau applied ML, silakan lihat <a href="/id/research/">bidang riset saya</a>.
 Tiap halaman detail bidang mencantumkan topik TA yang terbuka; silakan email saya untuk diskusi ide.
 
+{% assign open_topics = 0 %}{% for a in site.data.research.areas %}{% assign o = a.open_topics | where: "status", "open" %}{% assign open_topics = open_topics | plus: o.size %}{% endfor %}
 <div class="callout">
-  <p><strong>Sedang terbuka untuk:</strong> bimbingan skripsi di bidang NLP low-resource
-  (Batak Toba), sentiment analysis Indonesia, audit fairness, dan applied computer vision.
-  Dasar Python dan Hugging Face Transformers akan sangat membantu.</p>
+  <p><strong>Sedang terbuka untuk:</strong> bimbingan skripsi di keempat bidang riset saya, dengan
+  {{ open_topics }} topik yang masih terbuka saat ini. Contohnya NLP untuk bahasa low-resource apa pun, termasuk
+  bahasa daerah Indonesia seperti Batak Toba, Jawa, atau Sunda (misalnya anotasi Universal Dependencies, evaluasi LLM,
+  dan transfer lintas bahasa), NLP ucapan dan multimodal, bias pada model bahasa Indonesia,
+  serta machine learning untuk data kesehatan dan lingkungan. Dasar Python dan Hugging Face Transformers akan
+  sangat membantu.</p>
 </div>

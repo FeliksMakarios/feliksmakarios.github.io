@@ -3,6 +3,7 @@ layout: default
 permalink: /en/students/
 lang: en
 slug: students
+description: "Undergraduate thesis students supervised by Feliks Samosir at Universitas Pelita Harapan, grouped by research area, with links to published theses."
 title: Students
 subtitle: "Current mentees and alumni"
 ---
@@ -15,8 +16,8 @@ exist, are linked separately. If you are a past student and want to be listed
 </p>
 
 <div class="pub-filter student-filter" role="group" aria-label="Filter by research area">
-  <button data-filter="all" class="active" type="button">All ({{ site.students.size }})</button>
-  {% for a in site.data.research.areas %}{% assign n = site.students | where: "area", a.id %}{% if n.size > 0 %}<button data-filter="{{ a.id }}" type="button">{% include area-label.html area=a.id lang="en" %} ({{ n.size }})</button>{% endif %}{% endfor %}
+  <button data-filter="all" class="active" type="button" aria-pressed="true">All ({{ site.students.size }})</button>
+  {% for a in site.data.research.areas %}{% assign n = site.students | where: "area", a.id %}{% if n.size > 0 %}<button data-filter="{{ a.id }}" type="button" aria-pressed="false">{% include area-label.html area=a.id lang="en" %} ({{ n.size }})</button>{% endif %}{% endfor %}
 </div>
 
 <h2>Current mentees</h2>
@@ -66,8 +67,9 @@ exist, are linked separately. If you are a past student and want to be listed
     var empty = document.querySelector('.current-empty');
     buttons.forEach(function(btn) {
       btn.addEventListener('click', function() {
-        buttons.forEach(function(b) { b.classList.remove('active'); });
+        buttons.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
         var filter = btn.getAttribute('data-filter');
         var match = function(item) { return filter === 'all' || item.getAttribute('data-area') === filter; };
         var current = document.querySelectorAll('.student-list:not(.alumni-list) > .student-item');

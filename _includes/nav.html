@@ -9,6 +9,8 @@
   {% assign nav_blog = 'Blog' %}
   {% assign toggle_label = 'Ganti tema' %}
   {% assign menu_label = 'Menu' %}
+  {% assign skip_label = 'Langsung ke konten' %}
+  {% assign tagline = site.tagline_id %}
 {% else %}
   {% assign nav_home = 'About' %}
   {% assign nav_teaching = 'Teaching' %}
@@ -19,15 +21,18 @@
   {% assign nav_blog = 'Blog' %}
   {% assign toggle_label = 'Toggle theme' %}
   {% assign menu_label = 'Menu' %}
+  {% assign skip_label = 'Skip to content' %}
+  {% assign tagline = site.tagline %}
 {% endif %}
 {% comment %} Pages without a counterpart in the other language (blog articles) set switch_slug to the page the EN/ID switch should open. {% endcomment %}
 {% assign switch_slug = page.switch_slug | default: page.slug %}
 
+<a class="skip-link" href="#main">{{ skip_label }}</a>
 <header class="site-header">
   <div class="site-header-inner">
     <a class="site-brand" href="/{{ lang }}/">
       <span class="brand-name">{{ site.author.short_name }}</span>
-      <span class="brand-role">{{ site.tagline }}</span>
+      <span class="brand-role">{{ tagline }}</span>
     </a>
 
     <nav class="site-nav" id="site-nav" aria-label="Primary">
@@ -51,7 +56,7 @@
         </svg>
       </button>
 
-      <div class="lang-switch" aria-label="Language">
+      <div class="lang-switch" role="group" aria-label="{% if lang == 'id' %}Bahasa{% else %}Language{% endif %}">
         <a href="/en/{{ switch_slug }}{% if switch_slug %}/{% endif %}" hreflang="en" {% if lang == 'en' %}aria-current="true"{% endif %}>EN</a>
         <span aria-hidden="true">·</span>
         <a href="/id/{{ switch_slug }}{% if switch_slug %}/{% endif %}" hreflang="id" {% if lang == 'id' %}aria-current="true"{% endif %}>ID</a>

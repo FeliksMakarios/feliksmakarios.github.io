@@ -3,6 +3,7 @@ layout: default
 permalink: /en/research/
 lang: en
 slug: research
+description: "Research areas, funded projects, open thesis topics, and community engagement in NLP and ML for underrepresented Indonesian contexts at Universitas Pelita Harapan."
 title: Research and Community Engagement
 subtitle: "NLP and ML for underrepresented Indonesian contexts"
 ---

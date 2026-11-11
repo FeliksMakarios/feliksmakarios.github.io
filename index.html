@@ -1,25 +1,35 @@
 ---
 layout: null
 permalink: /
+sitemap: false
 ---
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>{{ site.author.short_name }}</title>
-  <meta http-equiv="refresh" content="0; url=/en/">
-  <link rel="canonical" href="/en/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ site.author.short_name }} · {{ site.tagline }}</title>
+  <meta name="description" content="{{ site.description | strip_newlines | escape }}">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="{{ site.url }}/en/">
+  <link rel="alternate" hreflang="en" href="{{ site.url }}/en/">
+  <link rel="alternate" hreflang="id" href="{{ site.url }}/id/">
+  <link rel="alternate" hreflang="x-default" href="{{ site.url }}/en/">
   <script>
-    // Prefer Indonesian if browser is set to id
-    var lang = (navigator.language || navigator.userLanguage || "en").toLowerCase();
-    if (lang.indexOf("id") === 0) {
-      window.location.replace("/id/");
-    } else {
-      window.location.replace("/en/");
-    }
+    // Language chosen earlier with the EN/ID switch wins; otherwise follow the browser.
+    (function() {
+      var lang = null;
+      try { lang = localStorage.getItem('lang'); } catch (e) {}
+      if (lang !== 'en' && lang !== 'id') {
+        var nav = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+        lang = nav.indexOf('id') === 0 ? 'id' : 'en';
+      }
+      window.location.replace('/' + lang + '/');
+    })();
   </script>
+  <noscript><meta http-equiv="refresh" content="0; url=/en/"></noscript>
 </head>
 <body>
-  <p>Redirecting… <a href="/en/">English</a> / <a href="/id/">Indonesia</a></p>
+  <p>Redirecting… <a href="/en/">English</a> / <a href="/id/">Bahasa Indonesia</a></p>
 </body>
 </html>

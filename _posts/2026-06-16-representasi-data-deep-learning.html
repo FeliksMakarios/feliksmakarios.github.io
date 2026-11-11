@@ -40,7 +40,7 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
 
 <style>
   :root{--bg:#fbfaf6;--surface:#ffffff;--ink:#1f2328;--muted:#6b7280;--hair:#e6e1d6;
-    --accent:#2d54a8;--warm:#b01277;--green:#1f8a70;--code-bg:#f3f1ea;--maxw:730px}
+    --accent:#2d54a8;--warm:#b01277;--green:#17705b;--code-bg:#f3f1ea;--maxw:730px}
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Serif 4",Georgia,serif;font-size:19px;line-height:1.72;font-feature-settings:"liga" 1,"onum" 1}
@@ -55,7 +55,7 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
   nav.toc p{margin:0 0 10px;font-weight:600;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
   nav.toc ol{margin:0;padding-left:1.3em;line-height:1.95} nav.toc a{color:var(--ink);text-decoration:none} nav.toc a:hover{color:var(--accent)}
   .act{font-family:"Inter",sans-serif;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--warm);font-weight:600;margin:60px 0 -6px}
-  main{padding:18px 0 40px}
+  .main{padding:18px 0 40px}
   h2{font-family:"Inter",sans-serif;font-weight:700;font-size:1.6rem;line-height:1.2;letter-spacing:-.015em;margin:14px 0 6px;padding-top:14px;border-top:2px solid var(--ink)}
   h2 .num{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:.5em}
   h3{font-family:"Inter",sans-serif;font-weight:600;font-size:1.18rem;margin:38px 0 4px;letter-spacing:-.01em}
@@ -87,6 +87,7 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
 
 <div class="wrap">
 
+<main id="main" tabindex="-1">
 <header class="page">
   <p class="eyebrow">Catatan Deep Learning &middot; Bahasa Indonesia</p>
   <h1>Representasi Data pada Deep Learning: Manifold ke Contextual Embedding</h1>
@@ -113,7 +114,7 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
   </nav>
 </header>
 
-<main>
+<div class="main">
 
 <h2 id="mengapa"><span class="num">01</span>Pertanyaan yang Sebenarnya</h2>
 <p>Beberapa tahun terakhir, jaringan saraf dalam (deep neural network) mendominasi pengenalan pola. Hasilnya memukau pada penglihatan komputer, pengenalan suara, dan pemrosesan bahasa. Namun di balik semua hasil itu tersimpan satu pertanyaan yang lebih menarik daripada sekadar angka akurasi: mengapa mereka bekerja sebaik itu?</p>
@@ -131,7 +132,7 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
 <h2 id="geometri"><span class="num">03</span>Geometri Tiap Lapisan</h2>
 <p>Mari mulai dari kasus yang bisa digambar, yaitu data dua dimensi dengan dua kelas. Tugas klasifikasi sama dengan mencari batas yang memisahkan kedua kelas. Persoalan muncul saat kedua kelas saling terjalin sehingga tidak ada garis lurus yang bisa memisahkannya.</p>
 <figure>
-  <img loading="lazy" decoding="async" src="img/linsep.png" alt="Dua kelas yang saling terjalin tidak dapat dipisah garis lurus">
+  <img width="940" height="580" loading="lazy" decoding="async" src="img/linsep.png" alt="Dua kelas yang saling terjalin tidak dapat dipisah garis lurus">
   <figcaption>Dua kelas yang saling terjalin. Tidak ada satu garis lurus pun yang memisahkan keduanya dengan benar. Diagram dibuat sendiri.</figcaption>
 </figure>
 <p>Apa yang dikerjakan satu lapisan jaringan saraf? Sebuah lapisan penuh (fully connected) dengan aktivasi \(\tanh\) melakukan transformasi:</p>
@@ -147,7 +148,7 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
 </div>
 <p>Jadi satu lapisan adalah transformasi afin (linear plus geseran) yang dilanjutkan pelengkungan halus. Bila kita gambarkan efeknya pada kisi-kisi (grid), terlihat jelas bahwa ruang diregang, diputar, lalu dilipat:</p>
 <figure>
-  <img loading="lazy" decoding="async" src="img/warp.png" alt="Kisi-kisi ruang sebelum dan sesudah transformasi tanh(Wx+b)">
+  <img width="1172" height="647" loading="lazy" decoding="async" src="img/warp.png" alt="Kisi-kisi ruang sebelum dan sesudah transformasi tanh(Wx+b)">
   <figcaption>Efek satu lapisan terhadap kisi-kisi ruang. Garis lurus menjadi melengkung, jarak meregang di sebagian tempat dan memampat di tempat lain. Diagram dibuat sendiri.</figcaption>
 </figure>
 <p>Jaringan dalam menumpuk banyak transformasi seperti ini. Setiap lapisan menata ulang ruang sedikit demi sedikit. Yang dilakukan jaringan, secara geometris, adalah <strong>mengubah sistem koordinat</strong> tempat data berada, sampai pada koordinat terakhir kedua kelas cukup terpisah untuk dibelah satu bidang datar.</p>
@@ -156,7 +157,7 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
 <p>Ada cara pandang yang lebih dalam. <strong>Hipotesis manifold</strong> menyatakan bahwa data alami berdimensi tinggi sebenarnya terletak pada manifold berdimensi rendah yang melengkung di dalam ruang itu. Istilah <em>manifold</em> dipertahankan dalam bahasa Inggris; secara bebas ia berarti permukaan mulus yang, bila diamati dari dekat, tampak seperti ruang datar biasa. Citra wajah, misalnya, tidak tersebar acak di seluruh ruang piksel, melainkan menempati manifold tipis di dalamnya.</p>
 <p>Dengan sudut pandang ini, tugas klasifikasi menjadi soal geometri: dua kelas adalah dua manifold yang terjalin, dan jaringan harus <strong>menguraikannya</strong> sampai keduanya terpisah.</p>
 <figure>
-  <img loading="lazy" decoding="async" src="img/untangle.png" alt="Manifold yang terjalin diuraikan menjadi terpisah">
+  <img width="1270" height="647" loading="lazy" decoding="async" src="img/untangle.png" alt="Manifold yang terjalin diuraikan menjadi terpisah">
   <figcaption>Tugas tiap lapisan: secara bertahap mengurai manifold yang terjalin sampai sebuah bidang datar bisa memisahkannya. Diagram dibuat sendiri.</figcaption>
 </figure>
 <p>Di sinilah topologi masuk. Sebuah lapisan dengan matriks bobot \(W\) yang dapat dibalik (invertible), yaitu determinannya tidak nol, bersama aktivasi yang monoton dan kontinu, merupakan sebuah <strong>homeomorfisme</strong>, yaitu deformasi kontinu yang tidak merobek atau merekatkan ruang. Ini punya konsekuensi penting.</p>
@@ -192,7 +193,7 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
 <p>Word embedding menunjukkan sifat yang lebih menakjubkan lagi: analogi antarkata tampak tersandi sebagai <strong>selisih vektor</strong>. Ada arah yang kira-kira tetap untuk "pria ke wanita", arah lain untuk "tunggal ke jamak", dan seterusnya.</p>
 <div class="mathblock">\[ W(\text{"wanita"}) - W(\text{"pria"}) \;\approx\; W(\text{"ratu"}) - W(\text{"raja"}). \]</div>
 <figure>
-  <img loading="lazy" decoding="async" src="img/wordvec.png" alt="Analogi tersimpan sebagai selisih vektor yang sejajar">
+  <img width="970" height="610" loading="lazy" decoding="async" src="img/wordvec.png" alt="Analogi tersimpan sebagai selisih vektor yang sejajar">
   <figcaption>Selisih vektor "pria ke wanita" kira-kira sejajar dengan "raja ke ratu". Hubungan makna tersimpan sebagai arah di ruang embedding. Diagram dibuat sendiri.</figcaption>
 </figure>
 <p>Yang penting disadari, semua sifat ini adalah <strong>efek samping</strong>. Kita tidak pernah menyuruh model membuat kata mirip berdekatan, atau menyimpan analogi sebagai selisih vektor. Kita hanya memintanya mengerjakan tugas sederhana, dan sifat-sifat itu muncul sendiri dari proses optimasi. Inilah kekuatan jaringan saraf: ia belajar cara yang lebih baik untuk merepresentasikan data, secara otomatis.</p>
@@ -241,11 +242,12 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]
   <li>J. Devlin, M. Chang, K. Lee, dan K. Toutanova, "BERT: Pre-training of Deep Bidirectional Transformers," <em>NAACL</em>, 2019.</li>
   <li>A. Vaswani dkk., "Attention is All You Need," <em>NeurIPS</em>, 2017.</li>
 </ol>
-</main>
+</div>
 
 <footer class="page">
   <p>Artikel asli berbahasa Indonesia. Alur dua babak pertama mengikuti tulisan Christopher Olah (2014) dengan penjelasan dan diagram yang disusun ulang sendiri, diperkuat publikasi pada bagian Referensi. Rumus dirender dengan MathJax.</p>
 </footer>
+</main>
 
 </div>
 {% endraw %}

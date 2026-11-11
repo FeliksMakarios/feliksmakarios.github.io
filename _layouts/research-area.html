@@ -13,7 +13,7 @@ layout: default
 {% for project in area.projects %}
   <div class="project-block project-{{ project.status | default: 'ongoing' }}">
     <h3>{{ project.title[lang] }}</h3>
-    <p class="project-meta">{% if project.status == 'completed' %}<span class="tag tag-completed">{% if lang == 'id' %}Selesai{% else %}Completed{% endif %}</span>{% else %}<span class="tag tag-ongoing">{% if lang == 'id' %}Berjalan{% else %}Ongoing{% endif %}</span>{% endif %}{% if project.funding %}{{ project.funding }} · {% endif %}{{ project.period }} · <em>{{ project.role[lang] }}</em></p>
+    <p class="project-meta">{% if project.status == 'completed' %}<span class="tag tag-completed">{% if lang == 'id' %}Selesai{% else %}Completed{% endif %}</span>{% else %}<span class="tag tag-ongoing">{% if lang == 'id' %}Berjalan{% else %}Ongoing{% endif %}</span>{% endif %}{% assign p_funding = project.funding %}{% assign p_period = project.period %}{% if lang == 'id' %}{% assign p_funding = p_funding | replace: "UPH Internal Grant", "Hibah Internal UPH" %}{% assign p_period = p_period | replace: " to ", " sampai " | replace: "May", "Mei" | replace: "June", "Juni" | replace: "July", "Juli" | replace: "Aug", "Agu" | replace: "Oct", "Okt" | replace: "Dec", "Des" %}{% endif %}{% if p_funding %}{{ p_funding }} · {% endif %}{{ p_period }} · <em>{{ project.role[lang] }}</em></p>
     <p>{{ project.description[lang] }}</p>
     {% if project.links %}<p class="project-links">{% for l in project.links %}<a href="{{ l.url }}" target="_blank" rel="noopener external">{{ l.label[lang] }} ↗</a>{% endfor %}</p>{% endif %}
   </div>
@@ -50,10 +50,10 @@ layout: default
 <h2 id="topics">{% if lang == 'id' %}Topik TA{% else %}Thesis topics{% endif %}</h2>
 
 <div class="pub-filter topic-filter" role="group" aria-label="{% if lang == 'id' %}Saring menurut status{% else %}Filter by status{% endif %}">
-  <button data-filter="all" class="active" type="button">{% if lang == 'id' %}Semua{% else %}All{% endif %} ({{ area.open_topics.size }})</button>
-  {% if topics_open.size > 0 %}<button data-filter="open" type="button">{% if lang == 'id' %}Terbuka{% else %}Open{% endif %} ({{ topics_open.size }})</button>{% endif %}
-  {% if topics_discussion.size > 0 %}<button data-filter="in-discussion" type="button">{% if lang == 'id' %}Dalam diskusi{% else %}In discussion{% endif %} ({{ topics_discussion.size }})</button>{% endif %}
-  {% if topics_taken.size > 0 %}<button data-filter="taken" type="button">{% if lang == 'id' %}Diambil{% else %}Taken{% endif %} ({{ topics_taken.size }})</button>{% endif %}
+  <button data-filter="all" class="active" type="button" aria-pressed="true">{% if lang == 'id' %}Semua{% else %}All{% endif %} ({{ area.open_topics.size }})</button>
+  {% if topics_open.size > 0 %}<button data-filter="open" type="button" aria-pressed="false">{% if lang == 'id' %}Terbuka{% else %}Open{% endif %} ({{ topics_open.size }})</button>{% endif %}
+  {% if topics_discussion.size > 0 %}<button data-filter="in-discussion" type="button" aria-pressed="false">{% if lang == 'id' %}Dalam diskusi{% else %}In discussion{% endif %} ({{ topics_discussion.size }})</button>{% endif %}
+  {% if topics_taken.size > 0 %}<button data-filter="taken" type="button" aria-pressed="false">{% if lang == 'id' %}Diambil{% else %}Taken{% endif %} ({{ topics_taken.size }})</button>{% endif %}
 </div>
 
 <ul class="topic-list">
@@ -89,8 +89,9 @@ layout: default
     var items = document.querySelectorAll('.topic-item');
     buttons.forEach(function(btn) {
       btn.addEventListener('click', function() {
-        buttons.forEach(function(b) { b.classList.remove('active'); });
+        buttons.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
         var filter = btn.getAttribute('data-filter');
         items.forEach(function(item) {
           item.style.display = (filter === 'all' || item.getAttribute('data-status') === filter) ? '' : 'none';

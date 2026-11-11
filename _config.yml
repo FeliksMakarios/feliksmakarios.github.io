@@ -1,10 +1,15 @@
 title: Feliks Samosir
 tagline: Lecturer & Researcher in NLP
+tagline_id: Dosen dan Peneliti NLP
 description: >-
   Personal site of Feliks Victor Parningotan Samosir — Full-time Lecturer of
   Informatics, Faculty of AI and Data Science, Universitas Pelita Harapan.
   Research in Natural Language Processing for Indonesian and low-resource
   languages.
+description_id: >-
+  Situs pribadi Feliks Victor Parningotan Samosir, dosen tetap Informatika,
+  Fakultas AI dan Data Science, Universitas Pelita Harapan. Riset di bidang
+  Natural Language Processing untuk bahasa Indonesia dan bahasa low-resource.
 url: "https://feliksmakarios.github.io"
 baseurl: ""
 
@@ -14,6 +19,8 @@ author:
   short_name: Feliks Samosir
   title: Full-time Lecturer of Informatics
   affiliation: Faculty of AI and Data Science, Universitas Pelita Harapan
+  title_id: Dosen Tetap Informatika
+  affiliation_id: Fakultas AI dan Data Science, Universitas Pelita Harapan
   institution: Universitas Pelita Harapan
   institution_url: https://www.uph.edu
   email: feliksmakarios19@gmail.com
@@ -100,6 +107,11 @@ defaults:
   # Keep the CMS admin panel out of the sitemap
   - scope:
       path: "admin"
+    values:
+      sitemap: false
+  # Visualisation fragments are embedded by the gallery page, not standalone pages
+  - scope:
+      path: "demos/visualisasi-interaktif-nlp/*.dc.html"
     values:
       sitemap: false
 

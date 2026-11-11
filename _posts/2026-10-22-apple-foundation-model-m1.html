@@ -73,6 +73,7 @@ tags: ["NLP", "LLM", "On-Device AI", "Apple", "Tutorial"]
   pre{background:var(--code-bg);border:1px solid var(--hair);border-radius:8px;padding:14px 16px;overflow:auto;font-family:"JetBrains Mono", ui-monospace, monospace;font-size:.82rem;line-height:1.55;color:var(--ink);margin:12px 0 0}
   code{font-family:"JetBrains Mono", ui-monospace, monospace;font-size:.84em;background:var(--code-bg);border:1px solid var(--hair);border-radius:5px;padding:.05em .35em}
   pre code{background:none;border:none;padding:0;font-size:1em}
+  :not(pre) > code{color:var(--ink)}
   /* Long identifiers and URLs may break so the page never scrolls sideways on phones */
   code,ol.refs a{overflow-wrap:anywhere}
 
@@ -82,7 +83,7 @@ tags: ["NLP", "LLM", "On-Device AI", "Apple", "Tutorial"]
   nav.toc a{color:var(--ink);text-decoration:none}
   nav.toc a:hover{color:var(--accent)}
 
-  main{padding:18px 0 40px}
+  .main{padding:18px 0 40px}
   h2{font-family:"Inter",system-ui,sans-serif;font-weight:700;font-size:1.62rem;line-height:1.2;letter-spacing:-.015em;margin:62px 0 6px;padding-top:14px;border-top:2px solid var(--ink);text-wrap:balance}
   h2 .num{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:.5em}
   h3{font-family:"Inter",system-ui,sans-serif;font-weight:600;font-size:1.18rem;margin:38px 0 4px;letter-spacing:-.01em}
@@ -127,7 +128,7 @@ tags: ["NLP", "LLM", "On-Device AI", "Apple", "Tutorial"]
   .tag.no{color:var(--bad);background:var(--tint-bad)}
 
   footer.page{border-top:1px solid var(--hair);margin-top:60px;padding:30px 0 70px;font-family:"Inter",system-ui,sans-serif;font-size:.9rem;color:var(--muted)}
-  footer.page a{color:var(--accent);text-decoration:none}
+  footer.page a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
   ol.refs{font-family:"Inter",system-ui,sans-serif;font-size:.92rem;line-height:1.6;color:var(--muted)}
   ol.refs li{margin:12px 0}
   ol.refs a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,84,168,.28)}
@@ -153,6 +154,7 @@ tags: ["NLP", "LLM", "On-Device AI", "Apple", "Tutorial"]
 
 <div class="wrap">
 
+<main id="main" tabindex="-1">
 <header class="page">
   <p class="eyebrow">Catatan NLP &middot; Bahasa Indonesia</p>
   <h1>Apple Foundation Model di MacBook M1</h1>
@@ -179,7 +181,7 @@ tags: ["NLP", "LLM", "On-Device AI", "Apple", "Tutorial"]
   </nav>
 </header>
 
-<main>
+<div class="main">
 
 <h2 id="apa"><span class="num">01</span>Apa Itu Apple Foundation Model dan fm serve</h2>
 
@@ -379,11 +381,12 @@ tags: ["NLP", "LLM", "On-Device AI", "Apple", "Tutorial"]
   <li>Bantuan bawaan alat baris perintah <code>fm</code> di macOS 27, yaitu <code>fm --help</code>, <code>fm serve --help</code>, dan <code>fm count-tokens --help</code>.</li>
 </ol>
 
-</main>
+</div>
 
 <footer class="page">
   <p>Artikel asli berbahasa Indonesia tentang uji coba Apple Foundation Model on-device melalui <code>fm serve</code> di MacBook M1 (RAM 8 GB, macOS 27.0.1). Angka dan contoh berasal dari pengujian pribadi pada Oktober 2026.</p>
 </footer>
+</main>
 
 </div>
 {% endraw %}

@@ -1,0 +1,8 @@
+{%- comment -%}
+  Renders a YYYY-MM or YYYY-MM-DD string as a short, language-aware date inside <time>.
+  Usage: {% include date-label.html date="2026-10-07" lang="id" %}
+{%- endcomment -%}
+{%- assign dl_parts = include.date | append: "" | split: "-" -%}
+{%- if include.lang == 'id' -%}{%- assign dl_months = "Jan,Feb,Mar,Apr,Mei,Jun,Jul,Agu,Sep,Okt,Nov,Des" | split: "," -%}{%- else -%}{%- assign dl_months = "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec" | split: "," -%}{%- endif -%}
+{%- assign dl_m = dl_parts[1] | plus: 0 | minus: 1 -%}
+<time datetime="{{ include.date }}">{% if dl_parts[2] %}{{ dl_parts[2] | plus: 0 }} {% endif %}{{ dl_months[dl_m] }} {{ dl_parts[0] }}</time>

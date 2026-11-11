@@ -3,6 +3,7 @@ layout: default
 permalink: /en/demos/
 lang: en
 slug: demos
+description: "Interactive prototypes from Feliks Samosir's research, supervised student theses, and outreach for high school students, runnable in the browser."
 title: Demos
 subtitle: "Interactive prototypes from research, teaching, and outreach"
 ---
@@ -15,11 +16,13 @@ demos used at open-house events with high-school students.
 </p>
 
 <div class="demo-tabs" role="group" aria-label="Demo categories">
-  <button data-tab="all" class="active" type="button">All</button>
-  <button data-tab="my-project" type="button">My Project</button>
-  <button data-tab="student-project" type="button">Student Project</button>
-  <button data-tab="outreach" type="button">Outreach</button>
+  <button data-tab="all" class="active" type="button" aria-pressed="true">All</button>
+  <button data-tab="my-project" type="button" aria-pressed="false">My Project</button>
+  <button data-tab="student-project" type="button" aria-pressed="false">Student Project</button>
+  <button data-tab="outreach" type="button" aria-pressed="false">Outreach</button>
 </div>
+
+<h2 class="visually-hidden">Demo list</h2>
 
 {% assign demos = site.demos %}
 {% assign categories = "my-project,student-project,outreach" | split: "," %}
@@ -49,8 +52,9 @@ demos used at open-house events with high-school students.
     buttons.forEach(function(btn) {
       btn.addEventListener('click', function() {
         var tab = btn.getAttribute('data-tab');
-        buttons.forEach(function(b) { b.classList.remove('active'); });
+        buttons.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
         sections.forEach(function(s) {
           s.hidden = (tab !== 'all' && s.id !== tab);
         });

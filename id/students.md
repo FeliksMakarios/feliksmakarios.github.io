@@ -3,6 +3,7 @@ layout: default
 permalink: /id/students/
 lang: id
 slug: students
+description: "Mahasiswa skripsi yang dibimbing Feliks Samosir di Universitas Pelita Harapan, dikelompokkan menurut bidang riset, beserta tautan ke skripsi yang sudah terbit."
 title: Mahasiswa
 subtitle: "Bimbingan saat ini dan alumni"
 ---
@@ -14,8 +15,8 @@ alumni dan ingin dimasukkan (atau dikoreksi), silakan email saya.
 </p>
 
 <div class="pub-filter student-filter" role="group" aria-label="Saring menurut bidang riset">
-  <button data-filter="all" class="active" type="button">Semua ({{ site.students.size }})</button>
-  {% for a in site.data.research.areas %}{% assign n = site.students | where: "area", a.id %}{% if n.size > 0 %}<button data-filter="{{ a.id }}" type="button">{% include area-label.html area=a.id lang="id" %} ({{ n.size }})</button>{% endif %}{% endfor %}
+  <button data-filter="all" class="active" type="button" aria-pressed="true">Semua ({{ site.students.size }})</button>
+  {% for a in site.data.research.areas %}{% assign n = site.students | where: "area", a.id %}{% if n.size > 0 %}<button data-filter="{{ a.id }}" type="button" aria-pressed="false">{% include area-label.html area=a.id lang="id" %} ({{ n.size }})</button>{% endif %}{% endfor %}
 </div>
 
 <h2>Bimbingan saat ini</h2>
@@ -65,8 +66,9 @@ alumni dan ingin dimasukkan (atau dikoreksi), silakan email saya.
     var empty = document.querySelector('.current-empty');
     buttons.forEach(function(btn) {
       btn.addEventListener('click', function() {
-        buttons.forEach(function(b) { b.classList.remove('active'); });
+        buttons.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
         var filter = btn.getAttribute('data-filter');
         var match = function(item) { return filter === 'all' || item.getAttribute('data-area') === filter; };
         var current = document.querySelectorAll('.student-list:not(.alumni-list) > .student-item');

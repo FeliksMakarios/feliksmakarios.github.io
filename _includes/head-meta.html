@@ -1,5 +1,8 @@
-{%- assign meta_title = page.title | default: site.author.short_name -%}
-{%- assign meta_desc = page.description | default: site.description | strip_newlines | strip -%}
+{%- if page.lang == 'id' -%}{%- assign site_tagline = site.tagline_id -%}{%- else -%}{%- assign site_tagline = site.tagline -%}{%- endif -%}
+{%- capture home_title -%}{{ site.author.short_name }} · {{ site_tagline }}{%- endcapture -%}
+{%- assign meta_title = page.title | default: home_title -%}
+{%- if page.lang == 'id' -%}{%- assign site_desc = site.description_id -%}{%- else -%}{%- assign site_desc = site.description -%}{%- endif -%}
+{%- assign meta_desc = page.description | default: site_desc | strip_newlines | strip -%}
 {%- assign og_image = page.image | default: '/assets/img/feliks.jpg' -%}
   <meta name="description" content="{{ meta_desc | escape }}">
   <meta name="author" content="{{ site.author.name }}">

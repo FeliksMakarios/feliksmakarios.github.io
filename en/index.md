@@ -9,7 +9,7 @@ description: "Feliks Samosir — Lecturer and researcher in Natural Language Pro
 ---
 
 <section class="hero">
-  <img src="/assets/img/feliks.jpg" alt="Feliks Samosir" class="hero-photo"
+  <img src="/assets/img/feliks.jpg" width="600" height="600" alt="Feliks Samosir" class="hero-photo"
        onerror="this.style.display='none'">
   <div class="hero-text">
     <h1>Feliks Victor Parningotan Samosir</h1>
@@ -42,7 +42,7 @@ My research investigates what fails when mainstream NLP and machine learning sys
 {% assign news_by_year = news | group_by_exp: "item", "item.date_str | append: '' | slice: 0, 4" %}
 
 <div class="news-timeline">
-{% for year_group in news_by_year %}{% if year_group.name == latest_year %}<details class="year-group" open>{% else %}<details class="year-group">{% endif %}<summary class="year-summary"><span class="year-label">{{ year_group.name }}</span><span class="year-count">{{ year_group.items.size }} {% if year_group.items.size == 1 %}entry{% else %}entries{% endif %}</span></summary><ul class="news-list">{% for item in year_group.items %}<li class="news-item"><span class="news-date">{{ item.date_str }}</span><div class="news-body"><strong>{{ item.title.en }}</strong><p>{{ item.text.en }}</p></div></li>{% endfor %}</ul></details>{% endfor %}
+{% for year_group in news_by_year %}{% if year_group.name == latest_year %}<details class="year-group" open>{% else %}<details class="year-group">{% endif %}<summary class="year-summary"><span class="year-label">{{ year_group.name }}</span><span class="year-count">{{ year_group.items.size }} {% if year_group.items.size == 1 %}entry{% else %}entries{% endif %}</span></summary><ul class="news-list">{% for item in year_group.items %}<li class="news-item"><span class="news-date">{% include date-label.html date=item.date_str lang="en" %}</span><div class="news-body"><strong>{{ item.title.en }}</strong><p>{{ item.text.en }}</p></div></li>{% endfor %}</ul></details>{% endfor %}
 </div>
 {% else %}
 <p class="muted-note">No recent news.</p>
@@ -53,8 +53,12 @@ My research investigates what fails when mainstream NLP and machine learning sys
 If you are a UPH Informatics student interested in NLP or applied ML, take a look at my <a href="/en/research/">research areas</a>.
 Each area's detail page lists open thesis topics; feel free to email me to discuss ideas.
 
+{% assign open_topics = 0 %}{% for a in site.data.research.areas %}{% assign o = a.open_topics | where: "status", "open" %}{% assign open_topics = open_topics | plus: o.size %}{% endfor %}
 <div class="callout">
-  <p><strong>Currently open for:</strong> undergraduate thesis mentees in low-resource NLP (Batak Toba),
-  Indonesian sentiment analysis, fairness audits, and applied computer vision. Basic familiarity with
-  Python and Hugging Face Transformers is helpful.</p>
+  <p><strong>Currently open for:</strong> undergraduate thesis mentees in all four research areas, with
+  {{ open_topics }} open topics right now. Examples include NLP for any low-resource language,
+  including Indonesian regional languages such as Batak Toba, Javanese, or Sundanese (for instance Universal Dependencies
+  annotation, LLM evaluation, and cross-lingual transfer), speech and multimodal NLP, bias in Indonesian language models,
+  and machine learning for health and environmental data. Basic familiarity with Python and Hugging Face
+  Transformers is helpful.</p>
 </div>

@@ -3,6 +3,7 @@ layout: default
 permalink: /id/teaching/
 lang: id
 slug: teaching
+description: "Mata kuliah yang diampu Feliks Samosir di Program Studi Informatika Universitas Pelita Harapan, dari dasar komputasi hingga machine learning dan NLP, beserta RPS dan materinya."
 title: Pengajaran
 subtitle: "Mata kuliah di UPH Informatika"
 ---

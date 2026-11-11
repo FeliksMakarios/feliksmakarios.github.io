@@ -3,6 +3,7 @@ layout: default
 permalink: /en/blog/
 lang: en
 slug: blog
+description: "Technical articles in Indonesian on deep learning and NLP, with math notation and diagrams: original write-ups and annotated translations of classic articles."
 title: Blog
 subtitle: "Technical writing with mathematical notation"
 ---
@@ -24,11 +25,12 @@ valuable, with full attribution to the originals.
 
 {% if site.posts.size > 0 %}
 <div class="pub-filter blog-filter" role="group" aria-label="Filter by type">
-  <button data-filter="all" class="active" type="button">All</button>
-  <button data-filter="original" type="button">Original</button>
-  <button data-filter="translation" type="button">Translation</button>
+  <button data-filter="all" class="active" type="button" aria-pressed="true">All</button>
+  <button data-filter="original" type="button" aria-pressed="false">Original</button>
+  <button data-filter="translation" type="button" aria-pressed="false">Translation</button>
 </div>
 
+<h2 class="visually-hidden">Articles</h2>
 <ul class="blog-list">
   {% for post in site.posts %}
     <li class="blog-item" data-type="{% if post.type == 'translation' %}translation{% else %}original{% endif %}">
@@ -49,7 +51,7 @@ valuable, with full attribution to the originals.
       {% if post.summary_id %}<p class="blog-summary">{{ post.summary_id }}</p>{% endif %}
       <div class="blog-meta">
         {% for tag in post.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
-        <span class="blog-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+        <span class="blog-date">{% assign pd = post.date | date: "%Y-%m-%d" %}{% include date-label.html date=pd lang="en" %}</span>
       </div>
     </li>
   {% endfor %}
@@ -63,8 +65,9 @@ valuable, with full attribution to the originals.
     var empty = document.querySelector('.blog-filter-empty');
     buttons.forEach(function(btn) {
       btn.addEventListener('click', function() {
-        buttons.forEach(function(b) { b.classList.remove('active'); });
+        buttons.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
         var filter = btn.getAttribute('data-filter');
         var shown = 0;
         items.forEach(function(item) {
