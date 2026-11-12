@@ -10,9 +10,9 @@ subtitle: "Prototipe interaktif dari riset, pengajaran, dan sosialisasi"
 
 <p class="lead">
 Prototipe yang bisa dijalankan, dibagi tiga kategori: <strong>Proyek Saya</strong>
-untuk demo yang saya bangun dari riset saya sendiri dan side project,
-<strong>Proyek Mahasiswa</strong> dari skripsi atau capstone matkul yang saya bimbing, dan
-<strong>Sosialisasi</strong> dari kegiatan open house untuk siswa SMA.
+untuk demo yang saya bangun dari riset saya sendiri dan proyek sampingan,
+<strong>Proyek Mahasiswa</strong> dari skripsi atau capstone mata kuliah yang saya bimbing, dan
+<strong>Sosialisasi</strong> dari kegiatan Open House untuk siswa SMA.
 </p>
 
 <div class="demo-tabs" role="group" aria-label="Kategori demo">
@@ -30,7 +30,7 @@ untuk demo yang saya bangun dari riset saya sendiri dan side project,
 <section id="{{ cat }}" class="demo-section">
 {% for demo in demos %}{% if demo.category == cat %}
 <div class="card-demo">
-  <div class="thumb" aria-hidden="true">{{ demo.icon }}</div>
+  <div class="thumb" aria-hidden="true">{% if demo.thumbnail %}<img src="{{ demo.thumbnail }}" alt="" width="720" height="540" loading="lazy" decoding="async">{% else %}{{ demo.icon }}{% endif %}</div>
   <div>
     <p class="demo-category"><span class="tag tag-area">{% case demo.category %}{% when "my-project" %}Proyek Saya{% when "student-project" %}Proyek Mahasiswa{% else %}Sosialisasi{% endcase %}</span></p>
     <h3>{{ demo.title }}</h3>

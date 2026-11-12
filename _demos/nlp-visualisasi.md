@@ -2,6 +2,7 @@
 slug: nlp-visualisasi
 category: my-project
 icon: 🧩
+thumbnail: /assets/img/demos/nlp-visualisasi.webp
 title: Visualisasi Interaktif Mata Kuliah NLP
 meta:
   en: Teaching companion · Course-wide visualization gallery
@@ -11,10 +12,7 @@ description:
     Processing course. Covers tokenization, embeddings, attention, sequential vs parallel
     computation, computational graphs, and several other core ideas in browser-only
     visualizations.
-  id: Galeri interaktif konsep-konsep NLP yang saya bangun sebagai pendamping mata
-    kuliah Natural Language Processing. Mencakup tokenisasi, embedding, attention,
-    komputasi sekuensial dan paralel, computational graph, serta beberapa ide inti
-    lain dalam visualisasi yang berjalan di browser.
+  id: Galeri interaktif konsep-konsep NLP yang saya bangun sebagai pendamping mata kuliah Natural Language Processing. Mencakup tokenisasi, embedding (representasi vektor), atensi, komputasi sekuensial dan paralel, computational graph, serta beberapa ide inti lain dalam visualisasi yang berjalan di browser.
 demo_url: /demos/visualisasi-interaktif-nlp/
 url_is_internal: true
 ---

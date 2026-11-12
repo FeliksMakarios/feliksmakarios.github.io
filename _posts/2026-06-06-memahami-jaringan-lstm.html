@@ -12,7 +12,7 @@ original_title: "Understanding LSTM Networks"
 original_author: "Christopher Olah"
 original_url: "https://colah.github.io/posts/2015-08-Understanding-LSTMs/"
 original_date: "2015-08-27"
-summary_id: "Terjemahan Bahasa Indonesia dari artikel klasik Christopher Olah yang menjelaskan jaringan LSTM, recurrent neural networks, masalah vanishing gradient, dan arsitektur LSTM langkah demi langkah."
+summary_id: "Terjemahan Bahasa Indonesia dari artikel klasik Christopher Olah yang menjelaskan jaringan LSTM, recurrent neural networks, masalah vanishing gradient (gradien menghilang), dan arsitektur LSTM langkah demi langkah."
 tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan"]
 ---
 <!DOCTYPE html>
@@ -36,9 +36,6 @@ tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan"]
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <!-- Tipografi -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -63,7 +60,7 @@ tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan"]
       radial-gradient(1200px 600px at 50% -10%, #fff 0%, var(--paper) 55%),
       var(--paper);
     color: var(--ink);
-    font-family: "Source Serif 4", Georgia, serif;
+    font-family: var(--font-sans);
     font-size: 19px;
     line-height: 1.72;
     -webkit-font-smoothing: antialiased;
@@ -84,7 +81,7 @@ tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan"]
     border-bottom: 1px solid var(--rule);
   }
   .kicker {
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: 12px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -92,7 +89,7 @@ tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan"]
     margin: 0 0 18px;
   }
   h1 {
-    font-family: "Fraunces", serif;
+    font-family: var(--font-serif);
     font-weight: 600;
     font-size: clamp(2.3rem, 6vw, 3.4rem);
     line-height: 1.04;
@@ -123,7 +120,7 @@ tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan"]
 
   /* ---- Tipografi isi ---- */
   h2 {
-    font-family: "Fraunces", serif;
+    font-family: var(--font-serif);
     font-weight: 600;
     font-size: clamp(1.6rem, 3.6vw, 2.1rem);
     line-height: 1.15;
@@ -200,7 +197,7 @@ tags: ["NLP", "Deep Learning", "Tutorial", "Terjemahan"]
     line-height: 1.6;
   }
   .footnotes h3 {
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: 12px;
     letter-spacing: 0.16em;
     text-transform: uppercase;

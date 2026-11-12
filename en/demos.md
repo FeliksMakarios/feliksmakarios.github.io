@@ -30,7 +30,7 @@ demos used at open-house events with high-school students.
 <section id="{{ cat }}" class="demo-section">
 {% for demo in demos %}{% if demo.category == cat %}
 <div class="card-demo">
-  <div class="thumb" aria-hidden="true">{{ demo.icon }}</div>
+  <div class="thumb" aria-hidden="true">{% if demo.thumbnail %}<img src="{{ demo.thumbnail }}" alt="" width="720" height="540" loading="lazy" decoding="async">{% else %}{{ demo.icon }}{% endif %}</div>
   <div>
     <p class="demo-category"><span class="tag tag-area">{% case demo.category %}{% when "my-project" %}My Project{% when "student-project" %}Student Project{% else %}Outreach{% endcase %}</span></p>
     <h3>{{ demo.title }}</h3>

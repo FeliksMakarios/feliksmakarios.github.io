@@ -5,5 +5,5 @@ lang: id
 slug: teaching/intro-machine-learning
 course_id: intro-machine-learning
 title: "Pengantar Pemelajaran Mesin"
-description: "Metode inti supervised dan unsupervised learning, evaluasi model, serta alur kerja machine learning yang praktis dengan Python."
+description: "Metode inti supervised dan unsupervised learning, evaluasi model, serta alur kerja pemelajaran mesin yang praktis dengan Python."
 ---

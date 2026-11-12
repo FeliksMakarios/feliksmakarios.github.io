@@ -3,6 +3,7 @@ slug: flan-t5-summarization
 category: student-project
 student: Audrey Roselian
 icon: 📝
+thumbnail: /assets/img/demos/flan-t5-summarization.webp
 title: Abstractive News Summarization with Flan-T5
 meta:
   en: By Audrey Roselian · Thesis 2024 · Streamlit

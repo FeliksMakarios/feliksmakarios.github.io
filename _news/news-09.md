@@ -8,8 +8,5 @@ text:
     2026, I continue as a full-time lecturer in the Faculty of AI and Data Science, UPH, starting
     August 2026, focusing on teaching, thesis supervision, and research on Indonesian and
     low-resource NLP.
-  id: Setelah menjabat sebagai Ketua Program Studi S1 Informatika pada April 2024 sampai Juli 2026,
-    mulai Agustus 2026 saya melanjutkan tugas sebagai dosen tetap di Fakultas AI dan Data Science
-    UPH, dengan fokus pada pengajaran, bimbingan skripsi, dan riset NLP untuk Bahasa Indonesia
-    serta bahasa low-resource.
+  id: Setelah menjabat sebagai Ketua Program Studi S1 Informatika pada April 2024 sampai Juli 2026, mulai Agustus 2026 saya melanjutkan tugas sebagai dosen tetap di Fakultas AI dan Data Science UPH, dengan fokus pada pengajaran, bimbingan skripsi, dan riset NLP untuk Bahasa Indonesia serta bahasa minim sumber daya.
 ---

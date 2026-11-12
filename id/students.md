@@ -10,7 +10,7 @@ subtitle: "Bimbingan saat ini dan alumni"
 
 <p class="lead">
 Mahasiswa S1 yang pernah dan sedang saya bimbing. Setiap skripsi alumni tersedia di
-repositori UPH; versi paper terpublikasi, kalau ada, ditautkan terpisah. Kalau kamu
+repositori UPH; versi makalah terpublikasi, kalau ada, ditautkan terpisah. Kalau kamu
 alumni dan ingin dimasukkan (atau dikoreksi), silakan email saya.
 </p>
 

@@ -227,6 +227,7 @@ collections:
         required: false
         hint: "Pick the student who built it. The card then links to their thesis in the UPH repository."
       - { label: "Icon (emoji)", name: "icon", widget: "string" }
+      - { label: "Thumbnail (4:3 screenshot, optional)", name: "thumbnail", widget: "image", required: false, media_folder: "/assets/img/demos", public_folder: "/assets/img/demos", hint: "Shown instead of the emoji. A 720x540 crop of the demo screen works best." }
       - { label: "Title", name: "title", widget: "string" }
       - label: "Meta"
         name: "meta"

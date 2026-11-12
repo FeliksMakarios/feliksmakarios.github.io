@@ -6,6 +6,5 @@ title:
 text:
   en: Aspect-based sentiment analysis on Amazon book reviews using DistilBERT presented
     at the Ninth International Conference on Informatics and Computing.
-  id: Analisis sentimen berbasis aspek pada review buku Amazon menggunakan DistilBERT
-    dipresentasikan di Ninth International Conference on Informatics and Computing.
+  id: Analisis sentimen berbasis aspek pada ulasan buku Amazon menggunakan DistilBERT dipresentasikan di Ninth International Conference on Informatics and Computing.
 ---

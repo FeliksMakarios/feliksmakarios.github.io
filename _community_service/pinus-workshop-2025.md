@@ -14,6 +14,5 @@ target_en: Beginner learners at PINUS school
 target_id: Pemula di sekolah PINUS
 description_en: Hands-on workshop covering computer fundamentals and practical spreadsheet
   skills for beginner learners at the PINUS integral education school.
-description_id: Workshop praktis yang mencakup dasar-dasar komputer dan keterampilan
-  spreadsheet praktis untuk pemula di sekolah pendidikan integral PINUS.
+description_id: Workshop praktis yang mencakup dasar-dasar komputer dan keterampilan lembar kerja praktis untuk pemula di sekolah pendidikan integral PINUS.
 ---

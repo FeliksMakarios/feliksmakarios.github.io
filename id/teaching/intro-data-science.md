@@ -5,5 +5,5 @@ lang: id
 slug: teaching/intro-data-science
 course_id: intro-data-science
 title: "Pengantar Data Science"
-description: "Pipeline data science, exploratory analysis, dan pemodelan dasar machine learning (supervised dan unsupervised learning)."
+description: "Pipeline (alur pemrosesan) data science, analisis eksploratori, dan pemodelan dasar pemelajaran mesin (supervised dan unsupervised learning)."
 ---
