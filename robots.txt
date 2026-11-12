@@ -6,3 +6,4 @@ Allow: /
 
 Sitemap: {{ site.url }}/sitemap.xml
 Sitemap: {{ site.url }}/kupasai/sitemap.xml
+Sitemap: {{ site.url }}/lentera-riset/sitemap.xml
