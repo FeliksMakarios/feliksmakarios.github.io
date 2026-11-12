@@ -6,7 +6,5 @@ title:
 text:
   en: Year-long investigation of bias and fairness in the FACQA Indonesian question-answering
     dataset concluded, producing recommendations for dataset documentation and mitigation.
-  id: Investigasi setahun tentang bias dan fairness pada dataset question-answering
-    FACQA Indonesia selesai, menghasilkan rekomendasi untuk dokumentasi dataset dan
-    mitigasi.
+  id: Investigasi setahun tentang bias dan keadilan pada set data question-answering FACQA Indonesia selesai, menghasilkan rekomendasi untuk dokumentasi set data dan mitigasi.
 ---

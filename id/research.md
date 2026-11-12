@@ -9,7 +9,7 @@ subtitle: "NLP dan ML untuk konteks Indonesia yang kurang terwakili"
 ---
 
 <p class="lead">
-Riset saya mempelajari apa yang patah ketika sistem NLP dan machine learning mainstream bertemu dengan konteks Indonesia yang kurang terwakili: secara linguistik, demografis, spesifik domain, dan modalitas. Tujuannya dua: memahami mengapa sistem mainstream gagal di situasi ini, dan membangun pendekatan yang robust terhadapnya.
+Riset saya mempelajari apa yang patah ketika sistem NLP dan pemelajaran mesin arus utama bertemu dengan konteks Indonesia yang kurang terwakili: secara linguistik, demografis, spesifik domain, dan modalitas. Tujuannya dua: memahami mengapa sistem arus utama gagal di situasi ini, dan membangun pendekatan yang robust terhadapnya.
 </p>
 
 <h2>Bidang riset</h2>

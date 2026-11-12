@@ -8,7 +8,7 @@
 {%- if pub.venue_type == 'journal' -%}{%- assign bib_type = 'article' -%}{%- assign venue_field = 'journal  ' -%}{%- else -%}{%- assign bib_type = 'inproceedings' -%}{%- assign venue_field = 'booktitle' -%}{%- endif -%}
 {%- assign doi = false -%}{%- if pub.link contains 'doi.org/' -%}{%- assign doi = pub.link | split: 'doi.org/' | last -%}{%- endif -%}
 <div class="pub-actions">
-{%- if pub.open_access %}<span class="oa-badge">Open Access</span>{% endif -%}
+{%- if pub.open_access %}<span class="oa-badge">Open Access{% if include.lang == 'id' %} (Akses Terbuka){% endif %}</span>{% endif -%}
 {%- if pub.pdf and pub.pdf != "" %}<a class="pub-action" href="{{ pub.pdf }}" target="_blank" rel="noopener">PDF</a>{% endif -%}
 <details class="pub-cite"><summary>{% if include.lang == 'id' %}Kutip (BibTeX){% else %}Cite (BibTeX){% endif %}</summary><div class="bibtex-wrap"><pre class="bibtex" tabindex="0"><code>@{{ bib_type }}{{ lb }}{{ pub.slug }},
   title     = {{ lb }}{{ pub.title | replace: "&", "\&" | escape }}{{ rb }},

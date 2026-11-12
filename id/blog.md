@@ -3,7 +3,7 @@ layout: default
 permalink: /id/blog/
 lang: id
 slug: blog
-description: "Tulisan teknis berbahasa Indonesia tentang deep learning dan NLP, lengkap dengan notasi matematis dan diagram: tulisan asli dan terjemahan artikel klasik."
+description: "Tulisan teknis berbahasa Indonesia tentang pemelajaran mendalam dan NLP, lengkap dengan notasi matematis dan diagram: tulisan asli dan terjemahan artikel klasik."
 title: Blog
 subtitle: "Tulisan teknis dengan notasi matematis"
 ---

@@ -23,11 +23,11 @@ description: "Feliks Samosir — Dosen dan peneliti Natural Language Processing 
 
 ## Tentang saya
 
-<p class="lead">Saya dosen tetap di Fakultas AI dan Data Science, Universitas Pelita Harapan (UPH), Tangerang. Riset saya mempelajari apa yang patah ketika sistem NLP dan machine learning mainstream bertemu dengan konteks Indonesia yang kurang terwakili, terutama bahasa lokal low-resource seperti Batak Toba. Saat ini saya memimpin riset Batak Toba tahap kedua yang didanai hibah internal UPH.</p>
+<p class="lead">Saya dosen tetap di Fakultas AI dan Data Science, Universitas Pelita Harapan (UPH), Tangerang. Riset saya mempelajari apa yang patah ketika sistem NLP dan pemelajaran mesin arus utama bertemu dengan konteks Indonesia yang kurang terwakili, terutama bahasa lokal minim sumber daya seperti Batak Toba. Saat ini saya memimpin riset Batak Toba tahap kedua yang didanai hibah internal UPH.</p>
 
 <dl class="about-facts">
   <dt>Riset</dt>
-  <dd>Empat area: NLP spesifik domain untuk teks Indonesia khusus, bahasa-bahasa lokal Indonesia low-resource, bias dan fairness pada dataset serta model NLP Indonesia, dan applied machine learning untuk data dunia nyata. Riset Batak Toba tahap pertama membangun <a href="https://github.com/FeliksMakarios/batak-toba-korpus">korpus multi-domain Batak Toba</a>; tahap kedua yang sedang berjalan menyusun pedoman anotasi Universal Dependencies untuk Batak Toba. Pada 2026 saya mengikuti program SEACrowd Apprentice dan ikut mengembangkan <a href="https://github.com/cppmai1103/CoRaL">CoRaL</a>, framework kurasi data multi-dimensi untuk korpus pelatihan bahasa low-resource, bersama kolaborator di <a href="https://seacrowd.org/apprenticeship">SEACrowd</a>. Rinciannya ada di halaman <a href="/id/research/">Riset</a>.</dd>
+  <dd>Empat area: NLP spesifik domain untuk teks Indonesia khusus, bahasa-bahasa lokal Indonesia minim sumber daya, bias dan keadilan pada set data serta model NLP Indonesia, dan pemelajaran mesin terapan untuk data dunia nyata. Riset Batak Toba tahap pertama membangun <a href="https://github.com/FeliksMakarios/batak-toba-korpus">korpus multi-domain Batak Toba</a>; tahap kedua yang sedang berjalan menyusun pedoman anotasi Universal Dependencies untuk Batak Toba. Pada 2026 saya mengikuti program SEACrowd Apprentice dan ikut mengembangkan <a href="https://github.com/cppmai1103/CoRaL">CoRaL</a>, kerangka kerja kurasi data multi-dimensi untuk korpus pelatihan bahasa minim sumber daya, bersama kolaborator di <a href="https://seacrowd.org/apprenticeship">SEACrowd</a>. Rinciannya ada di halaman <a href="/id/research/">Riset</a>.</dd>
 
   <dt>Pengajaran</dt>
   <dd>Semester ini saya mengampu Kecerdasan Komputasional, Pengantar Pemelajaran Mesin, dan Pemrosesan Bahasa Alami. Sejak 2023 saya mengampu mata kuliah lintas kurikulum Informatika S1. RPS dan materi kuliahnya dapat dilihat di halaman <a href="/id/teaching/">Pengajaran</a>.
@@ -38,10 +38,10 @@ description: "Feliks Samosir — Dosen dan peneliti Natural Language Processing 
   </dd>
 
   <dt>Bimbingan</dt>
-  <dd>Saya membimbing riset S1 dengan fokus utama NLP, ditambah sebagian kecil proyek applied machine learning. Topik skripsi terkini mulai dari analisis sentimen berbasis aspek pada e-commerce Indonesia, pencarian semantik untuk korpus teologi, audit bias dataset, automatic speech recognition untuk Bahasa Jawa, sampai metode ensemble berbasis tree untuk data lingkungan. Daftar lengkapnya ada di halaman <a href="/id/students/">Mahasiswa</a>.</dd>
+  <dd>Saya membimbing riset S1 dengan fokus utama NLP, ditambah sebagian kecil proyek pemelajaran mesin terapan. Topik skripsi terkini mulai dari analisis sentimen berbasis aspek pada e-commerce (niaga elektronik) Indonesia, pencarian semantik untuk korpus teologi, audit bias set data, pengenalan ucapan otomatis untuk Bahasa Jawa, sampai metode ansambel berbasis pohon keputusan untuk data lingkungan. Daftar lengkapnya ada di halaman <a href="/id/students/">Mahasiswa</a>.</dd>
 
   <dt>Pendidikan</dt>
-  <dd><strong>M.Kom.</strong>, <a href="https://www.maranatha.edu/">Universitas Kristen Maranatha</a>, Bandung, 2022. Tesis tentang BESKlus, model extractive summarization berbasis BERT dengan K-Means clustering untuk artikel ilmiah, dengan bimbingan <a href="https://smartech.maranatha.edu/dosen/hapnes-toba/" target="_blank" rel="noopener">Hapnes Toba</a> dan <a href="https://smartech.maranatha.edu/dosen/mewati-ayub/" target="_blank" rel="noopener">Mewati Ayub</a>.<br>
+  <dd><strong>M.Kom.</strong>, <a href="https://www.maranatha.edu/">Universitas Kristen Maranatha</a>, Bandung, 2022. Tesis tentang BESKlus, model peringkasan ekstraktif berbasis BERT dengan klasterisasi K-Means untuk artikel ilmiah, dengan bimbingan <a href="https://smartech.maranatha.edu/dosen/hapnes-toba/" target="_blank" rel="noopener">Hapnes Toba</a> dan <a href="https://smartech.maranatha.edu/dosen/mewati-ayub/" target="_blank" rel="noopener">Mewati Ayub</a>.<br>
   <strong>S.Pd. Teknik Informatika</strong>, <a href="https://um.ac.id/">Universitas Negeri Malang</a>, 2018, dengan bimbingan <a href="https://pakar.um.ac.id/Data/Peneliti/u=7acd40b9-08f6-42ad-b72c-89b05c5dd868" target="_blank" rel="noopener">Heru Wahyu Herwanto</a> dan <a href="https://pakar.um.ac.id/Data/Peneliti/u=7aa0937c-a5bd-4d63-9320-02680342670a" target="_blank" rel="noopener">Muhammad Jauharul Fuady</a>.</dd>
 
   <dt>Jabatan</dt>
@@ -71,15 +71,15 @@ description: "Feliks Samosir — Dosen dan peneliti Natural Language Processing 
 
 ## Mencari dosen pembimbing TA?
 
-Kalau kamu mahasiswa Informatika UPH yang tertarik di NLP atau applied ML, silakan lihat <a href="/id/research/">bidang riset saya</a>.
+Kalau kamu mahasiswa Informatika UPH yang tertarik di NLP atau pemelajaran mesin terapan, silakan lihat <a href="/id/research/">bidang riset saya</a>.
 Tiap halaman detail bidang mencantumkan topik TA yang terbuka; silakan email saya untuk diskusi ide.
 
 {% assign open_topics = 0 %}{% for a in site.data.research.areas %}{% assign o = a.open_topics | where: "status", "open" %}{% assign open_topics = open_topics | plus: o.size %}{% endfor %}
 <div class="callout">
   <p><strong>Sedang terbuka untuk:</strong> bimbingan skripsi di keempat bidang riset saya, dengan
-  {{ open_topics }} topik yang masih terbuka saat ini. Contohnya NLP untuk bahasa low-resource apa pun, termasuk
+  {{ open_topics }} topik yang masih terbuka saat ini. Contohnya NLP untuk bahasa minim sumber daya apa pun, termasuk
   bahasa daerah Indonesia seperti Batak Toba, Jawa, atau Sunda (misalnya anotasi Universal Dependencies, evaluasi LLM,
   dan transfer lintas bahasa), NLP ucapan dan multimodal, bias pada model bahasa Indonesia,
-  serta machine learning untuk data kesehatan dan lingkungan. Dasar Python dan Hugging Face Transformers akan
+  serta pemelajaran mesin untuk data kesehatan dan lingkungan. Dasar Python dan Hugging Face Transformers akan
   sangat membantu.</p>
 </div>

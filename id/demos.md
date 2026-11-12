@@ -10,9 +10,9 @@ subtitle: "Prototipe interaktif dari riset, pengajaran, dan sosialisasi"
 
 <p class="lead">
 Prototipe yang bisa dijalankan, dibagi tiga kategori: <strong>Proyek Saya</strong>
-untuk demo yang saya bangun dari riset saya sendiri dan side project,
-<strong>Proyek Mahasiswa</strong> dari skripsi atau capstone matkul yang saya bimbing, dan
-<strong>Sosialisasi</strong> dari kegiatan open house untuk siswa SMA.
+untuk demo yang saya bangun dari riset saya sendiri dan proyek sampingan,
+<strong>Proyek Mahasiswa</strong> dari skripsi atau capstone mata kuliah yang saya bimbing, dan
+<strong>Sosialisasi</strong> dari kegiatan Open House untuk siswa SMA.
 </p>
 
 <div class="demo-tabs" role="group" aria-label="Kategori demo">
